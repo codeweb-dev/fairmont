@@ -19,12 +19,11 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Name', 'Email', 'Role', '']">
+    <x-admin-components.table :headers="['ID', 'Name', 'Role', '']">
         @foreach ($users as $user)
         <tr class="hover:bg-white/5 bg-black/5 transition-all">
             <td class="px-3 py-4">{{ $user->id }}</td>
             <td class="px-3 py-4">{{ $user->name }}</td>
-            <td class="px-3 py-4">{{ $user->email }}</td>
             <td class="px-3 py-4 space-x-1">
                 <flux:badge size="sm" icon="check-badge">{{ $user->roles->first()?->name ? $user->roles->first()?->name
                     : "No role assigned" }}</flux:badge>

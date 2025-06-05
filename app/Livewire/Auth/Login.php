@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\Audit;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -43,6 +45,17 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
+        Audit::create([
+            'auditable_id' => Auth::id(),
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'login',
+            'old_values' => [],
+            'new_values' => ['email' => $this->email],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 
@@ -72,6 +85,6 @@ class Login extends Component
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 }

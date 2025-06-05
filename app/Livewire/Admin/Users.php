@@ -5,7 +5,6 @@ namespace App\Livewire\Admin;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
@@ -37,7 +36,6 @@ class Users extends Component
         'name' => '',
         'email' => '',
         'password' => '',
-        // 'role' => '',
     ];
     public $editId = null;
 
@@ -57,14 +55,11 @@ class Users extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
-            // 'role' => ['required', 'exists:roles,name'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-
-        // $user->assignRole($validated['role']);
 
         $this->reset();
 
@@ -81,7 +76,6 @@ class Users extends Component
             'name' => $user->name,
             'email' => $user->email,
             'password' => '',
-            // 'role' => $user->getRoleNames()->first() ?: '',
         ];
     }
 
@@ -91,7 +85,6 @@ class Users extends Component
             'editData.name' => ['required', 'string', 'max:255'],
             'editData.email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class . ',email,' . $this->editId],
             'editData.password' => ['nullable', 'string', Rules\Password::defaults()],
-            // 'editData.role' => ['required', 'exists:roles,name'],
         ]);
 
         $user = User::findOrFail($this->editId);
@@ -101,8 +94,6 @@ class Users extends Component
             $user->password = Hash::make($validated['editData']['password']);
         }
         $user->save();
-
-        // $user->syncRoles([$validated['editData']['role']]);
 
         Flux::modal('edit-user-' . $this->editId)->close();
 
@@ -142,7 +133,6 @@ class Users extends Component
     {
         $user = User::findOrFail($id);
 
-        // Prevent deactivating yourself
         if (Auth::id() === $user->id) {
             Toaster::error('You cannot deactivate yourself!');
             return;

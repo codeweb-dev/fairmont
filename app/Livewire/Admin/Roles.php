@@ -16,6 +16,7 @@ use App\Models\User;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 
+#[Title('Roles')]
 class Roles extends Component
 {
     use WithPagination, WithoutUrlPagination;

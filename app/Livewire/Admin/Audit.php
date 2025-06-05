@@ -5,8 +5,10 @@ namespace App\Livewire\Admin;
 use App\Models\Audit as AuditModel;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 use Livewire\WithoutUrlPagination;
 
+#[Title('Audit')]
 class Audit extends Component
 {
     use WithPagination, WithoutUrlPagination;
