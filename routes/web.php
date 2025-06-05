@@ -10,6 +10,9 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Roles;
 use App\Livewire\Admin\Audit;
+use App\Livewire\Admin\Trash;
+use App\Livewire\Admin\Vessel;
+use App\Livewire\Admin\Report;
 
 Route::get('/', Login::class)->name('login');
 
@@ -25,15 +28,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     Route::group(['middleware' => ['role:admin']], function () {
-        // User Management
-        // Role Management
         // Vessel Management
         // Report Management
-        // Audit Logs
-        // Trash/Deleted Reports Recovery
-        Route::get('/users', Users::class)->middleware(['auth', 'verified'])->name('users');
-        Route::get('/roles', Roles::class)->middleware(['auth', 'verified'])->name('roles');
-        Route::get('/audits', Audit::class)->middleware(['auth', 'verified'])->name('audits');
+        Route::get('/users', Users::class)->name('users');
+        Route::get('/roles', Roles::class)->name('roles');
+        Route::get('/audit', Audit::class)->name('audit');
+        Route::get('/trash', Trash::class)->name('trash');
+        Route::get('/vessel', Vessel::class)->name('vessel');
+        Route::get('/reports', Report::class)->name('reports');
     });
 
     Route::group(['middleware' => ['role:unit']], function () {

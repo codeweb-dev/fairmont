@@ -1,18 +1,10 @@
 <div>
-    <div class="my-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
+    <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
         <h1 class="text-3xl font-bold">
-            @if (!$showTrashed)
             Users
-            @else
-            Deleted Users
-            @endif
         </h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon="archive-box" wire:click="$toggle('showTrashed')">
-                {{ $showTrashed ? 'Show Active' : 'View Trash' }}
-            </flux:button>
-
             <div class="max-w-64">
                 <flux:input wire:model.live="search" placeholder="Search users..." icon="magnifying-glass" />
             </div>
@@ -46,12 +38,6 @@
 
                         <flux:input label="Password" type="password" placeholder="Enter user password" viewable
                             wire:model.blur="password" required />
-
-                        {{-- <flux:select wire:model.blur="role" placeholder="Choose role..." label="Role">
-                            @foreach ($roles as $role)
-                            <flux:select.option value="{{ $role->name }}">{{ $role->name }}</flux:select.option>
-                            @endforeach
-                        </flux:select> --}}
 
                         <div class="flex">
                             <flux:spacer />
@@ -88,7 +74,6 @@
                     <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
                     <flux:menu>
-                        @if (!$showTrashed)
                         <flux:menu.item icon="eye">
                             <flux:modal.trigger name="view-user-{{ $user->id }}">
                                 View
@@ -119,21 +104,7 @@
                                 Delete
                             </flux:modal.trigger>
                         </flux:menu.item>
-
-                        @else
-                        <flux:menu.item icon="arrow-path">
-                            <flux:modal.trigger name="restore-user-{{ $user->id }}">
-                                Restore
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                        <flux:menu.item icon="trash" variant="danger">
-                            <flux:modal.trigger name="force-delete-user-{{ $user->id }}">
-                                Delete Permanently
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                        @endif
                     </flux:menu>
-
                 </flux:dropdown>
 
                 <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]">
@@ -164,50 +135,6 @@
                                 Activate
                             </flux:button>
                             @endif
-                        </div>
-                    </div>
-                </flux:modal>
-
-                <flux:modal name="force-delete-user-{{ $user->id }}" class="min-w-[22rem]">
-                    <div class="space-y-6">
-                        <div>
-                            <flux:heading size="lg">Delete User Permanently?</flux:heading>
-                            <flux:text class="mt-2">
-                                This will permanently delete <strong>{{ $user->name }}</strong> from your store.
-                                This action cannot be undone.
-                            </flux:text>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <flux:spacer />
-                            <flux:modal.close>
-                                <flux:button variant="ghost">Cancel</flux:button>
-                            </flux:modal.close>
-                            <flux:button type="button" variant="danger" wire:click="forceDelete({{ $user->id }})">
-                                Delete Permanently
-                            </flux:button>
-                        </div>
-                    </div>
-                </flux:modal>
-
-                <flux:modal name="restore-user-{{ $user->id }}" class="min-w-[22rem]">
-                    <div class="space-y-6">
-                        <div>
-                            <flux:heading size="lg">Restore User?</flux:heading>
-                            <flux:text class="mt-2">
-                                You're about to restore <strong>{{ $user->name }}</strong>. This user will become
-                                active and visible in your store again.
-                            </flux:text>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <flux:spacer />
-                            <flux:modal.close>
-                                <flux:button variant="ghost">Cancel</flux:button>
-                            </flux:modal.close>
-                            <flux:button type="button" variant="primary" wire:click="restore({{ $user->id }})">
-                                Confirm Restore
-                            </flux:button>
                         </div>
                     </div>
                 </flux:modal>

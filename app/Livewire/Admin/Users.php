@@ -29,7 +29,6 @@ class Users extends Component
     public string $role = '';
 
     public $search = '';
-    public bool $showTrashed = false;
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
     public $editData = [
@@ -58,13 +57,9 @@ class Users extends Component
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-
-        $user = User::create($validated);
-
+        User::create($validated);
         $this->reset();
-
         Flux::modal('add-user')->close();
-
         Toaster::success('User created successfully.');
     }
 
@@ -96,37 +91,15 @@ class Users extends Component
         $user->save();
 
         Flux::modal('edit-user-' . $this->editId)->close();
-
         Toaster::success('User updated successfully.');
-
         $this->reset(['editId', 'editData']);
-    }
-
-    public function restore($id)
-    {
-        User::onlyTrashed()->findOrFail($id)->restore();
-
-        Toaster::success('User restored successfully.');
-
-        Flux::modal('restore-user-' . $id)->close();
     }
 
     public function delete($id)
     {
         User::findOrFail($id)->delete();
-
         Flux::modal('delete-user-' . $id)->close();
-
         Toaster::success('User soft deleted successfully.');
-    }
-
-    public function forceDelete($id)
-    {
-        User::onlyTrashed()->findOrFail($id)->forceDelete();
-
-        Toaster::success('User permanently deleted.');
-
-        Flux::modal('force-delete-user-' . $id)->close();
     }
 
     public function deactivate($id)
@@ -148,7 +121,6 @@ class Users extends Component
     public function activate($id)
     {
         $user = User::findOrFail($id);
-
         $user->is_active = true;
         $user->save();
 
@@ -160,10 +132,6 @@ class Users extends Component
     {
         $query = User::query()->with('roles');
 
-        if ($this->showTrashed) {
-            $query->onlyTrashed();
-        }
-
         if (!empty($this->search)) {
             $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
@@ -172,7 +140,6 @@ class Users extends Component
         }
 
         $users = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
-
         $roles = Role::all();
 
         return view('livewire.admin.users', [

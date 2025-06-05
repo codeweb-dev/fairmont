@@ -1,5 +1,5 @@
 <div>
-    <div class="my-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
+    <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
         <h1 class="text-3xl font-bold">
             Roles
         </h1>
