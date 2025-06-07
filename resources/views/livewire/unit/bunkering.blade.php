@@ -11,7 +11,7 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Voyage Details</flux:legend>
+            <flux:legend>Bunkering Details</flux:legend>
 
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">

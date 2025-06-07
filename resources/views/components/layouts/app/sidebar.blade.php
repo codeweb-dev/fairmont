@@ -189,16 +189,39 @@
 
             <div class="flex items-center gap-3">
                 <div>
-                    <flux:tooltip content="Notification" position="bottom">
-                        <flux:button icon="bell" variant="subtle" />
-                    </flux:tooltip>
+                    <flux:modal.trigger name="notification">
+                        <flux:tooltip content="Notification" position="bottom">
+                            <flux:button icon="bell" variant="subtle" />
+                        </flux:tooltip>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="notification" variant="flyout">
+                        <div class="space-y-6">
+                            <div>
+                                <flux:heading size="lg">Notifiction</flux:heading>
+                                <flux:text class="mt-2">All notification will go here.</flux:text>
+                            </div>
+                        </div>
+                    </flux:modal>
                     <flux:tooltip content="Settings" position="bottom">
                         <flux:button href="{{ route('settings.profile') }}" wire:navigate icon="cog-6-tooth"
                             variant="subtle" />
                     </flux:tooltip>
-                    <flux:tooltip content="Need Help?" position="bottom">
-                        <flux:button icon="information-circle" variant="subtle" />
-                    </flux:tooltip>
+
+                    <flux:modal.trigger name="need-help">
+                        <flux:tooltip content="Need Help?" position="bottom">
+                            <flux:button icon="information-circle" variant="subtle" />
+                        </flux:tooltip>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="need-help" class="md:w-96">
+                        <div class="space-y-6">
+                            <div>
+                                <flux:heading size="lg">Need Help?</flux:heading>
+                                <flux:text class="mt-2">Click any link or select below.</flux:text>
+                            </div>
+                        </div>
+                    </flux:modal>
                 </div>
 
                 <flux:separator vertical class="my-2" />
