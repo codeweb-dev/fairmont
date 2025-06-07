@@ -4,9 +4,7 @@
 
         <div class="space-y-6">
             <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                <flux:select label="Vessel Name" badge="Required" placeholder="Select Vessel" required>
-                    <flux:select.option>Photography</flux:select.option>
-                </flux:select>
+                <flux:input label="Vessel Name" badge="Required" required />
                 <flux:input label="Voyage No" badge="Required" required />
                 <flux:select label="Vessel Name" badge="Required" placeholder="Select Report Type" required>
                     <flux:select.option>At Sea</flux:select.option>

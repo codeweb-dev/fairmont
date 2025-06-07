@@ -227,7 +227,7 @@
 
                             <div class="flex">
                                 <flux:spacer />
-                                <flux:button type="submit" variant="primary">Update Product</flux:button>
+                                <flux:button type="submit" variant="primary">Update User</flux:button>
                             </div>
                         </div>
                     </form>

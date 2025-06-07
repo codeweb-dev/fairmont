@@ -198,7 +198,7 @@
                     <flux:modal name="notification" variant="flyout">
                         <div class="space-y-6">
                             <div>
-                                <flux:heading size="lg">Notifiction</flux:heading>
+                                <flux:heading size="lg">Notification</flux:heading>
                                 <flux:text class="mt-2">All notification will go here.</flux:text>
                             </div>
                         </div>

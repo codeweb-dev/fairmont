@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 
 return [
-    'lifetime' => 10,
+    'lifetime' => 10, // make it 30 mins
     'expire_on_close' => false,
 
     /*
