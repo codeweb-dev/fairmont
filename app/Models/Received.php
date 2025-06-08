@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rob extends Model
+class Received extends Model
 {
     protected $fillable = [
         'voyage_id',

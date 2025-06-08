@@ -23,13 +23,6 @@ class Voyage extends Model
         'bunker_gmt_offset',
     ];
 
-    // All Fast Report Relation
-    public function robs()
-    {
-        return $this->hasMany(Rob::class);
-    }
-    // End All Fast
-
     // Bunker Report Relation
     public function bunker()
     {
@@ -41,6 +34,38 @@ class Voyage extends Model
         return $this->hasOne(AssociatedInformation::class);
     }
     // End Bunker
+
+    // Voyage Report Relation
+    public function location()
+    {
+        return $this->hasOne(Location::class);
+    }
+
+    public function off_hire()
+    {
+        return $this->hasOne(OffHire::class);
+    }
+
+    public function engine()
+    {
+        return $this->hasOne(Engine::class);
+    }
+
+    public function received()
+    {
+        return $this->hasOne(Received::class);
+    }
+
+    public function consumption()
+    {
+        return $this->hasOne(Consumption::class);
+    }
+    // End Voyage
+
+    public function robs()
+    {
+        return $this->hasMany(Rob::class);
+    }
 
     public function master_info()
     {

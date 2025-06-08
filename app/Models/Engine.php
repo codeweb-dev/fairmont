@@ -4,19 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rob extends Model
+class Engine extends Model
 {
     protected $fillable = [
         'voyage_id',
-        'hsfo',
-        'biofuel',
-        'vlsfo',
-        'lsmgo',
-        'me_cc_oil',
-        'mc_cyl_oil',
-        'ge_cc_oil',
-        'fw',
-        'fw_produced',
+        'avg_me_rpm',
+        'avg_me_kw',
+        'tdr',
+        'tst',
+        'slip',
     ];
 
     public function voyage()

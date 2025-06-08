@@ -4,19 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rob extends Model
+class Location extends Model
 {
     protected $fillable = [
         'voyage_id',
-        'hsfo',
-        'biofuel',
-        'vlsfo',
-        'lsmgo',
-        'me_cc_oil',
-        'mc_cyl_oil',
-        'ge_cc_oil',
-        'fw',
-        'fw_produced',
+        'port_departure',
+        'port_arrival',
     ];
 
     public function voyage()
