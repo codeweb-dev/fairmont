@@ -12,8 +12,16 @@ use App\Livewire\Admin\Roles;
 use App\Livewire\Admin\Audit;
 use App\Livewire\Admin\Trash;
 use App\Livewire\Admin\Vessel;
-use App\Livewire\Admin\AllFastReport;
-use App\Livewire\Admin\BunkeringReport;
+use App\Livewire\Admin\NoonReport as AdminNoonReport;
+use App\Livewire\Admin\DepartureReport as AdminDepartureReport;
+use App\Livewire\Admin\ArrivalReport as AdminArrivalReport;
+use App\Livewire\Admin\BunkeringReport as AdminBunkeringReport;
+use App\Livewire\Admin\AllFastReport as AdminAllFastReport;
+use App\Livewire\Admin\WeeklyScheduleReport as AdminWeeklyScheduleReport;
+use App\Livewire\Admin\CrewMonitoringPlanReport as AdminCrewMonitoringPlanReport;
+use App\Livewire\Admin\VoyageReport as AdminVoyageReport;
+use App\Livewire\Admin\KpiReport as AdminKpiReport;
+use App\Livewire\Admin\PortOfCallReport as AdminPortOfCallReport;
 
 // Unit
 use App\Livewire\Unit\AllFast;
@@ -28,8 +36,16 @@ use App\Livewire\Unit\VoyageReport;
 use App\Livewire\Unit\WeeklySchedule;
 
 // Officer
-use App\Livewire\Officer\AllFastReport as OfficerAllFastReport;
+use App\Livewire\Officer\NoonReport as OfficerNoonReport;
+use App\Livewire\Officer\DepartureReport as OfficerDepartureReport;
+use App\Livewire\Officer\ArrivalReport as OfficerArrivalReport;
 use App\Livewire\Officer\BunkeringReport as OfficerBunkeringReport;
+use App\Livewire\Officer\AllFastReport as OfficerAllFastReport;
+use App\Livewire\Officer\WeeklyScheduleReport as OfficerWeeklyScheduleReport;
+use App\Livewire\Officer\CrewMonitoringPlanReport as OfficerCrewMonitoringPlanReport;
+use App\Livewire\Officer\VoyageReport as OfficerVoyageReport;
+use App\Livewire\Officer\KpiReport as OfficerKpiReport;
+use App\Livewire\Officer\PortOfCallReport as OfficerPortOfCallReport;
 
 Route::get('/', Login::class)->name('login');
 
@@ -50,8 +66,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/audit', Audit::class)->name('audit');
         Route::get('/trash', Trash::class)->name('trash');
         Route::get('/vessel', Vessel::class)->name('vessel');
-        Route::get('/all-fast-report', AllFastReport::class)->name('all-fast-report');
-        Route::get('/bunkering-report', BunkeringReport::class)->name('bunkering-report');
+
+        // Reports Admin
+        Route::get('/admin-noon-report', AdminNoonReport::class)->name('admin-noon-report');
+        Route::get('/admin-departure-report', AdminDepartureReport::class)->name('admin-departure-report');
+        Route::get('/admin-arrival-report', AdminArrivalReport::class)->name('admin-arrival-report');
+        Route::get('/admin-bunkering-report', AdminBunkeringReport::class)->name('admin-bunkering-report');
+        Route::get('/admin-all-fast-report', AdminAllFastReport::class)->name('admin-all-fast-report');
+        Route::get('/admin-weekly-schedule-report', AdminWeeklyScheduleReport::class)->name('admin-weekly-schedule-report');
+        Route::get('/admin-crew-monitoring-plan-report', AdminCrewMonitoringPlanReport::class)->name('admin-crew-monitoring-plan-report');
+        Route::get('/admin-voyage-report', AdminVoyageReport::class)->name('admin-voyage-report');
+        Route::get('/admin-kpi-report', AdminKpiReport::class)->name('admin-kpi-report');
+        Route::get('/admin-port-of-call-report', AdminPortOfCallReport::class)->name('admin-port-of-call-report');
     });
 
     Route::group(['middleware' => ['role:unit']], function () {
@@ -68,8 +94,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:officer']], function () {
-        Route::get('/officer-all-fast-report', OfficerAllFastReport::class)->name('officer-all-fast-report');
+        // Reports Officer
+        Route::get('/officer-noon-report', OfficerNoonReport::class)->name('officer-noon-report');
+        Route::get('/officer-departure-report', OfficerDepartureReport::class)->name('officer-departure-report');
+        Route::get('/officer-arrival-report', OfficerArrivalReport::class)->name('officer-arrival-report');
         Route::get('/officer-bunkering-report', OfficerBunkeringReport::class)->name('officer-bunkering-report');
+        Route::get('/officer-all-fast-report', OfficerAllFastReport::class)->name('officer-all-fast-report');
+        Route::get('/officer-weekly-schedule-report', OfficerWeeklyScheduleReport::class)->name('officer-weekly-schedule-report');
+        Route::get('/officer-crew-monitoring-plan-report', OfficerCrewMonitoringPlanReport::class)->name('officer-crew-monitoring-plan-report');
+        Route::get('/officer-voyage-report', OfficerVoyageReport::class)->name('officer-voyage-report');
+        Route::get('/officer-kpi-report', OfficerKpiReport::class)->name('officer-kpi-report');
+        Route::get('/officer-port-of-call-report', OfficerPortOfCallReport::class)->name('officer-port-of-call-report');
     });
 });
 

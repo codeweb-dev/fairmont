@@ -26,7 +26,6 @@
                 <flux:navlist.item icon="check-badge" :href="route('roles')" :current="request()->routeIs('roles')"
                     wire:navigate>{{ __('Role Management') }}
                 </flux:navlist.item>
-
                 <flux:navlist.item icon="home" :href="route('vessel')" :current="request()->routeIs('vessel')"
                     wire:navigate>{{ __('Vessel Management') }}</flux:navlist.item>
 
@@ -37,8 +36,25 @@
                     wire:navigate>{{ __('Trash Reports & Users') }}</flux:navlist.item>
 
                 <flux:navlist.group expandable heading="Report Management">
-                    <flux:navlist.item href="{{ route('all-fast-report') }}" :current="request()->routeIs('all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
-                    <flux:navlist.item href="{{ route('bunkering-report') }}" :current="request()->routeIs('bunkering-report')" wire:navigate>Bunkering</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('admin-noon-report') }}" :current="request()->routeIs('admin-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-departure-report') }}" :current="request()->routeIs('admin-departure-report')" wire:navigate>Departure Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-arrival-report') }}" :current="request()->routeIs('admin-arrival-report')" wire:navigate>Arrival Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-bunkering-report') }}" :current="request()->routeIs('admin-bunkering-report')" wire:navigate>Bunkering Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-all-fast-report') }}" :current="request()->routeIs('admin-all-fast-report')" wire:navigate>All Fast Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-weekly-schedule-report') }}" :current="request()->routeIs('admin-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-crew-monitoring-plan-report') }}" :current="request()->routeIs('admin-crew-monitoring-plan-report')" wire:navigate>Crew Monitoring Plan</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-voyage-report') }}" :current="request()->routeIs('admin-voyage-report')" wire:navigate>Voyage Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-kpi-report') }}" :current="request()->routeIs('admin-kpi-report')" wire:navigate>KPI Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('admin-port-of-call-report') }}" :current="request()->routeIs('admin-port-of-call-report')" wire:navigate>Port of Call</flux:navlist.item>
                 </flux:navlist.group>
 
                 @elseif (auth()->user()->hasRole('unit'))
@@ -85,8 +101,25 @@
 
                 @elseif (auth()->user()->hasRole('officer'))
                 <flux:navlist.group expandable heading="Report Management">
-                    <flux:navlist.item href="{{ route('officer-all-fast-report') }}" :current="request()->routeIs('officer-all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('officer-noon-report') }}" :current="request()->routeIs('officer-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-departure-report') }}" :current="request()->routeIs('officer-departure-report')" wire:navigate>Departure Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-arrival-report') }}" :current="request()->routeIs('officer-arrival-report')" wire:navigate>Arrival Report</flux:navlist.item>
+
                     <flux:navlist.item href="{{ route('officer-bunkering-report') }}" :current="request()->routeIs('officer-bunkering-report')" wire:navigate>Bunkering</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-all-fast-report') }}" :current="request()->routeIs('officer-all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-weekly-schedule-report') }}" :current="request()->routeIs('officer-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-crew-monitoring-plan-report') }}" :current="request()->routeIs('officer-crew-monitoring-plan-report')" wire:navigate>Crew Monitoring Plan</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-voyage-report') }}" :current="request()->routeIs('officer-voyage-report')" wire:navigate>Voyage Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-kpi-report') }}" :current="request()->routeIs('officer-kpi-report')" wire:navigate>KPI Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('officer-port-of-call-report') }}" :current="request()->routeIs('officer-port-of-call-report')" wire:navigate>Port of Call</flux:navlist.item>
                 </flux:navlist.group>
                 @endif
             </flux:navlist.group>
