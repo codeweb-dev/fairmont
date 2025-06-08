@@ -75,16 +75,19 @@
                     wire:navigate>{{ __('Voyage Report') }}
                 </flux:navlist.item>
 
-                 <flux:navlist.item icon="newspaper" :href="route('kpi')" :current="request()->routeIs('kpi')"
+                <flux:navlist.item icon="newspaper" :href="route('kpi')" :current="request()->routeIs('kpi')"
                     wire:navigate>{{ __('KPI') }}
                 </flux:navlist.item>
 
-                 <flux:navlist.item icon="newspaper" :href="route('port-of-call')" :current="request()->routeIs('port-of-call')"
+                <flux:navlist.item icon="newspaper" :href="route('port-of-call')" :current="request()->routeIs('port-of-call')"
                     wire:navigate>{{ __('Port Of Call') }}
                 </flux:navlist.item>
 
-                @else
-                {{-- For officer --}}
+                @elseif (auth()->user()->hasRole('officer'))
+                <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('officer-all-fast-report') }}" :current="request()->routeIs('officer-all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('officer-bunkering-report') }}" :current="request()->routeIs('officer-bunkering-report')" wire:navigate>Bunkering</flux:navlist.item>
+                </flux:navlist.group>
                 @endif
             </flux:navlist.group>
         </flux:navlist>

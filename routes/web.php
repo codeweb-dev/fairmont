@@ -27,6 +27,10 @@ use App\Livewire\Unit\PortOfCall;
 use App\Livewire\Unit\VoyageReport;
 use App\Livewire\Unit\WeeklySchedule;
 
+// Officer
+use App\Livewire\Officer\AllFastReport as OfficerAllFastReport;
+use App\Livewire\Officer\BunkeringReport as OfficerBunkeringReport;
+
 Route::get('/', Login::class)->name('login');
 
 Route::view('dashboard', 'dashboard')
@@ -64,13 +68,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:officer']], function () {
-        // Office User Dashboard
-        // Access to all reports of its assigned access role
-        // Report Export
-        // Search Function
-        // Session Timeout
-        // Draft Function
-        // View and Manage Report (Can't create reports)
+        Route::get('/officer-all-fast-report', OfficerAllFastReport::class)->name('officer-all-fast-report');
+        Route::get('/officer-bunkering-report', OfficerBunkeringReport::class)->name('officer-bunkering-report');
     });
 });
 
