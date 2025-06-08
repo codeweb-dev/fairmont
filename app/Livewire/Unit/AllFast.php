@@ -80,8 +80,8 @@ class AllFast extends Component
             $voyage->robs()->create($rob);
         }
 
-        Toaster::success('Voyage and ROBs created successfully.');
-        $this->reset(['robs', 'voyage_no', 'all_fast_datetime', 'port', 'gmt_offset']);
+        Toaster::success('All Fast Report Created Successfully.');
+        $this->clearForm();
         $this->addRow();
     }
 

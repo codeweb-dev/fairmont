@@ -15,8 +15,8 @@ use App\Models\Voyage;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 
-#[Title('Report')]
-class Report extends Component
+#[Title('All Fast Report')]
+class AllFastReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
@@ -45,6 +45,7 @@ class Report extends Component
     {
         $reports = Voyage::query()
             ->with(['vessel', 'unit', 'robs'])
+            ->where('report_type', 'All Fast')
             ->when($this->search, function ($query) {
                 $query->whereHas(
                     'unit',
@@ -55,8 +56,9 @@ class Report extends Component
             ->latest()
             ->paginate($this->perPage);
 
-        return view('livewire.admin.report', [
+        return view('livewire.admin.all-fast-report', [
             'reports' => $reports,
+            'pages' => $this->pages,
         ]);
     }
 }

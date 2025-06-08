@@ -26,14 +26,52 @@
 
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
 
-                    <flux:input label="All Fast Date/Time (LT)" type="date" badge="Required"
-                        max="2999-12-31" required wire:model.defer="all_fast_datetime" />
+                    <flux:input label="All Fast Date/Time (LT)" type="date" badge="Required" max="2999-12-31"
+                        required wire:model.defer="all_fast_datetime" />
 
                     <flux:select label="GMT Offset" badge="Required" required wire:model.defer="gmt_offset">
-                        <option value="">Select</option>
-                        <option value="+00:00">+00:00</option>
-                        <option value="+08:00">+08:00</option>
-                        <option value="-05:00">-05:00</option>
+                        <flux:select.option value="" selected disabled>Select</flux:select.option>
+                        <flux:select.option value="GMT-12:00">GMT-12:00</flux:select.option>
+                        <flux:select.option value="GMT-11:00">GMT-11:00</flux:select.option>
+                        <flux:select.option value="GMT-10:00">GMT-10:00</flux:select.option>
+                        <flux:select.option value="GMT-09:30">GMT-09:30</flux:select.option>
+                        <flux:select.option value="GMT-09:00">GMT-09:00</flux:select.option>
+                        <flux:select.option value="GMT-08:00">GMT-08:00</flux:select.option>
+                        <flux:select.option value="GMT-07:00">GMT-07:00</flux:select.option>
+                        <flux:select.option value="GMT-06:00">GMT-06:00</flux:select.option>
+                        <flux:select.option value="GMT-05:00">GMT-05:00</flux:select.option>
+                        <flux:select.option value="GMT-04:30">GMT-04:30</flux:select.option>
+                        <flux:select.option value="GMT-04:00">GMT-04:00</flux:select.option>
+                        <flux:select.option value="GMT-03:30">GMT-03:30</flux:select.option>
+                        <flux:select.option value="GMT-03:00">GMT-03:00</flux:select.option>
+                        <flux:select.option value="GMT-02:30">GMT-02:30</flux:select.option>
+                        <flux:select.option value="GMT-02:00">GMT-02:00</flux:select.option>
+                        <flux:select.option value="GMT-01:00">GMT-01:00</flux:select.option>
+                        <flux:select.option value="GMT">GMT</flux:select.option>
+                        <flux:select.option value="GMT+01:00">GMT+01:00</flux:select.option>
+                        <flux:select.option value="GMT+02:00">GMT+02:00</flux:select.option>
+                        <flux:select.option value="GMT+02:30">GMT+02:30</flux:select.option>
+                        <flux:select.option value="GMT+03:00">GMT+03:00</flux:select.option>
+                        <flux:select.option value="GMT+03:30">GMT+03:30</flux:select.option>
+                        <flux:select.option value="GMT+04:00">GMT+04:00</flux:select.option>
+                        <flux:select.option value="GMT+04:30">GMT+04:30</flux:select.option>
+                        <flux:select.option value="GMT+05:00">GMT+05:00</flux:select.option>
+                        <flux:select.option value="GMT+05:30">GMT+05:30</flux:select.option>
+                        <flux:select.option value="GMT+06:00">GMT+06:00</flux:select.option>
+                        <flux:select.option value="GMT+06:30">GMT+06:30</flux:select.option>
+                        <flux:select.option value="GMT+07:00">GMT+07:00</flux:select.option>
+                        <flux:select.option value="GMT+08:00">GMT+08:00</flux:select.option>
+                        <flux:select.option value="GMT+09:00">GMT+09:00</flux:select.option>
+                        <flux:select.option value="GMT+09:30">GMT+09:30</flux:select.option>
+                        <flux:select.option value="GMT+10:00">GMT+10:00</flux:select.option>
+                        <flux:select.option value="GMT+10:30">GMT+10:30</flux:select.option>
+                        <flux:select.option value="GMT+11:00">GMT+11:00</flux:select.option>
+                        <flux:select.option value="GMT+11:30">GMT+11:30</flux:select.option>
+                        <flux:select.option value="GMT+12:00">GMT+12:00</flux:select.option>
+                        <flux:select.option value="GMT+12:45">GMT+12:45</flux:select.option>
+                        <flux:select.option value="GMT+13:00">GMT+13:00</flux:select.option>
+                        <flux:select.option value="GMT+13:45">GMT+13:45</flux:select.option>
+                        <flux:select.option value="GMT+14:00">GMT+14:00</flux:select.option>
                     </flux:select>
 
                     <flux:input label="Port" badge="Required" required wire:model.defer="port" />
@@ -68,20 +106,24 @@
                         @foreach ($robs as $index => $rob)
                             <tr>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.hsfo" placeholder="HSFO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.hsfo"
+                                        placeholder="HSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.biofuel" placeholder="BIOFUEL (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.biofuel"
+                                        placeholder="BIOFUEL (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.vlsfo" placeholder="VLSFO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.vlsfo"
+                                        placeholder="VLSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.lsmgo" placeholder="LSMGO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.lsmgo"
+                                        placeholder="LSMGO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:button variant="danger" size="xs" icon="trash"
-                                        type="button" wire:click="removeRow({{ $index }})" />
+                                    <flux:button variant="danger" size="xs" icon="trash" type="button"
+                                        wire:click="removeRow({{ $index }})" />
                                 </td>
                             </tr>
                         @endforeach

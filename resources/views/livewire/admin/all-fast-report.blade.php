@@ -1,7 +1,7 @@
 <div>
     <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
         <h1 class="text-3xl font-bold">
-            Reports
+            All Fast Reports
         </h1>
 
         <div class="flex items-center gap-3">
@@ -57,14 +57,14 @@
                                 <div>
                                     <flux:label>Date</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}
                                     </p>
                                 </div>
                             </div>
 
                             <div>
                                 <flux:label>ROB Entries</flux:label>
-                                <ul class="text-xs">
+                                <ul>
                                     @foreach ($report->robs as $rob)
                                         <li class="mb-2">
                                             HSFO: {{ $rob->hsfo ?? '0' }},

@@ -12,7 +12,8 @@ use App\Livewire\Admin\Roles;
 use App\Livewire\Admin\Audit;
 use App\Livewire\Admin\Trash;
 use App\Livewire\Admin\Vessel;
-use App\Livewire\Admin\Report;
+use App\Livewire\Admin\AllFastReport;
+use App\Livewire\Admin\BunkeringReport;
 
 // Unit
 use App\Livewire\Unit\AllFast;
@@ -45,16 +46,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/audit', Audit::class)->name('audit');
         Route::get('/trash', Trash::class)->name('trash');
         Route::get('/vessel', Vessel::class)->name('vessel');
-        Route::get('/reports', Report::class)->name('reports');
+        Route::get('/all-fast-report', AllFastReport::class)->name('all-fast-report');
+        Route::get('/bunkering-report', BunkeringReport::class)->name('bunkering-report');
     });
 
     Route::group(['middleware' => ['role:unit']], function () {
-        // Unit User Dashboard
-        // Report Export
-        // Search Function
-        // CRUD Function for report
-        // Session Timeout
-        // Draft Function
         Route::get('/noon-report', NoonReport::class)->name('noon-report');
         Route::get('/departure-report', DepartureReport::class)->name('departure-report');
         Route::get('/arrival-report', ArrivalReport::class)->name('arrival-report');

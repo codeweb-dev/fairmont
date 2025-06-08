@@ -30,15 +30,16 @@
                 <flux:navlist.item icon="home" :href="route('vessel')" :current="request()->routeIs('vessel')"
                     wire:navigate>{{ __('Vessel Management') }}</flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('reports')" :current="request()->routeIs('reports')"
-                    wire:navigate>{{ __('Report Management') }}
-                </flux:navlist.item>
-
                 <flux:navlist.item icon="document-magnifying-glass" :href="route('audit')"
                     :current="request()->routeIs('audit')" wire:navigate>{{ __('Audit Logs') }}</flux:navlist.item>
 
                 <flux:navlist.item icon="trash" :href="route('trash')" :current="request()->routeIs('trash')"
                     wire:navigate>{{ __('Trash Reports & Users') }}</flux:navlist.item>
+
+                <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('all-fast-report') }}" :current="request()->routeIs('all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('bunkering-report') }}" :current="request()->routeIs('bunkering-report')" wire:navigate>Bunkering</flux:navlist.item>
+                </flux:navlist.group>
 
                 @elseif (auth()->user()->hasRole('unit'))
 
