@@ -42,6 +42,15 @@ class Login extends Component
             ]);
         }
 
+        // Check if the user account is active
+        $user = Auth::user();
+        if (!$user->is_active) {
+            Auth::logout(); // Log the user out
+            throw ValidationException::withMessages([
+                'email' => 'Your account is deactivated. Please contact the administrator for further assistance.'
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
