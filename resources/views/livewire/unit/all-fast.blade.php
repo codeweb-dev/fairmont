@@ -1,43 +1,54 @@
-<div>
+<form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
         <flux:heading size="xl" class="font-bold">All Fast</flux:heading>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger">Clear Fields</flux:button>
-            <flux:button icon="folder-arrow-down">Save Draft</flux:button>
-            <flux:button icon="arrow-down-tray">Export Data</flux:button>
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
+                Clear Fields
+            </flux:button>
+            <flux:button icon="folder-arrow-down">
+                Save Draft
+            </flux:button>
+            <flux:button icon="arrow-down-tray" type="button" wire:click="export">
+                Export Data
+            </flux:button>
         </div>
     </div>
 
+    {{-- Voyage Details --}}
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
             <flux:legend>Voyage Details</flux:legend>
 
             <div class="space-y-6">
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
-                    <flux:select label="Vessel Name" badge="Required" required>
-                        <option selected>Select Vessel</option>
-                        <!-- ... -->
+                    <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
+
+                    <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
+
+                    <flux:input label="All Fast Date/Time (LT)" type="date" badge="Required"
+                        max="2999-12-31" required wire:model.defer="all_fast_datetime" />
+
+                    <flux:select label="GMT Offset" badge="Required" required wire:model.defer="gmt_offset">
+                        <option value="">Select</option>
+                        <option value="+00:00">+00:00</option>
+                        <option value="+08:00">+08:00</option>
+                        <option value="-05:00">-05:00</option>
                     </flux:select>
-                    <flux:input label="Voyage No" badge="Required" required />
-                    <flux:input label="All Fast Date/Time (LT)" type="date" max="2999-12-31" badge="Required"
-                        required />
-                    <flux:select label="GMT Offset" badge="Required" required>
-                        <option selected>Select</option>
-                        <!-- ... -->
-                    </flux:select>
-                    <flux:input label="Port" badge="Required" required />
+
+                    <flux:input label="Port" badge="Required" required wire:model.defer="port" />
                 </div>
             </div>
         </flux:fieldset>
     </div>
 
+    {{-- ROBs Section --}}
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
             <flux:legend>All Fast ROBs</flux:legend>
 
             <div class="mb-4">
-                <flux:button icon="plus" wire:click="addRow">
+                <flux:button icon="plus" type="button" wire:click="addRow">
                     Add Row
                 </flux:button>
             </div>
@@ -57,21 +68,20 @@
                         @foreach ($robs as $index => $rob)
                             <tr>
                                 <td class="p-2">
-                                    <flux:input wire:model="robs.{{ $index }}.hsfo" placeholder="HSFO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.hsfo" placeholder="HSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input wire:model="robs.{{ $index }}.biofuel" placeholder="BIOFUEL (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.biofuel" placeholder="BIOFUEL (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input wire:model="robs.{{ $index }}.vlsfo" placeholder="VLSFO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.vlsfo" placeholder="VLSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input wire:model="robs.{{ $index }}.lsmgo"
-                                        placeholder="LSMGO (MT)" />
+                                    <flux:input type="number" wire:model="robs.{{ $index }}.lsmgo" placeholder="LSMGO (MT)" />
                                 </td>
                                 <td class="p-2">
                                     <flux:button variant="danger" size="xs" icon="trash"
-                                        wire:click="removeRow({{ $index }})" />
+                                        type="button" wire:click="removeRow({{ $index }})" />
                                 </td>
                             </tr>
                         @endforeach
@@ -80,4 +90,11 @@
             </div>
         </flux:fieldset>
     </div>
-</div>
+
+    {{-- Submit Button --}}
+    <div class="flex items-center justify-center w-full">
+        <flux:button type="submit" icon="check">
+            Submit
+        </flux:button>
+    </div>
+</form>

@@ -31,7 +31,6 @@ class Vessel extends Component
     public $selectedVesselId = null;
     public $selectedUserId = null;
 
-    // Always reset page on perPage/search update
     public function updatingPerPage()
     {
         $this->resetPage();
@@ -97,6 +96,7 @@ class Vessel extends Component
             Toaster::error('Please select both vessel and user.');
             return;
         }
+
         $vessel = ModelsVessel::find($vesselId);
         $user = User::find($this->selectedUserId);
 
@@ -105,6 +105,25 @@ class Vessel extends Component
             return;
         }
 
+        $userRole = $user->roles->first()?->name;
+
+        if ($userRole === 'unit') {
+            // Check if this unit is already assigned to a vessel
+            $currentVessel = $user->vessels()->first();
+
+            if ($currentVessel && $currentVessel->id !== $vessel->id) {
+                Toaster::error("This unit is already assigned to another vessel: {$currentVessel->name}.");
+                return;
+            }
+
+            // If already assigned to this vessel, inform user
+            if ($currentVessel && $currentVessel->id === $vessel->id) {
+                Toaster::info('Unit is already assigned to this vessel.');
+                return;
+            }
+        }
+
+        // Attach only if not already attached
         if (!$vessel->users()->where('user_id', $user->id)->exists()) {
             $vessel->users()->attach($user->id);
             Toaster::success('User assigned successfully.');
