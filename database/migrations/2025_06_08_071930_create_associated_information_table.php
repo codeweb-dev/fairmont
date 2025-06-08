@@ -16,19 +16,19 @@ return new class extends Migration
             $table->foreignId('voyage_id')->constrained()->onDelete('cascade');
 
             $table->string('port_delivery')->nullable();
-            $table->dateTime('eosp')->nullable();
+            $table->date('eosp')->nullable();
 
             $table->string('eosp_gmt')->nullable();
-            $table->dateTime('barge')->nullable();
+            $table->date('barge')->nullable();
 
             $table->string('barge_gmt')->nullable();
-            $table->dateTime('cosp')->nullable();
+            $table->date('cosp')->nullable();
 
             $table->string('cosp_gmt')->nullable();
-            $table->dateTime('anchor')->nullable();
+            $table->date('anchor')->nullable();
 
             $table->string('anchor_gmt')->nullable();
-            $table->dateTime('pumping')->nullable();
+            $table->date('pumping')->nullable();
 
             $table->string('pumping_gmt')->nullable();
 
