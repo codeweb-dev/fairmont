@@ -74,6 +74,13 @@ class Voyage extends Model
     }
     // End Crew MOnitoring Plan
 
+    // For Weekly Schedule Relation
+    public function ports()
+    {
+        return $this->hasMany(Port::class);
+    }
+    // For Weekly Schedule
+
     public function robs()
     {
         return $this->hasMany(Rob::class);
