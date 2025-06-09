@@ -251,11 +251,144 @@
                         </flux:tooltip>
                     </flux:modal.trigger>
 
-                    <flux:modal name="need-help" class="md:w-96">
-                        <div class="space-y-6">
+                    <flux:modal name="need-help" class="!max-w-6xl p-6 overflow-auto rounded-2xl shadow-xl bg-white">
+                        <div class="flex flex-col gap-4 max-w-6xl">
                             <div>
                                 <flux:heading size="lg">Need Help?</flux:heading>
-                                <flux:text class="mt-2">Click any link or select below.</flux:text>
+                                <flux:text class="mt-2">Find quick answers and guides for the Fairmont Ship Reporting Tool.</flux:text>
+                            </div>
+                            <div x-data="{ open: null }" class="space-y-2">
+                                <template x-for="(item, idx) in [
+                                            {
+                                                title: 'About Fairmont Ship Reporting Tool',
+                                                content: `Fairmont Ship Reporting Tool is a secure web application designed to simplify the creation, management, and tracking of voyage reports for vessels.<br>
+                                            It is intended for use by both vessel crew and office staff to ensure accurate and timely reporting.`
+                                            },
+                                            {
+                                                title: 'Navigation Guide',
+                                                content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li><strong>Dashboard:</strong> Overview of reports and quick access features</li>
+                                                <li><strong>Create Report:</strong> Start a new report</li>
+                                                <li><strong>Manage Reports:</strong> View, edit, and manage reports</li>
+                                                <li><strong>Settings:</strong> Configure user settings, notifications, language, and more</li>
+                                                </ul>`
+                                            },
+                                            {
+                                                title: 'Creating Reports',
+                                                content: `<ol class='list-decimal pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li>Navigate to Create Report</li>
+                                                <li>Select the type of report you want to create:
+                                                    <ul class='list-disc pl-6'>
+                                                    <li>Noon Report</li>
+                                                    <li>Departure Report</li>
+                                                    <li>Arrival Report</li>
+                                                    <li>Bunkering Report</li>
+                                                    <li>All Fast Report</li>
+                                                    <li>Weekly Schedule</li>
+                                                    <li>Crew Monitoring Plan</li>
+                                                    <li>Voyage Report</li>
+                                                    <li>KPI Report</li>
+                                                    <li>Port of Call Report</li>
+                                                    </ul>
+                                                </li>
+                                                <li>Fill out the required fields</li>
+                                                <li>Review and submit your report</li>
+                                                </ol>
+                                                <p class='mt-2 text-sm text-primary-600'><span class='font-semibold'>Tip:</span> Required fields are marked clearly; please double-check all entries before submitting.</p>`
+                                            },
+                                            {
+                                                title: 'Managing Reports',
+                                                content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li>Use Manage Reports to:</li>
+                                                <ul class='list-disc pl-6'>
+                                                    <li>View all submitted reports</li>
+                                                    <li>Edit reports (based on permissions and report type)</li>
+                                                    <li>Delete or archive reports (Admin/Office User only)</li>
+                                                    <li>Search reports by type, date, reportee, or vessel</li>
+                                                </ul>
+                                                </ul>`
+                                            },
+                                            {
+                                                title: 'Exporting Reports',
+                                                content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li>You can export reports to:
+                                                    <ul class='list-disc pl-6'>
+                                                    <li>Excel (XLSX) for editing or record-keeping</li>
+                                                    <li>PDF (if implemented) for official submission</li>
+                                                    </ul>
+                                                </li>
+                                                <li>Exports include:
+                                                    <ul class='list-disc pl-6'>
+                                                    <li>All visible fields and tables</li>
+                                                    <li>Properly formatted layout for printing or sharing</li>
+                                                    </ul>
+                                                </li>
+                                                </ul>`
+                                            },
+                                            {
+                                                title: 'Security & Account Tips',
+                                                content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li>Your session will auto-logout after 30 minutes of inactivity to protect your data.</li>
+                                                <li>Make sure to choose a strong password with:
+                                                    <ul class='list-disc pl-6'>
+                                                    <li>Minimum length</li>
+                                                    <li>Uppercase letters</li>
+                                                    <li>Symbols</li>
+                                                    </ul>
+                                                </li>
+                                                <li>If you forget your password, use Forgot Password on the login page to reset it.</li>
+                                                <li>Admins can review login and activity logs for security auditing.</li>
+                                                <li>Any other relevant quick-access icons depending on the role</li>
+                                                </ul>`
+                                            },
+                                            {
+                                                title: 'Frequently Asked Questions (FAQs)',
+                                                content: `<ol class='list-decimal pl-6 space-y-1 text-sm text-primary-600'>
+                                                <li><strong>Can I edit a report after submitting it?</strong><br>
+                                                Office Users can edit certain reports after submission. Unit Users generally cannot edit a report once submitted, to preserve report integrity.</li>
+                                                <li><strong>How long are submitted reports stored in the system?</strong><br>
+                                                Reports are securely stored indefinitely unless deleted by an Admin.</li>
+                                                <li><strong>Can I delete a report?</strong><br>
+                                                Only Admin Users can delete reports. Office Users can manage (view/edit) reports but cannot delete them unless granted permission.</li>
+                                                <li><strong>How do I export a report?</strong><br>
+                                                Reports can be exported in Excel format using the Export button on the Manage Reports or individual Report view pages.</li>
+                                                <li><strong>How does the session timeout work?</strong><br>
+                                                Your session will automatically log out after 10 minutes of inactivity. You will need to log in again to continue.</li>
+                                                <li><strong>I forgot my password. How can I reset it?</strong><br>
+                                                Go to the Login Page and click on Forgot Password. You will receive a reset link via your registered email.</li>
+                                                <li><strong>Who can create new user accounts?</strong><br>
+                                                Only Admin Users can create new user accounts and manage user roles.</li>
+                                                <li><strong>What reports can I create?</strong><br>
+                                                You can create Noon, Departure, Arrival, Bunkering, All Fast, Weekly Schedule, Crew Monitoring, Voyage, KPI, and Port of Call reports.</li>
+                                                <li><strong>Can I access the system from any device?</strong><br>
+                                                Yes, the application is web-based and works on desktop, laptop, tablet, and mobile devices. For best experience, use a desktop or laptop.</li>
+                                                <li><strong>What happens if I lose internet connection while working on a report?</strong><br>
+                                                If your connection is lost before submitting, your work may not be saved unless you save it as a draft. It is recommended to save your work frequently.</li>
+                                                </ol>`
+                                            }
+                                            ]
+                                        " :key="idx">
+                                    <div class="rounded-xl border border-neutral-200 dark:border-neutral-700 mb-3">
+                                        <button
+                                            type="button"
+                                            class="flex w-full items-center justify-between px-5 py-3 text-lg font-medium text-primary-800 hover:bg-primary-100 focus:outline-none transition"
+                                            @click="open === idx ? open = null : open = idx"
+                                            :aria-expanded="open === idx"
+                                            :aria-controls="`accordion-content-${idx}`"
+                                        >
+                                            <flux:heading x-text="`${idx + 1}. ${item.title}`">Need Help?</flux:heading>
+                                            <svg :class="open === idx ? 'rotate-180' : ''" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                                        </button>
+                                        <div
+                                            x-show="open === idx"
+                                            x-transition
+                                            :id="`accordion-content-${idx}`"
+                                            class="px-6 pb-4 text-primary-700"
+                                            style="display: none;"
+                                            x-html="item.content"
+                                        ></div>
+                                    </div>
+                                </template>
                             </div>
                         </div>
                     </flux:modal>
