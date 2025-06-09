@@ -62,6 +62,18 @@ class Voyage extends Model
     }
     // End Voyage
 
+    // For Crew Monitoring Plan Relation
+    public function crew_change()
+    {
+        return $this->hasMany(CrewChange::class);
+    }
+
+    public function board_crew()
+    {
+        return $this->hasMany(BoardCrew::class);
+    }
+    // End Crew MOnitoring Plan
+
     public function robs()
     {
         return $this->hasMany(Rob::class);
