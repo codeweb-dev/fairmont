@@ -21,6 +21,27 @@ class Voyage extends Model
         'port_gmt_offset',
         'bunker_completed',
         'bunker_gmt_offset',
+
+        'call_sign',
+        'flag',
+        'port_of_registry',
+        'official_number',
+        'imo_number',
+        'class_society',
+        'class_no',
+        'pi_club',
+        'loa',
+        'lbp',
+        'breadth_extreme',
+        'depth_moulded',
+        'height_maximum',
+        'bridge_front_bow',
+        'bridge_front_stern',
+        'light_ship_displacement',
+        'keel_laid',
+        'launched',
+        'delivered',
+        'shipyard',
     ];
 
     // Bunker Report Relation

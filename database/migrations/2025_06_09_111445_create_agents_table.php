@@ -20,6 +20,18 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
+
+            // For Port Of Call
+            $table->string('port_of_calling')->nullable();
+            $table->string('country')->nullable();
+            $table->string('purpose')->nullable();
+            $table->date('ata_eta_date')->nullable();
+            $table->time('ata_eta_time')->nullable();
+            $table->date('ship_info_date')->nullable();
+            $table->time('ship_info_time')->nullable();
+            $table->string('gmt')->nullable();
+            $table->integer('duration_days')->nullable();
+            $table->integer('total_days')->nullable();
             $table->timestamps();
         });
     }

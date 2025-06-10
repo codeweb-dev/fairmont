@@ -32,6 +32,27 @@ return new class extends Migration
             $table->date('bunker_completed')->nullable();
             $table->string('bunker_gmt_offset')->nullable();
 
+            $table->string('call_sign')->nullable();
+            $table->string('flag')->nullable();
+            $table->string('port_of_registry')->nullable();
+            $table->string('official_number')->nullable();
+            $table->string('imo_number')->nullable();
+            $table->string('class_society')->nullable();
+            $table->string('class_no')->nullable();
+            $table->string('pi_club')->nullable();
+            $table->string('loa')->nullable();
+            $table->string('lbp')->nullable();
+            $table->string('breadth_extreme')->nullable();
+            $table->string('depth_moulded')->nullable();
+            $table->string('height_maximum')->nullable();
+            $table->string('bridge_front_bow')->nullable();
+            $table->string('bridge_front_stern')->nullable();
+            $table->string('light_ship_displacement')->nullable();
+            $table->date('keel_laid')->nullable();
+            $table->date('launched')->nullable();
+            $table->date('delivered')->nullable();
+            $table->string('shipyard')->nullable();
+
             $table->timestamps();
         });
     }

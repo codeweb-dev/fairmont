@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Port extends Model
 {
-    protected $fillable = ['voyage_id', 'port', 'activity', 'eta_etb', 'etcd', 'cargo', 'cargo_qty', 'remarks'];
+    protected $fillable = ['voyage_id', 'port', 'activity', 'eta_etb', 'etcd', 'cargo', 'cargo_qty', 'remarks', 'voyage_no', 'charterers'];
 
     public function voyage()
     {

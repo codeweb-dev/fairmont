@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('cargo')->nullable(); // e.g. Oil
             $table->string('cargo_qty')->nullable(); // Quantity of cargo
             $table->string('remarks')->nullable();
+
+            // For Port Of Call
+            $table->string('voyage_no')->nullable();
+            $table->string('charterers')->nullable();
             $table->timestamps();
         });
     }

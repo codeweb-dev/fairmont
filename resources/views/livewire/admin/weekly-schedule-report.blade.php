@@ -67,7 +67,8 @@
                             @endif
 
                             @foreach ($report->ports as $pIndex => $port)
-                                <div class="border-t pt-4">
+                                <div>
+                                    <flux:separator class="my-4" />
                                     <flux:heading size="sm">Port {{ $pIndex + 1 }} - {{ $port->port }}</flux:heading>
 
                                     <div class="grid grid-cols-3 gap-4 mt-2">
