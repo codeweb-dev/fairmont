@@ -219,13 +219,23 @@
             </flux:dropdown>
         </flux:navbar>
 
-        <div class="flex items-center justify-between w-full">
-            <div class="w-72">
-                <flux:input icon="magnifying-glass" placeholder="Search reports or pages" />
-            </div>
-
+        <div class="flex items-center justify-end w-full">
             <div class="flex items-center gap-3">
                 <div>
+                    <flux:modal.trigger name="global-search">
+                        <flux:tooltip content="Search" position="bottom">
+                            <flux:button icon="magnifying-glass" variant="subtle" />
+                        </flux:tooltip>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="global-search" class="md:w-[32rem]">
+                        <div class="space-y-4">
+                            <flux:heading size="lg">Search</flux:heading>
+
+                            <livewire:global-search />
+                        </div>
+                    </flux:modal>
+
                     <flux:modal.trigger name="notification">
                         <flux:tooltip content="Notification" position="bottom">
                             <flux:button icon="bell" variant="subtle" />
@@ -276,7 +286,7 @@
                                                 <li><strong>Dashboard:</strong> Overview of reports and quick access features</li>
                                                 <li><strong>Create Report:</strong> Start a new report</li>
                                                 <li><strong>Manage Reports:</strong> View, edit, and manage reports</li>
-                                                <li><strong>Settings:</strong> Configure user settings, notifications, language, and more</li>
+                                                <li><strong>Settings:</strong> Configure user settings, profile, password, and appearance</li>
                                                 </ul>`
                                             },
                                             {
