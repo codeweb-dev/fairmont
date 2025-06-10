@@ -22,7 +22,7 @@ use App\Livewire\Admin\CrewMonitoringPlanReport as AdminCrewMonitoringPlanReport
 use App\Livewire\Admin\VoyageReport as AdminVoyageReport;
 use App\Livewire\Admin\KpiReport as AdminKpiReport;
 use App\Livewire\Admin\PortOfCallReport as AdminPortOfCallReport;
-
+use App\Livewire\Auth\OtpVerify;
 // Unit
 use App\Livewire\Unit\AllFast;
 use App\Livewire\Unit\ArrivalReport;
@@ -52,6 +52,9 @@ Route::get('/', Login::class)->name('login');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/otp', OtpVerify::class)
+    ->name('otp.verify');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

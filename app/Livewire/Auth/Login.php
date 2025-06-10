@@ -13,6 +13,10 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpCode;
+use App\Models\UserOtp;
+use Carbon\Carbon;
 
 #[Layout('components.layouts.auth')]
 class Login extends Component
@@ -54,18 +58,34 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        Audit::create([
-            'auditable_id' => Auth::id(),
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
-            'event' => 'login',
-            'old_values' => [],
-            'new_values' => ['email' => $this->email],
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
+        $otp = rand(100000, 999999);
+        UserOtp::create([
+            'user_id' => $user->id,
+            'code' => $otp,
+            'expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        Mail::to($user->email)->send(new OtpCode($otp));
+
+        // Temporarily logout to wait for OTP verification
+        Auth::logout();
+
+        // Redirect to OTP verification screen
+        session(['otp_user_id' => $user->id]);
+        $this->redirect(route('otp.verify'), navigate: true);
+
+        // Audit::create([
+        //     'auditable_id' => Auth::id(),
+        //     'auditable_type' => User::class,
+        //     'user_id' => Auth::id(),
+        //     'event' => 'login',
+        //     'old_values' => [],
+        //     'new_values' => ['email' => $this->email],
+        //     'ip_address' => request()->ip(),
+        //     'user_agent' => request()->userAgent(),
+        // ]);
+
+        // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 
     /**
