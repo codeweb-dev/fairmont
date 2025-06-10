@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
@@ -48,6 +49,10 @@ class WeeklySchedule extends Component
             'report_type' => 'Weekly Schedule',
             'voyage_no' => $this->voyage_no,
             'all_fast_datetime' => $this->all_fast_datetime,
+        ]);
+
+        Notification::create([
+            'text' => "{$voyage->report_type} report has been created.",
         ]);
 
         foreach ($this->ports as $portData) {

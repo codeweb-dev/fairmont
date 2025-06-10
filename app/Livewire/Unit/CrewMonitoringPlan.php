@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
@@ -99,6 +100,10 @@ class CrewMonitoringPlan extends Component
             'vessel_id' => $this->vessel_id,
             'unit_id' => Auth::id(),
             'report_type' => 'Crew Monitoring Plan',
+        ]);
+
+        Notification::create([
+            'text' => "{$voyage->report_type} report has been created.",
         ]);
 
         if ($this->onBoardMode) {

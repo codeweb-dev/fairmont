@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
@@ -235,6 +236,10 @@ class Bunkering extends Component
             'port_gmt_offset' => $this->port_gmt_offset,
             'bunker_completed' => $this->bunker_completed,
             'bunker_gmt_offset' => $this->bunker_gmt_offset,
+        ]);
+
+        Notification::create([
+            'text' => "{$voyage->report_type} report has been created.",
         ]);
 
         // Remarks and Master Info

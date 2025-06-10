@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
@@ -74,6 +75,10 @@ class AllFast extends Component
             'all_fast_datetime' => $this->all_fast_datetime,
             'port' => $this->port,
             'gmt_offset' => $this->gmt_offset,
+        ]);
+
+        Notification::create([
+            'text' => "{$voyage->report_type} report has been created.",
         ]);
 
         foreach ($this->robs as $rob) {

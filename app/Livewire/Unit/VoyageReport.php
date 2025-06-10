@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
@@ -116,6 +117,10 @@ class VoyageReport extends Component
             'report_type' => 'Voyage Report',
             'voyage_no' => $this->voyage_no,
             'all_fast_datetime' => $this->all_fast_datetime,
+        ]);
+
+        Notification::create([
+            'text' => "{$voyage->report_type} report has been created.",
         ]);
 
         $voyage->off_hire()->create([

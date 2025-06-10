@@ -236,8 +236,14 @@
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Notification</flux:heading>
-                                <flux:text class="mt-2">All notification will go here.</flux:text>
+                                <flux:text class="mt-2">
+                                    All notifications are shown below.
+                                </flux:text>
                             </div>
+
+                            <flux:separator />
+
+                            <livewire:notification />
                         </div>
                     </flux:modal>
                     <flux:tooltip content="Settings" position="bottom">
