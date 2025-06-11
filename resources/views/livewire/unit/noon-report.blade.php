@@ -376,41 +376,55 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="px-4 py-2 font-semibold">1</td>
-                                <td class="px-4 py-2">
-                                    <flux:input placeholder="Enter tank name here" />
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:select placeholder="Select" required>
-                                        <flux:select.option>HSFO</flux:select.option>
-                                        <flux:select.option>BIOFUEL</flux:select.option>
-                                        <flux:select.option>VLSFO</flux:select.option>
-                                        <flux:select.option>LSMGO</flux:select.option>
-                                    </flux:select>
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:input placeholder="Enter tank capacity" />
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:select required>
-                                        <flux:select.option selected>MT</flux:select.option>
-                                        <flux:select.option>L</flux:select.option>
-                                        <flux:select.option>GAL</flux:select.option>
-                                    </flux:select>
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:input />
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:input type="date" />
-                                </td>
-                                <td class="px-4 py-2">
-                                    <flux:button icon="plus" />
-                                </td>
-                            </tr>
+                            @foreach ($robs[$type] as $index => $row)
+                                <tr wire:key="{{ $type }}-{{ $index }}">
+                                    <td class="px-4 py-2">{{ $index + 1 }}</td>
+                                    <td class="px-4 py-2">
+                                        <flux:input
+                                            wire:model="robs.{{ $type }}.{{ $index }}.description" />
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:select wire:model="robs.{{ $type }}.{{ $index }}.grade">
+                                            <flux:select.option>{{ $type }}</flux:select.option>
+                                            @foreach ($bunkerTypes as $other)
+                                                @if ($other !== $type)
+                                                    <flux:select.option>{{ $other }}</flux:select.option>
+                                                @endif
+                                            @endforeach
+                                        </flux:select>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:input
+                                            wire:model="robs.{{ $type }}.{{ $index }}.capacity" />
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:select wire:model="robs.{{ $type }}.{{ $index }}.unit">
+                                            <flux:select.option>MT</flux:select.option>
+                                            <flux:select.option>L</flux:select.option>
+                                            <flux:select.option>GAL</flux:select.option>
+                                        </flux:select>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:input wire:model="robs.{{ $type }}.{{ $index }}.rob" />
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:input type="date"
+                                            wire:model="robs.{{ $type }}.{{ $index }}.supply_date" />
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <flux:button icon="minus" variant="danger"
+                                            wire:click="removeRobRow('{{ $type }}', {{ $index }})" />
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+
+                    <div class="flex items-end justify-end w-full">
+                        <flux:button icon="plus" wire:click="addRobRow('{{ $type }}')" variant="primary">
+                            Add Row
+                        </flux:button>
+                    </div>
                 </div>
 
                 <!-- ROB/Consumption Table -->

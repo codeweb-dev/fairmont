@@ -22,6 +22,7 @@ class NoonReport extends Component
     public array $directions = [];
     public array $winds = [];
     public array $seas = [];
+    public array $robs = [];
 
     public function mount()
     {
@@ -33,6 +34,11 @@ class NoonReport extends Component
             $this->vesselName = $vessel->name;
         } else {
             abort(403, 'You are not assigned to a vessel.');
+        }
+
+        foreach (['HSFO', 'BIOFUEL', 'VLSFO', 'LSMGO'] as $type) {
+            $this->robs[$type] = [];
+            $this->addRobRow($type);
         }
 
         $this->gmtOffsets = [
@@ -126,6 +132,25 @@ class NoonReport extends Component
             "8 - (9.0-14.0m)",
             "9 - (14+m)",
         ];
+    }
+
+    public function addRobRow($type)
+    {
+        $this->robs[$type][] = [
+            'tank_no' => '',
+            'description' => '',
+            'grade' => $type,
+            'capacity' => '',
+            'unit' => 'MT',
+            'rob' => '',
+            'supply_date' => '',
+        ];
+    }
+
+    public function removeRobRow($type, $index)
+    {
+        unset($this->robs[$type][$index]);
+        $this->robs[$type] = array_values($this->robs[$type]);
     }
 
     public function save()
