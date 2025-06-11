@@ -102,6 +102,13 @@ class Voyage extends Model
     }
     // For Weekly Schedule
 
+    // For Kpi Relation
+    public function waste()
+    {
+        return $this->hasOne(Waste::class);
+    }
+    // End Kpi
+
     public function robs()
     {
         return $this->hasMany(Rob::class);
