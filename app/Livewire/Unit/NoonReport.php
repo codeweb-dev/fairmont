@@ -16,7 +16,14 @@ class NoonReport extends Component
     public $remarks;
     public $vesselName = null;
 
-    public $report_type = '';
+    // Voyage Details
+    public $voyage_no;
+    public $port_gmt_offset = ''; // as Report Type
+    public $all_fast_datetime; // as Date/Time (LT)
+    public $gmt_offset;
+    public $port; // as Latitude
+    public $bunkering_port; // as Longtitude
+    public $supplier; // as Port of Departure
 
     public array $gmtOffsets = [];
     public array $directions = [];
@@ -165,12 +172,12 @@ class NoonReport extends Component
             'unit_id' => Auth::id(),
             'report_type' => 'Noon Report',
             'voyage_no' => $this->voyage_no,
+            'port_gmt_offset' => $this->port_gmt_offset,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'gmt_offset' => $this->gmt_offset,
+            'port' => $this->port,
             'bunkering_port' => $this->bunkering_port,
             'supplier' => $this->supplier,
-            'port_etd' => $this->port_etd,
-            'port_gmt_offset' => $this->port_gmt_offset,
-            'bunker_completed' => $this->bunker_completed,
-            'bunker_gmt_offset' => $this->bunker_gmt_offset,
         ]);
 
         Notification::create([
@@ -194,6 +201,13 @@ class NoonReport extends Component
         $this->reset([
             'remarks',
             'master_info',
+            'voyage_no',
+            'port_gmt_offset',
+            'all_fast_datetime',
+            'gmt_offset',
+            'port',
+            'bunkering_port',
+            'supplier',
         ]);
     }
 

@@ -22,27 +22,27 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
-                    <flux:input label="Voyage No" badge="Required" required />
-                    <flux:select label="Vessel Name" badge="Required" required wire:model.live="report_type">
+                    <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
+                    <flux:select label="Report Type" badge="Required" required wire:model.live="port_gmt_offset">
                         <flux:select.option value="" disabled selected>Select Report Type</flux:select.option>
                         <flux:select.option value="At Sea">At Sea</flux:select.option>
                         <flux:select.option value="In Port">In Port</flux:select.option>
                         <flux:select.option value="At Anchorage">At Anchorage</flux:select.option>
                         <flux:select.option value="At Drifting">At Drifting</flux:select.option>
                     </flux:select>
-                    <flux:input label="Date/Time (LT)" type="date" max="2999-12-31" badge="Required" required />
-                    <flux:select label="GMT Offset" badge="Required" required>
+                    <flux:input label="Date/Time (LT)" type="date" max="2999-12-31" badge="Required" required wire:model.defer="all_fast_datetime" />
+                    <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
                         <flux:select.option value="" disabled selected>Select</flux:select.option>
                         @foreach ($gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
-                    <flux:input label="Latitude" badge="Required" required />
-                    <flux:input label="Longitude" badge="Required" required />
+                    <flux:input label="Latitude" badge="Required" required wire:model.defer="port" />
+                    <flux:input label="Longitude" badge="Required" required wire:model.defer="bunkering_port" />
 
-                    @if ($report_type === 'In Port')
+                    @if ($port_gmt_offset === 'In Port')
                         <flux:input label="Port of Departure" badge="Required" required
-                            wire:model.defer="port_of_departure" />
+                            wire:model.defer="supplier" />
                     @endif
                 </div>
             </div>
@@ -53,7 +53,7 @@
         <flux:fieldset>
             <flux:legend>Details Since Last Report</flux:legend>
             <div class="space-y-6">
-                @if ($report_type === 'At Sea')
+                @if ($port_gmt_offset === 'At Sea')
                     <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                         <!-- Row 1 -->
                         <flux:input label="CP/Ordered Speed (Kts)" />
@@ -108,7 +108,7 @@
                         <flux:input label="Drifting Hours" />
 
                         <!-- Row 4 -->
-                        @if ($report_type === 'In Port')
+                        @if ($port_gmt_offset === 'In Port')
                             <flux:input label="Maneuvering Hours" />
                         @endif
                     </div>
@@ -117,7 +117,7 @@
         </flux:fieldset>
     </div>
 
-    @if ($report_type === 'At Sea')
+    @if ($port_gmt_offset === 'At Sea')
         <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
             <flux:fieldset>
                 <flux:legend>Voyage Itinerary</flux:legend>
