@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Step 1: Create roles if they don't exist
+        $roles = ['admin', 'unit', 'officer'];
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate(['name' => $roleName]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Step 2: Create the admin user
+        $user = User::firstOrCreate(
+            ['email' => 'fairmontshippinghk@gmail.com'],
+            [
+                'name' => 'Admin Fairmont',
+                'password' => Hash::make('fairmontshipping'),
+            ]
+        );
+
+        // Step 3: Assign 'admin' role
+        $user->assignRole('admin');
     }
 }
