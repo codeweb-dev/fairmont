@@ -25,11 +25,210 @@ class NoonReport extends Component
     public $bunkering_port; // as Longtitude
     public $supplier; // as Port of Departure
 
+    // Report Details
+    public $cp_ordered_speed, $me_cons_cp_speed, $obs_distance, $steaming_time;
+    public $avg_speed, $distance_to_go, $course, $breakdown;
+    public $avg_rpm, $engine_distance, $slip, $me_output_mcr;
+    public $avg_power, $logged_distance, $speed_through_water, $next_port;
+    public $eta_next_port, $eta_gmt_offset;
+    public $anchored_hours, $drifting_hours, $maneuvering_hours;
+
+    // Voyage Itinerary
+    public $next_port_voyage;
+    public $via;
+    public $eta_lt;
+    public $gmt_offset_voyage;
+    public $distance_to_go_voyage;
+    public $projected_speed;
+
+    // Noon Conditions
+    public $condition;
+    public $displacement;
+    public $cargo_name;
+    public $cargo_weight;
+    public $ballast_weight;
+    public $fresh_water;
+    public $fwd_draft;
+    public $aft_draft;
+    public $gm;
+
+    // Average Weather
+    public $wind_force_average_weather;
+    public $swell;
+    public $sea_current;
+    public $sea_temp;
+    public $observed_wind;
+    public $wind_sea_height;
+    public $sea_current_direction;
+    public $swell_height;
+    public $observed_sea;
+    public $air_temp;
+    public $observed_swell;
+    public $sea_ds;
+    public $atm_pressure;
+
+    // Bad Weather
+    public $wind_force_previous;
+    public $wind_force_current;
+    public $sea_state_previous;
+    public $sea_state_current;
+
+    // Diesel Engine
+    public $dg1_run_hours;
+    public $dg2_run_hours;
+    public $dg3_run_hours;
+
     public array $gmtOffsets = [];
     public array $directions = [];
     public array $winds = [];
     public array $seas = [];
     public array $robs = [];
+
+    public array $rob_data = [
+        'HSFO' => [
+            'tanks' => [],
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'BIOFUEL' => [
+            'tanks' => [],
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'VLSFO' => [
+            'tanks' => [],
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'LSMGO' => [
+            'tanks' => [],
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+    ];
+
+    public array $weather_blocks = [
+        [
+            'time_block' => '12:00 - 18:00',
+            'wind_force' => '',
+            'wind_direction' => '',
+            'swell_height' => '',
+            'swell_direction' => '',
+            'wind_sea_height' => '',
+            'sea_direction' => '',
+            'sea_ds' => '',
+        ],
+        [
+            'time_block' => '18:00 - 00:00',
+            'wind_force' => '',
+            'wind_direction' => '',
+            'swell_height' => '',
+            'swell_direction' => '',
+            'wind_sea_height' => '',
+            'sea_direction' => '',
+            'sea_ds' => '',
+        ],
+        [
+            'time_block' => '00:00 - 06:00',
+            'wind_force' => '',
+            'wind_direction' => '',
+            'swell_height' => '',
+            'swell_direction' => '',
+            'wind_sea_height' => '',
+            'sea_direction' => '',
+            'sea_ds' => '',
+        ],
+        [
+            'time_block' => '06:00 - 12:00',
+            'wind_force' => '',
+            'wind_direction' => '',
+            'swell_height' => '',
+            'swell_direction' => '',
+            'wind_sea_height' => '',
+            'sea_direction' => '',
+            'sea_ds' => '',
+        ],
+    ];
 
     public function mount()
     {
@@ -41,11 +240,6 @@ class NoonReport extends Component
             $this->vesselName = $vessel->name;
         } else {
             abort(403, 'You are not assigned to a vessel.');
-        }
-
-        foreach (['HSFO', 'BIOFUEL', 'VLSFO', 'LSMGO'] as $type) {
-            $this->robs[$type] = [];
-            $this->addRobRow($type);
         }
 
         $this->gmtOffsets = [
@@ -139,12 +333,18 @@ class NoonReport extends Component
             "8 - (9.0-14.0m)",
             "9 - (14+m)",
         ];
+
+        foreach (array_keys($this->rob_data) as $type) {
+            $this->addRobRow($type);
+        }
     }
 
     public function addRobRow($type)
     {
-        $this->robs[$type][] = [
-            'tank_no' => '',
+        $nextNo = count($this->rob_data[$type]['tanks']) + 1;
+
+        $this->rob_data[$type]['tanks'][] = [
+            'tank_no' => $nextNo,
             'description' => '',
             'grade' => $type,
             'capacity' => '',
@@ -156,8 +356,8 @@ class NoonReport extends Component
 
     public function removeRobRow($type, $index)
     {
-        unset($this->robs[$type][$index]);
-        $this->robs[$type] = array_values($this->robs[$type]);
+        unset($this->rob_data[$type]['tanks'][$index]);
+        $this->rob_data[$type]['tanks'] = array_values($this->rob_data[$type]['tanks']);
     }
 
     public function save()
@@ -180,10 +380,138 @@ class NoonReport extends Component
             'supplier' => $this->supplier,
         ]);
 
+        $filledFuelTypes = collect($this->rob_data)->filter(function ($data) {
+            return collect($data['tanks'])->contains(function ($tank) {
+                return !empty($tank['description']) ||
+                    !empty($tank['rob']) ||
+                    !empty($tank['capacity']) ||
+                    !empty($tank['supply_date']);
+            });
+        });
+
+        if ($filledFuelTypes->isEmpty()) {
+            Toaster::error('At least one ROB tank must have data before submitting.');
+            return;
+        }
+
         Notification::create([
             'text' => "{$voyage->report_type} report has been created.",
         ]);
 
+        foreach ($this->rob_data as $fuelType => $data) {
+            $hasTankData = collect($data['tanks'])->filter(function ($tank) {
+                return !empty($tank['description']) ||
+                    !empty($tank['rob']) ||
+                    !empty($tank['capacity']) ||
+                    !empty($tank['supply_date']);
+            });
+
+            $hasSummaryData = collect($data['summary'])->filter(function ($value) {
+                return !empty($value);
+            });
+
+            if ($hasTankData->isNotEmpty()) {
+                foreach ($hasTankData as $tank) {
+                    $voyage->rob_tanks()->create([
+                        'tank_no' => $tank['tank_no'] ?? '',
+                        'description' => $tank['description'] ?? '',
+                        'grade' => $tank['grade'] ?? $fuelType,
+                        'capacity' => $tank['capacity'] ?? '',
+                        'unit' => $tank['unit'] ?? '',
+                        'rob' => $tank['rob'] ?? '',
+                        'supply_date' => $tank['supply_date'] ?: null,
+                    ]);
+                }
+            }
+
+            if ($hasTankData->isNotEmpty() || $hasSummaryData->isNotEmpty()) {
+                $voyage->rob_fuel_reports()->create(array_merge($data['summary'], [
+                    'fuel_type' => $fuelType,
+                ]));
+            }
+        }
+
+        foreach ($this->weather_blocks as $block) {
+            $voyage->weather_observations()->create([
+                'time_block' => $block['time_block'] ?? null,
+                'wind_force' => $block['wind_force'] ?? null,
+                'wind_direction' => $block['wind_direction'] ?? null,
+                'swell_height' => $block['swell_height'] ?? null,
+                'swell_direction' => $block['swell_direction'] ?? null,
+                'wind_sea_height' => $block['wind_sea_height'] ?? null,
+                'sea_direction' => $block['sea_direction'] ?? null,
+                'sea_ds' => $block['sea_ds'] ?? null,
+            ]);
+        }
+
+        $voyage->noon_report()->create([
+            'cp_ordered_speed' => $this->cp_ordered_speed,
+            'me_cons_cp_speed' => $this->me_cons_cp_speed,
+            'obs_distance' => $this->obs_distance,
+            'steaming_time' => $this->steaming_time,
+            'avg_speed' => $this->avg_speed,
+            'distance_to_go' => $this->distance_to_go,
+            'course' => $this->course,
+            'breakdown' => $this->breakdown,
+            'avg_rpm' => $this->avg_rpm,
+            'engine_distance' => $this->engine_distance,
+            'slip' => $this->slip,
+            'me_output_mcr' => $this->me_output_mcr,
+            'avg_power' => $this->avg_power,
+            'logged_distance' => $this->logged_distance,
+            'speed_through_water' => $this->speed_through_water,
+            'next_port' => $this->next_port,
+            'eta_next_port' => $this->eta_next_port,
+            'eta_gmt_offset' => $this->eta_gmt_offset,
+            'anchored_hours' => $this->anchored_hours,
+            'drifting_hours' => $this->drifting_hours,
+            'maneuvering_hours' => $this->maneuvering_hours,
+
+            // Noon Conditions
+            'condition' => $this->condition,
+            'displacement' => $this->displacement,
+            'cargo_name' => $this->cargo_name,
+            'cargo_weight' => $this->cargo_weight,
+            'ballast_weight' => $this->ballast_weight,
+            'fresh_water' => $this->fresh_water,
+            'fwd_draft' => $this->fwd_draft,
+            'aft_draft' => $this->aft_draft,
+            'gm' => $this->gm,
+
+            // Voyage Itinerary
+            'next_port_voyage' => $this->next_port_voyage,
+            'via' => $this->via,
+            'eta_lt' => $this->eta_lt,
+            'gmt_offset_voyage' => $this->gmt_offset_voyage,
+            'distance_to_go_voyage' => $this->distance_to_go_voyage,
+            'projected_speed' => $this->projected_speed,
+
+            // Average Weather
+            'wind_force_average_weather' => $this->wind_force_average_weather,
+            'swell' => $this->swell,
+            'sea_current' => $this->sea_current,
+            'sea_temp' => $this->sea_temp,
+            'observed_wind' => $this->observed_wind,
+            'wind_sea_height' => $this->wind_sea_height,
+            'sea_current_direction' => $this->sea_current_direction,
+            'swell_height' => $this->swell_height,
+            'observed_sea' => $this->observed_sea,
+            'air_temp' => $this->air_temp,
+            'observed_swell' => $this->observed_swell,
+            'sea_ds' => $this->sea_ds,
+            'atm_pressure' => $this->atm_pressure,
+
+            // Bad Weather
+            'wind_force_previous' => $this->wind_force_previous,
+            'wind_force_current' => $this->wind_force_current,
+            'sea_state_previous' => $this->sea_state_previous,
+            'sea_state_current' => $this->sea_state_current,
+
+            // Diesel Engine
+            'dg1_run_hours' => $this->dg1_run_hours,
+            'dg2_run_hours' => $this->dg2_run_hours,
+            'dg3_run_hours' => $this->dg3_run_hours,
+        ]);
         $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
@@ -208,15 +536,74 @@ class NoonReport extends Component
             'port',
             'bunkering_port',
             'supplier',
+            'cp_ordered_speed',
+            'me_cons_cp_speed',
+            'obs_distance',
+            'steaming_time',
+            'avg_speed',
+            'distance_to_go',
+            'course',
+            'breakdown',
+            'avg_rpm',
+            'engine_distance',
+            'slip',
+            'me_output_mcr',
+            'avg_power',
+            'logged_distance',
+            'speed_through_water',
+            'next_port',
+            'eta_next_port',
+            'eta_gmt_offset',
+            'anchored_hours',
+            'drifting_hours',
+            'maneuvering_hours',
+            'condition',
+            'displacement',
+            'cargo_name',
+            'cargo_weight',
+            'ballast_weight',
+            'fresh_water',
+            'fwd_draft',
+            'aft_draft',
+            'gm',
+            'next_port_voyage',
+            'via',
+            'eta_lt',
+            'gmt_offset_voyage',
+            'distance_to_go_voyage',
+            'projected_speed',
+            'wind_force_average_weather',
+            'swell',
+            'sea_current',
+            'sea_temp',
+            'observed_wind',
+            'wind_sea_height',
+            'sea_current_direction',
+            'swell_height',
+            'observed_sea',
+            'air_temp',
+            'observed_swell',
+            'sea_ds',
+            'atm_pressure',
+            'wind_force_previous',
+            'wind_force_current',
+            'sea_state_previous',
+            'sea_state_current',
+            'dg1_run_hours',
+            'dg2_run_hours',
+            'dg3_run_hours',
+
+            'weather_blocks',
+            'rob_data',
         ]);
+
+        foreach (array_keys($this->rob_data) as $type) {
+            $this->addRobRow($type);
+        }
     }
 
     public function render()
     {
-        $bunkerTypes = ['HSFO', 'BIOFUEL', 'VLSFO', 'LSMGO'];
-
-        return view('livewire.unit.noon-report', [
-            'bunkerTypes' => $bunkerTypes,
-        ]);
+        return view('livewire.unit.noon-report');
     }
 }

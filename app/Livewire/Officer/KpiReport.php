@@ -43,6 +43,8 @@ class KpiReport extends Component
 
     public function render()
     {
+        $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
+
         $reports = Voyage::query()
             ->with([
                 'vessel',
@@ -52,6 +54,7 @@ class KpiReport extends Component
                 'master_info',
             ])
             ->where('report_type', 'KPI')
+            ->whereIn('vessel_id', $assignedVesselIds)
             ->when($this->search, function ($query) {
                 $query->whereHas(
                     'unit',

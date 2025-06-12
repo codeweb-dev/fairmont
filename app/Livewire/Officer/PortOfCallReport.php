@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Auth;
 
 class PortOfCallReport extends Component
 {
@@ -26,8 +27,11 @@ class PortOfCallReport extends Component
 
     public function render()
     {
+        $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
+
         $reports = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])
             ->where('report_type', 'Port Of Call')
+            ->whereIn('vessel_id', $assignedVesselIds)
             ->when(
                 $this->search,
                 fn($q) =>

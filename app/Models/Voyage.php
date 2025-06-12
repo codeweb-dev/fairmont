@@ -109,6 +109,28 @@ class Voyage extends Model
     }
     // End Kpi
 
+    // For Noon Report Relation
+    public function noon_report()
+    {
+        return $this->hasOne(Report::class);
+    }
+
+    public function weather_observations()
+    {
+        return $this->hasMany(WeatherObservation::class);
+    }
+
+    public function rob_tanks()
+    {
+        return $this->hasMany(RobTank::class);
+    }
+
+    public function rob_fuel_reports()
+    {
+        return $this->hasMany(RobFuelReport::class);
+    }
+    // End Noon Report
+
     public function robs()
     {
         return $this->hasMany(Rob::class);
