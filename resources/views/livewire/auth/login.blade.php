@@ -34,9 +34,7 @@
                     <flux:button icon="information-circle" size="sm" variant="ghost" />
 
                     <flux:tooltip.content class="max-w-[20rem] space-y-2">
-                        <p>Please contact your system administrator.” –
-                            guiding new or unauthorized
-                            users appropriately.</p>
+                        <p>Please contact your system administrator.</p>
                     </flux:tooltip.content>
                 </flux:tooltip>
             </flux:heading>
