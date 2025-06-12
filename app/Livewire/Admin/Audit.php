@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\WithoutUrlPagination;
 
-#[Title('Audit')]
+#[Title('Audit Report')]
 class Audit extends Component
 {
     use WithPagination, WithoutUrlPagination;

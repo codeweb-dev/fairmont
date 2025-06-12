@@ -4,7 +4,9 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\Voyage;
+use Livewire\Attributes\Title;
 
+#[Title('Crew Monitoring Plan Report')]
 class CrewMonitoringPlanReport extends Component
 {
     public $search = '';

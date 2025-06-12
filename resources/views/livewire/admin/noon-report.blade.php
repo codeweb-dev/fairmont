@@ -83,39 +83,39 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>Condition</flux:label>
-                                        <p>{{ $report->noon_report->condition }}</p>
+                                        <p>{{ $report->condition }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Displacement</flux:label>
-                                        <p>{{ $report->noon_report->displacement }}</p>
+                                        <p>{{ $report->displacement }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Cargo</flux:label>
-                                        <p>{{ $report->noon_report->cargo_name }}</p>
+                                        <p>{{ $report->cargo_name }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Weight</flux:label>
-                                        <p>{{ $report->noon_report->cargo_weight }}</p>
+                                        <p>{{ $report->cargo_weight }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Ballast</flux:label>
-                                        <p>{{ $report->noon_report->ballast_weight }}</p>
+                                        <p>{{ $report->ballast_weight }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Fresh Water</flux:label>
-                                        <p>{{ $report->noon_report->fresh_water }}</p>
+                                        <p>{{ $report->fresh_water }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Fwd Draft</flux:label>
-                                        <p>{{ $report->noon_report->fwd_draft }}</p>
+                                        <p>{{ $report->fwd_draft }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Aft Draft</flux:label>
-                                        <p>{{ $report->noon_report->aft_draft }}</p>
+                                        <p>{{ $report->aft_draft }}</p>
                                     </div>
                                     <div>
                                         <flux:label>GM</flux:label>
-                                        <p>{{ $report->noon_report->gm }}</p>
+                                        <p>{{ $report->gm }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -125,55 +125,55 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>Wind Force</flux:label>
-                                        <p>{{ $report->noon_report->wind_force_average_weather }}</p>
+                                        <p>{{ $report->wind_force_average_weather }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Swell</flux:label>
-                                        <p>{{ $report->noon_report->swell }}</p>
+                                        <p>{{ $report->swell }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea Current (Kts)</flux:label>
-                                        <p>{{ $report->noon_report->sea_current }}</p>
+                                        <p>{{ $report->sea_current }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea Temp (°C)</flux:label>
-                                        <p>{{ $report->noon_report->sea_temp }}</p>
+                                        <p>{{ $report->sea_temp }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Observed Wind</flux:label>
-                                        <p>{{ $report->noon_report->observed_wind }}</p>
+                                        <p>{{ $report->observed_wind }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Wind Sea Height (m)</flux:label>
-                                        <p>{{ $report->noon_report->wind_sea_height }}</p>
+                                        <p>{{ $report->wind_sea_height }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea Current Dir.</flux:label>
-                                        <p>{{ $report->noon_report->sea_current_direction }}</p>
+                                        <p>{{ $report->sea_current_direction }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Swell Height (m)</flux:label>
-                                        <p>{{ $report->noon_report->swell_height }}</p>
+                                        <p>{{ $report->swell_height }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Observed Sea Dir.</flux:label>
-                                        <p>{{ $report->noon_report->observed_sea }}</p>
+                                        <p>{{ $report->observed_sea }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Air Temp (°C)</flux:label>
-                                        <p>{{ $report->noon_report->air_temp }}</p>
+                                        <p>{{ $report->air_temp }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Observed Swell Dir.</flux:label>
-                                        <p>{{ $report->noon_report->observed_swell }}</p>
+                                        <p>{{ $report->observed_swell }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea DS</flux:label>
-                                        <p>{{ $report->noon_report->sea_ds }}</p>
+                                        <p>{{ $report->sea_ds }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Atm. Pressure</flux:label>
-                                        <p>{{ $report->noon_report->atm_pressure }}</p>
+                                        <p>{{ $report->atm_pressure }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -183,19 +183,19 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>Wind Force (>0 hrs)</flux:label>
-                                        <p>{{ $report->noon_report->wind_force_previous }}</p>
+                                        <p>{{ $report->wind_force_previous }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Wind Force (continuous)</flux:label>
-                                        <p>{{ $report->noon_report->wind_force_current }}</p>
+                                        <p>{{ $report->wind_force_current }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea State (>0 hrs)</flux:label>
-                                        <p>{{ $report->noon_report->sea_state_previous }}</p>
+                                        <p>{{ $report->sea_state_previous }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea State (continuous)</flux:label>
-                                        <p>{{ $report->noon_report->sea_state_current }}</p>
+                                        <p>{{ $report->sea_state_current }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -318,15 +318,15 @@
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>DG1 Run Hours</flux:label>
-                                        <p>{{ $report->noon_report->dg1_run_hours }}</p>
+                                        <p>{{ $report->dg1_run_hours }}</p>
                                     </div>
                                     <div>
                                         <flux:label>DG2 Run Hours</flux:label>
-                                        <p>{{ $report->noon_report->dg2_run_hours }}</p>
+                                        <p>{{ $report->dg2_run_hours }}</p>
                                     </div>
                                     <div>
                                         <flux:label>DG3 Run Hours</flux:label>
-                                        <p>{{ $report->noon_report->dg3_run_hours }}</p>
+                                        <p>{{ $report->dg3_run_hours }}</p>
                                     </div>
                                 </div>
                             </div>

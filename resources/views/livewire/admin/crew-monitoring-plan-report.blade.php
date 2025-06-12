@@ -55,6 +55,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <div class="pt-4">
                                 <div class="space-y-6">
                                     @if ($report->board_crew->isNotEmpty())

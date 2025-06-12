@@ -1,6 +1,6 @@
 <div>
     <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
-        <h1 class="text-3xl font-bold">Voyage Reports</h1>
+        <h1 class="text-3xl font-bold">KPI Reports</h1>
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
@@ -33,7 +33,7 @@
 
                     <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
                         <div class="space-y-6">
-                            <flux:heading size="lg">Voyage Report Details</flux:heading>
+                            <flux:heading>Voyage Report Details</flux:heading>
 
                             <!-- Bunkering -->
                             <flux:heading size="xl" class="font-bold">Bunkering Details</flux:heading>
@@ -54,22 +54,28 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Master's Info -->
                             @if ($report->master_info)
-                                <flux:heading size="xl" class="font-bold">Master's Info</flux:heading>
+                                <flux:heading>Master's Info</flux:heading>
                                 <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                             @endif
 
+                            <flux:separator />
+
                             <!-- Remarks -->
                             @if ($report->remarks)
-                                <flux:heading size="xl" class="font-bold">Remarks</flux:heading>
+                                <flux:heading>Remarks</flux:heading>
                                 <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
                             @endif
+
+                            <flux:separator />
 
                             <!-- Waste Management -->
                             @if ($report->waste)
                                 <!-- Waste Management -->
-                                <flux:heading size="xl" class="font-bold">Waste Management</flux:heading>
+                                <flux:heading>Waste Management</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Plastics Landed Ashore</flux:label>
@@ -126,8 +132,10 @@
                                     </div>
                                 </div>
 
+                                <flux:separator />
+
                                 <!-- Cargo & Garbage -->
-                                <flux:heading size="xl" class="font-bold">Cargo & Garbage</flux:heading>
+                                <flux:heading>Cargo & Garbage</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Cargo Residues Landed Ashore</flux:label>
@@ -144,8 +152,10 @@
                                     </div>
                                 </div>
 
+                                <flux:separator />
+
                                 <!-- Sludge & Bunker -->
-                                <flux:heading size="xl" class="font-bold">Sludge & Bunker</flux:heading>
+                                <flux:heading>Sludge & Bunker</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Sludge Landed Ashore</flux:label>
@@ -168,6 +178,9 @@
                                         <p class="text-sm">{{ $report->waste->sludge_bunker_ratio ?? '-' }}</p>
                                     </div>
                                 </div>
+
+                                <flux:separator />
+
                                 @if ($report->waste->sludge_remarks)
                                     <div class="pt-2">
                                         <flux:label>Sludge Remarks</flux:label>
@@ -176,7 +189,7 @@
                                 @endif
 
                                 <!-- Bilge Water -->
-                                <flux:heading size="xl" class="font-bold">Bilge Water</flux:heading>
+                                <flux:heading>Bilge Water</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Bilge Discharged OWS</flux:label>
@@ -192,8 +205,10 @@
                                     </div>
                                 </div>
 
+                                <flux:separator />
+
                                 <!-- Consumption -->
-                                <flux:heading size="xl" class="font-bold">Consumption</flux:heading>
+                                <flux:heading>Consumption</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Paper Consumption</flux:label>
@@ -204,6 +219,9 @@
                                         <p class="text-sm">{{ $report->waste->printer_cartridges ?? '-' }}</p>
                                     </div>
                                 </div>
+
+                                <flux:separator />
+
                                 @if ($report->waste->consumption_remarks)
                                     <div class="pt-2">
                                         <flux:label>Consumption Remarks</flux:label>
@@ -212,8 +230,10 @@
                                     </div>
                                 @endif
 
+                                <flux:separator />
+
                                 <!-- Fresh Water -->
-                                <flux:heading size="xl" class="font-bold">Fresh Water</flux:heading>
+                                <flux:heading>Fresh Water</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Fresh Water Generated</flux:label>
@@ -225,8 +245,10 @@
                                     </div>
                                 </div>
 
+                                <flux:separator />
+
                                 <!-- Ballast Water -->
-                                <flux:heading size="xl" class="font-bold">Ballast Water</flux:heading>
+                                <flux:heading>Ballast Water</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Ballast Exchanges</flux:label>
@@ -254,8 +276,10 @@
                                     </div>
                                 </div>
 
+                                <flux:separator />
+
                                 <!-- Cleaning -->
-                                <flux:heading size="xl" class="font-bold">Cleaning</flux:heading>
+                                <flux:heading>Cleaning</flux:heading>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>Propeller Cleanings</flux:label>

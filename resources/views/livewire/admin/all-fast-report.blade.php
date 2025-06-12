@@ -64,16 +64,14 @@
 
                             <div>
                                 <flux:label>ROB Entries</flux:label>
-                                <ul>
+                                <div class="grid grid-cols-4">
                                     @foreach ($report->robs as $rob)
-                                        <li class="mb-2">
-                                            HSFO: {{ $rob->hsfo ?? '0' }},
-                                            BIO: {{ $rob->biofuel ?? '0' }},
-                                            VLSFO: {{ $rob->vlsfo ?? '0' }},
-                                            LSMGO: {{ $rob->lsmgo ?? '0' }}
-                                        </li>
+                                        <p>HSFO : {{ $rob->hsfo ?? '0' }}</p>
+                                        <p>BIO : {{ $rob->biofuel ?? '0' }}</p>
+                                        <p>VLSFO : {{ $rob->vlsfo ?? '0' }}</p>
+                                        <p>LSMGO : {{ $rob->lsmgo ?? '0' }}</p>
                                     @endforeach
-                                </ul>
+                                </div>
                             </div>
 
                             <div class="flex justify-end">

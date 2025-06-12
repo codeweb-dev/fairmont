@@ -6,12 +6,12 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down">
+            {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
             </flux:button>
             <flux:button icon="arrow-down-tray" type="button" wire:click="export">
                 Export Data
-            </flux:button>
+            </flux:button> --}}
         </div>
     </div>
 

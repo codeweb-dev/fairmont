@@ -97,6 +97,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             @if ($report->bunker)
                                 <div class="grid grid-cols-2 gap-4 pt-4">
                                     <flux:heading size="sm" class="col-span-2">Fuel Quantities & Viscosities
@@ -139,6 +141,8 @@
                                     </div>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             @if ($report->assiociated_information)
                                 <div class="grid grid-cols-2 gap-4 pt-4">
@@ -191,12 +195,16 @@
                                 </div>
                             @endif
 
+                            <flux:separator />
+
                             @if ($report->master_info)
                                 <div class="pt-4">
                                     <flux:heading size="sm">Master's Info</flux:heading>
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             @if ($report->remarks)
                                 <div class="pt-4">

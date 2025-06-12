@@ -37,7 +37,7 @@
         />
 
         <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
+            <flux:button type="submit" variant="primary" class="w-full !bg-[#ef233c] text-white">
                 {{ __('Reset password') }}
             </flux:button>
         </div>

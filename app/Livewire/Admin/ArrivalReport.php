@@ -6,7 +6,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
+use Livewire\Attributes\Title;
 
+#[Title('Arrival Report')]
 class ArrivalReport extends Component
 {
     use WithPagination, WithoutUrlPagination;

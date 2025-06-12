@@ -60,6 +60,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Location -->
                             <flux:heading size="sm">Location</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
@@ -73,6 +75,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Off Hire -->
                             <flux:heading size="sm">Off Hire</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
@@ -85,6 +89,8 @@
                                     <p class="text-sm">{{ $report->off_hire->hire_reason }}</p>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- Engine -->
                             <flux:heading size="sm">Engine</flux:heading>
@@ -111,6 +117,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- ROB -->
                             <flux:heading size="sm">ROB</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
@@ -121,6 +129,8 @@
                                     </div>
                                 @endforeach
                             </div>
+
+                            <flux:separator />
 
                             <!-- Received -->
                             <flux:heading size="sm">Received</flux:heading>
@@ -133,6 +143,8 @@
                                 @endforeach
                             </div>
 
+                            <flux:separator />
+
                             <!-- Consumption -->
                             <flux:heading size="sm">Consumption</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
@@ -144,6 +156,8 @@
                                 @endforeach
                             </div>
 
+                            <flux:separator />
+
                             <!-- Master's Info -->
                             @if ($report->master_info)
                                 <div class="pt-4">
@@ -151,6 +165,8 @@
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             <!-- Remarks -->
                             @if ($report->remarks)
