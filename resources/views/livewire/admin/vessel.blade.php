@@ -44,10 +44,9 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Name', 'Date', '', '']">
+    <x-admin-components.table :headers="['Name', 'Date', '', '']">
         @foreach ($_vessel as $vessel)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $vessel->id }}</td>
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
                 <td class="px-3 py-4">{{ $vessel->created_at->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">
@@ -64,23 +63,25 @@
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
                         <flux:menu>
-                            <flux:menu.item icon="eye">
+                            <flux:menu.radio.group>
                                 <flux:modal.trigger name="view-vessel-{{ $vessel->id }}">
-                                    View Assigned User
+                                    <flux:menu.item icon="eye">
+                                        View Assigned User
+                                    </flux:menu.item>
                                 </flux:modal.trigger>
-                            </flux:menu.item>
-                            <flux:menu.item icon="pencil-square">
                                 <flux:modal.trigger name="edit-vessel-{{ $vessel->id }}"
                                     wire:click="setEdit({{ $vessel->id }})">
-                                    Edit
+                                    <flux:menu.item icon="pencil-square">
+                                        Edit
+                                    </flux:menu.item>
                                 </flux:modal.trigger>
-                            </flux:menu.item>
 
-                            <flux:menu.item icon="trash" variant="danger">
                                 <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
-                                    Delete
+                                    <flux:menu.item icon="trash" variant="danger">
+                                        Delete
+                                    </flux:menu.item>
                                 </flux:modal.trigger>
-                            </flux:menu.item>
+                            </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
 
@@ -99,7 +100,8 @@
                                         Select User
                                     </flux:select.option>
                                     @foreach ($users as $user)
-                                        <flux:select.option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()?->name }}</flux:select.option>
+                                        <flux:select.option value="{{ $user->id }}">{{ $user->name }} -
+                                            {{ $user->roles->first()?->name }}</flux:select.option>
                                     @endforeach
                                 </flux:select>
                                 <div class="flex justify-end">
@@ -146,7 +148,8 @@
                                     @foreach ($vessel->users as $user)
                                         <li class="py-4">
                                             <span class="font-medium">{{ $user->name }}</span>
-                                            <flux:badge size="sm" icon="check-badge">{{ $user->roles->pluck('name')->implode(', ') }}</flux:badge>
+                                            <flux:badge size="sm" icon="check-badge">
+                                                {{ $user->roles->pluck('name')->implode(', ') }}</flux:badge>
                                         </li>
                                         @if (!$loop->last)
                                             <flux:separator />

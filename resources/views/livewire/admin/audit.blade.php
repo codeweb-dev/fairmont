@@ -17,10 +17,9 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'User', 'Event', 'Date', '']">
+    <x-admin-components.table :headers="['User', 'Event', 'Date', '']">
         @foreach ($audits as $audit)
         <tr class="hover:bg-white/5 bg-black/5 transition-all">
-            <td class="px-3 py-4">{{ $audit->id }}</td>
             <td class="px-3 py-4">{{ $audit->user?->name ?? 'N/A' }}</td>
             <td class="px-3 py-4">{{ $audit->event }}</td>
             <td class="px-3 py-4">{{ $audit->created_at->diffForHumans() }}</td>

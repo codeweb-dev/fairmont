@@ -39,7 +39,7 @@ class Register extends Component
         if ($user->email === 'admin@gmail.com') {
             $user->assignRole('admin');
         } else {
-            $user->assignRole('user');
+            $user->assignRole('unit');
         }
 
         event(new Registered($user));

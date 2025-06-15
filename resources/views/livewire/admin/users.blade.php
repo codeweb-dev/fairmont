@@ -11,7 +11,7 @@
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
                     @foreach ($pages as $page)
-                    <flux:select.option value="{{ $page }}">{{ $page }}</flux:select.option>
+                        <flux:select.option value="{{ $page }}">{{ $page }}</flux:select.option>
                     @endforeach
                 </flux:select>
             </div>
@@ -50,191 +50,201 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Name', 'Email', 'Role', 'Active', 'Date', '']">
+    <x-admin-components.table :headers="['Name', 'Email', 'Role', 'Active', 'Date', '']">
         @foreach ($users as $user)
-        <tr class="hover:bg-white/5 bg-black/5 transition-all">
-            <td class="px-3 py-4">{{ $user->id }}</td>
-            <td class="px-3 py-4">{{ $user->name }}</td>
-            <td class="px-3 py-4">{{ $user->email }}</td>
-            <td class="px-3 py-4 space-x-1">
-                <flux:badge size="sm" icon="check-badge">{{ $user->roles->first()?->name ? $user->roles->first()?->name
-                    : "No role assigned" }}</flux:badge>
-            </td>
-            <td class="px-3 py-4">
-                @if ($user->is_active)
-                <span class="inline-flex px-2 py-1 rounded bg-green-100 text-green-700">Active</span>
-                @else
-                <span class="inline-flex px-2 py-1 rounded bg-red-100 text-red-700">Deactivated</span>
-                @endif
-            </td>
-            <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
-            <td class="px-3 py-4">
-                @unless (auth()->id() === $user->id)
-                <flux:dropdown>
-                    <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">{{ $user->name }}</td>
+                <td class="px-3 py-4">{{ $user->email }}</td>
+                <td class="px-3 py-4 space-x-1">
+                    <flux:badge size="sm" icon="check-badge">
+                        {{ $user->roles->first()?->name ? $user->roles->first()?->name : 'No role assigned' }}
+                    </flux:badge>
+                </td>
+                <td class="px-3 py-4">
+                    @if ($user->is_active)
+                        <span class="inline-flex px-2 py-1 rounded bg-green-100 text-green-700">Active</span>
+                    @else
+                        <span class="inline-flex px-2 py-1 rounded bg-red-100 text-red-700">Deactivated</span>
+                    @endif
+                </td>
+                <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
+                <td class="px-3 py-4">
+                    @unless (auth()->id() === $user->id)
+                        <flux:dropdown>
+                            <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
-                    <flux:menu>
-                        <flux:menu.item icon="eye">
-                            <flux:modal.trigger name="view-user-{{ $user->id }}">
-                                View
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                        <flux:menu.item icon="pencil-square">
-                            <flux:modal.trigger name="edit-user-{{ $user->id }}" wire:click="setEdit({{ $user->id }})">
-                                Edit
-                            </flux:modal.trigger>
-                        </flux:menu.item>
+                            <flux:menu>
+                                <flux:menu.radio.group>
+                                    <flux:modal.trigger name="view-user-{{ $user->id }}">
+                                        <flux:menu.item icon="eye">
+                                            View
+                                        </flux:menu.item>
+                                    </flux:modal.trigger>
 
-                        @if ($user->is_active)
-                        <flux:menu.item icon="pause" variant="danger">
-                            <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
-                                Deactivate
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                        @else
-                        <flux:menu.item icon="play">
-                            <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
-                                Activate
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                        @endif
+                                    <flux:modal.trigger name="edit-user-{{ $user->id }}"
+                                        wire:click="setEdit({{ $user->id }})">
+                                        <flux:menu.item icon="pencil-square">
+                                            Edit
+                                        </flux:menu.item>
+                                    </flux:modal.trigger>
 
-                        <flux:menu.item icon="trash" variant="danger">
-                            <flux:modal.trigger name="delete-user-{{ $user->id }}">
-                                Delete
-                            </flux:modal.trigger>
-                        </flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
+                                    @if ($user->is_active)
+                                        <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
+                                            <flux:menu.item icon="pause" variant="danger">
+                                                Deactivate
+                                            </flux:menu.item>
+                                        </flux:modal.trigger>
+                                    @else
+                                        <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
+                                            <flux:menu.item icon="play">
+                                                Activate
+                                            </flux:menu.item>
+                                        </flux:modal.trigger>
+                                    @endif
 
-                <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]">
-                    <div class="space-y-6">
-                        <div>
-                            <flux:heading size="lg">
-                                {{ $user->is_active ? 'Deactivate User?' : 'Activate User?' }}
-                            </flux:heading>
-                            <flux:text class="mt-2">
-                                Are you sure you want to
-                                <strong>{{ $user->is_active ? 'deactivate' : 'activate' }}</strong>
-                                the user <strong>{{ $user->name }}</strong>?
-                            </flux:text>
-                        </div>
+                                    <flux:modal.trigger name="delete-user-{{ $user->id }}">
+                                        <flux:menu.item icon="trash" variant="danger">
+                                            Delete
+                                        </flux:menu.item>
+                                    </flux:modal.trigger>
+                                </flux:menu.radio.group>
+                            </flux:menu>
+                        </flux:dropdown>
 
-                        <div class="flex gap-2">
-                            <flux:spacer />
-                            <flux:modal.close>
-                                <flux:button variant="ghost">Cancel</flux:button>
-                            </flux:modal.close>
+                        <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">
+                                        {{ $user->is_active ? 'Deactivate User?' : 'Activate User?' }}
+                                    </flux:heading>
+                                    <flux:text class="mt-2">
+                                        Are you sure you want to
+                                        <strong>{{ $user->is_active ? 'deactivate' : 'activate' }}</strong>
+                                        the user <strong>{{ $user->name }}</strong>?
+                                    </flux:text>
+                                </div>
 
-                            @if ($user->is_active)
-                            <flux:button type="button" variant="danger" wire:click="deactivate({{ $user->id }})">
-                                Deactivate
-                            </flux:button>
-                            @else
-                            <flux:button type="button" wire:click="activate({{ $user->id }})">
-                                Activate
-                            </flux:button>
-                            @endif
-                        </div>
-                    </div>
-                </flux:modal>
+                                <div class="flex gap-2">
+                                    <flux:spacer />
+                                    <flux:modal.close>
+                                        <flux:button variant="ghost">Cancel</flux:button>
+                                    </flux:modal.close>
 
-                <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]">
-                    <div class="space-y-6">
-                        <div>
-                            <flux:heading size="lg">Soft Delete User?</flux:heading>
-                            <flux:text class="mt-2">
-                                Are you sure you want to delete <strong>{{ $user->name }}</strong>?,
-                                This user will not be permanently deleted — it will be moved to trash and
-                                can be restored later.
-                            </flux:text>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <flux:spacer />
-                            <flux:modal.close>
-                                <flux:button variant="ghost">Cancel</flux:button>
-                            </flux:modal.close>
-                            <flux:button type="button" variant="danger" wire:click="delete({{ $user->id }})">
-                                Move to Trash
-                            </flux:button>
-                        </div>
-                    </div>
-                </flux:modal>
-
-                <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
-                    <div class="space-y-6">
-                        <div>
-                            <flux:heading size="lg">User Details</flux:heading>
-                            <flux:text class="mt-2">Here are the details for <strong>{{ $user->name }}</strong>.
-                            </flux:text>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <flux:label>Username</flux:label>
-                                <p class="text-sm font-medium">{{ $user->name }}</p>
+                                    @if ($user->is_active)
+                                        <flux:button type="button" variant="danger"
+                                            wire:click="deactivate({{ $user->id }})">
+                                            Deactivate
+                                        </flux:button>
+                                    @else
+                                        <flux:button type="button" wire:click="activate({{ $user->id }})">
+                                            Activate
+                                        </flux:button>
+                                    @endif
+                                </div>
                             </div>
+                        </flux:modal>
 
-                            <div>
-                                <flux:label>Email</flux:label>
-                                <p class="text-sm font-medium">{{ $user->email }}</p>
+                        <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">Soft Delete User?</flux:heading>
+                                    <flux:text class="mt-2">
+                                        Are you sure you want to delete <strong>{{ $user->name }}</strong>?,
+                                        This user will not be permanently deleted — it will be moved to trash and
+                                        can be restored later.
+                                    </flux:text>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <flux:spacer />
+                                    <flux:modal.close>
+                                        <flux:button variant="ghost">Cancel</flux:button>
+                                    </flux:modal.close>
+                                    <flux:button type="button" variant="danger" wire:click="delete({{ $user->id }})">
+                                        Move to Trash
+                                    </flux:button>
+                                </div>
                             </div>
+                        </flux:modal>
 
-                            <div>
-                                <flux:label>Role</flux:label>
-                                <flux:badge size="sm" icon="check-badge">{{ $user->roles->first()?->name }}</flux:badge>
+                        <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">User Details</flux:heading>
+                                    <flux:text class="mt-2">Here are the details for
+                                        <strong>{{ $user->name }}</strong>.
+                                    </flux:text>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <flux:label>Username</flux:label>
+                                        <p class="text-sm font-medium">{{ $user->name }}</p>
+                                    </div>
+
+                                    <div>
+                                        <flux:label>Email</flux:label>
+                                        <p class="text-sm font-medium">{{ $user->email }}</p>
+                                    </div>
+
+                                    <div>
+                                        <flux:label>Role</flux:label>
+                                        <flux:badge size="sm" icon="check-badge">{{ $user->roles->first()?->name }}
+                                        </flux:badge>
+                                    </div>
+
+                                    <div>
+                                        <flux:label>Created At</flux:label>
+                                        <p class="text-sm text-gray-400">{{ $user->created_at->format('M d, Y h:i A') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <flux:modal.close>
+                                        <flux:button variant="primary">Close</flux:button>
+                                    </flux:modal.close>
+                                </div>
                             </div>
+                        </flux:modal>
 
-                            <div>
-                                <flux:label>Created At</flux:label>
-                                <p class="text-sm text-gray-400">{{ $user->created_at->format('M d, Y h:i A') }}</p>
-                            </div>
-                        </div>
+                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
+                            <form wire:submit.prevent="edit">
+                                <div class="space-y-6">
+                                    <div>
+                                        <flux:heading size="lg">Edit User</flux:heading>
+                                        <flux:text class="mt-2">Update the details for
+                                            <strong>{{ $user->name }}</strong>.
+                                        </flux:text>
+                                    </div>
 
-                        <div class="flex justify-end">
-                            <flux:modal.close>
-                                <flux:button variant="primary">Close</flux:button>
-                            </flux:modal.close>
-                        </div>
-                    </div>
-                </flux:modal>
+                                    <flux:input label="Name" placeholder="Enter new user name" clearable
+                                        wire:model.defer="editData.name" required />
 
-                <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
-                    <form wire:submit.prevent="edit">
-                        <div class="space-y-6">
-                            <div>
-                                <flux:heading size="lg">Edit User</flux:heading>
-                                <flux:text class="mt-2">Update the details for <strong>{{ $user->name }}</strong>.
-                                </flux:text>
-                            </div>
+                                    <flux:input label="Email" placeholder="Enter new user email"
+                                        wire:model.defer="editData.email" clearable required />
 
-                            <flux:input label="Name" placeholder="Enter new user name" clearable
-                                wire:model.defer="editData.name" required />
+                                    <flux:input type="password" label="Password (Optional)"
+                                        placeholder="Enter new user password" wire:model.defer="editData.password"
+                                        viewable />
 
-                            <flux:input label="Email" placeholder="Enter new user email"
-                                wire:model.defer="editData.email" clearable required />
-
-                            <flux:input type="password" label="Password (Optional)"
-                                placeholder="Enter new user password" wire:model.defer="editData.password" viewable />
-
-                            {{-- <flux:select wire:model.defer="editData.role" placeholder="Choose role..."
+                                    {{-- <flux:select wire:model.defer="editData.role" placeholder="Choose role..."
                                 label="Role">
                                 @foreach ($roles as $role)
                                 <flux:select.option value="{{ $role->name }}">{{ $role->name }}</flux:select.option>
                                 @endforeach
                             </flux:select> --}}
 
-                            <div class="flex">
-                                <flux:spacer />
-                                <flux:button type="submit" variant="primary">Update User</flux:button>
-                            </div>
-                        </div>
-                    </form>
-                </flux:modal>
-                @endunless
-            </td>
-        </tr>
+                                    <div class="flex">
+                                        <flux:spacer />
+                                        <flux:button type="submit" variant="primary">Update User</flux:button>
+                                    </div>
+                                </div>
+                            </form>
+                        </flux:modal>
+                    @endunless
+                </td>
+            </tr>
         @endforeach
     </x-admin-components.table>
 
