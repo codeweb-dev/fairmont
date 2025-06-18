@@ -26,16 +26,32 @@
                     {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : '-' }}
                 </td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-voyage-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-voyage-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="">
+                                    <flux:menu.item icon="trash" variant="danger">
+                                        Delete
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
                         <div class="space-y-6">
                             <flux:heading>Voyage Report Details</flux:heading>
 
                             <!-- Bunkering -->
-                            <flux:heading size="xl" class="font-bold">Bunkering Details</flux:heading>
+                            <flux:heading class="font-bold">Bunkering Details</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <flux:label>Vessel</flux:label>
@@ -44,6 +60,11 @@
                                 <div>
                                     <flux:label>Unit</flux:label>
                                     <p class="text-sm">{{ $report->unit->name ?? '-' }}</p>
+                                </div>
+
+                                <div>
+                                    <flux:label>Report Type</flux:label>
+                                    <p class="text-sm">{{ $report->report_type ?? '-' }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Date</flux:label>

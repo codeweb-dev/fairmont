@@ -16,16 +16,7 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="[
-        'Report Type',
-        'Vessel',
-        'Unit',
-        'Voyage No',
-        'Arrival Port',
-        'Port GMT Offset',
-        'Date/Time (LT)',
-        '',
-    ]">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Arrival Port', 'Port GMT Offset', 'Date/Time (LT)', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
@@ -36,9 +27,25 @@
                 <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y H:i') }}</td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-arrival-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-arrival-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="">
+                                    <flux:menu.item icon="trash" variant="danger">
+                                        Delete
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-arrival-{{ $report->id }}" class="min-w-[28rem] md:w-[64rem]">
                         <div class="space-y-6">
