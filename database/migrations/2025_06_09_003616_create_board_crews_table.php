@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('current_date')->nullable();
             $table->string('days_contract_completion')->nullable();
             $table->string('months_on_board')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

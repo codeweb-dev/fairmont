@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('engines', function (Blueprint $table) {
+        Schema::create('master_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('voyage_id')->constrained()->onDelete('cascade');
-            $table->decimal('avg_me_rpm', 10, 3)->nullable();
-            $table->decimal('avg_me_kw', 10, 3)->nullable();
-            $table->decimal('tdr', 10, 3)->nullable();
-            $table->decimal('tst', 10, 3)->nullable();
-            $table->decimal('slip', 10, 3)->nullable();
+            $table->text('master_info')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('engines');
+        Schema::dropIfExists('master_infos');
     }
 };

@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
+use Masmerise\Toaster\Toaster;
 
 #[Title('Port Of Call Report')]
 class PortOfCallReport extends Component
@@ -24,6 +25,13 @@ class PortOfCallReport extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete(); // This will soft delete it
+        Toaster::success('Port Of Call Report soft deleted successfully.');
     }
 
     public function render()

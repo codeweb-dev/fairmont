@@ -32,6 +32,8 @@ return new class extends Migration
             $table->string('gmt')->nullable();
             $table->integer('duration_days')->nullable();
             $table->integer('total_days')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

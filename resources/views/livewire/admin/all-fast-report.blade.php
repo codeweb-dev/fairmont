@@ -29,9 +29,25 @@
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-report-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View All Details</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-report-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="delete-report-{{ $report->id }}">
+                                    <flux:menu.item icon="trash" variant="danger">
+                                        Delete
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[38rem]">
                         <div class="space-y-6">
@@ -77,6 +93,30 @@
                                 <flux:modal.close>
                                     <flux:button variant="primary">Close</flux:button>
                                 </flux:modal.close>
+                            </div>
+                        </div>
+                    </flux:modal>
+
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                        <div class="space-y-6">
+                            <div>
+                                <flux:heading size="lg">Soft Delete Report?</flux:heading>
+                                <flux:text class="mt-2">
+                                    Are you sure you want to delete the Noon Report for
+                                    <strong>{{ $report->vessel->name }}</strong> on
+                                    <strong>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : 'N/A' }}</strong>?
+                                    This report will not be permanently deleted and can be restored if needed.
+                                </flux:text>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <flux:spacer />
+                                <flux:modal.close>
+                                    <flux:button variant="ghost">Cancel</flux:button>
+                                </flux:modal.close>
+                                <flux:button type="button" variant="danger" wire:click="delete({{ $report->id }})">
+                                    Move to Trash
+                                </flux:button>
                             </div>
                         </div>
                     </flux:modal>

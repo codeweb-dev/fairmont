@@ -53,6 +53,7 @@ return new class extends Migration
             $table->date('delivered')->nullable();
             $table->string('shipyard')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

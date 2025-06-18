@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('ge_cc_oil', 10, 3)->nullable();
             $table->decimal('fw', 10, 3)->nullable();
             $table->decimal('fw_produced', 10, 3)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

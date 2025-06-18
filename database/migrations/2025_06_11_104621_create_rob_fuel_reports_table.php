@@ -42,6 +42,8 @@ return new class extends Migration
             $table->string('ae_cc_qty')->nullable();
             $table->string('ae_cc_hrs')->nullable();
             $table->string('ae_cc_cons')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

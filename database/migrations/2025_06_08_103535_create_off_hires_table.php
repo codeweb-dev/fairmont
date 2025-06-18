@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('voyage_id')->constrained()->onDelete('cascade');
             $table->string('hire_hours')->nullable();
             $table->string('hire_reason')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

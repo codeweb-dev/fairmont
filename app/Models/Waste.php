@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Waste extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'plastics_landed_ashore',
         'plastics_incinerated',

@@ -367,19 +367,6 @@ class NoonReport extends Component
             'master_info' => 'nullable|string|max:5000',
         ]);
 
-        $voyage = Voyage::create([
-            'vessel_id' => $this->vessel_id,
-            'unit_id' => Auth::id(),
-            'report_type' => 'Noon Report',
-            'voyage_no' => $this->voyage_no,
-            'port_gmt_offset' => $this->port_gmt_offset,
-            'all_fast_datetime' => $this->all_fast_datetime,
-            'gmt_offset' => $this->gmt_offset,
-            'port' => $this->port,
-            'bunkering_port' => $this->bunkering_port,
-            'supplier' => $this->supplier,
-        ]);
-
         $filledFuelTypes = collect($this->rob_data)->filter(function ($data) {
             return collect($data['tanks'])->contains(function ($tank) {
                 return !empty($tank['description']) ||
@@ -393,6 +380,19 @@ class NoonReport extends Component
             Toaster::error('At least one ROB tank must have data before submitting.');
             return;
         }
+
+        $voyage = Voyage::create([
+            'vessel_id' => $this->vessel_id,
+            'unit_id' => Auth::id(),
+            'report_type' => 'Noon Report',
+            'voyage_no' => $this->voyage_no,
+            'port_gmt_offset' => $this->port_gmt_offset,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'gmt_offset' => $this->gmt_offset,
+            'port' => $this->port,
+            'bunkering_port' => $this->bunkering_port,
+            'supplier' => $this->supplier,
+        ]);
 
         Notification::create([
             'text' => "{$voyage->report_type} report has been created.",

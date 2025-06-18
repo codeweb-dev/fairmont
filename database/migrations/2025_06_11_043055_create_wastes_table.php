@@ -69,6 +69,7 @@ return new class extends Migration
             $table->string('propeller_cleanings')->nullable();
             $table->string('hull_cleanings')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

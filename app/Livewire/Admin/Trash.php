@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User;
+use App\Models\Voyage;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
@@ -16,6 +17,7 @@ class Trash extends Component
 {
     use WithPagination, WithoutUrlPagination;
     protected $paginationTheme = 'tailwind';
+    public string $viewing = 'users';
 
     public string $search = '';
     public $perPage = 10;
@@ -45,21 +47,35 @@ class Trash extends Component
         Flux::modal('force-delete-user-' . $id)->close();
     }
 
+    public function restoreReport($id)
+    {
+        Voyage::onlyTrashed()->findOrFail($id)->restore();
+        Toaster::success('Report restored successfully.');
+        Flux::modal('restore-report-' . $id)->close();
+    }
+
+    public function forceDeleteReport($id)
+    {
+        Voyage::onlyTrashed()->findOrFail($id)->forceDelete();
+        Toaster::success('Report permanently deleted.');
+        Flux::modal('force-delete-report-' . $id)->close();
+    }
+
     public function render()
     {
-        $query = User::onlyTrashed()->with('roles');
+        $query = null;
 
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
+        if ($this->viewing === 'users') {
+            $query = User::onlyTrashed()
+                ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"));
+        } else {
+            $query = Voyage::onlyTrashed()
+                ->with(['vessel', 'unit'])
+                ->when($this->search, fn($q) => $q->where('voyage_no', 'like', "%{$this->search}%"));
         }
 
-        $users = $query->orderBy('deleted_at', 'desc')->paginate($this->perPage);
-
         return view('livewire.admin.trash', [
-            'users' => $users,
+            'items' => $query->paginate($this->perPage),
             'pages' => $this->pages,
         ]);
     }

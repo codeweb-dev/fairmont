@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('total_crew_change')->nullable();
             $table->string('reason_change')->nullable();
             $table->string('remarks')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

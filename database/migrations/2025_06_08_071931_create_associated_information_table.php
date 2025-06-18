@@ -32,6 +32,7 @@ return new class extends Migration
 
             $table->string('pumping_gmt')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

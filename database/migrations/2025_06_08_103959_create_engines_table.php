@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rob_tanks', function (Blueprint $table) {
+        Schema::create('engines', function (Blueprint $table) {
             $table->id();
             $table->foreignId('voyage_id')->constrained()->onDelete('cascade');
-            $table->string('tank_no')->nullable();
-            $table->string('description')->nullable();
-            $table->string('grade')->nullable();
-            $table->string('capacity')->nullable();
-            $table->string('unit')->nullable();
-            $table->string('rob')->nullable();
-            $table->date('supply_date')->nullable();
+            $table->decimal('avg_me_rpm', 10, 3)->nullable();
+            $table->decimal('avg_me_kw', 10, 3)->nullable();
+            $table->decimal('tdr', 10, 3)->nullable();
+            $table->decimal('tst', 10, 3)->nullable();
+            $table->decimal('slip', 10, 3)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rob_tanks');
+        Schema::dropIfExists('engines');
     }
 };

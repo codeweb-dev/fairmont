@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('sea_direction')->nullable();
             $table->string('sea_ds')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

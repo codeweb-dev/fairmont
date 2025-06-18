@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('lsmgo_quantity', 10, 3)->nullable();
             $table->string('lsmgo_viscosity')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

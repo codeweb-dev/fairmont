@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
+use Masmerise\Toaster\Toaster;
 
 #[Title('Crew Monitoring Plan Report')]
 class CrewMonitoringPlanReport extends Component
@@ -12,6 +13,26 @@ class CrewMonitoringPlanReport extends Component
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
+    public $editData = [
+        'name' => '',
+    ];
+    public $editId = null;
+
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete(); // This will soft delete it
+        Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
+    }
 
     public function render()
     {

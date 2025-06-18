@@ -29,6 +29,14 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // $user = User::firstOrCreate(
+        //     ['email' => 'admin@gmail.com'],
+        //     [
+        //         'name' => 'Admin',
+        //         'password' => Hash::make('labrague123'),
+        //     ]
+        // );
+
         // Step 3: Assign 'admin' role
         $user->assignRole('admin');
     }

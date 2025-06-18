@@ -41,6 +41,13 @@ class AllFastReport extends Component
         $this->resetPage();
     }
 
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete(); // This will soft delete it
+        Toaster::success('All Fast Report soft deleted successfully.');
+    }
+
     public function render()
     {
         $reports = Voyage::query()

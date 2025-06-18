@@ -81,6 +81,7 @@ return new class extends Migration
             $table->string('dg2_run_hours')->nullable();
             $table->string('dg3_run_hours')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

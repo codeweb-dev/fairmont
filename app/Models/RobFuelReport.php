@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RobFuelReport extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'voyage_id',
         'fuel_type',

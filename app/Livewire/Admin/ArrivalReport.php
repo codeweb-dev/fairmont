@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
+use Masmerise\Toaster\Toaster;
 
 #[Title('Arrival Report')]
 class ArrivalReport extends Component
@@ -27,6 +28,13 @@ class ArrivalReport extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete(); // This will soft delete it
+        Toaster::success('Arrival Report soft deleted successfully.');
     }
 
     public function render()

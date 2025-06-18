@@ -25,6 +25,8 @@ return new class extends Migration
             // For Port Of Call
             $table->string('voyage_no')->nullable();
             $table->string('charterers')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
