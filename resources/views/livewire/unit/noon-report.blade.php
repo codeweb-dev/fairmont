@@ -34,6 +34,7 @@
                         wire:model.defer="all_fast_datetime" />
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
                         <flux:select.option value="" disabled selected>Select</flux:select.option>
+
                         @foreach ($gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach

@@ -29,49 +29,11 @@
                     <flux:input label="All Fast Date/Time (LT)" type="date" badge="Required" max="2999-12-31"
                         required wire:model.defer="all_fast_datetime" />
 
-                    <flux:select label="GMT Offset" badge="Required" required wire:model.defer="gmt_offset">
-                        <flux:select.option value="" selected disabled>Select</flux:select.option>
-                        <flux:select.option value="GMT-12:00">GMT-12:00</flux:select.option>
-                        <flux:select.option value="GMT-11:00">GMT-11:00</flux:select.option>
-                        <flux:select.option value="GMT-10:00">GMT-10:00</flux:select.option>
-                        <flux:select.option value="GMT-09:30">GMT-09:30</flux:select.option>
-                        <flux:select.option value="GMT-09:00">GMT-09:00</flux:select.option>
-                        <flux:select.option value="GMT-08:00">GMT-08:00</flux:select.option>
-                        <flux:select.option value="GMT-07:00">GMT-07:00</flux:select.option>
-                        <flux:select.option value="GMT-06:00">GMT-06:00</flux:select.option>
-                        <flux:select.option value="GMT-05:00">GMT-05:00</flux:select.option>
-                        <flux:select.option value="GMT-04:30">GMT-04:30</flux:select.option>
-                        <flux:select.option value="GMT-04:00">GMT-04:00</flux:select.option>
-                        <flux:select.option value="GMT-03:30">GMT-03:30</flux:select.option>
-                        <flux:select.option value="GMT-03:00">GMT-03:00</flux:select.option>
-                        <flux:select.option value="GMT-02:30">GMT-02:30</flux:select.option>
-                        <flux:select.option value="GMT-02:00">GMT-02:00</flux:select.option>
-                        <flux:select.option value="GMT-01:00">GMT-01:00</flux:select.option>
-                        <flux:select.option value="GMT">GMT</flux:select.option>
-                        <flux:select.option value="GMT+01:00">GMT+01:00</flux:select.option>
-                        <flux:select.option value="GMT+02:00">GMT+02:00</flux:select.option>
-                        <flux:select.option value="GMT+02:30">GMT+02:30</flux:select.option>
-                        <flux:select.option value="GMT+03:00">GMT+03:00</flux:select.option>
-                        <flux:select.option value="GMT+03:30">GMT+03:30</flux:select.option>
-                        <flux:select.option value="GMT+04:00">GMT+04:00</flux:select.option>
-                        <flux:select.option value="GMT+04:30">GMT+04:30</flux:select.option>
-                        <flux:select.option value="GMT+05:00">GMT+05:00</flux:select.option>
-                        <flux:select.option value="GMT+05:30">GMT+05:30</flux:select.option>
-                        <flux:select.option value="GMT+06:00">GMT+06:00</flux:select.option>
-                        <flux:select.option value="GMT+06:30">GMT+06:30</flux:select.option>
-                        <flux:select.option value="GMT+07:00">GMT+07:00</flux:select.option>
-                        <flux:select.option value="GMT+08:00">GMT+08:00</flux:select.option>
-                        <flux:select.option value="GMT+09:00">GMT+09:00</flux:select.option>
-                        <flux:select.option value="GMT+09:30">GMT+09:30</flux:select.option>
-                        <flux:select.option value="GMT+10:00">GMT+10:00</flux:select.option>
-                        <flux:select.option value="GMT+10:30">GMT+10:30</flux:select.option>
-                        <flux:select.option value="GMT+11:00">GMT+11:00</flux:select.option>
-                        <flux:select.option value="GMT+11:30">GMT+11:30</flux:select.option>
-                        <flux:select.option value="GMT+12:00">GMT+12:00</flux:select.option>
-                        <flux:select.option value="GMT+12:45">GMT+12:45</flux:select.option>
-                        <flux:select.option value="GMT+13:00">GMT+13:00</flux:select.option>
-                        <flux:select.option value="GMT+13:45">GMT+13:45</flux:select.option>
-                        <flux:select.option value="GMT+14:00">GMT+14:00</flux:select.option>
+                    <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
+                        <flux:select.option value="">Select GMT Offset</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
+                            <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
+                        @endforeach
                     </flux:select>
 
                     <flux:input label="Port" badge="Required" required wire:model.defer="port" />
