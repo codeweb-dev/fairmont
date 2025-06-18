@@ -16,10 +16,9 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Report Type', 'Vessel', 'Unit', 'Date', '']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>

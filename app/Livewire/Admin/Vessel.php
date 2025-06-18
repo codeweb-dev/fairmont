@@ -31,6 +31,9 @@ class Vessel extends Component
     public $selectedVesselId = null;
     public $selectedUserId = null;
 
+    public $reassignUserId = null;
+    public $reassignToVesselId = null;
+
     public function updatingPerPage()
     {
         $this->resetPage();
@@ -134,6 +137,33 @@ class Vessel extends Component
         Flux::modal('assign-user-' . $vessel->id)->close();
         $this->selectedVesselId = null;
         $this->selectedUserId = null;
+    }
+
+    public function reassignUserToVessel()
+    {
+        if (!$this->reassignUserId || !$this->reassignToVesselId) {
+            Toaster::error('Please select both user and vessel.');
+            return;
+        }
+
+        $user = User::find($this->reassignUserId);
+        $newVessel = ModelsVessel::find($this->reassignToVesselId);
+
+        if (!$user || !$newVessel) {
+            Toaster::error('User or Vessel not found.');
+            return;
+        }
+
+        // Detach user from all current vessels
+        $user->vessels()->detach();
+
+        // Attach to new vessel
+        $newVessel->users()->attach($user->id);
+
+        Toaster::success("{$user->name} has been reassigned to {$newVessel->name}.");
+
+        Flux::modal('reassign-user')->close();
+        $this->reset(['reassignUserId', 'reassignToVesselId']);
     }
 
     public function render()

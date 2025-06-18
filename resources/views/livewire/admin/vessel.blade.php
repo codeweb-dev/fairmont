@@ -44,19 +44,11 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Name', 'Date', '', '']">
+    <x-admin-components.table :headers="['Name', 'Date', '']">
         @foreach ($_vessel as $vessel)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
                 <td class="px-3 py-4">{{ $vessel->created_at->format('M d, h:i A') }}</td>
-                <td class="px-3 py-4">
-                    <flux:modal.trigger name="assign-user-{{ $vessel->id }}">
-                        <flux:button icon="plus" size="xs"
-                            wire:click="openAssignUserModal({{ $vessel->id }})">
-                            Assign Unit/Officer
-                        </flux:button>
-                    </flux:modal.trigger>
-                </td>
 
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -64,11 +56,24 @@
 
                         <flux:menu>
                             <flux:menu.radio.group>
-                                <flux:modal.trigger name="view-vessel-{{ $vessel->id }}">
-                                    <flux:menu.item icon="eye">
-                                        View Assigned User
+                                <flux:modal.trigger name="assign-user-{{ $vessel->id }}">
+                                    <flux:menu.item icon="plus">
+                                        Assign Unit/Officer
                                     </flux:menu.item>
                                 </flux:modal.trigger>
+
+                                <flux:modal.trigger name="reassign-user">
+                                    <flux:menu.item icon="arrow-path">
+                                        Reassign Unit/Officer
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="view-vessel-{{ $vessel->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Assigned Unit/Officer
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
                                 <flux:modal.trigger name="edit-vessel-{{ $vessel->id }}"
                                     wire:click="setEdit({{ $vessel->id }})">
                                     <flux:menu.item icon="pencil-square">
@@ -192,6 +197,39 @@
             </tr>
         @endforeach
     </x-admin-components.table>
+
+    <flux:modal name="reassign-user" class="min-w-[24rem] md:w-[32rem]">
+        <form wire:submit.prevent="reassignUserToVessel">
+            <div class="space-y-6">
+                <div>
+                    <flux:heading size="lg">Reassign Unit or Officer</flux:heading>
+                    <flux:text class="mt-2">Select a user and a new vessel to reassign them.
+                    </flux:text>
+                </div>
+
+                <flux:select wire:model="reassignUserId" label="Select User">
+                    <flux:select.option value="">Select a user</flux:select.option>
+                    @foreach ($users as $user)
+                        <flux:select.option value="{{ $user->id }}">
+                            {{ $user->name }} - {{ $user->roles->first()?->name }}
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
+
+                <flux:select wire:model="reassignToVesselId" label="Select New Vessel">
+                    <flux:select.option value="">Select a vessel</flux:select.option>
+                    @foreach ($_vessel as $vessel)
+                        <flux:select.option value="{{ $vessel->id }}">{{ $vessel->name }}
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
+
+                <div class="flex justify-end">
+                    <flux:button type="submit" variant="primary">Reassign</flux:button>
+                </div>
+            </div>
+        </form>
+    </flux:modal>
 
     <div class="mt-6">
         {{ $_vessel->links() }}

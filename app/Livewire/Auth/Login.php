@@ -55,6 +55,13 @@ class Login extends Component
             ]);
         }
 
+        if ($user->getRoleNames()->isEmpty()) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'Your account does not have an assigned role. Please contact the administrator.'
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 

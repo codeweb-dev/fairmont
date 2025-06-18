@@ -19,7 +19,6 @@
     </div>
 
     <x-admin-components.table :headers="[
-        'ID',
         'Vessel',
         'Unit',
         'Master Info',
@@ -27,7 +26,6 @@
     ]">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">{{ $report->master_info ? $report->master_info->master_info : '-' }}</td>

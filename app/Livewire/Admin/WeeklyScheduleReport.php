@@ -8,7 +8,7 @@ use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
 
-#[Title('Weeklu Schedule Report')]
+#[Title('Weekly Schedule Report')]
 class WeeklyScheduleReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
