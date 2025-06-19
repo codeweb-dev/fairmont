@@ -94,7 +94,7 @@
             <flux:legend>Departure Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" required wire:model.defer="condition">
+                    <flux:select label="Condition" required wire:model.defer="condition" required>
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
@@ -135,7 +135,7 @@
 
                     <flux:input label="ETA (LT)" type="date" wire:model.defer="eta_lt" />
 
-                    <flux:select label="GMT Offset" badge="Required" required wire:model.defer="gmt_offset_voyage">
+                    <flux:select label="GMT Offset" required wire:model.defer="gmt_offset_voyage">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}
@@ -250,7 +250,7 @@
                         <tr>
                             <!-- ME CYL -->
                             <td class="px-4 py-2">
-                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" required>
                                     <flux:select.option>TBN 100</flux:select.option>
                                     <flux:select.option>TBN 70</flux:select.option>
                                     <flux:select.option>TBN 40</flux:select.option>

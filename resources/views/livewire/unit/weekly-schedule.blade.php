@@ -52,7 +52,7 @@
 
                     <div class="grid grid-cols-4 gap-4">
                         <flux:input label="Port" wire:model="ports.{{ $pIndex }}.port" />
-                        <flux:select label="Activity" wire:model="ports.{{ $pIndex }}.activity">
+                        <flux:select label="Activity" required wire:model="ports.{{ $pIndex }}.activity">
                             <flux:select.option value="">Select</flux:select.option>
                             <flux:select.option value="Loading">Loading</flux:select.option>
                             <flux:select.option value="Bunkering">Bunkering</flux:select.option>
@@ -61,7 +61,7 @@
                         <flux:input type="datetime-local" label="ETA/ETB"
                             wire:model="ports.{{ $pIndex }}.eta_etb" />
                         <flux:input type="datetime-local" label="ETCD" wire:model="ports.{{ $pIndex }}.etcd" />
-                        <flux:select label="Cargo" wire:model="ports.{{ $pIndex }}.cargo">
+                        <flux:select label="Cargo" required wire:model="ports.{{ $pIndex }}.cargo">
                             <flux:select.option value="">Select</flux:select.option>
                             <flux:select.option value="Oil">Oil</flux:select.option>
                             <flux:select.option value="Coal">Coal</flux:select.option>

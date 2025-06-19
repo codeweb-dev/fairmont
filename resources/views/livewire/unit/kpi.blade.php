@@ -1,6 +1,6 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Voyage</flux:heading>
+        <flux:heading size="xl" class="font-bold">KPI</flux:heading>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
@@ -24,7 +24,7 @@
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
 
                     <flux:select label="Fleet" badge="Required" required wire:model.defer="port">
-                        <flux:select.option value="" disabled selected>Select Fleet</flux:select.option>
+                        <flux:select.option value="">Select Fleet</flux:select.option>
                         <flux:select.option value="1">1</flux:select.option>
                         <flux:select.option value="2">2</flux:select.option>
                         <flux:select.option value="3">3</flux:select.option>
@@ -35,7 +35,7 @@
                     </flux:select>
 
                     <flux:select label="Vessel Type" badge="Required" required wire:model.defer="gmt_offset">
-                        <flux:select.option value="" disabled selected>Select Vessel Type</flux:select.option>
+                        <flux:select.option value="">Select Vessel Type</flux:select.option>
                         <flux:select.option value="Bulk">Bulk</flux:select.option>
                         <flux:select.option value="Container">Container</flux:select.option>
                         <flux:select.option value="Reefer">Reefer</flux:select.option>
@@ -115,14 +115,13 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Voyage</flux:legend>
+            <flux:legend>Voyage Report</flux:legend>
 
             <div class="space-y-6">
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
-                    <flux:input label="Total Sailing Days" badge="Required" wire:model.defer="call_sign" />
-                    <flux:input label="Eco Speed Sailing Days" badge="Required" wire:model.defer="flag" />
-                    <flux:input label="Full Speed Sailing Days" badge="Required"
-                        wire:model.defer="port_of_registry" />
+                    <flux:input label="Total Sailing Days" wire:model.defer="call_sign" />
+                    <flux:input label="Eco Speed Sailing Days" wire:model.defer="flag" />
+                    <flux:input label="Full Speed Sailing Days" wire:model.defer="port_of_registry" />
                 </div>
             </div>
         </flux:fieldset>
@@ -134,10 +133,9 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
-                    <flux:input label="No. of Fatalities" badge="Required" wire:model.defer="official_number" />
-                    <flux:input label="LTI (Lost Time Injuries)" badge="Required" wire:model.defer="imo_number" />
-                    <flux:input label="No. of Recordable Injuries" badge="Required"
-                        wire:model.defer="class_society" />
+                    <flux:input label="No. of Fatalities" wire:model.defer="official_number" />
+                    <flux:input label="LTI (Lost Time Injuries)" wire:model.defer="imo_number" />
+                    <flux:input label="No. of Recordable Injuries" wire:model.defer="class_society" />
                 </div>
             </div>
         </flux:fieldset>
@@ -149,8 +147,7 @@
 
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:input label="No. of Corruption/Bribery/Entertainment for Port Officials" badge="Required"
-                        wire:model.defer="class_no" />
+                    <flux:input label="No. of Corruption/Bribery/Entertainment for Port Officials" wire:model.defer="class_no" />
                 </div>
             </div>
         </flux:fieldset>
@@ -162,17 +159,14 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:input label="Number of PSC Inspections" badge="Required" wire:model.defer="pi_club" />
-                    <flux:input label="PSC No. of Deficiencies" badge="Required" wire:model.defer="loa" />
-                    <flux:input label="PSC Detentions (if any)" badge="Required" wire:model.defer="lbp" />
-                    <flux:input label="Number of Flag State Inspections" badge="Required"
-                        wire:model.defer="breadth_extreme" />
+                    <flux:input label="Number of PSC Inspections" wire:model.defer="pi_club" />
+                    <flux:input label="PSC No. of Deficiencies" wire:model.defer="loa" />
+                    <flux:input label="PSC Detentions (if any)" wire:model.defer="lbp" />
+                    <flux:input label="Number of Flag State Inspections" wire:model.defer="breadth_extreme" />
 
-                    <flux:input label="Flag No. of Deficiencies" badge="Required" wire:model.defer="depth_moulded" />
-                    <flux:input label="Third Party Inspections (Charterers, Owners, RISQ, Others)" badge="Required"
-                        wire:model.defer="height_maximum" />
-                    <flux:input label="Third Party No. of Deficiencies" badge="Required"
-                        wire:model.defer="bridge_front_bow" />
+                    <flux:input label="Flag No. of Deficiencies" wire:model.defer="depth_moulded" />
+                    <flux:input label="Third Party Inspections (Charterers, Owners, RISQ, Others)" wire:model.defer="height_maximum" />
+                    <flux:input label="Third Party No. of Deficiencies" wire:model.defer="bridge_front_bow" />
                 </div>
             </div>
         </flux:fieldset>

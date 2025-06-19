@@ -31,7 +31,7 @@
             <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
                 <flux:fieldset>
                     <flux:legend>
-                        On Board Crew {{ $index + 1 }}
+                        Board Crew {{ $index + 1 }}
                     </flux:legend>
 
                     <div class="space-y-6">
@@ -64,7 +64,7 @@
                         @if (count($board_crew) > 1)
                             <flux:button variant="danger" wire:click="removeBoardRow({{ $index }})"
                                 class="float-right ml-4">
-                                Remove {{ $index + 1 }}
+                                Remove Board Crew {{ $index + 1 }}
                             </flux:button>
                         @endif
                     </div>
@@ -76,7 +76,7 @@
             <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
                 <flux:fieldset>
                     <flux:legend>
-                        Crew Change Data {{ $index + 1 }}
+                        Crew {{ $index + 1 }}
                     </flux:legend>
 
                     <div class="space-y-6">
@@ -108,7 +108,7 @@
                         @if (count($crew_change) > 1)
                             <flux:button variant="danger" wire:click="removeCrewRow({{ $index }})"
                                 class="float-right ml-4">
-                                Remove {{ $index + 1 }}
+                                Remove Crew {{ $index + 1 }}
                             </flux:button>
                         @endif
                     </div>

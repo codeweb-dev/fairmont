@@ -32,7 +32,7 @@
                     </flux:select>
                     <flux:input label="Date/Time (LT)" type="date" max="2999-12-31" badge="Required" required
                         wire:model.defer="all_fast_datetime" />
-                    <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
+                    <flux:select label="GMT Offset" required badge="Required" wire:model.defer="gmt_offset" required>
                         <flux:select.option value="">Select GMT Offset</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
@@ -164,7 +164,7 @@
             <flux:legend>Noon Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" badge="Required" required wire:model.defer="condition">
+                    <flux:select label="Condition" required required wire:model.defer="condition">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
@@ -423,7 +423,7 @@
                                     </td>
                                     <td class="px-4 py-2">
                                         <flux:select
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade">
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade" required>
                                             <flux:select.option>{{ $type }}</flux:select.option>
                                             @foreach (array_keys($rob_data) as $other)
                                                 @if ($other !== $type)
@@ -438,7 +438,7 @@
                                     </td>
                                     <td class="px-4 py-2">
                                         <flux:select
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit">
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit" required>
                                             <flux:select.option>MT</flux:select.option>
                                             <flux:select.option>L</flux:select.option>
                                             <flux:select.option>GAL</flux:select.option>

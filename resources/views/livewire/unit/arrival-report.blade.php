@@ -209,7 +209,7 @@
                         <tr>
                             <!-- ME CYL -->
                             <td class="px-4 py-2">
-                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" required>
                                     <flux:select.option>TBN 100</flux:select.option>
                                     <flux:select.option>TBN 70</flux:select.option>
                                     <flux:select.option>TBN 40</flux:select.option>
