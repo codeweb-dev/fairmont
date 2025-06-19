@@ -29,11 +29,12 @@
                         required />
 
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
+
                     <flux:input label="Latitude" badge="Required" required wire:model.defer="port" />
                     <flux:input label="Longitude" badge="Required" required wire:model.defer="bunkering_port" />
                     <flux:select label="Departure Type" badge="Required" required wire:model.live="port_gmt_offset">
@@ -75,10 +76,10 @@
                         <flux:input label="ETA Next Port (LT)" type="datetime" wire.model.defer="eta_next_port" />
                     </div>
                     <div class="col-span-2">
-                        <flux:select label="ETA GMT Offset" badge="Required" wire:model.defer="maneuvering_hours"
+                        <flux:select label="ETA GMT Offset" wire:model.defer="maneuvering_hours"
                             required>
-                            <flux:select.option value="" disabled selected>Select</flux:select.option>
-                            @foreach ($gmtOffsets as $offset)
+                            <flux:select.option value="">Select</flux:select.option>
+                            @foreach ($this->gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                             @endforeach
                         </flux:select>
@@ -93,7 +94,8 @@
             <flux:legend>Departure Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" badge="Required" required wire:model.defer="condition">
+                    <flux:select label="Condition" required wire:model.defer="condition">
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
                     </flux:select>
@@ -120,8 +122,9 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Next Port" wire:model.defer="next_port_voyage" />
 
-                    <flux:select label="Via" badge="Required" required wire:model.defer="via">
-                        <flux:select.option value="Direct">Direct</flux:select.option>
+                    <flux:select label="Via" required wire:model.defer="via">
+                        <flux:select.option value="">Select</flux:select.option>
+                        <flux:select.option>Direct</flux:select.option>
                         <flux:select.option>Cape Horn</flux:select.option>
                         <flux:select.option>Cape of Good Hope</flux:select.option>
                         <flux:select.option>Gibraltar</flux:select.option>
@@ -133,8 +136,8 @@
                     <flux:input label="ETA (LT)" type="date" wire:model.defer="eta_lt" />
 
                     <flux:select label="GMT Offset" badge="Required" required wire:model.defer="gmt_offset_voyage">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}
                             </flux:select.option>
                         @endforeach

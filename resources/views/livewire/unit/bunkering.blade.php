@@ -28,8 +28,8 @@
                     <flux:input label="Bunkering Port" badge="Required" required wire:model.defer="bunkering_port" />
 
                     <flux:select label="Supplier" badge="Required" required wire:model.defer="supplier">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($_supplier as $supplier)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->_supplier as $supplier)
                             <flux:select.option value="{{ $supplier }}">{{ $supplier }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -38,8 +38,8 @@
                         wire:model.defer="port_etd" />
 
                     <flux:select label="Port GMT Offset" badge="Required" required wire:model.defer="port_gmt_offset">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -49,8 +49,8 @@
 
                     <flux:select label="Bunker GMT Offset" badge="Required" required
                         wire:model.defer="bunker_gmt_offset">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -66,28 +66,28 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input type="number" label="HSFO Quantity (MT)" wire:model.defer="hsfo_quantity" />
                     <flux:select label="HSFO Viscosity (CST)" required wire:model.defer="hsfo_viscosity">
-                        <flux:select.option value="" selected disabled>Select</flux:select.option>
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
                     <flux:input type="number" label="BIOFUEL Quantity (MT)" wire:model.defer="biofuel_quantity" />
                     <flux:select label="BIOFUEL Viscosity (CST)" required wire:model.defer="biofuel_viscosity">
-                        <flux:select.option value="" selected disabled>Select</flux:select.option>
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
                     <flux:input type="number" label="VLSFO Quantity (MT)" wire:model.defer="vlsfo_quantity" />
                     <flux:select label="VLSFO Viscosity (CST)" required wire:model.defer="vlsfo_viscosity">
-                        <flux:select.option value="" selected disabled>Select</flux:select.option>
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
                     <flux:input type="number" label="LSMGO Quantity (MT)" wire:model.defer="lsmgo_quantity" />
                     <flux:select label="LSMGO Viscosity (CST)" required wire:model.defer="lsmgo_viscosity">
-                        <flux:select.option value="" selected disabled>Select</flux:select.option>
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
@@ -102,8 +102,8 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:select label="In Port vs Off Shore Delivery" required wire:model.defer="port_delivery">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -111,8 +111,8 @@
                     <flux:input type="date" label="EOSP (LT)" wire:model.defer="eosp" />
 
                     <flux:select label="EOSP GMT Offset" required wire:model.defer="eosp_gmt">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -120,8 +120,8 @@
                     <flux:input type="date" label="Barge Alongside (LT)" wire:model.defer="barge" />
 
                     <flux:select label="Barge Alongside GMT Offset" required wire:model.defer="barge_gmt">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -129,8 +129,8 @@
                     <flux:input type="date" label="COSP (LT)" wire:model.defer="cosp" />
 
                     <flux:select label="COSP GMT Offset" required wire:model.defer="cosp_gmt">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -138,8 +138,8 @@
                     <flux:input type="date" label="Anchor Dropped (LT)" wire:model.defer="anchor" />
 
                     <flux:select label="Anchor Dropped GMT Offset" required wire:model.defer="anchor_gmt">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -147,8 +147,8 @@
                     <flux:input type="date" label="Pumping Completed (LT)" wire:model.defer="pumping" />
 
                     <flux:select label="Pumping Completed GMT Offset" required wire:model.defer="pumping_gmt">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>

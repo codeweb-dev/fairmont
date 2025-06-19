@@ -15,7 +15,49 @@ class DepartureReport extends Component
     public $master_info;
     public $remarks;
     public $vesselName = null;
-    public array $gmtOffsets = [];
+    public array $gmtOffsets = [
+        "GMT-12:00",
+        "GMT-11:00",
+        "GMT-10:00",
+        "GMT-09:30",
+        "GMT-09:00",
+        "GMT-08:00",
+        "GMT-07:00",
+        "GMT-06:00",
+        "GMT-05:00",
+        "GMT-04:30",
+        "GMT-04:00",
+        "GMT-03:30",
+        "GMT-03:00",
+        "GMT-02:30",
+        "GMT-02:00",
+        "GMT-01:00",
+        "GMT",
+        "GMT+01:00",
+        "GMT+02:00",
+        "GMT+02:30",
+        "GMT+03:00",
+        "GMT+03:30",
+        "GMT+04:00",
+        "GMT+04:30",
+        "GMT+05:00",
+        "GMT+05:30",
+        "GMT+06:00",
+        "GMT+06:30",
+        "GMT+07:00",
+        "GMT+08:00",
+        "GMT+09:00",
+        "GMT+09:30",
+        "GMT+10:00",
+        "GMT+10:30",
+        "GMT+11:00",
+        "GMT+11:30",
+        "GMT+12:00",
+        "GMT+12:45",
+        "GMT+13:00",
+        "GMT+13:45",
+        "GMT+14:00",
+    ];
 
     // Voyage Details
     public $voyage_no;
@@ -176,50 +218,6 @@ class DepartureReport extends Component
         } else {
             abort(403, 'You are not assigned to a vessel.');
         }
-
-        $this->gmtOffsets = [
-            "GMT-12:00",
-            "GMT-11:00",
-            "GMT-10:00",
-            "GMT-09:30",
-            "GMT-09:00",
-            "GMT-08:00",
-            "GMT-07:00",
-            "GMT-06:00",
-            "GMT-05:00",
-            "GMT-04:30",
-            "GMT-04:00",
-            "GMT-03:30",
-            "GMT-03:00",
-            "GMT-02:30",
-            "GMT-02:00",
-            "GMT-01:00",
-            "GMT",
-            "GMT+01:00",
-            "GMT+02:00",
-            "GMT+02:30",
-            "GMT+03:00",
-            "GMT+03:30",
-            "GMT+04:00",
-            "GMT+04:30",
-            "GMT+05:00",
-            "GMT+05:30",
-            "GMT+06:00",
-            "GMT+06:30",
-            "GMT+07:00",
-            "GMT+08:00",
-            "GMT+09:00",
-            "GMT+09:30",
-            "GMT+10:00",
-            "GMT+10:30",
-            "GMT+11:00",
-            "GMT+11:30",
-            "GMT+12:00",
-            "GMT+12:45",
-            "GMT+13:00",
-            "GMT+13:45",
-            "GMT+14:00",
-        ];
     }
 
     public function save()
@@ -297,7 +295,7 @@ class DepartureReport extends Component
             'aft_draft' => $this->aft_draft,
             'gm' => $this->gm,
 
-             // Voyage Itinerary
+            // Voyage Itinerary
             'next_port_voyage' => $this->next_port_voyage,
             'via' => $this->via,
             'eta_lt' => $this->eta_lt,

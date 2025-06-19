@@ -29,8 +29,8 @@
                         required />
 
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -88,7 +88,8 @@
             <flux:legend>Arrival Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" badge="Required" required wire:model.defer="condition">
+                    <flux:select label="Condition" required wire:model.defer="condition">
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
                     </flux:select>

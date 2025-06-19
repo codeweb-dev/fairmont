@@ -33,9 +33,8 @@
                     <flux:input label="Date/Time (LT)" type="date" max="2999-12-31" badge="Required" required
                         wire:model.defer="all_fast_datetime" />
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-
-                        @foreach ($gmtOffsets as $offset)
+                        <flux:select.option value="">Select GMT Offset</flux:select.option>
+                        @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -166,6 +165,7 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:select label="Condition" badge="Required" required wire:model.defer="condition">
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
                     </flux:select>
@@ -192,7 +192,8 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Wind Force (Bft.) (T)" wire:model.defer="wind_force_average_weather" />
 
-                    <flux:select label="Swell" badge="Required" required wire:model.defer="swell">
+                    <flux:select label="Swell" required wire:model.defer="swell">
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="00 NO SWELL">00 NO SWELL</flux:select.option>
                         <flux:select.option value="01 LOW SWELL, SHORT OR AVERAGE LENGTH">01 LOW SWELL, SHORT OR
                             AVERAGE LENGTH</flux:select.option>
@@ -214,39 +215,39 @@
                     <flux:input label="Sea Currents (Kts) (Rel.)" wire:model.defer="sea_current" />
                     <flux:input label="Sea Temp (Deg. C)" wire:model.defer="sea_temp" />
 
-                    <flux:select label="Observed Wind Dir. (T)" badge="Required" required
+                    <flux:select label="Observed Wind Dir. (T)" required
                         wire:model.defer="observed_wind">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($directions as $direction)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
                     <flux:input label="Wind Sea Height (m)" wire:model.defer="wind_sea_height" />
 
-                    <flux:select label="Sea Current Direction (Rel.)" badge="Required" required
+                    <flux:select label="Sea Current Direction (Rel.)" required
                         wire:model.defer="sea_current_direction">
-                        <flux:select.option value="">Select..</flux:select.option>
+                        <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Favorable">Favorable</flux:select.option>
                         <flux:select.option value="Againts">Againts</flux:select.option>
                     </flux:select>
 
                     <flux:input label="Swell Height (m)" wire:model.defer="swell_height" />
 
-                    <flux:select label="Observed Sea Dir. (T)" badge="Required" required
+                    <flux:select label="Observed Sea Dir. (T)" required
                         wire:model.defer="observed_sea">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($directions as $direction)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
                     <flux:input label="Air Temp (Deg. C)" wire:model.defer="air_temp" />
 
-                    <flux:select label="Observed Swell Dir. (T)" badge="Required" required
+                    <flux:select label="Observed Swell Dir. (T)" required
                         wire:model.defer="observed_swell">
-                        <flux:select.option value="" disabled selected>Select</flux:select.option>
-                        @foreach ($directions as $direction)
+                        <flux:select.option value="">Select</flux:select.option>
+                        @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
@@ -301,7 +302,7 @@
                                         label="" required>
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
-                                        @foreach ($winds as $wind)
+                                        @foreach ($this->winds as $wind)
                                             <flux:select.option value="{{ $wind }}">{{ $wind }}
                                             </flux:select.option>
                                         @endforeach
@@ -313,7 +314,7 @@
                                         label="" required>
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
-                                        @foreach ($directions as $direction)
+                                        @foreach ($this->directions as $direction)
                                             <flux:select.option value="{{ $direction }}">{{ $direction }}
                                             </flux:select.option>
                                         @endforeach
@@ -330,7 +331,7 @@
                                         label="" required>
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
-                                        @foreach ($directions as $direction)
+                                        @foreach ($this->directions as $direction)
                                             <flux:select.option value="{{ $direction }}">{{ $direction }}
                                             </flux:select.option>
                                         @endforeach
@@ -347,7 +348,7 @@
                                         label="" required>
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
-                                        @foreach ($directions as $direction)
+                                        @foreach ($this->directions as $direction)
                                             <flux:select.option value="{{ $direction }}">{{ $direction }}
                                             </flux:select.option>
                                         @endforeach
@@ -359,7 +360,7 @@
                                         label="" required>
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
-                                        @foreach ($seas as $sea)
+                                        @foreach ($this->seas as $sea)
                                             <flux:select.option value="{{ $sea }}">{{ $sea }}
                                             </flux:select.option>
                                         @endforeach
