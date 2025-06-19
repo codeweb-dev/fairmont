@@ -18,12 +18,12 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Vessel', 'Unit', 'Master Info', 'Actions']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ $report->master_info ? $report->master_info->master_info : '-' }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />

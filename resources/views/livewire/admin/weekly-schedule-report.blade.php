@@ -16,9 +16,10 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Vessel', 'Unit', 'Voyage No', 'All Fast Date', 'Actions']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'All Fast Date', 'Actions']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
@@ -66,13 +67,6 @@
                                     <p class="text-sm">{{ $report->all_fast_datetime }}</p>
                                 </div>
                             </div>
-
-                            @if ($report->master_info)
-                                <div>
-                                    <flux:label>Master's Info</flux:label>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
 
                             @foreach ($report->ports as $pIndex => $port)
                                 <div>
@@ -127,6 +121,15 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            <flux:separator />
+
+                            @if ($report->master_info)
+                                <div>
+                                    <flux:label>Master's Info</flux:label>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                </div>
+                            @endif
 
                             <div class="flex justify-end pt-6">
                                 <flux:modal.close>
