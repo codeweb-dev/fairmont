@@ -19,7 +19,6 @@
     </div>
 
     <x-admin-components.table :headers="[
-        'ID',
         'Report Type',
         'Vessel',
         'Unit',
@@ -34,7 +33,6 @@
     ]">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
@@ -50,9 +48,25 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->bunker_gmt_offset }}</td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-report-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View All Details</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-report-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="edit-report-{{ $report->id }}">
+                                    <flux:menu.item icon="pencil-square">
+                                        Edit
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
                         <div class="space-y-6">
@@ -97,6 +111,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             @if ($report->bunker)
                                 <div class="grid grid-cols-2 gap-4 pt-4">
                                     <flux:heading size="sm" class="col-span-2">Fuel Quantities & Viscosities
@@ -139,6 +155,8 @@
                                     </div>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             @if ($report->assiociated_information)
                                 <div class="grid grid-cols-2 gap-4 pt-4">
@@ -191,12 +209,16 @@
                                 </div>
                             @endif
 
+                            <flux:separator />
+
                             @if ($report->master_info)
                                 <div class="pt-4">
                                     <flux:heading size="sm">Master's Info</flux:heading>
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             @if ($report->remarks)
                                 <div class="pt-4">
@@ -212,7 +234,6 @@
                             </div>
                         </div>
                     </flux:modal>
-
                 </td>
             </tr>
         @endforeach

@@ -15,18 +15,33 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Report Type', 'Vessel', 'Unit', 'Created', 'Actions']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->created_at->format('d M Y H:i') }}</td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-portofcall-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-portofcall-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="edit-portofcall-{{ $report->id }}">
+                                    <flux:menu.item icon="pencil-square">
+                                        Edit
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-portofcall-{{ $report->id }}" class="w-full max-w-6xl">
                         <div class="space-y-6">

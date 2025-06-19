@@ -18,10 +18,9 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['ID', 'Report Type', 'Vessel', 'Unit', 'Voyage No', 'Date', '']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Date', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
@@ -30,9 +29,25 @@
                     {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : '-' }}
                 </td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-voyage-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-voyage-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="edit-voyage-{{ $report->id }}">
+                                    <flux:menu.item icon="pencil-square">
+                                        Edit
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
                         <div class="space-y-6">
@@ -46,10 +61,6 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
-                                <div>
                                     <flux:label>Voyage No</flux:label>
                                     <p class="text-sm">{{ $report->voyage_no }}</p>
                                 </div>
@@ -59,6 +70,8 @@
                                         {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}</p>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- Location -->
                             <flux:heading size="sm">Location</flux:heading>
@@ -73,6 +86,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Off Hire -->
                             <flux:heading size="sm">Off Hire</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
@@ -85,6 +100,8 @@
                                     <p class="text-sm">{{ $report->off_hire->hire_reason }}</p>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- Engine -->
                             <flux:heading size="sm">Engine</flux:heading>
@@ -111,6 +128,8 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- ROB -->
                             <flux:heading size="sm">ROB</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
@@ -121,6 +140,8 @@
                                     </div>
                                 @endforeach
                             </div>
+
+                            <flux:separator />
 
                             <!-- Received -->
                             <flux:heading size="sm">Received</flux:heading>
@@ -133,6 +154,8 @@
                                 @endforeach
                             </div>
 
+                            <flux:separator />
+
                             <!-- Consumption -->
                             <flux:heading size="sm">Consumption</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
@@ -144,6 +167,8 @@
                                 @endforeach
                             </div>
 
+                            <flux:separator />
+
                             <!-- Master's Info -->
                             @if ($report->master_info)
                                 <div class="pt-4">
@@ -151,6 +176,8 @@
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
+
+                            <flux:separator />
 
                             <!-- Remarks -->
                             @if ($report->remarks)

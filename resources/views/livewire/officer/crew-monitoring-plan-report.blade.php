@@ -18,23 +18,32 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="[
-        'ID',
-        'Vessel',
-        'Unit',
-        'Master Info',
-        'Actions'
-    ]">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $report->id }}</td>
+                <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ $report->master_info ? $report->master_info->master_info : '-' }}</td>
                 <td class="px-3 py-4">
-                    <flux:modal.trigger name="view-report-{{ $report->id }}">
-                        <flux:button icon="eye" size="xs">View All Details</flux:button>
-                    </flux:modal.trigger>
+                    <flux:dropdown>
+                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
+
+                        <flux:menu>
+                            <flux:menu.radio.group>
+                                <flux:modal.trigger name="view-report-{{ $report->id }}">
+                                    <flux:menu.item icon="eye">
+                                        View Details
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="edit-report-{{ $report->id }}">
+                                    <flux:menu.item icon="pencil-square">
+                                        Edit
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
 
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
                         <div class="space-y-6">
@@ -51,9 +60,13 @@
                                 </div>
                                 <div>
                                     <flux:label>Master's Info</flux:label>
-                                    <p class="text-sm">{{ $report->master_info ? $report->master_info->master_info : 'No information available' }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->master_info ? $report->master_info->master_info : 'No information available' }}
+                                    </p>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <div class="pt-4">
                                 <div class="space-y-6">
@@ -63,11 +76,16 @@
                                             <div class="space-y-4">
                                                 @foreach ($report->board_crew as $crew)
                                                     <div class="mt-6">
-                                                        <p class="mb-3"><strong>First Name:</strong> {{ $crew->crew_first_name }}</p>
-                                                        <p class="mb-3"><strong>Surname:</strong> {{ $crew->crew_surname }}</p>
-                                                        <p class="mb-3"><strong>Rank:</strong> {{ $crew->rank }}</p>
-                                                        <p class="mb-3"><strong>Joining Date:</strong> {{ $crew->joining_date }}</p>
-                                                        <p class="mb-3"><strong>Contract Completion:</strong> {{ $crew->contract_completion }}</p>
+                                                        <p class="mb-3"><strong>First Name:</strong>
+                                                            {{ $crew->crew_first_name }}</p>
+                                                        <p class="mb-3"><strong>Surname:</strong>
+                                                            {{ $crew->crew_surname }}</p>
+                                                        <p class="mb-3"><strong>Rank:</strong> {{ $crew->rank }}
+                                                        </p>
+                                                        <p class="mb-3"><strong>Joining Date:</strong>
+                                                            {{ $crew->joining_date }}</p>
+                                                        <p class="mb-3"><strong>Contract Completion:</strong>
+                                                            {{ $crew->contract_completion }}</p>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -80,13 +98,20 @@
                                             <div class="space-y-4">
                                                 @foreach ($report->crew_change as $crew)
                                                     <div class="mt-6">
-                                                        <p class="mb-3"><strong>Port:</strong> {{ $crew->port }}</p>
-                                                        <p class="mb-3"><strong>Country:</strong> {{ $crew->country }}</p>
-                                                        <p class="mb-3"><strong>Joiners Boarding:</strong> {{ $crew->joiners_boarding }}</p>
-                                                        <p class="mb-3"><strong>Off-signers:</strong> {{ $crew->off_signers }}</p>
-                                                        <p class="mb-3"><strong>Joiner Ranks:</strong> {{ $crew->joiner_ranks }}</p>
-                                                        <p class="mb-3"><strong>Off-Signer Ranks:</strong> {{ $crew->off_signer_ranks }}</p>
-                                                        <p class="mb-3"><strong>Total Crew Change:</strong> {{ $crew->total_crew_change }}</p>
+                                                        <p class="mb-3"><strong>Port:</strong> {{ $crew->port }}
+                                                        </p>
+                                                        <p class="mb-3"><strong>Country:</strong>
+                                                            {{ $crew->country }}</p>
+                                                        <p class="mb-3"><strong>Joiners Boarding:</strong>
+                                                            {{ $crew->joiners_boarding }}</p>
+                                                        <p class="mb-3"><strong>Off-signers:</strong>
+                                                            {{ $crew->off_signers }}</p>
+                                                        <p class="mb-3"><strong>Joiner Ranks:</strong>
+                                                            {{ $crew->joiner_ranks }}</p>
+                                                        <p class="mb-3"><strong>Off-Signer Ranks:</strong>
+                                                            {{ $crew->off_signer_ranks }}</p>
+                                                        <p class="mb-3"><strong>Total Crew Change:</strong>
+                                                            {{ $crew->total_crew_change }}</p>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -102,7 +127,6 @@
                             </div>
                         </div>
                     </flux:modal>
-
                 </td>
             </tr>
         @endforeach
