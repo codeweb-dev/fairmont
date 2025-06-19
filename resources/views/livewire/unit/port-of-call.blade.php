@@ -17,7 +17,7 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Voyage Details</flux:legend>
+            <flux:legend>Vessel Details</flux:legend>
 
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
@@ -66,34 +66,38 @@
             @foreach ($ports as $pIndex => $port)
                 <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md space-y-6">
                     <div class="grid grid-cols-3 gap-4">
-                        <flux:input label="Voyage No" wire:model="ports.{{ $pIndex }}.voyage_no" />
-                        <flux:input label="Cargo" wire:model="ports.{{ $pIndex }}.cargo" />
-                        <flux:input label="Charterers" wire:model="ports.{{ $pIndex }}.charterers" />
+                        <flux:input label="Voyage No" required wire:model="ports.{{ $pIndex }}.voyage_no" />
+                        <flux:input label="Cargo" required wire:model="ports.{{ $pIndex }}.cargo" />
+                        <flux:input label="Charterers" required wire:model="ports.{{ $pIndex }}.charterers" />
                     </div>
 
                     @foreach ($port['agents'] as $aIndex => $agent)
                         <div>
                             <div class="grid grid-cols-6 gap-3 items-end mt-2">
-                                <flux:input label="Port of Calling"
+                                <flux:input required label="Port of Calling"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.port_of_calling" />
-                                <flux:input label="Country"
+                                <flux:input required label="Country"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.country" />
-                                <flux:input label="Purpose"
+                                <flux:input required label="Purpose"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.purpose" />
-                                <flux:input label="ATA/ETA Date" type="date"
+                                <flux:input required label="ATA/ETA Date" type="date"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ata_eta_date" />
-                                <flux:input label="ATA/ETA Time" type="time"
+                                <flux:input required label="ATA/ETA Time" type="time"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ata_eta_time" />
-                                <flux:input label="Ship Info Date" type="date"
+                                <flux:input required label="Ship Info Date" type="date"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_date" />
-                                <flux:input label="Ship Info Time" type="time"
+                                <flux:input required label="Ship Info Time" type="time"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_time" />
-                                <flux:input label="GMT"
+                                <flux:input required label="GMT"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.gmt" />
-                                <flux:input label="Duration (Days)" type="number"
+                                <flux:input required label="Duration (Days)" type="number"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.duration_days" />
-                                <flux:input label="Total (Days)" type="number"
+                                <flux:input required label="Total (Days)" type="number"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.total_days" />
+                                <flux:button icon="plus" variant="filled"
+                                    wire:click="addAgent({{ $pIndex }})">
+                                    Add Agent
+                                </flux:button>
                                 @if (count($port['agents']) > 1)
                                     <flux:button variant="danger" class="w-full" icon="trash"
                                         wire:click="removeAgent({{ $pIndex }}, {{ $aIndex }})" />
@@ -107,14 +111,9 @@
                     @endforeach
 
                     <div class="flex items-center gap-3 mt-4">
-                        <flux:button icon="plus" variant="filled" size="sm"
-                            wire:click="addAgent({{ $pIndex }})">
-                            Add Agent
-                        </flux:button>
 
                         @if (count($ports) > 1)
-                            <flux:button variant="danger" size="sm"
-                                wire:click="removePort({{ $pIndex }})">
+                            <flux:button variant="danger" wire:click="removePort({{ $pIndex }})">
                                 Remove Port
                             </flux:button>
                         @endif
@@ -129,7 +128,7 @@
             <flux:legend>Master's Info</flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" />
+                    <flux:textarea rows="8" required wire:model.defer="master_info" />
                 </div>
             </div>
         </flux:fieldset>
