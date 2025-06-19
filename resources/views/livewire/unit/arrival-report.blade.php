@@ -47,7 +47,7 @@
 
                     @if ($port_gmt_offset === 'Pilot Station')
                         <flux:input label="Anchored Hours" badge="Required" required wire:model.defer="call_sign" />
-                        <flux:input label="Drifting Hours" badge="Required" required wire:model.defer="" />
+                        <flux:input label="Drifting Hours" badge="Required" required wire:model.defer="flag" />
                     @endif
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <!-- Row 3 -->
                     <flux:input label="Avg RPM" wire:model.defer='avg_rpm' />
                     <flux:input label="Engine Distance (NM)" wire:model.defer='engine_distance' />
-                    <flux:input label="Slip (%)" wire:model.defer='slip' />
+                    <flux:input label="Slip (%)" wire:model.defer='next_port' />
                     <flux:input label="Avg Power (KW)" wire:model.defer='avg_power' />
                     <!-- Row 4 -->
                     <flux:input label="Logged Distance (NM)" wire:model.defer='logged_distance' />

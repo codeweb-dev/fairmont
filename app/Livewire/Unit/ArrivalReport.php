@@ -84,7 +84,7 @@ class ArrivalReport extends Component
 
     public $avg_rpm;
     public $engine_distance;
-    public $slip;
+    public $next_port;
     public $avg_power;
 
     public $logged_distance;
@@ -279,7 +279,7 @@ class ArrivalReport extends Component
 
             'avg_rpm' => $this->avg_rpm,
             'engine_distance' => $this->engine_distance,
-            'slip' => $this->slip,
+            'next_port' => $this->next_port,
             'avg_power' => $this->avg_power,
 
             'logged_distance' => $this->logged_distance,
@@ -332,7 +332,7 @@ class ArrivalReport extends Component
 
             'avg_rpm',
             'engine_distance',
-            'slip',
+            'next_port',
             'avg_power',
 
             'logged_distance',
