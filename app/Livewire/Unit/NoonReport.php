@@ -437,6 +437,7 @@ class NoonReport extends Component
         }
 
         $voyage->noon_report()->create([
+            // Details Since Last Report
             'cp_ordered_speed' => $this->cp_ordered_speed,
             'me_cons_cp_speed' => $this->me_cons_cp_speed,
             'obs_distance' => $this->obs_distance,

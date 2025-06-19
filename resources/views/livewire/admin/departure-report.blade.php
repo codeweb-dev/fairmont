@@ -16,15 +16,12 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Departure Port', 'Departure Type', 'Date/Time (LT)', '']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date/Time (LT)', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ $report->supplier }}</td>
-                <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y H:i') }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -56,20 +53,8 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
-                                <div>
                                     <flux:label>Voyage No</flux:label>
                                     <p class="text-sm">{{ $report->voyage_no }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Departure Type</flux:label>
-                                    <p class="text-sm">{{ $report->port_gmt_offset }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Departure Port</flux:label>
-                                    <p class="text-sm">{{ $report->supplier }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Date/Time (LT)</flux:label>
@@ -87,6 +72,14 @@
                                     <flux:label>Longitude</flux:label>
                                     <p class="text-sm">{{ $report->bunkering_port }}</p>
                                 </div>
+                                <div>
+                                    <flux:label>Departure Type</flux:label>
+                                    <p class="text-sm">{{ $report->port_gmt_offset }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Departure Port</flux:label>
+                                    <p class="text-sm">{{ $report->supplier }}</p>
+                                </div>
                             </div>
 
                             <flux:separator />
@@ -99,32 +92,20 @@
                                         <p class="text-sm">{{ $report->noon_report->cp_ordered_speed }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>M/E Cons. at CP Speed</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->me_cons_cp_speed }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Observed Distance</flux:label>
+                                        <flux:label>Obs. Distance (NM)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->obs_distance }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Steaming Time</flux:label>
+                                        <flux:label>Steaming Time (Hrs)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->steaming_time }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Average Speed</flux:label>
+                                        <flux:label>Avg Speed (Kts)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->avg_speed }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Distance to Go</flux:label>
+                                        <flux:label>Distance to go (NM)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->distance_to_go }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Breakdown</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->breakdown }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Maneuvering Hours</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->maneuvering_hours }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Average RPM</flux:label>
@@ -135,28 +116,36 @@
                                         <p class="text-sm">{{ $report->noon_report->engine_distance }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Slip</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->slip }}</p>
+                                        <flux:label>Slip (%)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->maneuvering_hours }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Average Power</flux:label>
+                                        <flux:label>Average Power (RPM)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->avg_power }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Logged Distance</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->logged_distance }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Speed Through Water</flux:label>
-                                        <p class="text-sm">{{ $report->noon_report->speed_through_water }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Course</flux:label>
+                                        <flux:label>Course (Deg)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->course }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>ETA Next Port</flux:label>
+                                        <flux:label>Logged Distance (NM)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->logged_distance }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Speed Through Water (Kts)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->speed_through_water }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Next Port</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->next_port }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>ETA Next Port (LT)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->eta_next_port }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>ETA GMT Offset</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->eta_gmt_offset }}</p>
                                     </div>
                                 </div>
 
@@ -366,8 +355,7 @@
                                 <flux:modal.close>
                                     <flux:button variant="ghost">Cancel</flux:button>
                                 </flux:modal.close>
-                                <flux:button type="button" variant="danger"
-                                    wire:click="delete({{ $report->id }})">
+                                <flux:button type="button" variant="danger" wire:click="delete({{ $report->id }})">
                                     Move to Trash
                                 </flux:button>
                             </div>

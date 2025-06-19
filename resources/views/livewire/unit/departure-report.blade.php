@@ -65,18 +65,21 @@
                     <flux:input label="Distance to go (NM)" wire:model.defer='distance_to_go' />
                     <flux:input label="Avg RPM" wire:model.defer='avg_rpm' />
                     <flux:input label="Engine Distance (NM)" wire:model.defer='engine_distance' />
-                    <flux:input label="Slip (%)" wire:model.defer='slip' />
+                    <flux:input label="Slip (%)" wire:model.defer='maneuvering_hours' />
                     <!-- Row 3 -->
                     <flux:input label="Avg Power (KW)" wire:model.defer='avg_power' />
                     <flux:input label="Course (Deg)" wire:model.defer='course' />
                     <flux:input label="Logged Distance (NM)" wire:model.defer='logged_distance' />
                     <flux:input label="Speed Through Water (Kts)" wire:model.defer='speed_through_water' />
                     <!-- Row 4: ETA fields, use col-span-2 to fill the row if desired -->
-                    <div class="col-span-2">
-                        <flux:input label="ETA Next Port (LT)" type="datetime" wire.model.defer="eta_next_port" />
+                    <div>
+                        <flux:input label="Next Port" wire:model.defer="next_port" />
                     </div>
-                    <div class="col-span-2">
-                        <flux:select label="ETA GMT Offset" wire:model.defer="maneuvering_hours"
+                    <div>
+                        <flux:input label="ETA Next Port (LT)" type="date" wire:model.defer="eta_next_port" />
+                    </div>
+                    <div>
+                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset"
                             required>
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($this->gmtOffsets as $offset)

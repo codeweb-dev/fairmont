@@ -77,17 +77,19 @@ class DepartureReport extends Component
     public $avg_speed;
     public $distance_to_go;
     public $breakdown;
-    public $maneuvering_hours;
+    public $eta_gmt_offset;
 
     public $avg_rpm;
     public $engine_distance;
-    public $slip;
+    public $maneuvering_hours;
     public $avg_power;
 
     public $logged_distance;
     public $speed_through_water;
     public $course;
     public $eta_next_port;
+
+    public $next_port;
 
     // Noon Conditions
     public $condition;
@@ -272,18 +274,19 @@ class DepartureReport extends Component
 
             'avg_speed' => $this->avg_speed,
             'distance_to_go' => $this->distance_to_go,
-            'breakdown' => $this->breakdown,
             'maneuvering_hours' => $this->maneuvering_hours,
+            'eta_gmt_offset' => $this->eta_gmt_offset,
 
             'avg_rpm' => $this->avg_rpm,
             'engine_distance' => $this->engine_distance,
-            'slip' => $this->slip,
             'avg_power' => $this->avg_power,
 
             'logged_distance' => $this->logged_distance,
             'speed_through_water' => $this->speed_through_water,
             'course' => $this->course,
             'eta_next_port' => $this->eta_next_port,
+
+            'next_port' => $this->next_port,
 
             'condition' => $this->condition,
             'displacement' => $this->displacement,
@@ -307,7 +310,7 @@ class DepartureReport extends Component
         $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
-        Toaster::success('Arrival Report Created Successfully.');
+        Toaster::success('Departure Report Created Successfully.');
         $this->clearForm();
     }
 
@@ -333,11 +336,13 @@ class DepartureReport extends Component
             'avg_speed',
             'distance_to_go',
             'breakdown',
-            'maneuvering_hours',
+
+            'eta_next_port',
+            'next_port',
 
             'avg_rpm',
             'engine_distance',
-            'slip',
+            'maneuvering_hours',
             'avg_power',
 
             'logged_distance',

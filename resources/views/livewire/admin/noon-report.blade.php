@@ -16,14 +16,12 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Port', 'Date', '']">
+    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date/Time (LT)', '']">
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ $report->port }}</td>
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">
@@ -49,7 +47,7 @@
 
                     <flux:modal name="view-report-{{ $report->id }}" class="max-w-screen-lg">
                         <div class="space-y-6">
-                            <flux:heading size="lg">Noon Report - Voyage {{ $report->voyage_no }}</flux:heading>
+                            <flux:heading size="lg">Noon Report</flux:heading>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
@@ -57,12 +55,18 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
+                                    <flux:label>Voyage No</flux:label>
+                                    <p class="text-sm">{{ $report->voyage_no }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Port</flux:label>
-                                    <p class="text-sm">{{ $report->port }}</p>
+                                    <flux:label>Report Type</flux:label>
+                                    <p class="text-sm">{{ $report->report_type }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Date</flux:label>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>GMT Offset</flux:label>
@@ -80,17 +84,102 @@
                                     <flux:label>Port of Departure</flux:label>
                                     <p class="text-sm">{{ $report->supplier }}</p>
                                 </div>
-                                <div>
-                                    <flux:label>Date</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>Report Type</flux:label>
-                                    <p class="text-sm">{{ $report->report_type }}</p>
+                            </div>
+
+                            <flux:separator />
+
+                            <!-- Details Since Last Report -->
+                            <div>
+                                <flux:label class="text-lg font-bold mb-2">Details Since Last Report</flux:label>
+                                <div class="grid grid-cols-4 gap-4">
+                                    <div>
+                                        <flux:label>CP/Ordered Speed (Kts)</flux:label>
+                                        <p>{{ $report->noon_report->cp_ordered_speed ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
+                                        <p>{{ $report->noon_report->me_cons_cp_speed ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Obs. Distance (NM)</flux:label>
+                                        <p>{{ $report->noon_report->obs_distance ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Steaming Time (Hrs)</flux:label>
+                                        <p>{{ $report->noon_report->steaming_time ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Avg Speed (Kts)</flux:label>
+                                        <p>{{ $report->noon_report->avg_speed ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Distance to go (NM)</flux:label>
+                                        <p>{{ $report->noon_report->distance_to_go ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Course (Deg)</flux:label>
+                                        <p>{{ $report->noon_report->course ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Breakdown (Hrs)</flux:label>
+                                        <p>{{ $report->noon_report->breakdown ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Average RPM</flux:label>
+                                        <p>{{ $report->noon_report->avg_rpm ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Engine Distance (NM)</flux:label>
+                                        <p>{{ $report->noon_report->engine_distance ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Slip (%)</flux:label>
+                                        <p>{{ $report->noon_report->slip ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>M/E Output (% MCR)</flux:label>
+                                        <p>{{ $report->noon_report->me_output_mcr ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Average Power (kW)</flux:label>
+                                        <p>{{ $report->noon_report->avg_power ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Logged Distance (NM)</flux:label>
+                                        <p>{{ $report->noon_report->logged_distance ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Speed Through Water (Kn)</flux:label>
+                                        <p>{{ $report->noon_report->speed_through_water ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Next Port</flux:label>
+                                        <p>{{ $report->noon_report->next_port ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>ETA Next Port</flux:label>
+                                        <p>{{ $report->noon_report->eta_next_port ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>ETA GMT Offset</flux:label>
+                                        <p>{{ $report->noon_report->eta_gmt_offset ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Anchored Hours</flux:label>
+                                        <p>{{ $report->noon_report->anchored_hours ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Drifting Hours</flux:label>
+                                        <p>{{ $report->noon_report->drifting_hours ?? 'Empty' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Maneuvering Hours</flux:label>
+                                        <p>{{ $report->noon_report->maneuvering_hours ?? 'Empty' }}</p>
+                                    </div>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- Noon Conditions -->
                             <div class="pt-4">
@@ -98,122 +187,128 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>Condition</flux:label>
-                                        <p>{{ $report->condition }}</p>
+                                        <p>{{ $report->noon_report->condition }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Displacement</flux:label>
-                                        <p>{{ $report->displacement }}</p>
+                                        <flux:label>Displacement (MT)</flux:label>
+                                        <p>{{ $report->noon_report->displacement }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Cargo</flux:label>
-                                        <p>{{ $report->cargo_name }}</p>
+                                        <flux:label>Cargo Name</flux:label>
+                                        <p>{{ $report->noon_report->cargo_name }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Weight</flux:label>
-                                        <p>{{ $report->cargo_weight }}</p>
+                                        <flux:label>Cargo Weight (MT)</flux:label>
+                                        <p>{{ $report->noon_report->cargo_weight }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Ballast</flux:label>
-                                        <p>{{ $report->ballast_weight }}</p>
+                                        <flux:label>Ballast Weight (MT)</flux:label>
+                                        <p>{{ $report->noon_report->ballast_weight }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Fresh Water</flux:label>
-                                        <p>{{ $report->fresh_water }}</p>
+                                        <flux:label>Fresh Water (MT)</flux:label>
+                                        <p>{{ $report->noon_report->fresh_water }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Fwd Draft</flux:label>
-                                        <p>{{ $report->fwd_draft }}</p>
+                                        <flux:label>Fwd Draft (m)</flux:label>
+                                        <p>{{ $report->noon_report->fwd_draft }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Aft Draft</flux:label>
-                                        <p>{{ $report->aft_draft }}</p>
+                                        <flux:label>Aft Draft (m)</flux:label>
+                                        <p>{{ $report->noon_report->aft_draft }}</p>
                                     </div>
                                     <div>
                                         <flux:label>GM</flux:label>
-                                        <p>{{ $report->gm }}</p>
+                                        <p>{{ $report->noon_report->gm }}</p>
                                     </div>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <div>
                                 <flux:label class="text-lg font-bold mb-2">Average Weather</flux:label>
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
-                                        <flux:label>Wind Force</flux:label>
-                                        <p>{{ $report->wind_force_average_weather }}</p>
+                                        <flux:label>Wind Force (Bft.) (T)</flux:label>
+                                        <p>{{ $report->noon_report->wind_force_average_weather }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Swell</flux:label>
-                                        <p>{{ $report->swell }}</p>
+                                        <p>{{ $report->noon_report->swell }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Sea Current (Kts)</flux:label>
-                                        <p>{{ $report->sea_current }}</p>
+                                        <flux:label>Sea Current (Kts) (Rel.)</flux:label>
+                                        <p>{{ $report->noon_report->sea_current }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Sea Temp (°C)</flux:label>
-                                        <p>{{ $report->sea_temp }}</p>
+                                        <flux:label>Sea Temp (Deg. °C)</flux:label>
+                                        <p>{{ $report->noon_report->sea_temp }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Observed Wind</flux:label>
-                                        <p>{{ $report->observed_wind }}</p>
+                                        <flux:label>Observed Wind Dir. (T)</flux:label>
+                                        <p>{{ $report->noon_report->observed_wind }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Wind Sea Height (m)</flux:label>
-                                        <p>{{ $report->wind_sea_height }}</p>
+                                        <p>{{ $report->noon_report->wind_sea_height }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Sea Current Dir.</flux:label>
-                                        <p>{{ $report->sea_current_direction }}</p>
+                                        <flux:label>Sea Current Direction. (Rel.)</flux:label>
+                                        <p>{{ $report->noon_report->sea_current_direction }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Swell Height (m)</flux:label>
-                                        <p>{{ $report->swell_height }}</p>
+                                        <p>{{ $report->noon_report->swell_height }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Observed Sea Dir.</flux:label>
-                                        <p>{{ $report->observed_sea }}</p>
+                                        <flux:label>Observed Sea Dir. (T)</flux:label>
+                                        <p>{{ $report->noon_report->observed_sea }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Air Temp (°C)</flux:label>
-                                        <p>{{ $report->air_temp }}</p>
+                                        <flux:label>Air Temp (Deg. °C)</flux:label>
+                                        <p>{{ $report->noon_report->air_temp }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Observed Swell Dir.</flux:label>
-                                        <p>{{ $report->observed_swell }}</p>
+                                        <flux:label>Observed Swell Dir. (T)</flux:label>
+                                        <p>{{ $report->noon_report->observed_swell }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea DS</flux:label>
-                                        <p>{{ $report->sea_ds }}</p>
+                                        <p>{{ $report->noon_report->sea_ds }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Atm. Pressure</flux:label>
-                                        <p>{{ $report->atm_pressure }}</p>
+                                        <flux:label>Atm. Pressure (millibar)</flux:label>
+                                        <p>{{ $report->noon_report->atm_pressure }}</p>
                                     </div>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <div>
                                 <flux:label class="text-lg font-bold mb-2">Bad Weather Details</flux:label>
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
-                                        <flux:label>Wind Force (>0 hrs)</flux:label>
-                                        <p>{{ $report->wind_force_previous }}</p>
+                                        <flux:label>Wind force (Bft.) >0 hrs (since last report)</flux:label>
+                                        <p>{{ $report->noon_report->wind_force_previous }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Wind Force (continuous)</flux:label>
-                                        <p>{{ $report->wind_force_current }}</p>
+                                        <flux:label>Wind Force (Bft.) (continuous)</flux:label>
+                                        <p>{{ $report->noon_report->wind_force_current }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Sea State (>0 hrs)</flux:label>
-                                        <p>{{ $report->sea_state_previous }}</p>
+                                        <flux:label>Sea State (DS) >0 hrs (since last report)</flux:label>
+                                        <p>{{ $report->noon_report->sea_state_previous }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Sea State (continuous)</flux:label>
-                                        <p>{{ $report->sea_state_current }}</p>
+                                        <p>{{ $report->noon_report->sea_state_current }}</p>
                                     </div>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <div>
                                 <flux:label class="text-lg font-bold mb-2">Wind & Sea (Every 6 Hours)</flux:label>
@@ -248,6 +343,8 @@
                                     </table>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- ROB Tanks -->
                             <div>
@@ -284,6 +381,8 @@
                                     </table>
                                 @endforeach
                             </div>
+
+                            <flux:separator />
 
                             <!-- ROB Summary -->
                             <div>
@@ -327,24 +426,28 @@
                                 </div>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Diesel Engine -->
                             <div>
                                 <flux:label class="font-bold text-lg">Diesel Engine Hours</flux:label>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <flux:label>DG1 Run Hours</flux:label>
-                                        <p>{{ $report->dg1_run_hours }}</p>
+                                        <p>{{ $report->noon_report->dg1_run_hours }}</p>
                                     </div>
                                     <div>
                                         <flux:label>DG2 Run Hours</flux:label>
-                                        <p>{{ $report->dg2_run_hours }}</p>
+                                        <p>{{ $report->noon_report->dg2_run_hours }}</p>
                                     </div>
                                     <div>
                                         <flux:label>DG3 Run Hours</flux:label>
-                                        <p>{{ $report->dg3_run_hours }}</p>
+                                        <p>{{ $report->noon_report->dg3_run_hours }}</p>
                                     </div>
                                 </div>
                             </div>
+
+                            <flux:separator />
 
                             <!-- Remarks -->
                             <div>
@@ -352,13 +455,14 @@
                                 <p class="text-sm">{{ $report->remarks->remarks ?? '-' }}</p>
                             </div>
 
+                            <flux:separator />
+
                             <!-- Master's Info -->
                             <div>
                                 <flux:label class="font-bold text-lg">Master's Info</flux:label>
                                 <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info ?? '-' }}
                                 </p>
                             </div>
-
 
                             <div class="flex justify-end pt-4">
                                 <flux:modal.close>
