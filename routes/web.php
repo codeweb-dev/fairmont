@@ -47,6 +47,8 @@ use App\Livewire\Officer\VoyageReport as OfficerVoyageReport;
 use App\Livewire\Officer\KpiReport as OfficerKpiReport;
 use App\Livewire\Officer\PortOfCallReport as OfficerPortOfCallReport;
 
+use App\Livewire\Unassigned;
+
 Route::get('/', Login::class)->name('login');
 
 Route::view('dashboard', 'dashboard')
@@ -62,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+
+    Route::get('/unassigned', Unassigned::class)->name('unassigned');
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('/users', Users::class)->name('users');

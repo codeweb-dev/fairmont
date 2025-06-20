@@ -75,7 +75,7 @@ class AllFast extends Component
             $this->vessel_id = $vessel->id;
             $this->vesselName = $vessel->name;
         } else {
-            abort(403, 'You are not assigned to a vessel.');
+            return redirect()->route('unassigned');
         }
     }
 
