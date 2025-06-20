@@ -81,11 +81,11 @@
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 
-                                <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
+                                {{-- <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
                                     <flux:menu.item icon="trash" variant="danger">
                                         Delete
                                     </flux:menu.item>
-                                </flux:modal.trigger>
+                                </flux:modal.trigger> --}}
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
@@ -116,14 +116,13 @@
                         </form>
                     </flux:modal>
 
-                    <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]">
+                    {{-- <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]">
                         <div class="space-y-6">
                             <div>
-                                <flux:heading size="lg">Soft Delete Vessel?</flux:heading>
+                                <flux:heading size="lg">Delete Vessel?</flux:heading>
                                 <flux:text class="mt-2">
                                     Are you sure you want to delete <strong>{{ $vessel->name }}</strong>?,
-                                    This vessel will not be permanently deleted — it will be moved to trash and
-                                    can be restored later.
+                                    This vessel be permanently deleted.
                                 </flux:text>
                             </div>
 
@@ -137,7 +136,7 @@
                                 </flux:button>
                             </div>
                         </div>
-                    </flux:modal>
+                    </flux:modal> --}}
 
                     <flux:modal name="view-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]">
                         <div class="space-y-6">

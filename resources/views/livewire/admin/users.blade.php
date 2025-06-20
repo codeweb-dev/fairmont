@@ -63,11 +63,7 @@
                     </flux:badge>
                 </td>
                 <td class="px-3 py-4">
-                    @if ($user->is_active)
-                        <span class="inline-flex px-2 py-1 rounded bg-green-100 text-green-700">Active</span>
-                    @else
-                        <span class="inline-flex px-2 py-1 rounded bg-red-100 text-red-700">Deactivated</span>
-                    @endif
+                    <flux:badge size="sm" icon="{{ $user->is_active ? 'check' : 'x-mark' }}" color="{{ $user->is_active ? 'green' : 'red' }}">{{ $user->is_active ? 'Active' : 'Deactivate' }}</flux:badge>
                 </td>
                 <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">
@@ -92,13 +88,13 @@
 
                                     @if ($user->is_active)
                                         <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
-                                            <flux:menu.item icon="pause" variant="danger">
+                                            <flux:menu.item icon="x-mark" variant="danger">
                                                 Deactivate
                                             </flux:menu.item>
                                         </flux:modal.trigger>
                                     @else
                                         <flux:modal.trigger name="deactivate-user-{{ $user->id }}">
-                                            <flux:menu.item icon="play">
+                                            <flux:menu.item icon="check">
                                                 Activate
                                             </flux:menu.item>
                                         </flux:modal.trigger>
