@@ -35,12 +35,6 @@
                                         View Details
                                     </flux:menu.item>
                                 </flux:modal.trigger>
-
-                                <flux:modal.trigger name="edit-report-{{ $report->id }}">
-                                    <flux:menu.item icon="pencil-square">
-                                        Edit
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
