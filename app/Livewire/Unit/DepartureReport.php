@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class DepartureReport extends Component
 {
@@ -109,6 +110,8 @@ class DepartureReport extends Component
     public $gmt_offset_voyage;
     public $distance_to_go_voyage;
     public $projected_speed;
+
+    protected $listeners = ['saveDraft'];
 
     public array $rob_data = [
         'HSFO' => [
@@ -220,6 +223,37 @@ class DepartureReport extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        $this->loadDraft();
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on change
+    }
+
+    public function saveDraft()
+    {
+        Session::put('departure_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('departure_report_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'departure_report_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function save()
@@ -311,6 +345,7 @@ class DepartureReport extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Departure Report Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-departure-report');
@@ -318,6 +353,8 @@ class DepartureReport extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'remarks',
             'master_info',
@@ -351,7 +388,6 @@ class DepartureReport extends Component
             'speed_through_water',
             'course',
 
-            // Voyage Itinerary
             'next_port_voyage',
             'via',
             'eta_lt',
@@ -371,6 +407,8 @@ class DepartureReport extends Component
 
             'rob_data',
         ]);
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

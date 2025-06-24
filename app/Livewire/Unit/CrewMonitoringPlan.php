@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class CrewMonitoringPlan extends Component
 {
@@ -17,6 +18,7 @@ class CrewMonitoringPlan extends Component
     public bool $onBoardMode = true;
     public array $board_crew = [];
     public array $crew_change = [];
+    protected $listeners = ['saveDraft'];
 
     public function switchToOnBoard()
     {
@@ -26,6 +28,42 @@ class CrewMonitoringPlan extends Component
     public function switchToCrewChange()
     {
         $this->onBoardMode = false;
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on update
+    }
+
+    public function saveDraft()
+    {
+        $draft = [
+            'master_info' => $this->master_info,
+            'crew_change' => $this->crew_change,
+            'board_crew' => $this->board_crew,
+            'onBoardMode' => $this->onBoardMode,
+            'saved_at' => now()->toDateTimeString(),
+        ];
+
+        Session::put('crew_monitoring_draft_' . Auth::id(), $draft);
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('crew_monitoring_draft_' . Auth::id());
+
+        if ($draft) {
+            $this->master_info = $draft['master_info'] ?? null;
+            $this->crew_change = $draft['crew_change'] ?? [];
+            $this->board_crew = $draft['board_crew'] ?? [];
+            $this->onBoardMode = $draft['onBoardMode'] ?? true;
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'crew_monitoring_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function mount()
@@ -40,8 +78,15 @@ class CrewMonitoringPlan extends Component
             return redirect()->route('unassigned');
         }
 
-        $this->addCrewRow();
-        $this->addBoardRow();
+        $this->loadDraft();
+
+        if (empty($this->crew_change)) {
+            $this->addCrewRow();
+        }
+
+        if (empty($this->board_crew)) {
+            $this->addBoardRow();
+        }
     }
 
     public function addCrewRow()
@@ -58,6 +103,8 @@ class CrewMonitoringPlan extends Component
             'reason_change' => null,
             'remarks' => null,
         ];
+
+        $this->saveDraft();
     }
 
     public function addBoardRow()
@@ -75,18 +122,22 @@ class CrewMonitoringPlan extends Component
             'days_contract_completion' => null,
             'months_on_board' => null,
         ];
+
+        $this->saveDraft();
     }
 
     public function removeCrewRow($index)
     {
         unset($this->crew_change[$index]);
         $this->crew_change = array_values($this->crew_change);
+        $this->saveDraft();
     }
 
     public function removeBoardRow($index)
     {
         unset($this->board_crew[$index]);
         $this->board_crew = array_values($this->board_crew);
+        $this->saveDraft();
     }
 
     public function save()
@@ -119,18 +170,16 @@ class CrewMonitoringPlan extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Crew Monitoring Plan Created Successfully');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-crew-monitoring-plan-report');
     }
 
-    public function export()
-    {
-        Toaster::info('Export feature not implemented yet.');
-    }
-
     public function clearForm()
     {
+        $this->switchToOnBoard();
+        $this->clearDraft();
         $this->reset([
             'master_info',
             'crew_change',
@@ -138,6 +187,7 @@ class CrewMonitoringPlan extends Component
         ]);
         $this->addCrewRow();
         $this->addBoardRow();
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

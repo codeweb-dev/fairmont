@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class PortOfCall extends Component
 {
@@ -81,6 +82,7 @@ class PortOfCall extends Component
         "GMT+13:45",
         "GMT+14:00",
     ];
+    protected $listeners = ['saveDraft'];
 
     public function mount()
     {
@@ -94,7 +96,40 @@ class PortOfCall extends Component
             return redirect()->route('unassigned');
         }
 
-        $this->addPort();
+        $this->loadDraft();
+
+        if (empty($this->ports)) {
+            $this->addPort();
+        }
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on change
+    }
+
+    public function saveDraft()
+    {
+        Session::put('port_of_call_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('port_of_call_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'port_of_call_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function addPort()
@@ -138,6 +173,8 @@ class PortOfCall extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'master_info',
             'ports',
@@ -164,6 +201,8 @@ class PortOfCall extends Component
         ]);
 
         $this->addPort();
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function removeAgent($portIndex, $agentIndex)
@@ -247,6 +286,7 @@ class PortOfCall extends Component
 
         Toaster::success('Port Of Call Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-port-of-call-report');

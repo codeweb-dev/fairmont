@@ -8,15 +8,12 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
             </flux:button>
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+                Save Draft
+            </flux:button>
             <flux:button href="{{ route('table-bunkering-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down">
-                Save Draft
-            </flux:button>
-            <flux:button icon="arrow-down-tray" type="button" wire:click="export">
-                Export Data
-            </flux:button> --}}
         </div>
     </div>
 
@@ -32,12 +29,7 @@
 
                     <flux:input label="Bunkering Port" badge="Required" required wire:model.defer="bunkering_port" />
 
-                    <flux:select label="Supplier" badge="Required" required wire:model.defer="supplier">
-                        <flux:select.option value="">Select</flux:select.option>
-                        @foreach ($this->_supplier as $supplier)
-                            <flux:select.option value="{{ $supplier }}">{{ $supplier }}</flux:select.option>
-                        @endforeach
-                    </flux:select>
+                    <flux:input label="Supplier" badge="Required" required wire:model.defer="supplier" />
 
                     <flux:input label="Port ETD (LT)" type="datetime-local" max="2999-12-31" badge="Required" required
                         wire:model.defer="port_etd" />
@@ -49,8 +41,8 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Bunker Completed (LT)" type="datetime-local" max="2999-12-31" badge="Required" required
-                        wire:model.defer="bunker_completed" />
+                    <flux:input label="Bunker Completed (LT)" type="datetime-local" max="2999-12-31" badge="Required"
+                        required wire:model.defer="bunker_completed" />
 
                     <flux:select label="Bunker GMT Offset" badge="Required" required
                         wire:model.defer="bunker_gmt_offset">

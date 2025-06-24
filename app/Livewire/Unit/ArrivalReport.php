@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class ArrivalReport extends Component
 {
@@ -101,7 +102,6 @@ class ArrivalReport extends Component
     public $fwd_draft;
     public $aft_draft;
     public $gm;
-
 
     public array $rob_data = [
         'HSFO' => [
@@ -202,6 +202,8 @@ class ArrivalReport extends Component
         ],
     ];
 
+    protected $listeners = ['saveDraft'];
+
     public function mount()
     {
         $user = Auth::user();
@@ -213,11 +215,37 @@ class ArrivalReport extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        $this->loadDraft();
     }
 
-    public function export()
+    public function updated($property)
     {
-        Toaster::info('Export feature not implemented yet.');
+        $this->saveDraft(); // Auto-save on field change
+    }
+
+    public function saveDraft()
+    {
+        Session::put('arrival_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('arrival_report_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'arrival_report_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function save()
@@ -301,6 +329,7 @@ class ArrivalReport extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Arrival Report Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-arrival-report');
@@ -308,6 +337,8 @@ class ArrivalReport extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'remarks',
             'master_info',
@@ -353,6 +384,8 @@ class ArrivalReport extends Component
 
             'rob_data',
         ]);
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

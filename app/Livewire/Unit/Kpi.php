@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class Kpi extends Component
 {
@@ -58,6 +59,36 @@ class Kpi extends Component
     public $ballast_exchanges, $ballast_operations, $deballast_operations;
     public $ballast_intake, $ballast_out, $ballast_exchange_amount;
     public $propeller_cleanings, $hull_cleanings;
+    protected $listeners = ['saveDraft'];
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Autosave draft on property change
+    }
+
+    public function saveDraft()
+    {
+        Session::put('kpi_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('kpi_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'kpi_draft_' . Auth::id();
+        Session::forget($draftKey);
+    }
 
     public function mount()
     {
@@ -70,6 +101,8 @@ class Kpi extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        $this->loadDraft();
     }
 
     public function save()
@@ -158,6 +191,7 @@ class Kpi extends Component
         ]);
 
         Toaster::success('KPI Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-kpi-report');
@@ -165,6 +199,8 @@ class Kpi extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         // Voyage Information
         $this->all_fast_datetime = $this->port = $this->gmt_offset = $this->master_info = $this->remarks = null;
 
@@ -198,6 +234,8 @@ class Kpi extends Component
         // Inspections
         $this->pi_club = $this->loa = $this->lbp = null;
         $this->breadth_extreme = $this->depth_moulded = $this->height_maximum = $this->bridge_front_bow = null;
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

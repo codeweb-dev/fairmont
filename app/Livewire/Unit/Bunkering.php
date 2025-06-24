@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class Bunkering extends Component
 {
@@ -91,80 +92,7 @@ class Bunkering extends Component
         "GMT+14:00",
     ];
 
-    public array $_supplier = [
-        "AVS Global Risk Management Ltd. Fondsmaeglerselskab",
-        "‘Adani Bunkering Pvt. Lid",
-        "Amol International Limited",
-        "tutus Pont Marne id",
-        "Ast Bunker LLC",
-        "BMT Bunker und Mineraloltransport GmbH",
-        "Bomin Atlantic LLC",
-        "Bomin Bunker Oil Corp.",
-        "Bp Marine Ltd",
-        "BP Singapore Pte. Ltd",
-        "Bunker Hedge Allocation",
-        "C.I Quality Bunkers Supply S.A.S",
-        "Cepsa Marine Fuels. S.A.",
-        "Chevron Marine Products LLC",
-        "Chimbusco Pan Nation Petro-Chemical Co. Ltd",
-        "Chimbusco International Petroleum (Singapore) Pte. Ltd",
-        "Clipper Oil Inc",
-        "Cockett Marine Oil (Asia)",
-        "Compania Espanola de Petroleos S.A.",
-        "Costank (S) Pte Ltd",
-        "Equatorial Marine Fuel Management Services Pte Ltd",
-        "Fal Energy Co., Ltd.",
-        "Fratelli Consulich Bunkers(HK)",
-        "General Petroleum LLC dba PTL Marine",
-        "Global Companies L.L.C.",
-        "Golden Island Diesel Oil Trading Pte Ltd",
-        "Goodfuels B.V.",
-        "Hanwa Singapore (Pte) Ltd",
-        "Harbor Plaza Consolidated",
-        "Ian Taylor Y Cia. S.A.",
-        "Island Oil Limited",
-        "J Aron & Co GS (Singapore)",
-        "The Jankovich Company",
-        "Japan Energy",
-        "John W.Stone Oil Distributor LLC",
-        "Kanematsu Corporation",
-        "KPI Oceanconnect Global Accounts Pte. Ltd",
-        "KPI Oceanconnect Global Accounts Ltd",
-        "Manildra Park Pty Ltd",
-        "Marathon Petroleum Company LP",
-        "Marine Petrobulk Ltd Partnership",
-        "Marubeni Corporation",
-        "Marubeni Petroleum Co. Ltd.",
-        "Minerva Bunkering (USA) LLC",
-        "Minerva Bunkering Pte Ltd",
-        "Mitsui & Co Energy Risk Mgt",
-        "Monjasa Pte. Ltd.",
-        "Morgan Stanley",
-        "Nayada Agency Co., Ltd",
-        "O Rourke Marine Services",
-        "Panthera Energy Trading USA Inc",
-        "Peninsula Petroleum Ltd.",
-        "Peninsula Petroleum Far East Pte. Ltd.",
-        "Prio Supply S.A.",
-        "Propeller Fuels Ltd",
-        "Raizen S.A.",
-        "SARAS SpA",
-        "Sea Swift Pty Ltd.",
-        "Sinanen Co., Ltd.",
-        "Skandinaviska Enskilda Banken AB (publ.)",
-        "Skygroup Logistics Limited",
-        "TFG Marine Pte Ltd",
-        "Tropic Oil Company",
-        "Total Bunkering SA",
-        "Toyota Tsusho Marine Fuels Corporation",
-        "Trefoil Trading B.V.",
-        "Varo Energy Germany GmbH",
-        "Veritas Petroleum Services B.V.(Head office)",
-        "VOOIL LLC",
-        "Voy Exp/Rev Allocation-Bunker",
-        "World Fuel Services",
-        "Yingkou Ocean Favor Shipping Agency Co. Ltd."
-    ];
+    protected $listeners = ['saveDraft'];
 
     public $vesselName = null;
 
@@ -179,6 +107,36 @@ class Bunkering extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        $this->loadDraft();
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on field change
+    }
+
+    public function saveDraft()
+    {
+        Session::put('bunkering_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('bunkering_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        Session::forget('bunkering_draft_' . Auth::id());
     }
 
     public function save()
@@ -271,18 +229,16 @@ class Bunkering extends Component
         ]);
 
         Toaster::success('Bunkering Report Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-bunkering-report');
     }
 
-    public function export()
-    {
-        Toaster::info('Export feature not implemented yet.');
-    }
-
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'voyage_no',
             'bunkering_port',
@@ -315,6 +271,8 @@ class Bunkering extends Component
             'pumping',
             'pumping_gmt',
         ]);
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

@@ -8,15 +8,12 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
             </flux:button>
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+                Save Draft
+            </flux:button>
             <flux:button href="{{ route('table-voyage-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down">
-                Save Draft
-            </flux:button>
-            <flux:button icon="arrow-down-tray" type="button" wire:click="export">
-                Export Data
-            </flux:button> --}}
         </div>
     </div>
 
@@ -43,10 +40,10 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-6">
-                    <flux:input label="Port of Departure COSP (Date and UTC)" type="datetime-local" max="2999-12-31" required
-                        wire:model.defer="port_departure" />
-                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="datetime-local" max="2999-12-31" required
-                        wire:model.defer="port_arrival" />
+                    <flux:input label="Port of Departure COSP (Date and UTC)" type="datetime-local" max="2999-12-31"
+                        required wire:model.defer="port_departure" />
+                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="datetime-local" max="2999-12-31"
+                        required wire:model.defer="port_arrival" />
                 </div>
             </div>
         </flux:fieldset>

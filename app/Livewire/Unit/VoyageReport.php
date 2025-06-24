@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class VoyageReport extends Component
 {
@@ -71,6 +72,8 @@ class VoyageReport extends Component
 
     public $vesselName = null;
 
+    protected $listeners = ['saveDraft'];
+
     public function mount()
     {
         $user = Auth::user();
@@ -82,6 +85,68 @@ class VoyageReport extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        $this->loadDraft();
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on property update
+    }
+
+    public function saveDraft()
+    {
+        $draft = [
+            'voyage_no' => $this->voyage_no,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'remarks' => $this->remarks,
+            'master_info' => $this->master_info,
+            'port_departure' => $this->port_departure,
+            'port_arrival' => $this->port_arrival,
+            'hire_hours' => $this->hire_hours,
+            'hire_reason' => $this->hire_reason,
+            'avg_me_rpm' => $this->avg_me_rpm,
+            'avg_me_kw' => $this->avg_me_kw,
+            'tdr' => $this->tdr,
+            'tst' => $this->tst,
+            'slip' => $this->slip,
+            'received' => $this->received,
+            'robs' => $this->robs,
+            'consumption' => $this->consumption,
+            'saved_at' => now()->toDateTimeString(),
+        ];
+
+        Session::put('voyage_draft_' . Auth::id(), $draft);
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('voyage_draft_' . Auth::id());
+
+        if ($draft) {
+            $this->voyage_no = $draft['voyage_no'] ?? null;
+            $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
+            $this->remarks = $draft['remarks'] ?? null;
+            $this->master_info = $draft['master_info'] ?? null;
+            $this->port_departure = $draft['port_departure'] ?? null;
+            $this->port_arrival = $draft['port_arrival'] ?? null;
+            $this->hire_hours = $draft['hire_hours'] ?? null;
+            $this->hire_reason = $draft['hire_reason'] ?? null;
+            $this->avg_me_rpm = $draft['avg_me_rpm'] ?? null;
+            $this->avg_me_kw = $draft['avg_me_kw'] ?? null;
+            $this->tdr = $draft['tdr'] ?? null;
+            $this->tst = $draft['tst'] ?? null;
+            $this->slip = $draft['slip'] ?? null;
+            $this->received = $draft['received'] ?? $this->received;
+            $this->robs = $draft['robs'] ?? $this->robs;
+            $this->consumption = $draft['consumption'] ?? $this->consumption;
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'voyage_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function save()
@@ -148,6 +213,7 @@ class VoyageReport extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Voyage Report Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-voyage-report');
@@ -155,6 +221,8 @@ class VoyageReport extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'voyage_no',
             'all_fast_datetime',
@@ -173,6 +241,8 @@ class VoyageReport extends Component
             'robs',
             'consumption'
         ]);
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

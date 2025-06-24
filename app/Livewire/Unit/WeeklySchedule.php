@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class WeeklySchedule extends Component
 {
@@ -18,6 +19,38 @@ class WeeklySchedule extends Component
     public $master_info;
 
     public $vesselName = null;
+    protected $listeners = ['saveDraft'];
+
+    public function updated($propertyName)
+    {
+        $this->saveDraft(); // Auto-save on update
+    }
+
+    public function saveDraft()
+    {
+        $draftData = [
+            'voyage_no' => $this->voyage_no,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'master_info' => $this->master_info,
+            'ports' => $this->ports,
+            'saved_at' => now()->toDateTimeString(),
+        ];
+
+        Session::put('weekly_schedule_draft_' . Auth::id(), $draftData);
+    }
+
+    public function loadDraft()
+    {
+        $draftKey = 'weekly_schedule_draft_' . Auth::id();
+        $draft = Session::get($draftKey);
+
+        if ($draft) {
+            $this->voyage_no = $draft['voyage_no'] ?? null;
+            $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
+            $this->master_info = $draft['master_info'] ?? null;
+            $this->ports = $draft['ports'] ?? [];
+        }
+    }
 
     public function mount()
     {
@@ -31,7 +64,11 @@ class WeeklySchedule extends Component
             return redirect()->route('unassigned');
         }
 
-        $this->addPort();
+        $this->loadDraft();
+
+        if (empty($this->ports)) {
+            $this->addPort();
+        }
     }
 
     public function save()
@@ -65,6 +102,7 @@ class WeeklySchedule extends Component
 
         Toaster::success('Weekly Schedule Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-weekly-schedule-report');
@@ -84,27 +122,40 @@ class WeeklySchedule extends Component
                 ['name' => '', 'address' => '', 'pic_name' => '', 'telephone' => '', 'mobile' => '', 'email' => '']
             ]
         ];
+
+        $this->saveDraft();
     }
 
     public function removePort($index)
     {
         unset($this->ports[$index]);
         $this->ports = array_values($this->ports);
+        $this->saveDraft();
     }
 
     public function removeAgent($portIndex, $agentIndex)
     {
         unset($this->ports[$portIndex]['agents'][$agentIndex]);
         $this->ports[$portIndex]['agents'] = array_values($this->ports[$portIndex]['agents']);
+        $this->saveDraft();
     }
 
     public function addAgent($portIndex)
     {
         $this->ports[$portIndex]['agents'][] = ['name' => '', 'address' => '', 'pic_name' => '', 'telephone' => '', 'mobile' => '', 'email' => ''];
+        $this->saveDraft();
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'weekly_schedule_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'voyage_no',
             'all_fast_datetime',
@@ -113,6 +164,7 @@ class WeeklySchedule extends Component
         ]);
 
         $this->addPort();
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

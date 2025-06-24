@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use Illuminate\Support\Facades\Session;
 
 class NoonReport extends Component
 {
@@ -329,6 +330,8 @@ class NoonReport extends Component
         ],
     ];
 
+    protected $listeners = ['saveDraft'];
+
     public function mount()
     {
         $user = Auth::user();
@@ -344,6 +347,37 @@ class NoonReport extends Component
         foreach (array_keys($this->rob_data) as $type) {
             $this->addRobRow($type);
         }
+
+        $this->loadDraft();
+    }
+
+    public function updated($property)
+    {
+        $this->saveDraft(); // Auto-save on any property update
+    }
+
+    public function saveDraft()
+    {
+        Session::put('noon_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    }
+
+    public function loadDraft()
+    {
+        $draft = Session::get('noon_report_draft_' . Auth::id());
+
+        if ($draft) {
+            foreach ($draft as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'noon_report_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function addRobRow($type)
@@ -524,6 +558,7 @@ class NoonReport extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Noon Report Created Successfully.');
+        $this->clearDraft();
         $this->clearForm();
 
         $this->redirect('/table-noon-report');
@@ -536,6 +571,8 @@ class NoonReport extends Component
 
     public function clearForm()
     {
+        $this->clearDraft();
+
         $this->reset([
             'remarks',
             'master_info',
@@ -602,7 +639,6 @@ class NoonReport extends Component
             'dg1_run_hours',
             'dg2_run_hours',
             'dg3_run_hours',
-
             'weather_blocks',
             'rob_data',
         ]);
@@ -610,6 +646,8 @@ class NoonReport extends Component
         foreach (array_keys($this->rob_data) as $type) {
             $this->addRobRow($type);
         }
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()
