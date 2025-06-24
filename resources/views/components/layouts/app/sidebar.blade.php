@@ -74,11 +74,11 @@
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="newspaper" :href="route('table-bunkering-report')" :current="request()->routeIs('table-bunkering-report', 'bunkering')"
-                    wire:navigate>{{ __('Bunkering') }}
+                    wire:navigate>{{ __('Bunkering Report') }}
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="newspaper" :href="route('table-all-fast-report')" :current="request()->routeIs('table-all-fast-report', 'all-fast')"
-                    wire:navigate>{{ __('All Fast') }}
+                    wire:navigate>{{ __('All Fast Report') }}
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="newspaper" :href="route('table-weekly-schedule-report')" :current="request()->routeIs('table-weekly-schedule-report', 'weekly-schedule')"
@@ -112,9 +112,9 @@
 
                     <flux:navlist.item href="{{ route('officer-arrival-report') }}" :current="request()->routeIs('officer-arrival-report')" wire:navigate>Arrival Report</flux:navlist.item>
 
-                    <flux:navlist.item href="{{ route('officer-bunkering-report') }}" :current="request()->routeIs('officer-bunkering-report')" wire:navigate>Bunkering</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('officer-bunkering-report') }}" :current="request()->routeIs('officer-bunkering-report')" wire:navigate>Bunkering Report</flux:navlist.item>
 
-                    <flux:navlist.item href="{{ route('officer-all-fast-report') }}" :current="request()->routeIs('officer-all-fast-report')" wire:navigate>All Fast</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('officer-all-fast-report') }}" :current="request()->routeIs('officer-all-fast-report')" wire:navigate>All Fast Report</flux:navlist.item>
 
                     <flux:navlist.item href="{{ route('officer-weekly-schedule-report') }}" :current="request()->routeIs('officer-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
 

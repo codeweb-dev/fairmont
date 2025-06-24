@@ -27,7 +27,7 @@
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
                     <flux:select label="Report Type" badge="Required" required wire:model.live="port_gmt_offset">
-                        <flux:select.option value="" disabled selected>Select Report Type</flux:select.option>
+                        <flux:select.option value="">Select Report Type</flux:select.option>
                         <flux:select.option value="At Sea">At Sea</flux:select.option>
                         <flux:select.option value="In Port">In Port</flux:select.option>
                         <flux:select.option value="At Anchorage">At Anchorage</flux:select.option>

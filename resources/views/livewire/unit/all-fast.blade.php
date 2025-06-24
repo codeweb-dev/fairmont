@@ -8,15 +8,12 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
             </flux:button>
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+                Save Draft
+            </flux:button>
             <flux:button href="{{ route('table-all-fast-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down">
-                Save Draft
-            </flux:button>
-            <flux:button icon="arrow-down-tray" type="button" wire:click="export">
-                Export Data
-            </flux:button> --}}
         </div>
     </div>
 
@@ -29,19 +26,19 @@
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
 
-                    <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
+                    <flux:input label="Voyage No" badge="Required" required wire:model="voyage_no" />
 
                     <flux:input label="All Fast Date/Time (LT)" type="datetime-local" badge="Required" max="2999-12-31"
-                        required wire:model.defer="all_fast_datetime" />
+                        required wire:model="all_fast_datetime" />
 
-                    <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
+                    <flux:select label="GMT Offset" badge="Required" wire:model="gmt_offset" required>
                         <flux:select.option value="">Select GMT Offset</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Port" badge="Required" required wire:model.defer="port" />
+                    <flux:input label="Port" badge="Required" required wire:model="port" />
                 </div>
             </div>
         </flux:fieldset>

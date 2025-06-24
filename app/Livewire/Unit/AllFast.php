@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 
@@ -64,10 +65,10 @@ class AllFast extends Component
         "GMT+14:00",
     ];
 
+    protected $listeners = ['saveDraft'];
+
     public function mount()
     {
-        $this->addRow();
-
         $user = Auth::user();
         $vessel = $user->vessels()->first();
 
@@ -77,6 +78,20 @@ class AllFast extends Component
         } else {
             return redirect()->route('unassigned');
         }
+
+        // Load draft data if exists
+        $this->loadDraft();
+
+        // If no draft or no robs, add default row
+        if (empty($this->robs)) {
+            $this->addRow();
+        }
+    }
+
+    public function updated($propertyName)
+    {
+        // Auto-save draft whenever any property is updated
+        $this->saveDraft();
     }
 
     public function addRow()
@@ -87,17 +102,50 @@ class AllFast extends Component
             'vlsfo' => null,
             'lsmgo' => null,
         ];
+        $this->saveDraft();
     }
 
     public function removeRow($index)
     {
         unset($this->robs[$index]);
         $this->robs = array_values($this->robs);
+        $this->saveDraft();
     }
 
-    public function export()
+    public function saveDraft()
     {
-        Toaster::info('Export feature not implemented yet.');
+        $draftData = [
+            'voyage_no' => $this->voyage_no,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'port' => $this->port,
+            'gmt_offset' => $this->gmt_offset,
+            'robs' => $this->robs,
+            'saved_at' => now()->toDateTimeString(),
+        ];
+
+        Session::put('all_fast_draft_' . Auth::id(), $draftData);
+
+        // Toaster::success('Draft saved! Your inputs will be restored even if you leave the page.');
+    }
+
+    public function loadDraft()
+    {
+        $draftKey = 'all_fast_draft_' . Auth::id();
+        $draft = Session::get($draftKey);
+
+        if ($draft) {
+            $this->voyage_no = $draft['voyage_no'] ?? null;
+            $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
+            $this->port = $draft['port'] ?? null;
+            $this->gmt_offset = $draft['gmt_offset'] ?? null;
+            $this->robs = $draft['robs'] ?? [];
+        }
+    }
+
+    public function clearDraft()
+    {
+        $draftKey = 'all_fast_draft_' . Auth::id();
+        Session::forget($draftKey);
     }
 
     public function save()
@@ -128,6 +176,9 @@ class AllFast extends Component
             $voyage->robs()->create($rob);
         }
 
+        // Clear draft after successful save
+        $this->clearDraft();
+
         Toaster::success('All Fast Report Created Successfully.');
         $this->clearForm();
 
@@ -136,6 +187,9 @@ class AllFast extends Component
 
     public function clearForm()
     {
+        // Clear the draft when form is cleared
+        $this->clearDraft();
+
         $this->reset([
             'voyage_no',
             'all_fast_datetime',
@@ -144,6 +198,8 @@ class AllFast extends Component
             'robs',
         ]);
         $this->addRow();
+
+        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()
