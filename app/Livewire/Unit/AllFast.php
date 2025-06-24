@@ -124,8 +124,6 @@ class AllFast extends Component
         ];
 
         Session::put('all_fast_draft_' . Auth::id(), $draftData);
-
-        // Toaster::success('Draft saved! Your inputs will be restored even if you leave the page.');
     }
 
     public function loadDraft()
