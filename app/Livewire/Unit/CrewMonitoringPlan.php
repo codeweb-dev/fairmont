@@ -120,6 +120,8 @@ class CrewMonitoringPlan extends Component
 
         Toaster::success('Crew Monitoring Plan Created Successfully');
         $this->clearForm();
+
+        $this->redirect('/table-crew-monitoring-plan-report');
     }
 
     public function export()

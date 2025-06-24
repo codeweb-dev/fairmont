@@ -1,10 +1,13 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">KPI</flux:heading>
+        <h1 class="text-3xl font-bold">KPI Report</h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-kpi-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -45,7 +48,7 @@
                         <flux:select.option value="PCTC">PCTC</flux:select.option>
                     </flux:select>
 
-                    <flux:input label="Reporting Period" type="date" max="2999-12-31" badge="Required" required
+                    <flux:input label="Reporting Period" type="datetime-local" max="2999-12-31" badge="Required" required
                         wire:model.defer="all_fast_datetime" />
                 </div>
             </div>
@@ -147,7 +150,8 @@
 
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:input label="No. of Corruption/Bribery/Entertainment for Port Officials" wire:model.defer="class_no" />
+                    <flux:input label="No. of Corruption/Bribery/Entertainment for Port Officials"
+                        wire:model.defer="class_no" />
                 </div>
             </div>
         </flux:fieldset>
@@ -165,7 +169,8 @@
                     <flux:input label="Number of Flag State Inspections" wire:model.defer="breadth_extreme" />
 
                     <flux:input label="Flag No. of Deficiencies" wire:model.defer="depth_moulded" />
-                    <flux:input label="Third Party Inspections (Charterers, Owners, RISQ, Others)" wire:model.defer="height_maximum" />
+                    <flux:input label="Third Party Inspections (Charterers, Owners, RISQ, Others)"
+                        wire:model.defer="height_maximum" />
                     <flux:input label="Third Party No. of Deficiencies" wire:model.defer="bridge_front_bow" />
                 </div>
             </div>

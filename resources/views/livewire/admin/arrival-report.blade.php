@@ -329,7 +329,7 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Noon Report for
+                                    Are you sure you want to delete the Arrival Report for
                                     <strong>{{ $report->vessel->name }}</strong> on
                                     <strong>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : 'N/A' }}</strong>?
                                     This report will not be permanently deleted and can be restored if needed.

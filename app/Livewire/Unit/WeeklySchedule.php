@@ -66,6 +66,8 @@ class WeeklySchedule extends Component
         Toaster::success('Weekly Schedule Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
         $this->clearForm();
+
+        $this->redirect('/table-weekly-schedule-report');
     }
 
     public function addPort()

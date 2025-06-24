@@ -1,10 +1,15 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Bunkering</flux:heading>
+        <h1 class="text-3xl font-bold">
+            Bunker Report
+        </h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-bunkering-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -34,7 +39,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Port ETD (LT)" type="date" max="2999-12-31" badge="Required" required
+                    <flux:input label="Port ETD (LT)" type="datetime-local" max="2999-12-31" badge="Required" required
                         wire:model.defer="port_etd" />
 
                     <flux:select label="Port GMT Offset" badge="Required" required wire:model.defer="port_gmt_offset">
@@ -44,7 +49,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Bunker Completed (LT)" type="date" max="2999-12-31" badge="Required" required
+                    <flux:input label="Bunker Completed (LT)" type="datetime-local" max="2999-12-31" badge="Required" required
                         wire:model.defer="bunker_completed" />
 
                     <flux:select label="Bunker GMT Offset" badge="Required" required
@@ -108,7 +113,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input type="date" label="EOSP (LT)" wire:model.defer="eosp" />
+                    <flux:input type="datetime-local" label="EOSP (LT)" wire:model.defer="eosp" />
 
                     <flux:select label="EOSP GMT Offset" required wire:model.defer="eosp_gmt">
                         <flux:select.option value="">Select</flux:select.option>
@@ -117,7 +122,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input type="date" label="Barge Alongside (LT)" wire:model.defer="barge" />
+                    <flux:input type="datetime-local" label="Barge Alongside (LT)" wire:model.defer="barge" />
 
                     <flux:select label="Barge Alongside GMT Offset" required wire:model.defer="barge_gmt">
                         <flux:select.option value="">Select</flux:select.option>
@@ -126,7 +131,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input type="date" label="COSP (LT)" wire:model.defer="cosp" />
+                    <flux:input type="datetime-local" label="COSP (LT)" wire:model.defer="cosp" />
 
                     <flux:select label="COSP GMT Offset" required wire:model.defer="cosp_gmt">
                         <flux:select.option value="">Select</flux:select.option>
@@ -135,7 +140,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input type="date" label="Anchor Dropped (LT)" wire:model.defer="anchor" />
+                    <flux:input type="datetime-local" label="Anchor Dropped (LT)" wire:model.defer="anchor" />
 
                     <flux:select label="Anchor Dropped GMT Offset" required wire:model.defer="anchor_gmt">
                         <flux:select.option value="">Select</flux:select.option>
@@ -144,7 +149,7 @@
                         @endforeach
                     </flux:select>
 
-                    <flux:input type="date" label="Pumping Completed (LT)" wire:model.defer="pumping" />
+                    <flux:input type="datetime-local" label="Pumping Completed (LT)" wire:model.defer="pumping" />
 
                     <flux:select label="Pumping Completed GMT Offset" required wire:model.defer="pumping_gmt">
                         <flux:select.option value="">Select</flux:select.option>

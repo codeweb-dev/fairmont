@@ -1,10 +1,15 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">All Fast</flux:heading>
+        <h1 class="text-3xl font-bold">
+            All Fast Report
+        </h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-all-fast-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -26,7 +31,7 @@
 
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
 
-                    <flux:input label="All Fast Date/Time (LT)" type="date" badge="Required" max="2999-12-31"
+                    <flux:input label="All Fast Date/Time (LT)" type="datetime-local" badge="Required" max="2999-12-31"
                         required wire:model.defer="all_fast_datetime" />
 
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>

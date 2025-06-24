@@ -20,16 +20,16 @@ return new class extends Migration
             $table->string('report_type');
 
             // For All Fast
-            $table->date('all_fast_datetime')->nullable(); // in local time
+            $table->dateTime('all_fast_datetime')->nullable(); // in local time
             $table->string('port')->nullable();
             $table->string('gmt_offset')->nullable(); // e.g. "+08:00"
 
             // For Bunkering
             $table->string('bunkering_port')->nullable();
             $table->string('supplier')->nullable();
-            $table->date('port_etd')->nullable();
+            $table->dateTime('port_etd')->nullable();
             $table->string('port_gmt_offset')->nullable();
-            $table->date('bunker_completed')->nullable();
+            $table->dateTime('bunker_completed')->nullable();
             $table->string('bunker_gmt_offset')->nullable();
 
             $table->string('call_sign')->nullable();
@@ -48,9 +48,9 @@ return new class extends Migration
             $table->string('bridge_front_bow')->nullable();
             $table->string('bridge_front_stern')->nullable();
             $table->string('light_ship_displacement')->nullable();
-            $table->date('keel_laid')->nullable();
-            $table->date('launched')->nullable();
-            $table->date('delivered')->nullable();
+            $table->dateTime('keel_laid')->nullable();
+            $table->dateTime('launched')->nullable();
+            $table->dateTime('delivered')->nullable();
             $table->string('shipyard')->nullable();
 
             $table->softDeletes();

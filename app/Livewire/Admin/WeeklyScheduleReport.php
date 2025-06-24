@@ -8,6 +8,7 @@ use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
+use Flux\Flux;
 
 #[Title('Weekly Schedule Report')]
 class WeeklyScheduleReport extends Component
@@ -32,6 +33,7 @@ class WeeklyScheduleReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete(); // This will soft delete it
         Toaster::success('Weekly Schedule Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
     }
 
     public function render()

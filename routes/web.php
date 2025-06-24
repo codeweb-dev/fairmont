@@ -23,6 +23,7 @@ use App\Livewire\Admin\VoyageReport as AdminVoyageReport;
 use App\Livewire\Admin\KpiReport as AdminKpiReport;
 use App\Livewire\Admin\PortOfCallReport as AdminPortOfCallReport;
 use App\Livewire\Auth\OtpVerify;
+
 // Unit
 use App\Livewire\Unit\AllFast;
 use App\Livewire\Unit\ArrivalReport;
@@ -34,6 +35,17 @@ use App\Livewire\Unit\NoonReport;
 use App\Livewire\Unit\PortOfCall;
 use App\Livewire\Unit\VoyageReport;
 use App\Livewire\Unit\WeeklySchedule;
+
+use App\Livewire\Unit\TableNoonReport;
+use App\Livewire\Unit\TableDepartureReport;
+use App\Livewire\Unit\TableArrivalReport;
+use App\Livewire\Unit\TableBunkeringReport;
+use App\Livewire\Unit\TableAllFastReport;
+use App\Livewire\Unit\TableWeeklyScheduleReport;
+use App\Livewire\Unit\TableCrewMonitoringPlanReport;
+use App\Livewire\Unit\TableVoyageReport;
+use App\Livewire\Unit\TableKpiReport;
+use App\Livewire\Unit\TablePortOfCallReport;
 
 // Officer
 use App\Livewire\Officer\NoonReport as OfficerNoonReport;
@@ -98,6 +110,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/voyage-report', VoyageReport::class)->name('voyage-report');
         Route::get('/kpi', Kpi::class)->name('kpi');
         Route::get('/port-of-call', PortOfCall::class)->name('port-of-call');
+
+        Route::get('/table-noon-report', TableNoonReport::class)->name('table-noon-report');
+        Route::get('/table-departure-report', TableDepartureReport::class)->name('table-departure-report');
+        Route::get('/table-arrival-report', TableArrivalReport::class)->name('table-arrival-report');
+        Route::get('/table-bunkering-report', TableBunkeringReport::class)->name('table-bunkering-report');
+        Route::get('/table-all-fast-report', TableAllFastReport::class)->name('table-all-fast-report');
+        Route::get('/table-weekly-schedule-report', TableWeeklyScheduleReport::class)->name('table-weekly-schedule-report');
+        Route::get('/table-crew-monitoring-plan-report', TableCrewMonitoringPlanReport::class)->name('table-crew-monitoring-plan-report');
+        Route::get('/table-voyage-report', TableVoyageReport::class)->name('table-voyage-report');
+        Route::get('/table-kpi-report', TableKpiReport::class)->name('table-kpi-report');
+        Route::get('/table-port-of-call-report', TablePortOfCallReport::class)->name('table-port-of-call-report');
     });
 
     Route::group(['middleware' => ['role:officer']], function () {

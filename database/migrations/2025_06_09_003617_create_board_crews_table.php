@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('crew_first_name')->nullable();
             $table->string('rank')->nullable();
             $table->string('crew_nationality')->nullable();
-            $table->date('joining_date')->nullable();
-            $table->date('contract_completion')->nullable();
+            $table->dateTime('joining_date')->nullable();
+            $table->dateTime('contract_completion')->nullable();
             $table->string('current_date')->nullable();
             $table->string('days_contract_completion')->nullable();
             $table->string('months_on_board')->nullable();

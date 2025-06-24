@@ -149,6 +149,8 @@ class VoyageReport extends Component
 
         Toaster::success('Voyage Report Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-voyage-report');
     }
 
     public function clearForm()

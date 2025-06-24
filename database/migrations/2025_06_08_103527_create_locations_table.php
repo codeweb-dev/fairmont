@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('voyage_id')->constrained()->onDelete('cascade');
-            $table->date('port_departure')->nullable();
-            $table->date('port_arrival')->nullable();
+            $table->dateTime('port_departure')->nullable();
+            $table->dateTime('port_arrival')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

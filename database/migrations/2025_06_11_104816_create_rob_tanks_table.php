@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('capacity')->nullable();
             $table->string('unit')->nullable();
             $table->string('rob')->nullable();
-            $table->date('supply_date')->nullable();
+            $table->dateTime('supply_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -30,6 +30,7 @@ class Report extends Model
         'anchored_hours',
         'drifting_hours',
         'maneuvering_hours',
+        'slip',
 
         // Noon Condition
         'condition',

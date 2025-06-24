@@ -1,10 +1,13 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Departure Report</flux:heading>
+        <h1 class="text-3xl font-bold">Departure Report</h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-departure-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -25,7 +28,7 @@
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
                     <flux:input
                         :label="$port_gmt_offset === 'Pilot Station' ? 'COSP Date/Time (LT)' : 'SBE Date/Time (LT)'"
-                        type="date" max="2999-12-31" badge="Required" wire:model.defer="all_fast_datetime"
+                        type="datetime-local" max="2999-12-31" badge="Required" wire:model.defer="all_fast_datetime"
                         required />
 
                     <flux:select label="GMT Offset" badge="Required" wire:model.defer="gmt_offset" required>
@@ -76,11 +79,10 @@
                         <flux:input label="Next Port" wire:model.defer="next_port" />
                     </div>
                     <div>
-                        <flux:input label="ETA Next Port (LT)" type="date" wire:model.defer="eta_next_port" />
+                        <flux:input label="ETA Next Port (LT)" type="datetime-local" wire:model.defer="eta_next_port" />
                     </div>
                     <div>
-                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset"
-                            required>
+                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset" required>
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($this->gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
@@ -136,7 +138,7 @@
                         <flux:select.option>Suez Canal</flux:select.option>
                     </flux:select>
 
-                    <flux:input label="ETA (LT)" type="date" wire:model.defer="eta_lt" />
+                    <flux:input label="ETA (LT)" type="datetime-local" wire:model.defer="eta_lt" />
 
                     <flux:select label="GMT Offset" required wire:model.defer="gmt_offset_voyage">
                         <flux:select.option value="">Select</flux:select.option>
@@ -253,11 +255,16 @@
                         <tr>
                             <!-- ME CYL -->
                             <td class="px-4 py-2">
-                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" required>
+                                {{-- <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" required>
                                     <flux:select.option>TBN 100</flux:select.option>
                                     <flux:select.option>TBN 70</flux:select.option>
                                     <flux:select.option>TBN 40</flux:select.option>
-                                </flux:select>
+                                </flux:select> --}}
+                                <flux:radio.group wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                    <flux:radio value="TBN 100" label="TBN 100" checked />
+                                    <flux:radio value="TBN 70" label="TBN 70" />
+                                    <flux:radio value="TBN 40" label="TBN 40" />
+                                </flux:radio.group>
                             </td>
                             <td class="px-4 py-2">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />

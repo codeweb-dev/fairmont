@@ -130,6 +130,8 @@ class AllFast extends Component
 
         Toaster::success('All Fast Report Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-all-fast-report');
     }
 
     public function clearForm()

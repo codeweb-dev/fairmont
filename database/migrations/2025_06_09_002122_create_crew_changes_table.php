@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('vessel_name')->nullable();
             $table->string('port')->nullable();
             $table->string('country')->nullable();
-            $table->date('joiners_boarding')->nullable();
-            $table->date('off_signers')->nullable();
+            $table->dateTime('joiners_boarding')->nullable();
+            $table->dateTime('off_signers')->nullable();
             $table->string('joiner_ranks')->nullable();
             $table->string('off_signers_ranks')->nullable();
             $table->string('total_crew_change')->nullable();

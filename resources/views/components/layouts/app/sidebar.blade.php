@@ -59,47 +59,52 @@
 
                 @elseif (auth()->user()->hasRole('unit'))
 
-                <flux:navlist.item icon="newspaper" :href="route('noon-report')" :current="request()->routeIs('noon-report')"
-                    wire:navigate>{{ __('Noon Report') }}
+                <flux:navlist.item icon="newspaper" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('departure-report')" :current="request()->routeIs('departure-report')"
+                <flux:navlist.item icon="newspaper" :href="route('table-noon-report')" :current="request()->routeIs('table-noon-report', 'noon-report')" wire:navigate>{{ __('Noon Report') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="newspaper" :href="route('table-departure-report')" :current="request()->routeIs('table-departure-report', 'departure-report')"
                     wire:navigate>{{ __('Departure Report') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('arrival-report')" :current="request()->routeIs('arrival-report')"
+                <flux:navlist.item icon="newspaper" :href="route('table-arrival-report')" :current="request()->routeIs('table-arrival-report', 'arrival-report')"
                     wire:navigate>{{ __('Arrival Report') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('bunkering')" :current="request()->routeIs('bunkering')"
+                <flux:navlist.item icon="newspaper" :href="route('table-bunkering-report')" :current="request()->routeIs('table-bunkering-report', 'bunkering')"
                     wire:navigate>{{ __('Bunkering') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('all-fast')" :current="request()->routeIs('all-fast')"
+                <flux:navlist.item icon="newspaper" :href="route('table-all-fast-report')" :current="request()->routeIs('table-all-fast-report', 'all-fast')"
                     wire:navigate>{{ __('All Fast') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('weekly-schedule')" :current="request()->routeIs('weekly-schedule')"
+                <flux:navlist.item icon="newspaper" :href="route('table-weekly-schedule-report')" :current="request()->routeIs('table-weekly-schedule-report', 'weekly-schedule')"
                     wire:navigate>{{ __('Weekly Schedule') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('crew-monitoring-plan')" :current="request()->routeIs('crew-monitoring-plan')"
+                <flux:navlist.item icon="newspaper" :href="route('table-crew-monitoring-plan-report')" :current="request()->routeIs('table-crew-monitoring-plan-report', 'crew-monitoring-plan')"
                     wire:navigate>{{ __('Crew Monitoring Plan') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('voyage-report')" :current="request()->routeIs('voyage-report')"
+                <flux:navlist.item icon="newspaper" :href="route('table-voyage-report')" :current="request()->routeIs('table-voyage-report', 'voyage-report')"
                     wire:navigate>{{ __('Voyage Report') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('kpi')" :current="request()->routeIs('kpi')"
+                <flux:navlist.item icon="newspaper" :href="route('table-kpi-report')" :current="request()->routeIs('table-kpi-report', 'kpi')"
                     wire:navigate>{{ __('KPI') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('port-of-call')" :current="request()->routeIs('port-of-call')"
+                <flux:navlist.item icon="newspaper" :href="route('table-port-of-call-report')" :current="request()->routeIs('table-port-of-call-report', 'port-of-call')"
                     wire:navigate>{{ __('Port Of Call') }}
                 </flux:navlist.item>
 
                 @elseif (auth()->user()->hasRole('officer'))
+                <flux:navlist.item icon="newspaper" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
+                </flux:navlist.item>
+
                 <flux:navlist.group expandable heading="Report Management">
                     <flux:navlist.item href="{{ route('officer-noon-report') }}" :current="request()->routeIs('officer-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
 

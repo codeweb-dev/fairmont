@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('port_of_calling')->nullable();
             $table->string('country')->nullable();
             $table->string('purpose')->nullable();
-            $table->date('ata_eta_date')->nullable();
+            $table->dateTime('ata_eta_date')->nullable();
             $table->time('ata_eta_time')->nullable();
-            $table->date('ship_info_date')->nullable();
+            $table->dateTime('ship_info_date')->nullable();
             $table->time('ship_info_time')->nullable();
             $table->string('gmt')->nullable();
             $table->integer('duration_days')->nullable();

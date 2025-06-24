@@ -1,10 +1,13 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Crew Monitoring Plan</flux:heading>
+        <h1 class="text-3xl font-bold">Crew Monitoring Plan Report</h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-crew-monitoring-plan-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -47,11 +50,11 @@
                             <flux:input label="Rank" required wire:model="board_crew.{{ $index }}.rank" />
                             <flux:input label="Crew Nationality" required
                                 wire:model="board_crew.{{ $index }}.crew_nationality" />
-                            <flux:input type="date" label="Joining Date" required
+                            <flux:input type="datetime-local" label="Joining Date" required
                                 wire:model="board_crew.{{ $index }}.joining_date" />
-                            <flux:input type="date" label="Contract Completion Date" required
+                            <flux:input type="datetime-local" label="Contract Completion Date" required
                                 wire:model="board_crew.{{ $index }}.contract_completion" />
-                            <flux:input type="date" label="Current Date" required
+                            <flux:input type="datetime-local" label="Current Date" required
                                 wire:model="board_crew.{{ $index }}.current_date" />
                             <flux:input label="Date to Contract Completion" required
                                 wire:model="board_crew.{{ $index }}.days_contract_completion" />
@@ -87,9 +90,9 @@
                             <flux:input label="Port" required wire:model="crew_change.{{ $index }}.port" />
                             <flux:input label="Country" required
                                 wire:model="crew_change.{{ $index }}.country" />
-                            <flux:input type="date" label="Date of Joiners Boarding" required
+                            <flux:input type="datetime-local" label="Date of Joiners Boarding" required
                                 wire:model="crew_change.{{ $index }}.joiners_boarding" />
-                            <flux:input type="date" label="Date of Off-signers Sign Off" required
+                            <flux:input type="datetime-local" label="Date of Off-signers Sign Off" required
                                 wire:model="crew_change.{{ $index }}.off_signers" />
                             <flux:input label="Joiners Ranks" required
                                 wire:model="crew_change.{{ $index }}.joiner_ranks" />

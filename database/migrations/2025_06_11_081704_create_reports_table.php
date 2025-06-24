@@ -30,11 +30,12 @@ return new class extends Migration
             $table->string('logged_distance')->nullable();
             $table->string('speed_through_water')->nullable();
             $table->string('next_port')->nullable();
-            $table->date('eta_next_port')->nullable();
+            $table->dateTime('eta_next_port')->nullable();
             $table->string('eta_gmt_offset')->nullable();
             $table->string('anchored_hours')->nullable();
             $table->string('drifting_hours')->nullable();
             $table->string('maneuvering_hours')->nullable();
+            $table->string('slip')->nullable();
 
             // Noon Condition
             $table->string('condition')->nullable();
@@ -50,7 +51,7 @@ return new class extends Migration
             // Voyage Itinerary
             $table->string('next_port_voyage')->nullable();
             $table->string('via')->nullable();
-            $table->date('eta_lt')->nullable();
+            $table->dateTime('eta_lt')->nullable();
             $table->string('gmt_offset_voyage')->nullable();
             $table->string('distance_to_go_voyage')->nullable();
             $table->string('projected_speed')->nullable();

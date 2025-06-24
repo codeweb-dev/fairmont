@@ -1,10 +1,13 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Port Of Call</flux:heading>
+        <h1 class="text-3xl font-bold">Port Of Call Report</h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-port-of-call-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -47,9 +50,9 @@
 
                     <!-- Row 5 -->
                     <flux:input label="Light Ship Displacement" required wire:model.defer="light_ship_displacement" />
-                    <flux:input label="Keel Laid" type="date" required wire:model.defer="keel_laid" />
-                    <flux:input label="Launched" type="date" required wire:model.defer="launched" />
-                    <flux:input label="Delivered" type="date" required wire:model.defer="delivered" />
+                    <flux:input label="Keel Laid" type="datetime-local" required wire:model.defer="keel_laid" />
+                    <flux:input label="Launched" type="datetime-local" required wire:model.defer="launched" />
+                    <flux:input label="Delivered" type="datetime-local" required wire:model.defer="delivered" />
 
                     <flux:input label="Shipyard" required wire:model.defer="shipyard" />
                 </div>
@@ -88,8 +91,14 @@
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_date" />
                                 <flux:input required label="Ship Info Time" type="time"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_time" />
-                                <flux:input required label="GMT"
-                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.gmt" />
+                                <flux:select label="GMT Offset"
+                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.gmt" required>
+                                    <flux:select.option value="">Select GMT Offset</flux:select.option>
+                                    @foreach ($this->gmtOffsets as $offset)
+                                        <flux:select.option value="{{ $offset }}">{{ $offset }}
+                                        </flux:select.option>
+                                    @endforeach
+                                </flux:select>
                                 <flux:input required label="Duration (Days)" type="number"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.duration_days" />
                                 <flux:input required label="Total (Days)" type="number"

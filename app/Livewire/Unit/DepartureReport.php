@@ -312,6 +312,8 @@ class DepartureReport extends Component
 
         Toaster::success('Departure Report Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-departure-report');
     }
 
     public function clearForm()

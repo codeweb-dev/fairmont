@@ -46,6 +46,8 @@ class NoonReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete(); // This will soft delete it
         Toaster::success('Noon Report soft deleted successfully.');
+
+        Flux::modal('delete-report-' . $id)->close();
     }
 
     public function render()

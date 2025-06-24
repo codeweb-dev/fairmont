@@ -1,10 +1,15 @@
 <form wire:submit.prevent="save">
     <div class="mb-6 flex items-center justify-between w-full">
-        <flux:heading size="xl" class="font-bold">Voyage</flux:heading>
+        <h1 class="text-3xl font-bold">
+            Voyage Report
+        </h1>
 
         <div class="flex items-center gap-3">
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
                 Clear Fields
+            </flux:button>
+            <flux:button href="{{ route('table-voyage-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
+                Go Back
             </flux:button>
             {{-- <flux:button icon="folder-arrow-down">
                 Save Draft
@@ -25,7 +30,7 @@
 
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
 
-                    <flux:input label="Date" type="date" max="2999-12-31" badge="Required" required
+                    <flux:input label="Date" type="datetime-local" max="2999-12-31" badge="Required" required
                         wire:model.defer="all_fast_datetime" />
                 </div>
             </div>
@@ -38,9 +43,9 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-6">
-                    <flux:input label="Port of Departure COSP (Date and UTC)" type="date" max="2999-12-31" required
+                    <flux:input label="Port of Departure COSP (Date and UTC)" type="datetime-local" max="2999-12-31" required
                         wire:model.defer="port_departure" />
-                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="date" max="2999-12-31" required
+                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="datetime-local" max="2999-12-31" required
                         wire:model.defer="port_arrival" />
                 </div>
             </div>
@@ -129,7 +134,8 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="HSFO (MT)" type="number" required wire:model.defer="consumption.hsfo" />
                     <flux:input label="VLSFO (MT)" type="number" required wire:model.defer="consumption.vlsfo" />
-                    <flux:input label="BIO FUEL (MT)" type="number" required wire:model.defer="consumption.biofuel" />
+                    <flux:input label="BIO FUEL (MT)" type="number" required
+                        wire:model.defer="consumption.biofuel" />
                     <flux:input label="LSMGO (MT)" type="number" required wire:model.defer="consumption.lsmgo" />
                     <flux:input label="ME CC OIL (LITRES)" type="number" required
                         wire:model.defer="consumption.me_cc_oil" />

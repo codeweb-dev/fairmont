@@ -159,6 +159,8 @@ class Kpi extends Component
 
         Toaster::success('KPI Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-kpi-report');
     }
 
     public function clearForm()

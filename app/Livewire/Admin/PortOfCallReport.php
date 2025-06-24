@@ -8,6 +8,7 @@ use Livewire\WithoutUrlPagination;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
+use Flux\Flux;
 
 #[Title('Port Of Call Report')]
 class PortOfCallReport extends Component
@@ -32,6 +33,7 @@ class PortOfCallReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete(); // This will soft delete it
         Toaster::success('Port Of Call Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
     }
 
     public function render()

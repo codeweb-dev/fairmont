@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
+use Flux\Flux;
 
 #[Title('Crew Monitoring Plan Report')]
 class CrewMonitoringPlanReport extends Component
@@ -32,6 +33,7 @@ class CrewMonitoringPlanReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete(); // This will soft delete it
         Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
     }
 
     public function render()

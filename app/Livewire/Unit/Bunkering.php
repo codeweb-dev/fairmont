@@ -272,6 +272,8 @@ class Bunkering extends Component
 
         Toaster::success('Bunkering Report Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-bunkering-report');
     }
 
     public function export()

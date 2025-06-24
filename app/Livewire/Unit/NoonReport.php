@@ -26,12 +26,27 @@ class NoonReport extends Component
     public $supplier; // as Port of Departure
 
     // Report Details
-    public $cp_ordered_speed, $me_cons_cp_speed, $obs_distance, $steaming_time;
-    public $avg_speed, $distance_to_go, $course, $breakdown;
-    public $avg_rpm, $engine_distance, $slip, $me_output_mcr;
-    public $avg_power, $logged_distance, $speed_through_water, $next_port;
-    public $eta_next_port, $eta_gmt_offset;
-    public $anchored_hours, $drifting_hours, $maneuvering_hours;
+    public $cp_ordered_speed;
+    public $me_cons_cp_speed;
+    public $obs_distance;
+    public $steaming_time;
+    public $avg_speed;
+    public $distance_to_go;
+    public $course;
+    public $breakdown;
+    public $avg_rpm;
+    public $engine_distance;
+    public $slip;
+    public $me_output_mcr;
+    public $avg_power;
+    public $logged_distance;
+    public $speed_through_water;
+    public $next_port;
+    public $eta_next_port;
+    public $eta_gmt_offset;
+    public $anchored_hours;
+    public $drifting_hours;
+    public $maneuvering_hours;
 
     // Voyage Itinerary
     public $next_port_voyage;
@@ -510,6 +525,8 @@ class NoonReport extends Component
 
         Toaster::success('Noon Report Created Successfully.');
         $this->clearForm();
+
+        $this->redirect('/table-noon-report');
     }
 
     public function export()

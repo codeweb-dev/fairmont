@@ -8,6 +8,7 @@
             <div class="max-w-64">
                 <flux:input wire:model.live="search" placeholder="Search vessel..." icon="magnifying-glass" />
             </div>
+
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
                     @foreach ($pages as $page)
@@ -15,6 +16,12 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            <flux:modal.trigger name="reassign-user">
+                <flux:button icon="arrow-path">
+                    Reassign Unit/Officer
+                </flux:button>
+            </flux:modal.trigger>
 
             <flux:modal.trigger name="add-vessel">
                 <flux:button icon:trailing="plus">Add Vessel</flux:button>
@@ -49,7 +56,6 @@
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
                 <td class="px-3 py-4">{{ $vessel->created_at->format('M d, h:i A') }}</td>
-
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -59,12 +65,6 @@
                                 <flux:modal.trigger name="assign-user-{{ $vessel->id }}">
                                     <flux:menu.item icon="plus">
                                         Assign Unit/Officer
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
-
-                                <flux:modal.trigger name="reassign-user">
-                                    <flux:menu.item icon="arrow-path">
-                                        Reassign Unit/Officer
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 

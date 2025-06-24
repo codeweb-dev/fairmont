@@ -46,6 +46,7 @@ class KpiReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete(); // This will soft delete it
         Toaster::success('KPI Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
     }
 
     public function render()
