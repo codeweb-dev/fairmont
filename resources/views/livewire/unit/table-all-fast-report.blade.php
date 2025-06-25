@@ -24,12 +24,6 @@
                 </div>
             @endif
 
-            {{-- <div>
-                <flux:button wire:click="export" icon:trailing="inbox-arrow-down">
-                    Export All
-                </flux:button>
-            </div> --}}
-
             <div>
                 <flux:button href="{{ route('all-fast') }}" wire:navigate icon:trailing="plus">
                     Create Report
