@@ -196,8 +196,6 @@ class AllFast extends Component
             'robs',
         ]);
         $this->addRow();
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

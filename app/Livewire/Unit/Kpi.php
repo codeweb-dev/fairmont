@@ -234,8 +234,6 @@ class Kpi extends Component
         // Inspections
         $this->pi_club = $this->loa = $this->lbp = null;
         $this->breadth_extreme = $this->depth_moulded = $this->height_maximum = $this->bridge_front_bow = null;
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

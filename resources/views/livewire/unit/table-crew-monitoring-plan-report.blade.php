@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', '']">
+    <x-admin-components.table>
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
                 <th class="px-3 py-3">

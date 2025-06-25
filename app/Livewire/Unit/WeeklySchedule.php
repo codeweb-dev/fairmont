@@ -164,7 +164,6 @@ class WeeklySchedule extends Component
         ]);
 
         $this->addPort();
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

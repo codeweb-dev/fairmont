@@ -646,8 +646,6 @@ class NoonReport extends Component
         foreach (array_keys($this->rob_data) as $type) {
             $this->addRobRow($type);
         }
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

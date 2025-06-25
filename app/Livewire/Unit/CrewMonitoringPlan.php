@@ -187,7 +187,6 @@ class CrewMonitoringPlan extends Component
         ]);
         $this->addCrewRow();
         $this->addBoardRow();
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

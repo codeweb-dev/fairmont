@@ -241,8 +241,6 @@ class VoyageReport extends Component
             'robs',
             'consumption'
         ]);
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

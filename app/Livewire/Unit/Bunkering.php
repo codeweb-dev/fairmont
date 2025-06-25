@@ -271,8 +271,6 @@ class Bunkering extends Component
             'pumping',
             'pumping_gmt',
         ]);
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()

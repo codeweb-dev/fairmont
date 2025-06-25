@@ -97,6 +97,10 @@ class TableAllFastReport extends Component
 
             $filename = 'report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
+            Toaster::success('Report exported successfully.');
+            $this->selectedReports = [];
+            $this->selectAll = false;
+
             return Excel::download(new AllFastReportsExport([$reportId]), $filename);
         } else {
             // Multiple reports export as ZIP

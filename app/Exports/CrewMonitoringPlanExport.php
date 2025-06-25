@@ -20,7 +20,7 @@ class CrewMonitoringPlanExport implements FromView
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
 
-        $query = Voyage::with(['vessel', 'unit', 'master_info', 'board_crew', 'crew_change'])
+        $query = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds);
 

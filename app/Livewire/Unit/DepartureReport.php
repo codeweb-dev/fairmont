@@ -407,8 +407,6 @@ class DepartureReport extends Component
 
             'rob_data',
         ]);
-
-        Toaster::success('Form cleared and draft removed.');
     }
 
     public function render()
