@@ -38,6 +38,7 @@ class TableKpiReport extends Component
     {
         $this->resetPage();
     }
+
     public function updatingSearch()
     {
         $this->resetPage();
