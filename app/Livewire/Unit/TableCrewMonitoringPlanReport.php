@@ -86,9 +86,6 @@ class TableCrewMonitoringPlanReport extends Component
             return;
         }
 
-        // Debug: Log selected reports
-        Log::info('Selected reports for export:', $this->selectedReports);
-
         if (count($this->selectedReports) === 1) {
             // Single report export
             $reportId = $this->selectedReports[0];
@@ -99,7 +96,7 @@ class TableCrewMonitoringPlanReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . ($report->voyage_no ?? 'no_voyage') . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -149,9 +146,6 @@ class TableCrewMonitoringPlanReport extends Component
                 } else {
                     $filenameCount[$filename] = 1;
                 }
-
-                // Log each report being processed
-                Log::info("Processing report {$reportId}: {$filename}");
 
                 try {
                     // Generate Excel content using CrewMonitoringPlanExport with single report ID

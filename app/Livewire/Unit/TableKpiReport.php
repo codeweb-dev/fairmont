@@ -67,13 +67,9 @@ class TableKpiReport extends Component
         return Voyage::with([
             'vessel',
             'unit',
-            'rob_tanks',
-            'rob_fuel_reports',
-            'noon_report',
+            'waste',
             'remarks',
             'master_info',
-            'weather_observations',
-            'waste',
         ])
             ->where('report_type', 'KPI')
             ->whereIn('vessel_id', $assignedVesselIds)
@@ -102,13 +98,9 @@ class TableKpiReport extends Component
             $report = Voyage::with([
                 'vessel',
                 'unit',
-                'rob_tanks',
-                'rob_fuel_reports',
-                'noon_report',
+                'waste',
                 'remarks',
                 'master_info',
-                'weather_observations',
-                'waste',
             ])->find($reportId);
 
             if (!$report) {
@@ -116,7 +108,7 @@ class TableKpiReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -145,24 +137,30 @@ class TableKpiReport extends Component
             return;
         }
 
-        foreach ($this->selectedReports as $reportId) {
+        $filenameCount = [];
+
+        foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with([
                 'vessel',
                 'unit',
-                'rob_tanks',
-                'rob_fuel_reports',
-                'noon_report',
+                'waste',
                 'remarks',
                 'master_info',
-                'weather_observations',
-                'waste',
             ])->find($reportId);
 
             if ($report) {
                 // Clean the filename to avoid issues with special characters
-                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
-                $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no);
-                $filename = 'report_' . $vesselName . '_' . $voyageNo . '.xlsx';
+                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'unknown');
+
+                $baseFilename = 'report_' . $vesselName;
+
+                $filename = $baseFilename . '.xlsx';
+                if (isset($filenameCount[$filename])) {
+                    $filenameCount[$filename]++;
+                    $filename = $baseFilename . '_' . $filenameCount[$filename] . '.xlsx';
+                } else {
+                    $filenameCount[$filename] = 1;
+                }
 
                 // Generate Excel content using AllFastReportsExport with single report ID
                 $excelContent = Excel::raw(new KpiReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
