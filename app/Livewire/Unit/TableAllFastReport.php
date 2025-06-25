@@ -16,7 +16,6 @@ use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AllFastReportsExport;
-
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
 
@@ -112,7 +111,7 @@ class TableAllFastReport extends Component
             mkdir($tempDir, 0755, true);
         }
 
-        $zipFileName = 'reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
+        $zipFileName = 'all-fast_reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
         $zipPath = $tempDir . '/' . $zipFileName;
 
         $zip = new ZipArchive();
@@ -145,11 +144,6 @@ class TableAllFastReport extends Component
 
         // Download the ZIP file and clean it up
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
-    }
-
-    public function export()
-    {
-        return Excel::download(new AllFastReportsExport, 'all_fast_reports.xlsx');
     }
 
     public function render()
