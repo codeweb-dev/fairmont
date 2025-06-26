@@ -6,7 +6,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search reports..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -15,12 +15,41 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('crew-monitoring-plan') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
@@ -77,9 +106,11 @@
                                                         <p class="mb-3"><strong>Rank:</strong> {{ $crew->rank }}
                                                         </p>
                                                         <p class="mb-3"><strong>Joining Date:</strong>
-                                                            {{ $crew->joining_date }}</p>
+                                                            {{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}
+                                                        </p>
                                                         <p class="mb-3"><strong>Contract Completion:</strong>
-                                                            {{ $crew->contract_completion }}</p>
+                                                            {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
+                                                        </p>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -97,9 +128,11 @@
                                                         <p class="mb-3"><strong>Country:</strong>
                                                             {{ $crew->country }}</p>
                                                         <p class="mb-3"><strong>Joiners Boarding:</strong>
-                                                            {{ $crew->joiners_boarding }}</p>
+                                                            {{ \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') }}
+                                                        </p>
                                                         <p class="mb-3"><strong>Off-signers:</strong>
-                                                            {{ $crew->off_signers }}</p>
+                                                            {{ \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') }}
+                                                        </p>
                                                         <p class="mb-3"><strong>Joiner Ranks:</strong>
                                                             {{ $crew->joiner_ranks }}</p>
                                                         <p class="mb-3"><strong>Off-Signer Ranks:</strong>

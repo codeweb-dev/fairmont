@@ -6,7 +6,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search reports..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -15,24 +15,48 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('bunkering') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="[
-        'Report Type',
-        'Vessel',
-        'Unit',
-        'Voyage No',
-        'Bunkering Port',
-        'Supplier',
-        'Port ETD (LT)',
-        'Port GMT Offset',
-        'Bunker Completed (LT)',
-        'Bunker GMT Offset',
-        '',
-    ]">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Voyage No</th>
+                <th class="px-3 py-3">Bunkering Port</th>
+                <th class="px-3 py-3">Supplier</th>
+                <th class="px-3 py-3">Port ETD (LT)</th>
+                <th class="px-3 py-3">Port GMT Offset</th>
+                <th class="px-3 py-3">Bunker Completed (LT)</th>
+                <th class="px-3 py-3">Bunker GMT Offset</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
@@ -44,7 +68,7 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
                 <td class="px-3 py-4">
-                    {{ $report->bunker_completed ? \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y') : '-' }}
+                    {{ $report->bunker_completed ? \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y h:i A') : '-' }}
                 </td>
                 <td class="px-3 py-4">{{ $report->bunker_gmt_offset }}</td>
                 <td class="px-3 py-4">
@@ -89,15 +113,21 @@
                                 </div>
                                 <div>
                                     <flux:label>Port ETD (LT)</flux:label>
-                                    <p class="text-sm">{{ $report->port_etd }}</p>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->port_etd)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Port GMT Offset</flux:label>
-                                    <p class="text-sm">{{ $report->port_gmt_offset }}</p>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->port_gmt_offset)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Bunker Completed (LT)</flux:label>
-                                    <p class="text-sm">{{ $report->bunker_completed }}</p>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Bunker GMT Offset</flux:label>
@@ -162,7 +192,9 @@
                                     </div>
                                     <div>
                                         <flux:label>EOSP</flux:label>
-                                        <p class="text-sm">{{ $report->assiociated_information->eosp }}</p>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->assiociated_information->eosp)->format('M d, Y h:i A') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>EOSP GMT</flux:label>
@@ -170,7 +202,9 @@
                                     </div>
                                     <div>
                                         <flux:label>Barge Alongside</flux:label>
-                                        <p class="text-sm">{{ $report->assiociated_information->barge }}</p>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->assiociated_information->barge)->format('M d, Y h:i A') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>Barge GMT</flux:label>
@@ -178,7 +212,9 @@
                                     </div>
                                     <div>
                                         <flux:label>COSP</flux:label>
-                                        <p class="text-sm">{{ $report->assiociated_information->cosp }}</p>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->assiociated_information->cosp)->format('M d, Y h:i A') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>COSP GMT</flux:label>
@@ -186,7 +222,9 @@
                                     </div>
                                     <div>
                                         <flux:label>Anchor Dropped</flux:label>
-                                        <p class="text-sm">{{ $report->assiociated_information->anchor }}</p>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->assiociated_information->anchor)->format('M d, Y h:i A') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>Anchor GMT</flux:label>
@@ -194,7 +232,9 @@
                                     </div>
                                     <div>
                                         <flux:label>Pumping Completed</flux:label>
-                                        <p class="text-sm">{{ $report->assiociated_information->pumping }}</p>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->assiociated_information->pumping)->format('M d, Y h:i A') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>Pumping GMT</flux:label>

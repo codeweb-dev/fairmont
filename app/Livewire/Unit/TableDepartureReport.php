@@ -2,22 +2,16 @@
 
 namespace App\Livewire\Unit;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
-use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\DepartureReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
-use Illuminate\Support\Facades\Storage;
 
 #[Title('Departure Report')]
 class TableDepartureReport extends Component
@@ -86,7 +80,6 @@ class TableDepartureReport extends Component
         }
 
         if (count($this->selectedReports) === 1) {
-            // Single report export
             $reportId = $this->selectedReports[0];
             $report = Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])->find($reportId);
 

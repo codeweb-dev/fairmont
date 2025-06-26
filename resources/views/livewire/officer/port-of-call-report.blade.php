@@ -12,16 +12,46 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('port-of-call') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Created At</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->created_at->format('d M Y H:i') }}</td>
+                <td class="px-3 py-4">{{ $report->created_at->format('d M Y H:i A') }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -112,28 +142,29 @@
                                 </div>
                                 <div>
                                     <flux:label>Keel Laid</flux:label>
-                                    <p class="text-sm">{{ $report->keel_laid }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Launched</flux:label>
-                                    <p class="text-sm">{{ $report->launched }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Delivered</flux:label>
-                                    <p class="text-sm">{{ $report->delivered }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Shipyard</flux:label>
-                                    <p class="text-sm">{{ $report->shipyard }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->shipyard }}
+                                    </p>
                                 </div>
                             </div>
-
-                            @if ($report->master_info)
-                                <div>
-                                    <flux:label>Master's Info</flux:label>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
 
                             @foreach ($report->ports as $pIndex => $port)
                                 <div>
@@ -163,14 +194,18 @@
                                                             {{ $agent->port_of_calling }}</p>
                                                         <p><strong>Country:</strong> {{ $agent->country }}</p>
                                                         <p><strong>Purpose:</strong> {{ $agent->purpose }}</p>
-                                                        <p><strong>ATA/ETA Date:</strong> {{ $agent->ata_eta_date }}
+                                                        <p><strong>ATA/ETA Date:</strong>
+                                                            {{ $agent->ata_eta_date ? \Carbon\Carbon::parse($agent->ata_eta_date)->format('d M Y') : 'N/A' }}
                                                         </p>
-                                                        <p><strong>ATA/ETA Time:</strong> {{ $agent->ata_eta_time }}
+                                                        <p><strong>ATA/ETA Time:</strong>
+                                                            {{ $agent->ata_eta_time ? \Carbon\Carbon::parse($agent->ata_eta_time)->format('h:i A') : 'N/A' }}
                                                         </p>
                                                         <p><strong>Ship Info Date:</strong>
-                                                            {{ $agent->ship_info_date }}</p>
+                                                            {{ $agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('d M Y') : 'N/A' }}
+                                                        </p>
                                                         <p><strong>Ship Info Time:</strong>
-                                                            {{ $agent->ship_info_time }}</p>
+                                                            {{ $agent->ship_info_time ? \Carbon\Carbon::parse($agent->ship_info_time)->format('h:i A') : 'N/A' }}
+                                                        </p>
                                                         <p><strong>GMT:</strong> {{ $agent->gmt }}</p>
                                                         <p><strong>Duration (Days):</strong>
                                                             {{ $agent->duration_days }}</p>
@@ -182,6 +217,15 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            <flux:separator />
+
+                            @if ($report->master_info)
+                                <div>
+                                    <flux:label>Master's Info</flux:label>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                </div>
+                            @endif
 
                             <div class="flex justify-end pt-6">
                                 <flux:modal.close>

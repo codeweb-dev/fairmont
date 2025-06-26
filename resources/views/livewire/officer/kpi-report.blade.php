@@ -13,17 +13,47 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('kpi') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
                 <td class="px-3 py-4">
-                    {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : '-' }}
+                    {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '-' }}
                 </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -59,7 +89,7 @@
                                 <div>
                                     <flux:label>Date</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : '-' }}
+                                        {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '-' }}
                                     </p>
                                 </div>
                             </div>
@@ -285,6 +315,86 @@
                                     </div>
                                 </div>
                             @endif
+
+                            <flux:separator />
+
+                            <flux:heading>Voyage Report</flux:heading>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <flux:label>Total Sailing Days</flux:label>
+                                    <p class="text-sm">{{ $report->call_sign ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Eco Speed Sailing Days</flux:label>
+                                    <p class="text-sm">{{ $report->flag ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Full Speed Sailing Days</flux:label>
+                                    <p class="text-sm">{{ $report->port_of_registry ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <flux:separator />
+
+                            <flux:heading>Crew</flux:heading>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <flux:label>No. of Fatalities</flux:label>
+                                    <p class="text-sm">{{ $report->official_number ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>LTI (Lost Time Injuries)</flux:label>
+                                    <p class="text-sm">{{ $report->imo_number ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>No. of Recordable Injuries</flux:label>
+                                    <p class="text-sm">{{ $report->class_society ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <flux:separator />
+
+                            <flux:heading>MACN</flux:heading>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <flux:label>No. of Corruption/Bribery/Entertainment for Port Officials</flux:label>
+                                    <p class="text-sm">{{ $report->class_no ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <flux:separator />
+
+                            <flux:heading>Inspection</flux:heading>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <flux:label>Number of PSC Inspections</flux:label>
+                                    <p class="text-sm">{{ $report->pi_club ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>PSC No. of Deficiencies</flux:label>
+                                    <p class="text-sm">{{ $report->loa ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>PSC Detentions (if any)</flux:label>
+                                    <p class="text-sm">{{ $report->lbp ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Number of Flag State Inspections</flux:label>
+                                    <p class="text-sm">{{ $report->breadth_extreme ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Number of Flag State Inspections</flux:label>
+                                    <p class="text-sm">{{ $report->depth_moulded ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Third Party Inspections (Charterers, Owners, RISQ, Others)</flux:label>
+                                    <p class="text-sm">{{ $report->height_maximum ?? '-' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Third Party No. of Deficiencies</flux:label>
+                                    <p class="text-sm">{{ $report->bridge_front_bow ?? '-' }}</p>
+                                </div>
+                            </div>
 
                             <flux:separator />
 

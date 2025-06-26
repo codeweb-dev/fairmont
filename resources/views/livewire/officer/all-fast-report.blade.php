@@ -6,7 +6,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search reports..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -15,12 +15,44 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('all-fast') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Port', 'Date', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Voyage No</th>
+                <th class="px-3 py-3">Port</th>
+                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
@@ -66,7 +98,7 @@
                                 <div>
                                     <flux:label>Date</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
                                     </p>
                                 </div>
                             </div>

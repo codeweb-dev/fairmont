@@ -4,7 +4,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search reports..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -13,12 +13,42 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            @if (count($selectedReports) > 0)
+                <div>
+                    <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
+                        Export Selected ({{ count($selectedReports) }})
+                    </flux:button>
+                </div>
+            @endif
+
+            <div>
+                <flux:button href="{{ route('noon-report') }}" wire:navigate icon:trailing="plus">
+                    Create Report
+                </flux:button>
+            </div>
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date/Time (LT)', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">
+                    <flux:checkbox wire:model.live="selectAll" />
+                </th>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Date/Time (LT)</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <td class="px-3 py-4">
+                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
@@ -43,40 +73,43 @@
                         <div class="space-y-6">
                             <flux:heading size="lg">Noon Report</flux:heading>
 
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <flux:label>Vessel</flux:label>
-                                    <p class="text-sm">{{ $report->vessel->name }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Voyage No</flux:label>
-                                    <p class="text-sm">{{ $report->voyage_no }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Report Type</flux:label>
-                                    <p class="text-sm">{{ $report->report_type }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Date</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>GMT Offset</flux:label>
-                                    <p class="text-sm">{{ $report->gmt_offset }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Latitude</flux:label>
-                                    <p class="text-sm">{{ $report->port }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Longitude</flux:label>
-                                    <p class="text-sm">{{ $report->bunkering_port }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Port of Departure</flux:label>
-                                    <p class="text-sm">{{ $report->supplier }}</p>
+                            <div>
+                                <flux:label class="text-lg font-bold mb-2">Voyage Details</flux:label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <flux:label>Vessel</flux:label>
+                                        <p class="text-sm">{{ $report->vessel->name }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Voyage No</flux:label>
+                                        <p class="text-sm">{{ $report->voyage_no }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Report Type</flux:label>
+                                        <p class="text-sm">{{ $report->port_gmt_offset }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Date</flux:label>
+                                        <p class="text-sm">
+                                            {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>GMT Offset</flux:label>
+                                        <p class="text-sm">{{ $report->gmt_offset }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Latitude</flux:label>
+                                        <p class="text-sm">{{ $report->port }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Longitude</flux:label>
+                                        <p class="text-sm">{{ $report->bunkering_port }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Port of Departure</flux:label>
+                                        <p class="text-sm">{{ $report->supplier ?? 'Empty' }}</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -152,7 +185,8 @@
                                     </div>
                                     <div>
                                         <flux:label>ETA Next Port</flux:label>
-                                        <p>{{ $report->noon_report->eta_next_port ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '-' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>ETA GMT Offset</flux:label>
@@ -367,7 +401,7 @@
                                                     <td class="p-2 border">{{ $tank->unit }}</td>
                                                     <td class="p-2 border">{{ $tank->rob }}</td>
                                                     <td class="p-2 border">
-                                                        {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y') : '-' }}
+                                                        {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y h:i A') : '-' }}
                                                     </td>
                                                 </tr>
                                             @endforeach
