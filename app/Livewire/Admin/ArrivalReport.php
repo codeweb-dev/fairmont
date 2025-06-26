@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
-use App\Models\Voyage;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
+use Livewire\WithPagination;
+use Livewire\Component;
+use App\Models\Voyage;
 use Flux\Flux;
 
 #[Title('Arrival Report')]
@@ -34,9 +34,8 @@ class ArrivalReport extends Component
     public function delete($id)
     {
         $voyage = Voyage::findOrFail($id);
-        $voyage->delete(); // This will soft delete it
+        $voyage->delete();
         Toaster::success('Arrival Report soft deleted successfully.');
-
         Flux::modal('delete-report-' . $id)->close();
     }
 

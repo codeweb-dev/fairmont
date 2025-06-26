@@ -31,7 +31,7 @@ class PortOfCallReport extends Component
     public function delete($id)
     {
         $voyage = Voyage::findOrFail($id);
-        $voyage->delete(); // This will soft delete it
+        $voyage->delete();
         Toaster::success('Port Of Call Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }

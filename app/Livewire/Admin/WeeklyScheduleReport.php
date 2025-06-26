@@ -23,6 +23,7 @@ class WeeklyScheduleReport extends Component
     {
         $this->resetPage();
     }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -31,7 +32,7 @@ class WeeklyScheduleReport extends Component
     public function delete($id)
     {
         $voyage = Voyage::findOrFail($id);
-        $voyage->delete(); // This will soft delete it
+        $voyage->delete();
         Toaster::success('Weekly Schedule Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }

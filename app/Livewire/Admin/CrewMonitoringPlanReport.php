@@ -14,15 +14,12 @@ class CrewMonitoringPlanReport extends Component
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
-    public $editData = [
-        'name' => '',
-    ];
-    public $editId = null;
 
     public function updatingPerPage()
     {
         $this->resetPage();
     }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -31,7 +28,7 @@ class CrewMonitoringPlanReport extends Component
     public function delete($id)
     {
         $voyage = Voyage::findOrFail($id);
-        $voyage->delete(); // This will soft delete it
+        $voyage->delete();
         Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }
