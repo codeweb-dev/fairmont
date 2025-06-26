@@ -6,7 +6,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search reports..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">

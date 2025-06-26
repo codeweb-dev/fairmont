@@ -2,22 +2,16 @@
 
 namespace App\Livewire\Unit;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
-use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CrewMonitoringPlanExport;
 use ZipArchive;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 #[Title('Crew Monitoring Plan Report')]
@@ -87,7 +81,6 @@ class TableCrewMonitoringPlanReport extends Component
         }
 
         if (count($this->selectedReports) === 1) {
-            // Single report export
             $reportId = $this->selectedReports[0];
             $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
 
@@ -96,7 +89,7 @@ class TableCrewMonitoringPlanReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'crew_monitoring_plan_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -104,7 +97,6 @@ class TableCrewMonitoringPlanReport extends Component
 
             return Excel::download(new CrewMonitoringPlanExport([$reportId]), $filename);
         } else {
-            // Multiple reports export as ZIP
             return $this->exportMultipleReports();
         }
     }
@@ -125,20 +117,15 @@ class TableCrewMonitoringPlanReport extends Component
             return;
         }
 
-        $filenameCount = []; // Track filenames to avoid duplicates
-
+        $filenameCount = [];
         foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
 
             if ($report) {
-                // Clean the filename to avoid issues with special characters
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'Unknown_Vessel');
                 $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no ?? 'no_voyage');
+                $baseFilename = 'crew_monitoring_plan_report_' . $vesselName . '_' . $voyageNo;
 
-                // Create base filename
-                $baseFilename = 'report_' . $vesselName . '_' . $voyageNo;
-
-                // Handle duplicate filenames by adding a counter
                 $filename = $baseFilename . '.xlsx';
                 if (isset($filenameCount[$filename])) {
                     $filenameCount[$filename]++;
@@ -148,13 +135,8 @@ class TableCrewMonitoringPlanReport extends Component
                 }
 
                 try {
-                    // Generate Excel content using CrewMonitoringPlanExport with single report ID
                     $excelContent = Excel::raw(new CrewMonitoringPlanExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-
-                    // Add content directly to ZIP
                     $zip->addFromString($filename, $excelContent);
-
-                    Log::info("Successfully added {$filename} to ZIP");
                 } catch (\Exception $e) {
                     Log::error("Error processing report {$reportId}: " . $e->getMessage());
                 }

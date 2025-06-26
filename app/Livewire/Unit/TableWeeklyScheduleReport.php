@@ -2,22 +2,16 @@
 
 namespace App\Livewire\Unit;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
-use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\WeeklyScheduleReportsExport;
 use ZipArchive;
-use Illuminate\Support\Facades\Storage;
 
 #[Title('Weekly Schedule Report')]
 class TableWeeklyScheduleReport extends Component
@@ -87,7 +81,6 @@ class TableWeeklyScheduleReport extends Component
         }
 
         if (count($this->selectedReports) === 1) {
-            // Single report export
             $reportId = $this->selectedReports[0];
             $report = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])->find($reportId);
 
@@ -96,7 +89,7 @@ class TableWeeklyScheduleReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'weekly_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -104,7 +97,6 @@ class TableWeeklyScheduleReport extends Component
 
             return Excel::download(new WeeklyScheduleReportsExport([$reportId]), $filename);
         } else {
-            // Multiple reports export as ZIP
             return $this->exportMultipleReports();
         }
     }
@@ -129,15 +121,11 @@ class TableWeeklyScheduleReport extends Component
             $report = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])->find($reportId);
 
             if ($report) {
-                // Clean the filename to avoid issues with special characters
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
                 $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no);
-                $filename = 'report_' . $vesselName . '_' . $voyageNo . '.xlsx';
+                $filename = 'weekly_report_' . $vesselName . '_' . $voyageNo . '.xlsx';
 
-                // Generate Excel content using AllFastReportsExport with single report ID
                 $excelContent = Excel::raw(new WeeklyScheduleReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-
-                // Add content directly to ZIP
                 $zip->addFromString($filename, $excelContent);
             }
         }
@@ -147,7 +135,6 @@ class TableWeeklyScheduleReport extends Component
         $this->selectedReports = [];
         $this->selectAll = false;
 
-        // Download the ZIP file and clean it up
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 

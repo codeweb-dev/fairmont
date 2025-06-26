@@ -2,22 +2,16 @@
 
 namespace App\Livewire\Unit;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
-use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BunkeringReportsExport;
 use ZipArchive;
-use Illuminate\Support\Facades\Storage;
 
 #[Title('Bunkering Report')]
 class TableBunkeringReport extends Component
@@ -85,7 +79,6 @@ class TableBunkeringReport extends Component
         }
 
         if (count($this->selectedReports) === 1) {
-            // Single report export
             $reportId = $this->selectedReports[0];
             $report = Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])->find($reportId);
 
@@ -94,7 +87,7 @@ class TableBunkeringReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'bunkering_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -102,7 +95,6 @@ class TableBunkeringReport extends Component
 
             return Excel::download(new BunkeringReportsExport([$reportId]), $filename);
         } else {
-            // Multiple reports export as ZIP
             return $this->exportMultipleReports();
         }
     }
@@ -124,15 +116,12 @@ class TableBunkeringReport extends Component
         }
 
         $filenameCount = [];
-
         foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])->find($reportId);
 
             if ($report) {
-                // Clean the filename to avoid issues with special characters
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'unknown');
-
-                $baseFilename = 'report_' . $vesselName;
+                $baseFilename = 'bunkering_report_' . $vesselName;
 
                 $filename = $baseFilename . '.xlsx';
                 if (isset($filenameCount[$filename])) {
@@ -142,10 +131,7 @@ class TableBunkeringReport extends Component
                     $filenameCount[$filename] = 1;
                 }
 
-                // Generate Excel content using AllFastReportsExport with single report ID
                 $excelContent = Excel::raw(new BunkeringReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-
-                // Add content directly to ZIP
                 $zip->addFromString($filename, $excelContent);
             }
         }
@@ -155,7 +141,6 @@ class TableBunkeringReport extends Component
         $this->selectedReports = [];
         $this->selectAll = false;
 
-        // Download the ZIP file and clean it up
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 

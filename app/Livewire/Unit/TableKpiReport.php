@@ -2,32 +2,22 @@
 
 namespace App\Livewire\Unit;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
-use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KpiReportsExport;
 use ZipArchive;
-use Illuminate\Support\Facades\Storage;
 
 #[Title('KPI Report')]
 class TableKpiReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
-
     protected $paginationTheme = 'tailwind';
-
-    public string $name = '';
-
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
@@ -94,7 +84,6 @@ class TableKpiReport extends Component
         }
 
         if (count($this->selectedReports) === 1) {
-            // Single report export
             $reportId = $this->selectedReports[0];
             $report = Voyage::with([
                 'vessel',
@@ -109,7 +98,7 @@ class TableKpiReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'kpi_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -117,7 +106,6 @@ class TableKpiReport extends Component
 
             return Excel::download(new KpiReportsExport([$reportId]), $filename);
         } else {
-            // Multiple reports export as ZIP
             return $this->exportMultipleReports();
         }
     }
@@ -150,10 +138,9 @@ class TableKpiReport extends Component
             ])->find($reportId);
 
             if ($report) {
-                // Clean the filename to avoid issues with special characters
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'unknown');
 
-                $baseFilename = 'report_' . $vesselName;
+                $baseFilename = 'kpi_report_' . $vesselName;
 
                 $filename = $baseFilename . '.xlsx';
                 if (isset($filenameCount[$filename])) {
@@ -163,10 +150,7 @@ class TableKpiReport extends Component
                     $filenameCount[$filename] = 1;
                 }
 
-                // Generate Excel content using AllFastReportsExport with single report ID
                 $excelContent = Excel::raw(new KpiReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-
-                // Add content directly to ZIP
                 $zip->addFromString($filename, $excelContent);
             }
         }
@@ -176,7 +160,6 @@ class TableKpiReport extends Component
         $this->selectedReports = [];
         $this->selectAll = false;
 
-        // Download the ZIP file and clean it up
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 

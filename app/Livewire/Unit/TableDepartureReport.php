@@ -95,7 +95,7 @@ class TableDepartureReport extends Component
                 return;
             }
 
-            $filename = 'report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'departure_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -103,7 +103,6 @@ class TableDepartureReport extends Component
 
             return Excel::download(new DepartureReportsExport([$reportId]), $filename);
         } else {
-            // Multiple reports export as ZIP
             return $this->exportMultipleReports();
         }
     }
@@ -125,15 +124,12 @@ class TableDepartureReport extends Component
         }
 
         $filenameCount = [];
-
         foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])->find($reportId);
 
             if ($report) {
-                // Clean the filename to avoid issues with special characters
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'unknown');
-
-                $baseFilename = 'report_' . $vesselName;
+                $baseFilename = 'departure_report_' . $vesselName;
 
                 $filename = $baseFilename . '.xlsx';
                 if (isset($filenameCount[$filename])) {
@@ -143,10 +139,7 @@ class TableDepartureReport extends Component
                     $filenameCount[$filename] = 1;
                 }
 
-                // Generate Excel content using AllFastReportsExport with single report ID
                 $excelContent = Excel::raw(new DepartureReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-
-                // Add content directly to ZIP
                 $zip->addFromString($filename, $excelContent);
             }
         }
@@ -156,7 +149,6 @@ class TableDepartureReport extends Component
         $this->selectedReports = [];
         $this->selectAll = false;
 
-        // Download the ZIP file and clean it up
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
