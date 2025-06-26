@@ -17,6 +17,16 @@
     </div>
 
     <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date/Time (LT)', '']">
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Date/Time (LT)</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>

@@ -18,7 +18,18 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Voyage No', 'Date', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">Report Type</th>
+                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Voyage No</th>
+                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
