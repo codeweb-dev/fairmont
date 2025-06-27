@@ -79,7 +79,7 @@
                             <flux:heading size="lg">Voyage Report Details</flux:heading>
 
                             <!-- Bunkering Details -->
-                            <flux:heading size="sm">Bunkering Details</flux:heading>
+                            <flux:heading size="sm">Voyage Details</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <flux:label>Vessel</flux:label>
