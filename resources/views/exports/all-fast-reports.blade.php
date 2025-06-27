@@ -1,34 +1,51 @@
 <table>
-    <thead>
-        <tr>
-            <th>Report Type</th>
-            <th>Vessel</th>
-            <th>Unit</th>
-            <th>Voyage No</th>
-            <th>Port</th>
-            <th>Date</th>
-            <th>HSFO</th>
-            <th>BIOFUEL</th>
-            <th>VLSFO</th>
-            <th>LSMGO</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($reports as $report)
-            @foreach($report->robs as $rob)
-                <tr>
-                    <td>{{ $report->report_type }}</td>
-                    <td>{{ $report->vessel->name }}</td>
-                    <td>{{ $report->unit->name }}</td>
-                    <td>{{ $report->voyage_no }}</td>
-                    <td>{{ $report->port }}</td>
-                    <td>{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</td>
-                    <td>{{ $rob->hsfo ?? '0' }}</td>
-                    <td>{{ $rob->biofuel ?? '0' }}</td>
-                    <td>{{ $rob->vlsfo ?? '0' }}</td>
-                    <td>{{ $rob->lsmgo ?? '0' }}</td>
-                </tr>
-            @endforeach
+    {{-- Header: Voyage Details --}}
+    <tr>
+        <td colspan="5" style="font-weight: bold; width: 250px;">Voyage Details</td>
+    </tr>
+    <tr>
+        <td style="width: 250px;"><strong>Vessel Name:</strong></td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? '' }}</td>
+    </tr>
+    <tr>
+        <td style="width: 250px;"><strong>Voyage No:</strong></td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->voyage_no ?? '' }}</td>
+    </tr>
+    <tr>
+        <td style="width: 250px;"><strong>All Fast Date/Time (LT):</strong></td>
+        <td colspan="4" style="width: 250px;">{{ \Carbon\Carbon::parse($reports->first()->all_fast_datetime)->format('M d, Y h:i A') }}</td>
+    </tr>
+    <tr>
+        <td style="width: 250px;"><strong>GMT Offset:</strong></td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->gmt_offset ?? '' }}</td>
+    </tr>
+    <tr>
+        <td style="width: 250px;"><strong>Port:</strong></td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->port ?? '' }}</td>
+    </tr>
+
+    {{-- Separator Row --}}
+    <tr><td colspan="5" style="height: 10px;"></td></tr>
+
+    {{-- Section: ROBs --}}
+    <tr>
+        <td colspan="5" style="font-weight: bold; width: 250px;">All Fast ROBs</td>
+    </tr>
+    <tr>
+        <th style="border: 1px solid #000; width: 250px;">HSFO (MT)</th>
+        <th style="border: 1px solid #000; width: 250px;">BIOFUEL (MT)</th>
+        <th style="border: 1px solid #000; width: 250px;">VLSFO (MT)</th>
+        <th style="border: 1px solid #000; width: 250px;">LSMGO (MT)</th>
+    </tr>
+
+    @foreach($reports as $report)
+        @foreach($report->robs as $rob)
+            <tr>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? '0' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? '0' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->vlsfo ?? '0' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->lsmgo ?? '0' }}</td>
+            </tr>
         @endforeach
-    </tbody>
+    @endforeach
 </table>

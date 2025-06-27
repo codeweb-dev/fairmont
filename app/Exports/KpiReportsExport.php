@@ -40,6 +40,7 @@ class KpiReportsExport implements FromView
 
         $reports = $query->get();
 
+        libxml_use_internal_errors(true);
         return view('exports.kpi-reports', compact('reports'));
     }
 }
