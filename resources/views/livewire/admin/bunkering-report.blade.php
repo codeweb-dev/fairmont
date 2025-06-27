@@ -44,11 +44,11 @@
                 <td class="px-3 py-4">{{ $report->bunkering_port }}</td>
                 <td class="px-3 py-4">{{ $report->supplier }}</td>
                 <td class="px-3 py-4">
-                    {{ $report->port_etd ? \Carbon\Carbon::parse($report->port_etd)->format('M d, Y') : '-' }}
+                    {{ $report->port_etd ? \Carbon\Carbon::parse($report->port_etd)->format('M d, Y') : 'N/A' }}
                 </td>
                 <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
                 <td class="px-3 py-4">
-                    {{ $report->bunker_completed ? \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y') : '-' }}
+                    {{ $report->bunker_completed ? \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y') : 'N/A' }}
                 </td>
                 <td class="px-3 py-4">{{ $report->bunker_gmt_offset }}</td>
                 <td class="px-3 py-4">

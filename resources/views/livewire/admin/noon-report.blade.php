@@ -104,87 +104,88 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>CP/Ordered Speed (Kts)</flux:label>
-                                        <p>{{ $report->noon_report->cp_ordered_speed ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->cp_ordered_speed ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
-                                        <p>{{ $report->noon_report->me_cons_cp_speed ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->me_cons_cp_speed ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Obs. Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->obs_distance ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->obs_distance ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Steaming Time (Hrs)</flux:label>
-                                        <p>{{ $report->noon_report->steaming_time ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->steaming_time ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Avg Speed (Kts)</flux:label>
-                                        <p>{{ $report->noon_report->avg_speed ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->avg_speed ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Distance to go (NM)</flux:label>
-                                        <p>{{ $report->noon_report->distance_to_go ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->distance_to_go ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Course (Deg)</flux:label>
-                                        <p>{{ $report->noon_report->course ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->course ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Breakdown (Hrs)</flux:label>
-                                        <p>{{ $report->noon_report->breakdown ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->breakdown ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Average RPM</flux:label>
-                                        <p>{{ $report->noon_report->avg_rpm ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->avg_rpm ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Engine Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->engine_distance ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->engine_distance ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Slip (%)</flux:label>
-                                        <p>{{ $report->noon_report->slip ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->slip ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>M/E Output (% MCR)</flux:label>
-                                        <p>{{ $report->noon_report->me_output_mcr ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->me_output_mcr ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Average Power (kW)</flux:label>
-                                        <p>{{ $report->noon_report->avg_power ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->avg_power ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Logged Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->logged_distance ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->logged_distance ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Speed Through Water (Kn)</flux:label>
-                                        <p>{{ $report->noon_report->speed_through_water ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->speed_through_water ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Next Port</flux:label>
-                                        <p>{{ $report->noon_report->next_port ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->next_port ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>ETA Next Port</flux:label>
-                                        <p>{{ $report->noon_report->eta_next_port ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : 'N/A' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>ETA GMT Offset</flux:label>
-                                        <p>{{ $report->noon_report->eta_gmt_offset ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->eta_gmt_offset ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Anchored Hours</flux:label>
-                                        <p>{{ $report->noon_report->anchored_hours ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->anchored_hours ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Drifting Hours</flux:label>
-                                        <p>{{ $report->noon_report->drifting_hours ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->drifting_hours ?? 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Maneuvering Hours</flux:label>
-                                        <p>{{ $report->noon_report->maneuvering_hours ?? 'Empty' }}</p>
+                                        <p>{{ $report->noon_report->maneuvering_hours ?? 'N/A' }}</p>
                                     </div>
                                 </div>
                             </div>

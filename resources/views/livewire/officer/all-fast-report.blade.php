@@ -107,10 +107,10 @@
                                 <flux:label>ROB Entries</flux:label>
                                 <div class="grid grid-cols-4">
                                     @foreach ($report->robs as $rob)
-                                        <p>HSFO : {{ $rob->hsfo ?? '0' }}</p>
-                                        <p>BIO : {{ $rob->biofuel ?? '0' }}</p>
-                                        <p>VLSFO : {{ $rob->vlsfo ?? '0' }}</p>
-                                        <p>LSMGO : {{ $rob->lsmgo ?? '0' }}</p>
+                                        <p>HSFO : {{ $rob->hsfo ?? 'N/A' }}</p>
+                                        <p>BIO : {{ $rob->biofuel ?? 'N/A' }}</p>
+                                        <p>VLSFO : {{ $rob->vlsfo ?? 'N/A' }}</p>
+                                        <p>LSMGO : {{ $rob->lsmgo ?? 'N/A' }}</p>
                                     @endforeach
                                 </div>
                             </div>

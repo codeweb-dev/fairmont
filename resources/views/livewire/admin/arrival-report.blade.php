@@ -93,11 +93,11 @@
                                 </div>
                                 <div>
                                     <flux:label>Anchored Hours</flux:label>
-                                    <p class="text-sm">{{ $report->call_sign ?? 'Empty' }}</p>
+                                    <p class="text-sm">{{ $report->call_sign ?? 'N/A' }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Drifting Hours</flux:label>
-                                    <p class="text-sm">{{ $report->flag ?? 'Empty' }}</p>
+                                    <p class="text-sm">{{ $report->flag ?? 'N/A' }}</p>
                                 </div>
                             </div>
 

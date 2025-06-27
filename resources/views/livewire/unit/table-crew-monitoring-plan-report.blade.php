@@ -84,7 +84,7 @@
                                 <div>
                                     <flux:label>Master's Info</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->master_info ? $report->master_info->master_info : 'No information available' }}
+                                        {{ $report->master_info ? $report->master_info->master_info : 'N/A' }}
                                     </p>
                                 </div>
                             </div>
