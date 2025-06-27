@@ -5,15 +5,15 @@
     </tr>
     <tr>
         <td style="width: 150px;"><strong>Vessel Name:</strong></td>
-        <td colspan="6" style="width: 150px;">{{ $reports->first()->vessel->name ?? '' }}</td>
+        <td colspan="6" style="width: 150px;">{{ $reports->first()->vessel->name ?? 'N/A' }}</td>
     </tr>
     <tr>
         <td style="width: 150px;"><strong>Voyage No:</strong></td>
-        <td colspan="6" style="width: 150px;">{{ $reports->first()->voyage_no ?? '' }}</td>
+        <td colspan="6" style="width: 150px;">{{ $reports->first()->voyage_no ?? 'N/A' }}</td>
     </tr>
     <tr>
         <td style="width: 150px;"><strong>Date:</strong></td>
-        <td colspan="6" style="width: 150px;">{{ \Carbon\Carbon::parse($reports->first()->all_fast_datetime)->format('M d, Y') ?? '' }}</td>
+        <td colspan="6" style="width: 150px;">{{ \Carbon\Carbon::parse($reports->first()->all_fast_datetime)->format('M d, Y') }}</td>
     </tr>
 
     {{-- Space --}}
@@ -38,13 +38,13 @@
     @foreach($reports as $report)
         @foreach($report->ports as $port)
             <tr>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->port }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->activity }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->eta_etb }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->etcd }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->cargo }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->cargo_qty }}</td>
-                <td style="border: 1px solid #000; width: 150px;">{{ $port->remarks }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->port ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->activity ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->eta_etb ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->etcd ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->cargo ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->cargo_qty ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 150px;">{{ $port->remarks ?? 'N/A' }}</td>
             </tr>
         @endforeach
     @endforeach
@@ -68,12 +68,12 @@
         @php
             $agent = optional(optional($reports->first())->ports->first())->agents->first();
         @endphp
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->name ?? '' }}</td>
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->address ?? '' }}</td>
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->pic_name ?? '' }}</td>
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->telephone ?? '' }}</td>
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->mobile ?? '' }}</td>
-        <td style="border: 1px solid #000; width: 150px;">{{ $agent->email ?? '' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->name ?? 'N/A' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->address ?? 'N/A' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->pic_name ?? 'N/A' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->telephone ?? 'N/A' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->mobile ?? 'N/A' }}</td>
+        <td style="border: 1px solid #000; width: 150px;">{{ $agent->email ?? 'N/A' }}</td>
         <td style="width: 150px;"></td>
     </tr>
 
@@ -85,6 +85,6 @@
     </tr>
     <tr>
         <td style="width: 150px;"><strong>Master's Name</strong></td>
-        <td colspan="6" style="width: 150px;">{{ $report->master_info->master_info ?? '-' }}</td>
+        <td colspan="6" style="width: 150px;">{{ $report->master_info->master_info ?? 'N/A' }}</td>
     </tr>
 </table>

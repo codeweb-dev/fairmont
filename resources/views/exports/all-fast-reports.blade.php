@@ -5,11 +5,11 @@
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Vessel Name:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? '' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? 'N/A' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Voyage No:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->voyage_no ?? '' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->voyage_no ?? 'N/A' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>All Fast Date/Time (LT):</strong></td>
@@ -17,11 +17,11 @@
     </tr>
     <tr>
         <td style="width: 250px;"><strong>GMT Offset:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->gmt_offset ?? '' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->gmt_offset ?? 'N/A' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Port:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->port ?? '' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->port ?? 'N/A' }}</td>
     </tr>
 
     {{-- Separator Row --}}
@@ -41,10 +41,10 @@
     @foreach($reports as $report)
         @foreach($report->robs as $rob)
             <tr>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? '0' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? '0' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->vlsfo ?? '0' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->lsmgo ?? '0' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->vlsfo ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->lsmgo ?? 'N/A' }}</td>
             </tr>
         @endforeach
     @endforeach
