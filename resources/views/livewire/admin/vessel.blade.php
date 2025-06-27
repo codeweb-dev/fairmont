@@ -52,6 +52,14 @@
     </div>
 
     <x-admin-components.table :headers="['Name', 'Date', '']">
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">Name</th>
+                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($_vessel as $vessel)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $vessel->name }}</td>

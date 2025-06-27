@@ -31,7 +31,16 @@
     </div>
 
     @if ($viewing === 'users')
-        <x-admin-components.table :headers="['ID', 'Name', 'Email', 'Deleted At', '']">
+        <x-admin-components.table>
+            <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+                <tr>
+                    <th class="px-3 py-3">Name</th>
+                    <th class="px-3 py-3">Email</th>
+                    <th class="px-3 py-3">Deleted At</th>
+                    <th class="px-3 py-3"></th>
+                </tr>
+            </thead>
+
             @foreach ($items as $user)
                 <tr class="hover:bg-white/5 bg-black/5 transition-all">
                     <td class="px-3 py-4">{{ $user->id }}</td>
@@ -114,7 +123,17 @@
             @endforeach
         </x-admin-components.table>
     @else
-        <x-admin-components.table :headers="['ID', 'Report Type', 'Vessel', 'Unit', 'Deleted At', '']">
+        <x-admin-components.table>
+            <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+                <tr>
+                    <th class="px-3 py-3">Report Type</th>
+                    <th class="px-3 py-3">Vessel</th>
+                    <th class="px-3 py-3">Unit</th>
+                    <th class="px-3 py-3">Deleted At</th>
+                    <th class="px-3 py-3"></th>
+                </tr>
+            </thead>
+
             @foreach ($items as $report)
                 <tr class="hover:bg-white/5 bg-black/5 transition-all">
                     <td class="px-3 py-4">{{ $report->id }}</td>

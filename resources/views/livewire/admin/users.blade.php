@@ -50,11 +50,20 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Name', 'Email', 'Role', 'Active', 'Date', '']">
+    <x-admin-components.table>
+        <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
+            <tr>
+                <th class="px-3 py-3">Name</th>
+                <th class="px-3 py-3">Email</th>
+                <th class="px-3 py-3">Role</th>
+                <th class="px-3 py-3">Status</th>
+                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3"></th>
+            </tr>
+        </thead>
+
         @foreach ($users as $user)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                {{-- <td class="px-3 py-4">{{ $loop->iteration }}</td>
-                <td class="px-3 py-4">{{ $user->id }}</td> --}}
                 <td class="px-3 py-4">{{ $user->name }}</td>
                 <td class="px-3 py-4">{{ $user->email }}</td>
                 <td class="px-3 py-4 space-x-1">
@@ -63,7 +72,9 @@
                     </flux:badge>
                 </td>
                 <td class="px-3 py-4">
-                    <flux:badge size="sm" icon="{{ $user->is_active ? 'check' : 'x-mark' }}" color="{{ $user->is_active ? 'green' : 'red' }}">{{ $user->is_active ? 'Active' : 'Deactivate' }}</flux:badge>
+                    <flux:badge size="sm" icon="{{ $user->is_active ? 'check' : 'x-mark' }}"
+                        color="{{ $user->is_active ? 'green' : 'red' }}">
+                        {{ $user->is_active ? 'Active' : 'Deactivate' }}</flux:badge>
                 </td>
                 <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">
