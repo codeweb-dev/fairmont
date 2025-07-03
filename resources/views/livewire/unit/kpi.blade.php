@@ -23,27 +23,9 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
 
-                    <flux:select label="Fleet" badge="Required" required wire:model.defer="port">
-                        <flux:select.option value="">Select Fleet</flux:select.option>
-                        <flux:select.option value="1">1</flux:select.option>
-                        <flux:select.option value="2">2</flux:select.option>
-                        <flux:select.option value="3">3</flux:select.option>
-                        <flux:select.option value="4">4</flux:select.option>
-                        <flux:select.option value="5">5</flux:select.option>
-                        <flux:select.option value="6">6</flux:select.option>
-                        <flux:select.option value="FSOA">FSOA</flux:select.option>
-                    </flux:select>
+                    <flux:input label="Fleet" badge="Required" required wire:model.defer="port" />
 
-                    <flux:select label="Vessel Type" badge="Required" required wire:model.defer="gmt_offset">
-                        <flux:select.option value="">Select Vessel Type</flux:select.option>
-                        <flux:select.option value="Bulk">Bulk</flux:select.option>
-                        <flux:select.option value="Container">Container</flux:select.option>
-                        <flux:select.option value="Reefer">Reefer</flux:select.option>
-                        <flux:select.option value="Tanker">Tanker</flux:select.option>
-                        <flux:select.option value="Gas">Gas</flux:select.option>
-                        <flux:select.option value="PCC">PCC</flux:select.option>
-                        <flux:select.option value="PCTC">PCTC</flux:select.option>
-                    </flux:select>
+                    <flux:input label="Vessel Type" badge="Required" required wire:model.defer="gmt_offset" />
 
                     <flux:input label="Reporting Period" type="datetime-local" max="2999-12-31" badge="Required"
                         required wire:model.defer="all_fast_datetime" />
@@ -187,10 +169,10 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Master's Info</flux:legend>
+            <flux:legend>Master's Info <flux:badge size="sm">Required</flux:badge></flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" />
+                    <flux:textarea rows="8" wire:model.defer="master_info" required />
                 </div>
             </div>
         </flux:fieldset>
