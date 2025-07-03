@@ -23,12 +23,6 @@
                     </flux:button>
                 </div>
             @endif
-
-            <div>
-                <flux:button href="{{ route('all-fast') }}" wire:navigate icon:trailing="plus">
-                    Create Report
-                </flux:button>
-            </div>
         </div>
     </div>
 

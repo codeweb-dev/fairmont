@@ -20,12 +20,6 @@
                     </flux:button>
                 </div>
             @endif
-
-            <div>
-                <flux:button href="{{ route('port-of-call') }}" wire:navigate icon:trailing="plus">
-                    Create Report
-                </flux:button>
-            </div>
         </div>
     </div>
 
@@ -38,7 +32,7 @@
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
                 <th class="px-3 py-3">Unit</th>
-                <th class="px-3 py-3">Created At</th>
+                <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>

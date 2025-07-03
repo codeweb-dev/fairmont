@@ -21,12 +21,6 @@
                     </flux:button>
                 </div>
             @endif
-
-            <div>
-                <flux:button href="{{ route('departure-report') }}" wire:navigate icon:trailing="plus">
-                    Create Report
-                </flux:button>
-            </div>
         </div>
     </div>
 
