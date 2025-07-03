@@ -65,8 +65,8 @@ class DepartureReport extends Component
     public $port_gmt_offset = ''; // as Arivval Type
     public $all_fast_datetime; // as Date/Time (LT)
     public $gmt_offset;
-    public $port; // as Latitude
-    public $bunkering_port; // as Longtitude
+    public $port = "0° 0' 0'' N"; // as Latitude
+    public $bunkering_port = "0° 0' 0'' W"; // as Longtitude
     public $supplier; // as Departure Port
 
     // Details Since Last Report
