@@ -358,87 +358,92 @@
                 @foreach ($report->rob_fuel_reports->groupBy('fuel_type') as $fuelType => $groupedFuels)
                     {{-- Header --}}
                     <tr>
-                        <th style="border: 1px solid #000; text-align: center;" rowspan="2"><strong>Bunker
-                                Type</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;" colspan="2"><strong>ROB (in
-                                MT)</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;" colspan="4">
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;" rowspan="2">
+                            <strong>Bunker Type</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;" colspan="2"><strong>ROB
+                                (in MT)</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;" colspan="4">
                             <strong>Consumption</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;" colspan="2">
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;" colspan="2">
                             <strong>Cons./24hr</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;" rowspan="2"><strong>Total
-                                Cons.</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;" rowspan="2">
+                            <strong>Total Cons.</strong></th>
                     </tr>
                     <tr>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>Previous</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>Current</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>M/E Propulsion</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>A/E Cons.</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>Boiler Cons.</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>Incinerators</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>M/E 24</strong></th>
-                        <th style="border: 1px solid #000; text-align: center;"><strong>A/E 24</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>Previous</strong>
+                        </th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>Current</strong>
+                        </th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>M/E
+                                Propulsion</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>A/E Cons.</strong>
+                        </th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>Boiler
+                                Cons.</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;">
+                            <strong>Incinerators</strong></th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>M/E 24</strong>
+                        </th>
+                        <th style="width: 200px; border: 1px solid #000; text-align: center;"><strong>A/E 24</strong>
+                        </th>
                     </tr>
 
                     {{-- Fuel Rows --}}
                     @foreach ($groupedFuels as $fuel)
                         <tr>
-                            <td style="border: 1px solid #000;">{{ $fuel->fuel_type ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->previous ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->current ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_propulsion ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->ae_cons ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->boiler_cons ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->incinerators ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_24 ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->ae_24 ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->total_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->fuel_type ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->previous ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->current ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_propulsion ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->boiler_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->incinerators ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_24 ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_24 ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->total_cons ?? 'N/A' }}</td>
+                        </tr>
+
+                        {{-- Condensed Oil Details --}}
+                        <tr class="bg-zinc-100 dark:bg-zinc-800 text-center font-semibold">
+                            <td style="width: 200px; border: 1px solid #000;" colspan="4">ME CYL</td>
+                            <td style="width: 200px; border: 1px solid #000;" colspan="3">ME CC</td>
+                            <td style="width: 200px; border: 1px solid #000;" colspan="3">AE CC</td>
+                        </tr>
+                        <tr>
+                            <th style="width: 200px; border: 1px solid #000;">Oil Grade</th>
+                            <th style="width: 200px; border: 1px solid #000;">Oil Quantity</th>
+                            <th style="width: 200px; border: 1px solid #000;">Total Run Hrs.</th>
+                            <th style="width: 200px; border: 1px solid #000;">Oil Cons.</th>
+
+                            <th style="width: 200px; border: 1px solid #000;">Oil Quantity</th>
+                            <th style="width: 200px; border: 1px solid #000;">Total Run Hrs.</th>
+                            <th style="width: 200px; border: 1px solid #000;">Oil Cons.</th>
+
+                            <th style="width: 200px; border: 1px solid #000;">Oil Quantity</th>
+                            <th style="width: 200px; border: 1px solid #000;">Total Run Hrs.</th>
+                            <th style="width: 200px; border: 1px solid #000;">Oil Cons.</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_grade ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_qty ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_hrs ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_cons ?? 'N/A' }}</td>
+
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_qty ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_hrs ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_cons ?? 'N/A' }}</td>
+
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_qty ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_hrs ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? 'N/A' }}</td>
                         </tr>
 
                         <tr>
-                            <td colspan="13">
-                            </td>
-                        </tr>
-
-                        {{-- Oil Details --}}
-                        <tr>
-                            <th style="border: 1px solid #000; text-align: center;" colspan="4"><strong>ME CYL</strong></th>
-                            <th style="border: 1px solid #000; text-align: center;" colspan="3"><strong>ME CC</strong></th>
-                            <th style="border: 1px solid #000; text-align: center;" colspan="3"><strong>AE CC</strong></th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #000;">Oil Grade</td>
-                            <td style="border: 1px solid #000;">Oil Quantity</td>
-                            <td style="border: 1px solid #000;">Total Run Hrs.</td>
-                            <td style="border: 1px solid #000;">Oil Cons.</td>
-                            <td style="border: 1px solid #000;">Oil Quantity</td>
-                            <td style="border: 1px solid #000;">Total Run Hrs.</td>
-                            <td style="border: 1px solid #000;">Oil Cons.</td>
-                            <td style="border: 1px solid #000;">Oil Quantity</td>
-                            <td style="border: 1px solid #000;">Total Run Hrs.</td>
-                            <td style="border: 1px solid #000;">Oil Cons.</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cyl_grade ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cyl_qty ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cyl_hrs ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cyl_cons ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cc_qty ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cc_hrs ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->me_cc_cons ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->ae_cc_qty ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->ae_cc_hrs ?? 'N/A' }}</td>
-                            <td style="border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? 'N/A' }}</td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="13">
-                            </td>
+                            <td colspan="13"></td>
                         </tr>
                     @endforeach
                 @endforeach
             @endif
-
 
             <tr>
                 <td colspan="13">

@@ -77,19 +77,30 @@
                     <td colspan="6" style="width: 150px;">No agent data available</td>
                 </tr>
             @endforelse
-
-            <tr>
-                <td colspan="6" style="height: 25px;"></td>
-            </tr>
         @endforeach
     @endforeach
 
-    {{-- Master Information --}}
-    <tr>
-        <td colspan="6" style="font-weight: bold; width: 150px;">Master Information</td>
+    <tr colspan="2">
+        <td></td>
     </tr>
-    <tr>
-        <td style="width: 150px;"><strong>Master's Name</strong></td>
-        <td colspan="5" style="width: 150px;">{{ $report->master_info->master_info ?? '' }}</td>
+
+    {{-- REMARKS --}}
+    @if ($report->remarks)
+        <tr>
+            <td><strong>Remarks</strong></td>
+            <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+        </tr>
+    @endif
+
+    <tr colspan="2">
+        <td></td>
     </tr>
+
+    {{-- MASTER INFO --}}
+    @if ($report->master_info)
+        <tr>
+            <td><strong>Master's Name</strong></td>
+            <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+        </tr>
+    @endif
 </table>

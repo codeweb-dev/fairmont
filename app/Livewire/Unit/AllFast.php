@@ -206,6 +206,8 @@ class AllFast extends Component
             'port',
             'gmt_offset',
             'robs',
+            'remarks',
+            'master_info',
         ]);
         $this->addRow();
     }

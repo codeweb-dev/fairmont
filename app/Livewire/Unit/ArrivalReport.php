@@ -116,7 +116,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'MT',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -140,7 +140,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'MT',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -164,7 +164,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'MT',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -180,7 +180,7 @@ class ArrivalReport extends Component
             'summary' => [
                 'previous' => '',
                 'current' => '',
-                'me_propulsion' => 'MT',
+                'me_propulsion' => '',
                 'ae_cons' => '',
                 'boiler_cons' => '',
                 'incinerators' => '',
@@ -188,7 +188,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => '',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',

@@ -493,7 +493,7 @@
                                 <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Boiler cons.</th>
                                 <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Incinerators</th>
                                 <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">M/E 24</th>
-                                <th class="px-4 py-2">A/E 24</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">A/E 24</th>
                             </tr>
                         </thead>
                         <tbody>

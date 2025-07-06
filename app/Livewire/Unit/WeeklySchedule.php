@@ -165,6 +165,7 @@ class WeeklySchedule extends Component
             'voyage_no',
             'all_fast_datetime',
             'master_info',
+            'remarks',
             'ports',
         ]);
 

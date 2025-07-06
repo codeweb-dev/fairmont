@@ -189,6 +189,8 @@ class CrewMonitoringPlan extends Component
             'master_info',
             'crew_change',
             'board_crew',
+            'remarks',
+            'master_info',
         ]);
         $this->addCrewRow();
         $this->addBoardRow();

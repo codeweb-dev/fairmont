@@ -4,7 +4,7 @@
         <td colspan="5" style="font-weight: bold; width: 250px;">Voyage Details</td>
     </tr>
     <tr>
-        <td style="width: 250px;"><strong>Vessel Name:</strong></td>
+        <td style="width: 250px;"><strong>Vessel:</strong></td>
         <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? 'N/A' }}</td>
     </tr>
     <tr>
@@ -13,7 +13,8 @@
     </tr>
     <tr>
         <td style="width: 250px;"><strong>All Fast Date/Time (LT):</strong></td>
-        <td colspan="4" style="width: 250px;">{{ \Carbon\Carbon::parse($reports->first()->all_fast_datetime)->format('M d, Y h:i A') }}</td>
+        <td colspan="4" style="width: 250px;">
+            {{ \Carbon\Carbon::parse($reports->first()->all_fast_datetime)->format('M d, Y h:i A') }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>GMT Offset:</strong></td>
@@ -25,7 +26,9 @@
     </tr>
 
     {{-- Separator Row --}}
-    <tr><td colspan="5" style="height: 10px;"></td></tr>
+    <tr>
+        <td colspan="5" style="height: 10px;"></td>
+    </tr>
 
     {{-- Section: ROBs --}}
     <tr>
@@ -38,8 +41,8 @@
         <th style="border: 1px solid #000; width: 250px;">LSMGO (MT)</th>
     </tr>
 
-    @foreach($reports as $report)
-        @foreach($report->robs as $rob)
+    @foreach ($reports as $report)
+        @foreach ($report->robs as $rob)
             <tr>
                 <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? 'N/A' }}</td>
                 <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? 'N/A' }}</td>
@@ -48,4 +51,28 @@
             </tr>
         @endforeach
     @endforeach
+
+    <tr colspan="2">
+        <td></td>
+    </tr>
+
+    {{-- REMARKS --}}
+    @if ($report->remarks)
+        <tr>
+            <td><strong>Remarks</strong></td>
+            <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+        </tr>
+    @endif
+
+    <tr colspan="2">
+        <td></td>
+    </tr>
+
+    {{-- MASTER INFO --}}
+    @if ($report->master_info)
+        <tr>
+            <td><strong>Master's Name</strong></td>
+            <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+        </tr>
+    @endif
 </table>

@@ -132,49 +132,49 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full mb-8">
                     <thead>
-                        <tr class="bg-zinc-800 text-white">
-                            <th rowspan="2" class="px-4 py-2">Bunker Type</th>
-                            <th colspan="2" class="px-4 py-2">ROB (in MT)</th>
-                            <th colspan="4" class="px-4 py-2">Consumption</th>
-                            <th colspan="2" class="px-4 py-2">Cons./24 hr</th>
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                            <th rowspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Bunker Type</th>
+                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ROB (in MT)</th>
+                            <th colspan="4" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Consumption</th>
+                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Cons./24 hr</th>
                             <th rowspan="2" class="px-4 py-2">Total Cons.</th>
                         </tr>
-                        <tr class="bg-zinc-800 text-white">
-                            <th class="px-4 py-2">Previous</th>
-                            <th class="px-4 py-2">Current</th>
-                            <th class="px-4 py-2">M/E Propulsion</th>
-                            <th class="px-4 py-2">A/E cons.</th>
-                            <th class="px-4 py-2">Boiler cons.</th>
-                            <th class="px-4 py-2">Incinerators</th>
-                            <th class="px-4 py-2">M/E 24</th>
-                            <th class="px-4 py-2">A/E 24</th>
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Previous</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Current</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">M/E Propulsion</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">A/E cons.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Boiler cons.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Incinerators</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">M/E 24</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">A/E 24</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="px-4 py-2 font-semibold">{{ $type }} (MT)</td>
-                            <td class="px-4 py-2">
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                            <td class="px-4 py-2 font-semibold border-r border-zinc-200 dark:border-zinc-700">{{ $type }} (MT)</td>
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.previous" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.current" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_propulsion" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cons" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.boiler_cons" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.incinerators" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_24" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.ae_24" />
                             </td>
                             <td class="px-4 py-2">
@@ -189,59 +189,58 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead>
-                        <tr class="bg-zinc-800 text-white">
-                            <th colspan="3" class="px-4 py-2">ME CYL</th>
-                            <th colspan="3" class="px-4 py-2">ME CC</th>
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CYL</th>
+                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CC</th>
                             <th colspan="3" class="px-4 py-2">AE CC</th>
                         </tr>
-                        <tr class="bg-zinc-800 text-white">
-                            <th class="px-4 py-2">Oil Grade</th>
-                            <th class="px-4 py-2">Oil Quantity</th>
-                            <th class="px-4 py-2">Total Runn Hrs.</th>
-                            <th class="px-4 py-2">Oil Cons.</th>
-                            <th class="px-4 py-2">Oil Quantity</th>
-                            <th class="px-4 py-2">Total Run Hrs.</th>
-                            <th class="px-4 py-2">Oil Cons.</th>
-                            <th class="px-4 py-2">Oil Quantity</th>
-                            <th class="px-4 py-2">Total Run Hrs.</th>
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Grade</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                            <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
                             <th class="px-4 py-2">Oil Cons.</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="border border-zinc-200 dark:border-zinc-700">
                             <!-- ME CYL -->
-                            <td class="px-4 py-2">
-                                <flux:radio.group
-                                    wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
-                                    <flux:radio value="MT" label="MT" checked />
-                                    <flux:radio value="L" label="L" />
-                                    <flux:radio value="GAL" label="GAL" />
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
+                                <flux:radio.group wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                    <flux:radio value="TBN 100" label="TBN 100" checked />
+                                    <flux:radio value="TBN 70" label="TBN 70" />
+                                    <flux:radio value="TBN 40" label="TBN 40" />
                                 </flux:radio.group>
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_hrs" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_cons" />
                             </td>
                             <!-- ME CC -->
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_cons" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_qty" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_hrs" />
                             </td>
                             <!-- AE CC -->
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_cons" />
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_qty" />
                             </td>
                             <td class="px-4 py-2">
