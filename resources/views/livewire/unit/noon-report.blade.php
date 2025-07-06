@@ -3,10 +3,10 @@
         <h1 class="text-3xl font-bold">Noon Report</h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-noon-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
@@ -278,7 +278,7 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead>
-                        <tr class="text-white">
+                        <tr>
                             <th class="px-4 py-2">Time (LT)</th>
                             <th class="px-4 py-2">Wind Force (Bft.)</th>
                             <th class="px-4 py-2">Wind Direction (T)</th>
@@ -296,7 +296,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.wind_force"
-                                        label="" required>
+                                        label="">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->winds as $wind)
@@ -308,7 +308,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.wind_direction"
-                                        label="" required>
+                                        label="">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -325,7 +325,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.swell_direction"
-                                        label="" required>
+                                        label="">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -342,7 +342,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.sea_direction"
-                                        label="" required>
+                                        label="">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -354,7 +354,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.sea_ds"
-                                        label="" required>
+                                        label="">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->seas as $sea)
@@ -396,30 +396,30 @@
                 <div class="overflow-x-auto">
                     <table class="min-w-full mb-8">
                         <thead>
-                            <tr class="bg-zinc-800 text-white">
-                                <th class="px-4 py-2">Tank No.</th>
-                                <th class="px-4 py-2">Description</th>
-                                <th class="px-4 py-2">Fuel Grade</th>
-                                <th class="px-4 py-2">Capacity</th>
-                                <th class="px-4 py-2">Unit</th>
-                                <th class="px-4 py-2">ROB (MT)</th>
-                                <th class="px-4 py-2">Supply Date (LT)</th>
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Tank No.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Description</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Fuel Grade</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Capacity</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Unit</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ROB (MT)</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Supply Date (LT)</th>
                                 <th class="px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($rob_data[$type]['tanks'] as $index => $row)
-                                <tr wire:key="{{ $type }}-{{ $index }}">
-                                    <td class="px-4 py-2 w-10">
+                                <tr wire:key="{{ $type }}-{{ $index }}" class="border border-zinc-200 dark:border-zinc-700">
+                                    <td class="px-4 py-2 w-10 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input disabled placeholder="Tank No."
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.tank_no"
                                             class="w-10" />
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.description" />
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:select
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade"
                                             required>
@@ -431,11 +431,11 @@
                                             @endforeach
                                         </flux:select>
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.capacity" />
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         {{-- <flux:select
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit"
                                             required>
@@ -450,16 +450,16 @@
                                             <flux:radio value="GAL" label="GAL" />
                                         </flux:radio.group>
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.rob" />
                                     </td>
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input type="datetime-local"
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.supply_date" />
                                     </td>
                                     <td class="px-4 py-2">
-                                        <flux:button icon="minus" variant="danger"
+                                        <flux:button icon="trash" variant="danger"
                                             wire:click="removeRobRow('{{ $type }}', {{ $index }})" />
                                     </td>
                                 </tr>
@@ -476,51 +476,51 @@
 
                 <!-- ROB/Consumption Table -->
                 <div class="overflow-x-auto">
-                    <table class="min-w-full mb-8">
+                    <table class="min-w-full border border-zinc-200 dark:border-zinc-700 mb-8">
                         <thead>
-                            <tr class="bg-zinc-800 text-white">
-                                <th rowspan="2" class="px-4 py-2">Bunker Type</th>
-                                <th colspan="2" class="px-4 py-2">ROB (in MT)</th>
-                                <th colspan="4" class="px-4 py-2">Consumption</th>
-                                <th colspan="2" class="px-4 py-2">Cons./24 hr</th>
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <th rowspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Bunker Type</th>
+                                <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ROB (in MT)</th>
+                                <th colspan="4" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Consumption</th>
+                                <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Cons./24 hr</th>
                                 <th rowspan="2" class="px-4 py-2">Total Cons.</th>
                             </tr>
-                            <tr class="bg-zinc-800 text-white">
-                                <th class="px-4 py-2">Previous</th>
-                                <th class="px-4 py-2">Current</th>
-                                <th class="px-4 py-2">M/E Propulsion</th>
-                                <th class="px-4 py-2">A/E cons.</th>
-                                <th class="px-4 py-2">Boiler cons.</th>
-                                <th class="px-4 py-2">Incinerators</th>
-                                <th class="px-4 py-2">M/E 24</th>
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Previous</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Current</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">M/E Propulsion</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">A/E cons.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Boiler cons.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Incinerators</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">M/E 24</th>
                                 <th class="px-4 py-2">A/E 24</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="px-4 py-2 font-semibold">{{ $type }} (MT)</td>
-                                <td class="px-4 py-2">
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <td class="px-4 py-2 font-semibold border-r border-zinc-200 dark:border-zinc-700">{{ $type }} (MT)</td>
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.previous" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.current" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_propulsion" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cons" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.boiler_cons" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.incinerators" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_24" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.ae_24" />
                                 </td>
                                 <td class="px-4 py-2">
@@ -532,31 +532,31 @@
                 </div>
 
                 <!-- Oil Table -->
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
+                <div class="overflow-x-auto mt-6">
+                    <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
                         <thead>
-                            <tr class="bg-zinc-800 text-white">
-                                <th colspan="3" class="px-4 py-2">ME CYL</th>
-                                <th colspan="3" class="px-4 py-2">ME CC</th>
-                                <th colspan="3" class="px-4 py-2">AE CC</th>
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <th colspan="4" class="px-4 py-2 text-center border-r border-zinc-200 dark:border-zinc-700">ME CYL</th>
+                                <th colspan="3" class="px-4 py-2 text-center border-r border-zinc-200 dark:border-zinc-700">ME CC</th>
+                                <th colspan="3" class="px-4 py-2 text-center">AE CC</th>
                             </tr>
-                            <tr class="bg-zinc-800 text-white">
-                                <th class="px-4 py-2">Oil Grade</th>
-                                <th class="px-4 py-2">Oil Quantity</th>
-                                <th class="px-4 py-2">Total Runn Hrs.</th>
-                                <th class="px-4 py-2">Oil Cons.</th>
-                                <th class="px-4 py-2">Oil Quantity</th>
-                                <th class="px-4 py-2">Total Run Hrs.</th>
-                                <th class="px-4 py-2">Oil Cons.</th>
-                                <th class="px-4 py-2">Oil Quantity</th>
-                                <th class="px-4 py-2">Total Run Hrs.</th>
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Grade</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                <th class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
                                 <th class="px-4 py-2">Oil Cons.</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody class="border border-zinc-200 dark:border-zinc-700">
+                            <tr class="border border-zinc-200 dark:border-zinc-700">
                                 <!-- ME CYL -->
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2  border-r border-zinc-200 dark:border-zinc-700">
                                     {{-- <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
                                         <flux:select.option>TBN 100</flux:select.option>
                                         <flux:select.option>TBN 70</flux:select.option>
@@ -568,30 +568,30 @@
                                         <flux:radio value="TBN 40" label="TBN 40" />
                                     </flux:radio.group>
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_hrs" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_cons" />
                                 </td>
                                 <!-- ME CC -->
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_cons" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_qty" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_hrs" />
                                 </td>
                                 <!-- AE CC -->
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_cons" />
                                 </td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_qty" />
                                 </td>
                                 <td class="px-4 py-2">
@@ -631,7 +631,7 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Master's Info <flux:badge size="sm">Required</flux:badge>
+            <flux:legend>Master Information <flux:badge size="sm">Required</flux:badge>
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">

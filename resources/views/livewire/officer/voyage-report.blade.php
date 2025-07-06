@@ -192,10 +192,10 @@
 
                             <flux:separator />
 
-                            <!-- Master's Info -->
+                            <!-- Master Information -->
                             @if ($report->master_info)
                                 <div class="pt-4">
-                                    <flux:heading size="sm">Master's Info</flux:heading>
+                                    <flux:heading size="sm">Master Information</flux:heading>
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif

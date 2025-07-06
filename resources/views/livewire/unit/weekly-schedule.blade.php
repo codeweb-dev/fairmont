@@ -5,10 +5,12 @@
         </h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm"
+                @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+                @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-weekly-schedule-report') }}" wire:navigate
@@ -61,9 +63,10 @@
                             <flux:select.option value="Bunkering">Bunkering</flux:select.option>
                             <flux:select.option value="Discharging">Discharging</flux:select.option>
                         </flux:select>
-                        <flux:input type="datetime-local" label="ETA/ETB"
-                            wire:model="ports.{{ $pIndex }}.eta_etb" />
-                        <flux:input type="datetime-local" label="ETCD" wire:model="ports.{{ $pIndex }}.etcd" />
+                        <flux:input type="datetime-local" label="ETA/ETB" wire:model="ports.{{ $pIndex }}.eta_etb"
+                            required badge="Required" />
+                        <flux:input type="datetime-local" label="ETCD" wire:model="ports.{{ $pIndex }}.etcd"
+                            required badge="Required" />
                         <flux:select label="Cargo" required wire:model="ports.{{ $pIndex }}.cargo">
                             <flux:select.option value="">Select</flux:select.option>
                             <flux:select.option value="Oil">Oil</flux:select.option>
@@ -110,7 +113,18 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Master's Info <flux:badge size="sm">Required</flux:badge>
+            <flux:legend>Remarks</flux:legend>
+            <div class="space-y-6">
+                <div class="w-full">
+                    <flux:textarea rows="8" wire:model.defer="remarks" />
+                </div>
+            </div>
+        </flux:fieldset>
+    </div>
+
+    <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
+        <flux:fieldset>
+            <flux:legend>Master Information <flux:badge size="sm">Required</flux:badge>
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">

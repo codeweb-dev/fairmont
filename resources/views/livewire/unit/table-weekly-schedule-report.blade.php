@@ -38,9 +38,9 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">All Fast Date</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -51,10 +51,10 @@
                     <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -156,9 +156,16 @@
 
                             <flux:separator />
 
+                            <div>
+                                <flux:label size="sm">Remarks</flux:label>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
+                            </div>
+
+                            <flux:separator />
+
                             @if ($report->master_info)
                                 <div>
-                                    <flux:label>Master's Info</flux:label>
+                                    <flux:label>Master Information</flux:label>
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif

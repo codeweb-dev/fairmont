@@ -40,10 +40,9 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">Port</th>
-                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -55,10 +54,9 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ $report->port }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -113,6 +111,21 @@
                                         <p>LSMGO : {{ $rob->lsmgo ?? 'N/A' }}</p>
                                     @endforeach
                                 </div>
+                            </div>
+
+                            <flux:separator />
+
+                            <div>
+                                <flux:label size="sm">Remarks</flux:label>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
+                            </div>
+
+                            <flux:separator />
+
+                            <div>
+                                <flux:label>Master Information</flux:label>
+                                <p class="text-sm whitespace-pre-line">
+                                    {{ $report->master_info ? $report->master_info->master_info : '' }}</p>
                             </div>
 
                             <div class="flex justify-end">

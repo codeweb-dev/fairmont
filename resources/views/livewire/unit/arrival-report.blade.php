@@ -3,10 +3,12 @@
         <h1 class="text-3xl font-bold">Arrival Report</h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm"
+                @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+                @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-arrival-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
@@ -209,11 +211,12 @@
                         <tr>
                             <!-- ME CYL -->
                             <td class="px-4 py-2">
-                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" required>
-                                    <flux:select.option>TBN 100</flux:select.option>
-                                    <flux:select.option>TBN 70</flux:select.option>
-                                    <flux:select.option>TBN 40</flux:select.option>
-                                </flux:select>
+                                <flux:radio.group
+                                    wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                    <flux:radio value="MT" label="MT" checked />
+                                    <flux:radio value="L" label="L" />
+                                    <flux:radio value="GAL" label="GAL" />
+                                </flux:radio.group>
                             </td>
                             <td class="px-4 py-2">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />
@@ -264,7 +267,7 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Master's Info <flux:badge size="sm">Required</flux:badge>
+            <flux:legend>Master Information <flux:badge size="sm">Required</flux:badge>
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">

@@ -16,6 +16,7 @@ class WeeklySchedule extends Component
     public $all_fast_datetime; // all_fast_datetime as date here
     public $ports = [];
 
+    public $remarks;
     public $master_info;
 
     public $vesselName = null;
@@ -32,6 +33,7 @@ class WeeklySchedule extends Component
             'voyage_no' => $this->voyage_no,
             'all_fast_datetime' => $this->all_fast_datetime,
             'master_info' => $this->master_info,
+            'remarks' => $this->remarks,
             'ports' => $this->ports,
             'saved_at' => now()->toDateTimeString(),
         ];
@@ -46,6 +48,7 @@ class WeeklySchedule extends Component
 
         if ($draft) {
             $this->voyage_no = $draft['voyage_no'] ?? null;
+            $this->remarks = $draft['remarks'] ?? null;
             $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
             $this->master_info = $draft['master_info'] ?? null;
             $this->ports = $draft['ports'] ?? [];
@@ -78,6 +81,7 @@ class WeeklySchedule extends Component
             'voyage_no' => 'required|string',
             'all_fast_datetime' => 'required|date',
             'master_info' => 'nullable|string|max:5000',
+            'remarks' => 'nullable|string|max:5000',
         ]);
 
         $voyage = Voyage::create([
@@ -101,6 +105,7 @@ class WeeklySchedule extends Component
         }
 
         Toaster::success('Weekly Schedule Created Successfully.');
+        $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
         $this->clearDraft();
         $this->clearForm();

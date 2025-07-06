@@ -20,6 +20,9 @@ class AllFast extends Component
     public $port;
     public $gmt_offset;
 
+    public $remarks;
+    public $master_info;
+
     public $vesselName = null;
     public array $gmtOffsets = [
         "GMT-12:00",
@@ -117,6 +120,8 @@ class AllFast extends Component
         $draftData = [
             'voyage_no' => $this->voyage_no,
             'all_fast_datetime' => $this->all_fast_datetime,
+            'master_info' => $this->master_info,
+            'remarks' => $this->remarks,
             'port' => $this->port,
             'gmt_offset' => $this->gmt_offset,
             'robs' => $this->robs,
@@ -135,6 +140,8 @@ class AllFast extends Component
             $this->voyage_no = $draft['voyage_no'] ?? null;
             $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
             $this->port = $draft['port'] ?? null;
+            $this->remarks = $draft['remarks'] ?? null;
+            $this->master_info = $draft['master_info'] ?? null;
             $this->gmt_offset = $draft['gmt_offset'] ?? null;
             $this->robs = $draft['robs'] ?? [];
         }
@@ -154,6 +161,8 @@ class AllFast extends Component
             'all_fast_datetime' => 'required|date',
             'port' => 'required|string',
             'gmt_offset' => 'required|string',
+            'master_info' => 'nullable|string|max:5000',
+            'remarks' => 'nullable|string|max:5000',
         ]);
 
         $voyage = Voyage::create([
@@ -173,6 +182,9 @@ class AllFast extends Component
         foreach ($this->robs as $rob) {
             $voyage->robs()->create($rob);
         }
+
+        $voyage->remarks()->create(['remarks' => $this->remarks]);
+        $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         // Clear draft after successful save
         $this->clearDraft();

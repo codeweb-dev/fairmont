@@ -234,10 +234,6 @@
                         <td style="width: 200px; border: 1px solid #000;">{{ $fuel->total_cons ?? 'N/A' }}</td>
                     </tr>
 
-                    <tr colspan="13">
-                        <td></td>
-                    </tr>
-
                     {{-- Lubricating Oils Table Format --}}
                     <tr>
                         <td rowspan="2" style="width: 200px; border: 1px solid #000;"><strong>Oil Grade</strong></td>
@@ -289,7 +285,7 @@
                 </td>
             </tr>
 
-            {{-- MASTER'S INFO --}}
+            {{-- Master Information --}}
             @if ($report->master_info)
                 <tr>
                     <td><strong>Master's Name</strong></td>

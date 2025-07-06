@@ -40,9 +40,8 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
-                <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">Date</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -53,12 +52,9 @@
                     <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">
-                    {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '-' }}
-                </td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -137,23 +133,23 @@
                             <div class="grid grid-cols-4 gap-4">
                                 <div>
                                     <flux:label>Avg ME RPM</flux:label>
-                                    <p class="text-sm">{{ $report->engine->avg_me_rpm }}</p>
+                                    <p class="text-sm">{{ number_format($report->engine->avg_me_rpm, 0) }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Avg ME kW</flux:label>
-                                    <p class="text-sm">{{ $report->engine->avg_me_kw }}</p>
+                                    <p class="text-sm">{{ number_format($report->engine->avg_me_kw, 0) }}</p>
                                 </div>
                                 <div>
                                     <flux:label>TDR (Nm)</flux:label>
-                                    <p class="text-sm">{{ $report->engine->tdr }}</p>
+                                    <p class="text-sm">{{ number_format($report->engine->tdr, 0) }}</p>
                                 </div>
                                 <div>
                                     <flux:label>TST (Hrs)</flux:label>
-                                    <p class="text-sm">{{ $report->engine->tst }}</p>
+                                    <p class="text-sm">{{ number_format($report->engine->tst, 0) }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Slip (%)</flux:label>
-                                    <p class="text-sm">{{ $report->engine->slip }}</p>
+                                    <p class="text-sm">{{ number_format($report->engine->slip, 0) }}</p>
                                 </div>
                             </div>
 
@@ -165,46 +161,42 @@
                                 @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $rob)
                                     <div>
                                         <flux:label>{{ strtoupper($rob) }}</flux:label>
-                                        <p class="text-sm">{{ optional($report->robs->first())->$rob ?? '-' }}</p>
+                                        <p class="text-sm">
+                                            {{ optional($report->robs->first())->$rob !== null ? number_format(optional($report->robs->first())->$rob, 0) : '-' }}
+                                        </p>
                                     </div>
                                 @endforeach
                             </div>
 
                             <flux:separator />
 
-                            <!-- Received -->
+                            {{-- Received --}}
                             <flux:heading size="sm">Received</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
                                 @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $recv)
                                     <div>
                                         <flux:label>{{ strtoupper($recv) }}</flux:label>
-                                        <p class="text-sm">{{ $report->received->$recv ?? '-' }}</p>
+                                        <p class="text-sm">
+                                            {{ isset($report->received->$recv) ? number_format($report->received->$recv, 0) : '-' }}
+                                        </p>
                                     </div>
                                 @endforeach
                             </div>
 
                             <flux:separator />
 
-                            <!-- Consumption -->
+                            {{-- Consumption --}}
                             <flux:heading size="sm">Consumption</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
                                 @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $cons)
                                     <div>
                                         <flux:label>{{ strtoupper($cons) }}</flux:label>
-                                        <p class="text-sm">{{ $report->consumption->$cons ?? '-' }}</p>
+                                        <p class="text-sm">
+                                            {{ isset($report->consumption->$cons) ? number_format($report->consumption->$cons, 0) : '-' }}
+                                        </p>
                                     </div>
                                 @endforeach
                             </div>
-
-                            <flux:separator />
-
-                            <!-- Master's Info -->
-                            @if ($report->master_info)
-                                <div class="pt-4">
-                                    <flux:heading size="sm">Master's Info</flux:heading>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
 
                             <flux:separator />
 
@@ -213,6 +205,16 @@
                                 <div class="pt-4">
                                     <flux:heading size="sm">Remarks</flux:heading>
                                     <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                                </div>
+                            @endif
+
+                            <flux:separator />
+
+                            <!-- Master Information -->
+                            @if ($report->master_info)
+                                <div class="pt-4">
+                                    <flux:heading size="sm">Master Information</flux:heading>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
 

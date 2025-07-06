@@ -36,14 +36,13 @@
                 <tr>
                     <th class="px-3 py-3">Name</th>
                     <th class="px-3 py-3">Email</th>
-                    <th class="px-3 py-3">Deleted At</th>
+                    <th class="px-3 py-3">Deleted Date</th>
                     <th class="px-3 py-3"></th>
                 </tr>
             </thead>
 
             @foreach ($items as $user)
                 <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                    <td class="px-3 py-4">{{ $user->id }}</td>
                     <td class="px-3 py-4">{{ $user->name }}</td>
                     <td class="px-3 py-4">{{ $user->email }}</td>
                     <td class="px-3 py-4">{{ $user->deleted_at }}</td>
@@ -128,8 +127,8 @@
                 <tr>
                     <th class="px-3 py-3">Report Type</th>
                     <th class="px-3 py-3">Vessel</th>
-                    <th class="px-3 py-3">Unit</th>
-                    <th class="px-3 py-3">Deleted At</th>
+                    <th class="px-3 py-3">Vessel User</th>
+                    <th class="px-3 py-3">Deleted Date</th>
                     <th class="px-3 py-3"></th>
                 </tr>
             </thead>

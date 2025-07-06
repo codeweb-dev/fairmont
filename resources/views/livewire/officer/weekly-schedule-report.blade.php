@@ -152,7 +152,7 @@
 
                             @if ($report->master_info)
                                 <div>
-                                    <flux:label>Master's Info</flux:label>
+                                    <flux:label>Master Information</flux:label>
                                     <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif

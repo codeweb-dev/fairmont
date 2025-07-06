@@ -207,10 +207,6 @@
                     <td style="width: 200px; border: 1px solid #000;">{{ $fuel->total_cons ?? 'N/A' }}</td>
                 </tr>
 
-                <tr colspan="2">
-                    <td></td>
-                </tr>
-
                 {{-- ME CYL Section --}}
                 {{-- Header Group Row --}}
                 <tr>

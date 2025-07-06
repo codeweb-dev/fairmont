@@ -19,7 +19,7 @@
 
             <flux:modal.trigger name="reassign-user">
                 <flux:button icon="arrow-path">
-                    Reassign Unit/Officer
+                    Reassign Vessel User/Officer
                 </flux:button>
             </flux:modal.trigger>
 
@@ -72,13 +72,13 @@
                             <flux:menu.radio.group>
                                 <flux:modal.trigger name="assign-user-{{ $vessel->id }}">
                                     <flux:menu.item icon="plus">
-                                        Assign Unit/Officer
+                                        Assign Vessel User/Officer
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 
                                 <flux:modal.trigger name="view-vessel-{{ $vessel->id }}">
                                     <flux:menu.item icon="eye">
-                                        View Assigned Unit/Officer
+                                        View Assigned VEssel User/Officer
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 

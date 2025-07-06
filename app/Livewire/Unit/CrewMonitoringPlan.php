@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 class CrewMonitoringPlan extends Component
 {
     public $vessel_id;
+    public $remarks;
     public $master_info;
     public $vesselName = null;
 
@@ -39,6 +40,7 @@ class CrewMonitoringPlan extends Component
     {
         $draft = [
             'master_info' => $this->master_info,
+            'remarks' => $this->remarks,
             'crew_change' => $this->crew_change,
             'board_crew' => $this->board_crew,
             'onBoardMode' => $this->onBoardMode,
@@ -54,6 +56,7 @@ class CrewMonitoringPlan extends Component
 
         if ($draft) {
             $this->master_info = $draft['master_info'] ?? null;
+            $this->remarks = $draft['remarks'] ?? null;
             $this->crew_change = $draft['crew_change'] ?? [];
             $this->board_crew = $draft['board_crew'] ?? [];
             $this->onBoardMode = $draft['onBoardMode'] ?? true;
@@ -145,6 +148,7 @@ class CrewMonitoringPlan extends Component
         $this->validate([
             'vessel_id' => 'required|exists:vessels,id',
             'master_info' => 'nullable|string|max:5000',
+            'remarks' => 'nullable|string|max:5000',
         ]);
 
         $voyage = Voyage::create([
@@ -167,6 +171,7 @@ class CrewMonitoringPlan extends Component
             }
         }
 
+        $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Toaster::success('Crew Monitoring Plan Created Successfully');

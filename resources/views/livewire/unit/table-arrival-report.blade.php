@@ -38,8 +38,10 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
-                <th class="px-3 py-3">Date/Time (LT)</th>
+                <th class="px-3 py-3">Voyage No</th>
+                <th class="px-3 py-3">Arrival Type</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -51,8 +53,10 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
+                <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -132,7 +136,7 @@
                                         <p class="text-sm">{{ $report->noon_report->me_cons_cp_speed }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
+                                        <flux:label>Obs. Distance (NM)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->obs_distance }}</p>
                                     </div>
                                     <div>
@@ -331,16 +335,16 @@
 
                             <flux:separator />
 
-                            @if ($report->master_info)
-                                <flux:heading size="sm">Master's Info</flux:heading>
-                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                            @if ($report->remarks)
+                                <flux:heading size="sm">Remarks</flux:heading>
+                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
                             @endif
 
                             <flux:separator />
 
-                            @if ($report->remarks)
-                                <flux:heading size="sm">Remarks</flux:heading>
-                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @if ($report->master_info)
+                                <flux:heading size="sm">Master Information</flux:heading>
+                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                             @endif
 
                             <div class="flex justify-end pt-4">

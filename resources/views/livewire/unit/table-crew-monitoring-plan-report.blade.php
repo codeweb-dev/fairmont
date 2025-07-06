@@ -40,7 +40,8 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -52,6 +53,7 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -70,7 +72,9 @@
 
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
                         <div class="space-y-6">
-                            <flux:heading size="lg">Crew Monitoring Plan Report Details</flux:heading>
+                            <flux:heading size="lg">
+                                {{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change Data' }}
+                            </flux:heading>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
@@ -81,70 +85,132 @@
                                     <flux:label>Unit</flux:label>
                                     <p class="text-sm">{{ $report->unit->name }}</p>
                                 </div>
-                                <div>
-                                    <flux:label>Master's Info</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->master_info ? $report->master_info->master_info : 'N/A' }}
-                                    </p>
-                                </div>
                             </div>
 
                             <flux:separator />
 
-                            <div class="pt-4">
-                                <div class="space-y-6">
-                                    @if ($report->board_crew->isNotEmpty())
-                                        <div class="pt-4">
-                                            <flux:heading size="lg">Board Crew Details</flux:heading>
-                                            <div class="space-y-4">
-                                                @foreach ($report->board_crew as $crew)
-                                                    <div class="mt-6">
-                                                        <p class="mb-3"><strong>First Name:</strong>
-                                                            {{ $crew->crew_first_name }}</p>
-                                                        <p class="mb-3"><strong>Surname:</strong>
-                                                            {{ $crew->crew_surname }}</p>
-                                                        <p class="mb-3"><strong>Rank:</strong> {{ $crew->rank }}
-                                                        </p>
-                                                        <p class="mb-3"><strong>Joining Date:</strong>
-                                                            {{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}
-                                                        </p>
-                                                        <p class="mb-3"><strong>Contract Completion:</strong>
-                                                            {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
-                                                        </p>
-                                                    </div>
-                                                @endforeach
-                                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                @if ($report->board_crew->isNotEmpty())
+                                    @foreach ($report->board_crew as $i => $crew)
+                                        <div class="col-span-2">
+                                            <flux:heading size="lg">Board Crew {{ $i + 1 }}</flux:heading>
                                         </div>
-                                    @endif
+                                        <div>
+                                            <flux:label>No</flux:label>
+                                            <p class="text-sm">{{ $crew->no }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Crew Surname</flux:label>
+                                            <p class="text-sm">{{ $crew->crew_surname }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Crew First Name</flux:label>
+                                            <p class="text-sm">{{ $crew->crew_first_name }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Rank</flux:label>
+                                            <p class="text-sm">{{ $crew->rank }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Crew Nationality</flux:label>
+                                            <p class="text-sm">{{ $crew->crew_nationality }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Joining Date</flux:label>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Contract Completion Date</flux:label>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Current Date</flux:label>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Date to Contract Completion</flux:label>
+                                            <p class="text-sm">{{ $crew->days_contract_completion }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>No of Months On Board</flux:label>
+                                            <p class="text-sm">{{ $crew->months_on_board }}</p>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <flux:separator />
+                                        </div>
+                                    @endforeach
+                                @endif
 
-                                    @if ($report->crew_change->isNotEmpty())
-                                        <div class="pt-4">
-                                            <flux:heading size="lg">Crew Change Details</flux:heading>
-                                            <div class="space-y-4">
-                                                @foreach ($report->crew_change as $crew)
-                                                    <div class="mt-6">
-                                                        <p class="mb-3"><strong>Port:</strong> {{ $crew->port }}
-                                                        </p>
-                                                        <p class="mb-3"><strong>Country:</strong>
-                                                            {{ $crew->country }}</p>
-                                                        <p class="mb-3"><strong>Joiners Boarding:</strong>
-                                                            {{ \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') }}
-                                                        </p>
-                                                        <p class="mb-3"><strong>Off-signers:</strong>
-                                                            {{ \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') }}
-                                                        </p>
-                                                        <p class="mb-3"><strong>Joiner Ranks:</strong>
-                                                            {{ $crew->joiner_ranks }}</p>
-                                                        <p class="mb-3"><strong>Off-Signer Ranks:</strong>
-                                                            {{ $crew->off_signer_ranks }}</p>
-                                                        <p class="mb-3"><strong>Total Crew Change:</strong>
-                                                            {{ $crew->total_crew_change }}</p>
-                                                    </div>
-                                                @endforeach
-                                            </div>
+                                @if ($report->crew_change->isNotEmpty())
+                                    @foreach ($report->crew_change as $i => $crew)
+                                        <div class="col-span-2">
+                                            <flux:heading size="lg">Crew Change {{ $i + 1 }}</flux:heading>
                                         </div>
-                                    @endif
-                                </div>
+                                        <div>
+                                            <flux:label>Port</flux:label>
+                                            <p class="text-sm">{{ $crew->port }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Country</flux:label>
+                                            <p class="text-sm">{{ $crew->country }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Date of Joiners Boarding</flux:label>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Date of Off-signers Sign Off</flux:label>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Joiners Ranks</flux:label>
+                                            <p class="text-sm">{{ $crew->joiner_ranks }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Off-Signers Ranks</flux:label>
+                                            <p class="text-sm">{{ $crew->off_signers_ranks }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Total Crew Change</flux:label>
+                                            <p class="text-sm">{{ $crew->total_crew_change }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Reason for Change</flux:label>
+                                            <p class="text-sm">{{ $crew->reason_change }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Remarks</flux:label>
+                                            <p class="text-sm">{{ $crew->remarks }}</p>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <flux:separator />
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <div>
+                                <flux:label size="sm">Remarks</flux:label>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : "" }}</p>
+                            </div>
+
+                            <flux:separator />
+
+                            <div>
+                                <flux:label>Master Information</flux:label>
+                                <p class="text-sm">
+                                    {{ $report->master_info ? $report->master_info->master_info : "" }}
+                                </p>
                             </div>
 
                             <div class="flex justify-end pt-4">

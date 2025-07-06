@@ -468,9 +468,9 @@
 
                             <flux:separator />
 
-                            <!-- Master's Info -->
+                            <!-- Master Information -->
                             <div>
-                                <flux:label class="font-bold text-lg">Master's Info</flux:label>
+                                <flux:label class="font-bold text-lg">Master Information</flux:label>
                                 <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info ?? '-' }}
                                 </p>
                             </div>

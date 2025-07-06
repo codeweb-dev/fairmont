@@ -16,6 +16,7 @@ class PortOfCall extends Component
     public $ports = [];
 
     public $master_info;
+    public $remarks;
     public $vesselName = null;
 
     public $call_sign;
@@ -176,6 +177,7 @@ class PortOfCall extends Component
         $this->clearDraft();
 
         $this->reset([
+            'remarks',
             'master_info',
             'ports',
             'call_sign',
@@ -284,6 +286,7 @@ class PortOfCall extends Component
 
         Toaster::success('Port Of Call Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
+        $voyage->remarks()->create(['remarks' => $this->remarks]);
         $this->clearDraft();
         $this->clearForm();
 

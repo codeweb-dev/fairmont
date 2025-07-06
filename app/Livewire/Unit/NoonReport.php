@@ -22,8 +22,8 @@ class NoonReport extends Component
     public $port_gmt_offset = ''; // as Report Type
     public $all_fast_datetime; // as Date/Time (LT)
     public $gmt_offset;
-    public $port = "0° 0' 0'' N"; // as Latitude
-    public $bunkering_port = "0° 0' 0'' W"; // as Longtitude
+    public $port = "0° 0' 0'' N/S"; // as Latitude
+    public $bunkering_port = "0° 0' 0'' E/W"; // as Longtitude
     public $supplier; // as Port of Departure
 
     // Report Details
@@ -198,7 +198,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => '',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -223,7 +223,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => '',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -248,7 +248,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => '',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -273,7 +273,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => '',
+                'me_cyl_grade' => 'TBN 100',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',

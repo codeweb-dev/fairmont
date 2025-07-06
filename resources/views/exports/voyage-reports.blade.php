@@ -82,15 +82,15 @@
 
         <tr><td colspan="7"></td></tr>
 
-        {{-- Master's Info --}}
-        <tr><td colspan="2" style="font-weight: bold;">Master's Info</td></tr>
-        <tr><td>Master’s Info:</td><td>{{ $report->master_info->master_info ?? 'N/A' }}</td></tr>
-
-        <tr><td colspan="7"></td></tr>
-
         {{-- Remarks --}}
         <tr><td colspan="2" style="font-weight: bold;">Remarks</td></tr>
         <tr><td>Remarks:</td><td>{{ $report->remarks->remarks ?? 'N/A' }}</td></tr>
+
+        <tr><td colspan="7"></td></tr>
+
+        {{-- Master Information --}}
+        <tr><td colspan="2" style="font-weight: bold;">Master Information</td></tr>
+        <tr><td>Master’s Info:</td><td>{{ $report->master_info->master_info ?? 'N/A' }}</td></tr>
     </table>
 
     <br><br>

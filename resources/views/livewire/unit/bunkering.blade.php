@@ -5,10 +5,12 @@
         </h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm"
+                @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+                @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-bunkering-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
@@ -156,11 +158,10 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Master's Info <flux:badge size="sm">Required</flux:badge>
-            </flux:legend>
+            <flux:legend>Remarks</flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" required />
+                    <flux:textarea rows="8" wire:model.defer="remarks" />
                 </div>
             </div>
         </flux:fieldset>
@@ -168,10 +169,11 @@
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
-            <flux:legend>Remarks</flux:legend>
+            <flux:legend>Master Information <flux:badge size="sm">Required</flux:badge>
+            </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="remarks" />
+                    <flux:textarea rows="8" wire:model.defer="master_info" required />
                 </div>
             </div>
         </flux:fieldset>

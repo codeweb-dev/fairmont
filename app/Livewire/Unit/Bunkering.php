@@ -175,7 +175,7 @@ class Bunkering extends Component
             'pumping' => 'nullable|date',
             'pumping_gmt' => 'nullable|string',
 
-            // Remarks and Master's Info
+            // Remarks and Master Information
             'remarks' => 'nullable|string|max:5000',
             'master_info' => 'nullable|string|max:5000',
         ]);
