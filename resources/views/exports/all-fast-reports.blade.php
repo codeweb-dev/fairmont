@@ -1,7 +1,12 @@
 <table>
     <thead>
         <tr>
-            <th colspan="13">All Fast Report Details</th>
+            <th colspan="13"><strong>All Fast Report Details</strong></th>
+        </tr>
+
+        <tr>
+            <td colspan="13">
+            </td>
         </tr>
     </thead>
     {{-- Header: Voyage Details --}}
@@ -49,10 +54,10 @@
     @foreach ($reports as $report)
         @foreach ($report->robs as $rob)
             <tr>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? 'N/A' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? 'N/A' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->vlsfo ?? 'N/A' }}</td>
-                <td style="border: 1px solid #000; width: 250px;">{{ $rob->lsmgo ?? 'N/A' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->hsfo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->biofuel ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->vlsfo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px;">{{ $rob->lsmgo ?? '' }}</td>
             </tr>
         @endforeach
     @endforeach
@@ -65,7 +70,7 @@
     @if ($report->remarks)
         <tr>
             <td><strong>Remarks</strong></td>
-            <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+            <td>{{ $report->remarks->remarks ?? '' }}</td>
         </tr>
     @endif
 
@@ -77,7 +82,7 @@
     @if ($report->master_info)
         <tr>
             <td><strong>Master Information</strong></td>
-            <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+            <td>{{ $report->master_info->master_info ?? '' }}</td>
         </tr>
     @endif
 </table>

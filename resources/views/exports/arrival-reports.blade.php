@@ -1,7 +1,12 @@
 <table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%;">
     <thead>
         <tr>
-            <th colspan="13">Arrival Report Details</th>
+            <th colspan="13"><strong>Arrival Report Details</strong></th>
+        </tr>
+
+        <tr>
+            <td colspan="13">
+            </td>
         </tr>
     </thead>
     <tbody>
@@ -131,39 +136,39 @@
                 </tr>
                 <tr>
                     <td>Condition:</td>
-                    <td>{{ $report->noon_report->condition ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->condition ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Displacement (MT):</td>
-                    <td>{{ $report->noon_report->displacement ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->displacement ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Cargo Name:</td>
-                    <td>{{ $report->noon_report->cargo_name ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->cargo_name ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Cargo Weight (MT):</td>
-                    <td>{{ $report->noon_report->cargo_weight ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->cargo_weight ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Ballast Weight (MT):</td>
-                    <td>{{ $report->noon_report->ballast_weight ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->ballast_weight ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Fresh Water (MT):</td>
-                    <td>{{ $report->noon_report->fresh_water ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->fresh_water ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Fwd Draft (m):</td>
-                    <td>{{ $report->noon_report->fwd_draft ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->fwd_draft ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Aft Draft (m):</td>
-                    <td>{{ $report->noon_report->aft_draft ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->aft_draft ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>GM:</td>
-                    <td>{{ $report->noon_report->gm ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->gm ?? '' }}</td>
                 </tr>
             @endif
 
@@ -230,9 +235,9 @@
 
                         {{-- Condensed Oil Details --}}
                         <tr class="bg-zinc-100 dark:bg-zinc-800 text-center font-semibold">
-                            <td style="width: 200px; border: 1px solid #000;" colspan="4">ME CYL</td>
-                            <td style="width: 200px; border: 1px solid #000;" colspan="3">ME CC</td>
-                            <td style="width: 200px; border: 1px solid #000;" colspan="3">AE CC</td>
+                            <td style="width: 200px; border: 1px solid #000; text-align: center;" colspan="4"><strong>ME CYL</strong></td>
+                            <td style="width: 200px; border: 1px solid #000; text-align: center;" colspan="3"><strong>ME CC</strong></td>
+                            <td style="width: 200px; border: 1px solid #000; text-align: center;" colspan="3"><strong>AE CC</strong></td>
                         </tr>
                         <tr>
                             <th style="width: 200px; border: 1px solid #000;">Oil Grade</th>
@@ -270,15 +275,11 @@
                 @endforeach
             @endif
 
-            <tr colspan="2">
-                <td></td>
-            </tr>
-
             {{-- REMARKS --}}
             @if ($report->remarks)
                 <tr>
                     <td><strong>Remarks</strong></td>
-                    <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+                    <td>{{ $report->remarks->remarks ?? '' }}</td>
                 </tr>
             @endif
 

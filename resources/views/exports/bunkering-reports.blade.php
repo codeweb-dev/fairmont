@@ -3,7 +3,7 @@
         <tr><td style="font-weight: bold;">Bunkering Report Details</td></tr>
     </table>
     {{-- Bunkering Details --}}
-    <table>
+    <table style="width: 100%;">
         <tr><td colspan="2" style="font-weight: bold;">Bunkering Details</td></tr>
         <tr><td style="width: 250px;">Vessel Name:</td><td>{{ $r->vessel->name ?? '' }}</td></tr>
         <tr><td style="width: 250px;">Voyage No:</td><td>{{ $r->voyage_no ?? '' }}</td></tr>
@@ -16,7 +16,7 @@
     </table>
 
     {{-- Bunker Quantities --}}
-    <table>
+    <table style="width: 100%;">
         <tr><td colspan="2" style="font-weight: bold;">Bunker Type Quantity Taken (in MT)</td></tr>
         <tr><td style="width: 250px;">HSFO Quantity (MT):</td><td>{{ $r->bunker->hsfo_quantity ?? '' }}</td></tr>
         <tr><td style="width: 250px;">HSFO Viscosity (CST):</td><td>{{ $r->bunker->hsfo_viscosity ?? '' }}</td></tr>
@@ -29,7 +29,7 @@
     </table>
 
     {{-- Associated Information --}}
-    <table>
+    <table style="width: 100%;">
         <tr><td colspan="2" style="font-weight: bold;">Associated Information</td></tr>
         <tr><td style="width: 250px;">In Port vs Off Shore Delivery:</td><td>{{ $r->assiociated_information->port_delivery ?? '' }}</td></tr>
         <tr><td style="width: 250px;">EOSP (LT):</td><td>{{ $r->assiociated_information->eosp ?? '' }}</td></tr>
@@ -45,13 +45,13 @@
     </table>
 
     {{-- Remarks --}}
-    <table>
+    <table style="width: 100%;">
         <tr><td colspan="2" style="font-weight: bold;">Remarks</td></tr>
         <tr><td style="width: 250px;">Remarks:</td><td>{{ $r->remarks->remarks ?? '' }}</td></tr>
     </table>
 
     {{-- Master Info --}}
-    <table>
+    <table style="width: 100%;">
         <tr><td colspan="2" style="font-weight: bold;">Master Information</td></tr>
         <tr><td style="width: 250px;">Master's Name:</td><td>{{ $r->master_info->master_info ?? '' }}</td></tr>
     </table>

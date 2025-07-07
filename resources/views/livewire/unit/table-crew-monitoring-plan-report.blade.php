@@ -159,13 +159,13 @@
                                         <div>
                                             <flux:label>Date of Joiners Boarding</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') }}
+                                                {{ $crew->joiners_boarding ? \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Date of Off-signers Sign Off</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') }}
+                                                {{ $crew->off_signers ? \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>

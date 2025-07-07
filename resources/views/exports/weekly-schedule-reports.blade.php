@@ -2,6 +2,9 @@
     <tr>
         <td colspan="6" style="font-weight: bold;">Weekly Schedule Report Details</td>
     </tr>
+    <tr>
+        <td></td>
+    </tr>
 
     {{-- Schedule Details --}}
     <tr>
@@ -34,7 +37,7 @@
             {{-- Port Info Header --}}
             <tr>
                 <td colspan="6" style="font-weight: bold; width: 150px;">
-                    Port {{ $i + 1 }} - {{ $port->port ?? 'N/A' }}
+                    Port {{ $i + 1 }} - {{ $port->port ?? '' }}
                 </td>
             </tr>
             <tr>
@@ -92,7 +95,7 @@
     @if ($report->remarks)
         <tr>
             <td><strong>Remarks</strong></td>
-            <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+            <td>{{ $report->remarks->remarks ?? '' }}</td>
         </tr>
     @endif
 
@@ -104,7 +107,7 @@
     @if ($report->master_info)
         <tr>
             <td><strong>Master's Name</strong></td>
-            <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+            <td>{{ $report->master_info->master_info ?? '' }}</td>
         </tr>
     @endif
 </table>

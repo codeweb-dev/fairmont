@@ -1,5 +1,15 @@
 @foreach ($reports as $report)
     <table>
+        <thead>
+            <tr>
+                <th colspan="13"><strong>Crew Monitoring Plan Report Details</strong></th>
+            </tr>
+
+            <tr>
+                <td colspan="13">
+                </td>
+            </tr>
+        </thead>
         <tr>
             <td colspan="2" style="font-weight: bold;">General Info</td>
         </tr>
@@ -37,15 +47,15 @@
             </tr>
             <tr>
                 <td style="width: 150px;">Joining Date</td>
-                <td>{{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}</td>
+                <td>{{ $crew->joining_date ? \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Days to contract completion</td>
-                <td>{{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}</td>
+                <td>{{ $crew->contract_completion ? \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Current Date</td>
-                <td>{{ \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') }}</td>
+                <td>{{ $crew->current_date ? \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Date to Contract Completion</td>
@@ -74,11 +84,11 @@
             </tr>
             <tr>
                 <td style="width: 150px;">Date of Joiners Boarding</td>
-                <td>{{ \Carbon\Carbon::parse($change->joiners_boarding)->format('M d, Y h:i A') }}</td>
+                <td>{{ $change->joiners_boarding ? \Carbon\Carbon::parse($change->joiners_boarding)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Date of Off-signers Sign Off</td>
-                <td>{{ \Carbon\Carbon::parse($change->off_signers)->format('M d, Y h:i A') }}</td>
+                <td>{{ $change->off_signers ? \Carbon\Carbon::parse($change->off_signers)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Joiners Ranks</td>
@@ -110,7 +120,7 @@
         @if ($report->remarks)
             <tr>
                 <td><strong>Remarks</strong></td>
-                <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+                <td>{{ $report->remarks->remarks ?? '' }}</td>
             </tr>
         @endif
 
@@ -122,7 +132,7 @@
         @if ($report->master_info)
             <tr>
                 <td><strong>Master's Name</strong></td>
-                <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+                <td>{{ $report->master_info->master_info ?? '' }}</td>
             </tr>
         @endif
     </table>
