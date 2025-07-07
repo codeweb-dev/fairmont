@@ -1,19 +1,31 @@
 <div>
-    <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
-        <h1 class="text-3xl font-bold">KPI Reports</h1>
+    <div class="flex flex-col gap-6 mb-6">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
+            <h1 class="text-3xl font-bold">
+                KPI Reports
+            </h1>
 
-        <div class="flex items-center gap-3">
-            <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
-            </div>
-            <div class="max-w-18">
-                <flux:select wire:model.live="perPage" placeholder="Rows per page">
-                    @foreach ($pages as $page)
-                        <flux:select.option value="{{ $page }}">{{ $page }}</flux:select.option>
-                    @endforeach
-                </flux:select>
-            </div>
+            <div class="flex items-center gap-3">
+                <div class="max-w-64">
+                    <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
+                </div>
+                <div class="max-w-18">
+                    <flux:select wire:model.live="perPage" placeholder="Rows per page">
+                        @foreach ($pages as $page)
+                            <flux:select.option value="{{ $page }}">{{ $page }}</flux:select.option>
+                        @endforeach
+                    </flux:select>
+                </div>
 
+                <div>
+                    <flux:button href="{{ route('kpi') }}" wire:navigate icon:trailing="plus">
+                        Create Report
+                    </flux:button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 justify-end items-center w-full">
             @if (count($selectedReports) > 0)
                 <div>
                     <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
@@ -22,10 +34,32 @@
                 </div>
             @endif
 
-            <div>
-                <flux:button href="{{ route('kpi') }}" wire:navigate icon:trailing="plus">
-                    Create Report
-                </flux:button>
+            @if ($dateRange)
+                <div>
+                    <flux:button wire:click="$set('dateRange', null)" variant="danger" icon="x-circle">
+                        Clear Filter
+                    </flux:button>
+                </div>
+            @endif
+
+            <div x-data="{
+                fp: null
+            }" x-init="fp = flatpickr($refs.rangeInput, {
+                mode: 'range',
+                dateFormat: 'Y-m-d',
+                onChange: function(selectedDates, dateStr) {
+                    $wire.set('dateRange', dateStr || null);
+                }
+            });"
+                x-effect="
+                    if ($wire.dateRange === null && fp) {
+                        fp.clear();
+                    }
+                "
+                wire:ignore>
+                <input x-ref="rangeInput" type="text"
+                    class="form-input w-full border rounded-lg block disabled:shadow-none dark:shadow-none text-base sm:text-sm py-2 h-10 leading-[1.375rem] ps-3 bg-white dark:bg-white/10 dark:disabled:bg-white/[7%] shadow-xs border-zinc-200 border-b-zinc-300/80 disabled:border-b-zinc-200 dark:border-white/10 dark:disabled:border-white/5"
+                    placeholder="Select Date Range">
             </div>
         </div>
     </div>
@@ -44,6 +78,21 @@
             </tr>
         </thead>
 
+        @if ($reports->isEmpty())
+            <tr>
+                <td colspan="8" class="text-center text-zinc-500 py-10">
+                    <div class="flex flex-col items-center space-y-2">
+                        <flux:icon.archive-box-x-mark class="size-12" />
+
+                        <flux:heading>No reports found.</flux:heading>
+                        <flux:text class="mt-1 text-center max-w-sm">
+                            Try adding a new report or adjusting your search or date range
+                            filter.
+                        </flux:text>
+                    </div>
+                </td>
+            </tr>
+        @endif
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">

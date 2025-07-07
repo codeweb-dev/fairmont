@@ -24,6 +24,8 @@ class TableAllFastReport extends Component
     public $selectedReports = [];
     public $selectAll = false;
 
+    public $dateRange;
+
     protected $paginationTheme = 'tailwind';
 
     public function updatingPerPage()
@@ -69,7 +71,36 @@ class TableAllFastReport extends Component
                     $q->where('name', 'like', '%' . $this->search . '%')
                 )
             )
+            ->when($this->dateRange, function ($query) {
+                $dates = explode(' to ', $this->dateRange);
+
+                if (count($dates) === 2) {
+                    [$start, $end] = $dates;
+
+                    return $query->whereBetween('created_at', [
+                        \Carbon\Carbon::parse($start)->startOfDay(),
+                        \Carbon\Carbon::parse($end)->endOfDay(),
+                    ]);
+                }
+
+                return $query;
+            })
             ->latest();
+    }
+
+    public function updatedDateRange()
+    {
+        if (!$this->dateRange) {
+            // When cleared, reset selection and page
+            $this->selectedReports = [];
+            $this->selectAll = false;
+            $this->resetPage();
+        } else {
+            // When set, auto-select filtered reports
+            $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
+            $this->selectedReports = $reportIds;
+            $this->selectAll = count($reportIds) > 0;
+        }
     }
 
     public function exportSelected()
@@ -93,6 +124,7 @@ class TableAllFastReport extends Component
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
             $this->selectAll = false;
+            $this->dateRange = null;
 
             return Excel::download(new AllFastReportsExport([$reportId]), $filename);
         } else {
@@ -134,6 +166,7 @@ class TableAllFastReport extends Component
         Toaster::success('Reports exported successfully.');
         $this->selectedReports = [];
         $this->selectAll = false;
+        $this->dateRange = null;
 
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }

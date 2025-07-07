@@ -25,6 +25,8 @@ class TableBunkeringReport extends Component
     public $selectedReports = [];
     public $selectAll = false;
 
+    public $dateRange;
+
     public function updatingPerPage()
     {
         $this->resetPage();
@@ -68,7 +70,36 @@ class TableBunkeringReport extends Component
                     $q->where('name', 'like', '%' . $this->search . '%')
                 )
             )
+            ->when($this->dateRange, function ($query) {
+                $dates = explode(' to ', $this->dateRange);
+
+                if (count($dates) === 2) {
+                    [$start, $end] = $dates;
+
+                    return $query->whereBetween('created_at', [
+                        \Carbon\Carbon::parse($start)->startOfDay(),
+                        \Carbon\Carbon::parse($end)->endOfDay(),
+                    ]);
+                }
+
+                return $query;
+            })
             ->latest();
+    }
+
+    public function updatedDateRange()
+    {
+        if (!$this->dateRange) {
+            // When cleared, reset selection and page
+            $this->selectedReports = [];
+            $this->selectAll = false;
+            $this->resetPage();
+        } else {
+            // When set, auto-select filtered reports
+            $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
+            $this->selectedReports = $reportIds;
+            $this->selectAll = count($reportIds) > 0;
+        }
     }
 
     public function exportSelected()
@@ -92,6 +123,7 @@ class TableBunkeringReport extends Component
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
             $this->selectAll = false;
+            $this->dateRange = null;
 
             return Excel::download(new BunkeringReportsExport([$reportId]), $filename);
         } else {
@@ -140,27 +172,14 @@ class TableBunkeringReport extends Component
         Toaster::success('Reports exported successfully.');
         $this->selectedReports = [];
         $this->selectAll = false;
+        $this->dateRange = null;
 
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
     public function render()
     {
-        $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
-
-        $reports = Voyage::query()
-            ->with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
-            ->where('report_type', 'Bunkering')
-            ->whereIn('vessel_id', $assignedVesselIds)
-            ->when($this->search, function ($query) {
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                );
-            })
-            ->latest()
-            ->paginate($this->perPage);
+        $reports = $this->getReportsQuery()->paginate($this->perPage);
 
         return view('livewire.unit.table-bunkering-report', [
             'reports' => $reports,
