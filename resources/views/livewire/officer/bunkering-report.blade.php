@@ -167,7 +167,7 @@
                                     <div>
                                         <flux:label>EOSP</flux:label>
                                         <p class="text-sm">
-                                            {{ \Carbon\Carbon::parse($report->assiociated_information->eosp)->format('M d, Y h:i A') }}
+                                            {{ $report->assiociated_information->eosp ? \Carbon\Carbon::parse($report->assiociated_information->eosp)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -177,7 +177,7 @@
                                     <div>
                                         <flux:label>Barge Alongside</flux:label>
                                         <p class="text-sm">
-                                            {{ \Carbon\Carbon::parse($report->assiociated_information->barge)->format('M d, Y h:i A') }}
+                                            {{ $report->assiociated_information->barge ? \Carbon\Carbon::parse($report->assiociated_information->barge)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -187,7 +187,7 @@
                                     <div>
                                         <flux:label>COSP</flux:label>
                                         <p class="text-sm">
-                                            {{ \Carbon\Carbon::parse($report->assiociated_information->cosp)->format('M d, Y h:i A') }}
+                                            {{ $report->assiociated_information->cosp ? \Carbon\Carbon::parse($report->assiociated_information->cosp)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -197,7 +197,7 @@
                                     <div>
                                         <flux:label>Anchor Dropped</flux:label>
                                         <p class="text-sm">
-                                            {{ \Carbon\Carbon::parse($report->assiociated_information->anchor)->format('M d, Y h:i A') }}
+                                            {{ $report->assiociated_information->anchor ? \Carbon\Carbon::parse($report->assiociated_information->anchor)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -207,7 +207,7 @@
                                     <div>
                                         <flux:label>Pumping Completed</flux:label>
                                         <p class="text-sm">
-                                            {{ \Carbon\Carbon::parse($report->assiociated_information->pumping)->format('M d, Y h:i A') }}
+                                            {{ $report->assiociated_information->pumping ? \Carbon\Carbon::parse($report->assiociated_information->pumping)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>

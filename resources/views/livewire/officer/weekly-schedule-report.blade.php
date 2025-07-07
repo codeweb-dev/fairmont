@@ -100,13 +100,13 @@
                                         <div>
                                             <flux:label>ETA/ETB</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') }}
+                                                {{ $port->eta_etb ? \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>ETCD</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') }}
+                                                {{ $port->etcd ? \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
