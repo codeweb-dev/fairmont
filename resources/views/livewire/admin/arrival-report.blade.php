@@ -16,13 +16,15 @@
         </div>
     </div>
 
-    <x-admin-components.table :headers="['Report Type', 'Vessel', 'Unit', 'Date/Time (LT)', '']">
+    <x-admin-components.table>
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
-                <th class="px-3 py-3">Date/Time (LT)</th>
+                <th class="px-3 py-3">Voyage No</th>
+                <th class="px-3 py-3">Arrival Type</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -31,8 +33,11 @@
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
+                <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y H:i') }}</td>
+                </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -54,7 +59,7 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-arrival-{{ $report->id }}" class="min-w-[28rem] md:w-[64rem]">
+                    <flux:modal name="view-arrival-{{ $report->id }}" class="max-w-screen-lg">
                         <div class="space-y-6">
                             <flux:heading size="lg">Arrival Report Details</flux:heading>
 
@@ -69,7 +74,9 @@
                                 </div>
                                 <div>
                                     <flux:label>Date/Time (LT)</flux:label>
-                                    <p class="text-sm">{{ $report->all_fast_datetime }}</p>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>GMT Offset</flux:label>
@@ -115,7 +122,7 @@
                                         <p class="text-sm">{{ $report->noon_report->me_cons_cp_speed }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
+                                        <flux:label>Obs. Distance (NM)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->obs_distance }}</p>
                                     </div>
                                     <div>
@@ -163,7 +170,7 @@
                                         <p class="text-sm">{{ $report->noon_report->speed_through_water }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Speed Through Water (Kts)</flux:label>
+                                        <flux:label>Course (Deg)</flux:label>
                                         <p class="text-sm">{{ $report->noon_report->course }}</p>
                                     </div>
                                 </div>
@@ -214,109 +221,89 @@
                             <flux:separator />
 
                             @if ($report->rob_fuel_reports && $report->rob_fuel_reports->count())
-                                <flux:heading size="sm">ROB Summary</flux:heading>
+                                <div>
+                                    <flux:label class="mb-2">ROB Summary</flux:label>
 
-                                @foreach ($report->rob_fuel_reports as $fuel)
-                                    <div class="border border-zinc-700 rounded-md p-4 mb-4">
-                                        <flux:label class="text-base font-semibold mb-2 block">{{ $fuel->fuel_type }}
-                                        </flux:label>
-                                        <div class="grid grid-cols-2 gap-4 text-sm">
-                                            <div>
-                                                <flux:label>Previous</flux:label>
-                                                <p>{{ $fuel->previous }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Current</flux:label>
-                                                <p>{{ $fuel->current }}</p>
-                                            </div>
+                                    @foreach ($report->rob_fuel_reports->groupBy('fuel_type') as $fuelType => $fuels)
+                                        <p class="font-semibold mt-4">{{ $fuelType }}</p>
 
-                                            <div>
-                                                <flux:label>M/E Propulsion</flux:label>
-                                                <p>{{ $fuel->me_propulsion }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>A/E Cons.</flux:label>
-                                                <p>{{ $fuel->ae_cons }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Boiler Cons.</flux:label>
-                                                <p>{{ $fuel->boiler_cons }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Incinerators</flux:label>
-                                                <p>{{ $fuel->incinerators }}</p>
-                                            </div>
+                                        <table
+                                            class="w-full text-sm border-collapse border border-zinc-200 dark:border-zinc-700 mb-6">
+                                            <thead>
+                                                <tr>
+                                                    <th class="p-2 border text-center" rowspan="2">Bunker Type</th>
+                                                    <th class="p-2 border text-center" colspan="2">ROB (in MT)</th>
+                                                    <th class="p-2 border text-center" colspan="4">Consumption</th>
+                                                    <th class="p-2 border text-center" colspan="2">Cons./24hr</th>
+                                                    <th class="p-2 border text-center" rowspan="2">Total Cons.</th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="p-2 border">Previous</th>
+                                                    <th class="p-2 border">Current</th>
+                                                    <th class="p-2 border">M/E Propulsion</th>
+                                                    <th class="p-2 border">A/E Cons.</th>
+                                                    <th class="p-2 border">Boiler Cons.</th>
+                                                    <th class="p-2 border">Incinerators</th>
+                                                    <th class="p-2 border">M/E 24</th>
+                                                    <th class="p-2 border">A/E 24</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($fuels as $fuel)
+                                                    <tr>
+                                                        <td class="p-2 border">{{ $fuel->fuel_type ?? 'N/A' }} (MT)
+                                                        </td>
+                                                        <td class="p-2 border">{{ $fuel->previous ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->current ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_propulsion ?? 'N/A' }}
+                                                        </td>
+                                                        <td class="p-2 border">{{ $fuel->ae_cons ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->boiler_cons ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->incinerators ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_24 ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->ae_24 ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->total_cons ?? 'N/A' }}</td>
+                                                    </tr>
 
-                                            <div>
-                                                <flux:label>M/E 24</flux:label>
-                                                <p>{{ $fuel->me_24 }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>A/E 24</flux:label>
-                                                <p>{{ $fuel->ae_24 }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Total Cons.</flux:label>
-                                                <p>{{ $fuel->total_cons }}</p>
-                                            </div>
-                                        </div>
+                                                    {{-- Lube Oils Section --}}
+                                                    <tr class="bg-zinc-100 dark:bg-zinc-800 text-center font-semibold">
+                                                        <td colspan="4" class="p-2 border">ME CYL</td>
+                                                        <td colspan="3" class="p-2 border">ME CC</td>
+                                                        <td colspan="3" class="p-2 border">AE CC</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="p-2 border">Oil Grade</th>
+                                                        <th class="p-2 border">Oil Quantity</th>
+                                                        <th class="p-2 border">Total Run Hrs.</th>
+                                                        <th class="p-2 border">Oil Cons.</th>
 
-                                        <flux:separator class="my-3" />
+                                                        <th class="p-2 border">Oil Quantity</th>
+                                                        <th class="p-2 border">Total Run Hrs.</th>
+                                                        <th class="p-2 border">Oil Cons.</th>
 
-                                        <flux:label class="text-sm font-semibold mb-2 block">Lube Oils</flux:label>
-                                        <div class="grid grid-cols-3 gap-4 text-sm">
-                                            <div>
-                                                <flux:label>ME CYL Grade</flux:label>
-                                                <p>{{ $fuel->me_cyl_grade }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Qty</flux:label>
-                                                <p>{{ $fuel->me_cyl_qty }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Hrs</flux:label>
-                                                <p>{{ $fuel->me_cyl_hrs }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>Cons.</flux:label>
-                                                <p>{{ $fuel->me_cyl_cons }}</p>
-                                            </div>
+                                                        <th class="p-2 border">Oil Quantity</th>
+                                                        <th class="p-2 border">Total Run Hrs.</th>
+                                                        <th class="p-2 border">Oil Cons.</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="p-2 border">{{ $fuel->me_cyl_grade ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_cyl_qty ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_cyl_hrs ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_cyl_cons ?? 'N/A' }}</td>
 
-                                            <div>
-                                                <flux:label>ME CC Qty</flux:label>
-                                                <p>{{ $fuel->me_cc_qty }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>ME CC Hrs</flux:label>
-                                                <p>{{ $fuel->me_cc_hrs }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>ME CC Cons.</flux:label>
-                                                <p>{{ $fuel->me_cc_cons }}</p>
-                                            </div>
+                                                        <td class="p-2 border">{{ $fuel->me_cc_qty ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_cc_hrs ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->me_cc_cons ?? 'N/A' }}</td>
 
-                                            <div>
-                                                <flux:label>AE CC Qty</flux:label>
-                                                <p>{{ $fuel->ae_cc_qty }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>AE CC Hrs</flux:label>
-                                                <p>{{ $fuel->ae_cc_hrs }}</p>
-                                            </div>
-                                            <div>
-                                                <flux:label>AE CC Cons.</flux:label>
-                                                <p>{{ $fuel->ae_cc_cons }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            <flux:separator />
-
-                            @if ($report->master_info)
-                                <flux:heading size="sm">Master Information</flux:heading>
-                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                                        <td class="p-2 border">{{ $fuel->ae_cc_qty ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->ae_cc_hrs ?? 'N/A' }}</td>
+                                                        <td class="p-2 border">{{ $fuel->ae_cc_cons ?? 'N/A' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @endforeach
+                                </div>
                             @endif
 
                             <flux:separator />
@@ -324,6 +311,13 @@
                             @if ($report->remarks)
                                 <flux:heading size="sm">Remarks</flux:heading>
                                 <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @endif
+
+                            <flux:separator />
+
+                            @if ($report->master_info)
+                                <flux:heading size="sm">Master Information</flux:heading>
+                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                             @endif
 
                             <div class="flex justify-end pt-4">
@@ -339,10 +333,7 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Arrival Report for
-                                    <strong>{{ $report->vessel->name }}</strong> on
-                                    <strong>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : 'N/A' }}</strong>?
-                                    This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Arrival Report? <br> This report will not be permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 

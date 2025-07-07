@@ -11,8 +11,8 @@
         <tr><td>Class Society:</td><td>{{ e($report->class_society ?? 'N/A') }}</td></tr>
         <tr><td>Class No:</td><td>{{ e($report->class_no ?? 'N/A') }}</td></tr>
         <tr><td>P&amp;I Club:</td><td>{{ html_entity_decode($report->pi_club ?? 'N/A') }}</td></tr>
-        <tr><td>LOA:</td><td>{{ e($report->loa ?? 'N/A') }}</td></tr>
-        <tr><td>LBP:</td><td>{{ e($report->lbp ?? 'N/A') }}</td></tr>
+        <tr><td>LOA (Length Overall):</td><td>{{ e($report->loa ?? 'N/A') }}</td></tr>
+        <tr><td>LBP (Length Between Perpendiculars):</td><td>{{ e($report->lbp ?? 'N/A') }}</td></tr>
         <tr><td>Breadth (Extreme):</td><td>{{ e($report->breadth_extreme ?? 'N/A') }}</td></tr>
         <tr><td>Depth (Moulded):</td><td>{{ e($report->depth_moulded ?? 'N/A') }}</td></tr>
         <tr><td>Height (Maximum):</td><td>{{ e($report->height_maximum ?? 'N/A') }}</td></tr>

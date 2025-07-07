@@ -34,14 +34,9 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">Bunkering Port</th>
-                <th class="px-3 py-3">Supplier</th>
-                <th class="px-3 py-3">Port ETD (LT)</th>
-                <th class="px-3 py-3">Port GMT Offset</th>
-                <th class="px-3 py-3">Bunker Completed (LT)</th>
-                <th class="px-3 py-3">Bunker GMT Offset</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -53,18 +48,9 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ $report->bunkering_port }}</td>
-                <td class="px-3 py-4">{{ $report->supplier }}</td>
-                <td class="px-3 py-4">
-                    {{ $report->port_etd ? \Carbon\Carbon::parse($report->port_etd)->format('M d, Y') : 'N/A' }}
-                </td>
-                <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
-                <td class="px-3 py-4">
-                    {{ $report->bunker_completed ? \Carbon\Carbon::parse($report->bunker_completed)->format('M d, Y h:i A') : 'N/A' }}
-                </td>
-                <td class="px-3 py-4">{{ $report->bunker_gmt_offset }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -90,10 +76,6 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
-                                <div>
                                     <flux:label>Voyage No</flux:label>
                                     <p class="text-sm">{{ $report->voyage_no }}</p>
                                 </div>
@@ -113,9 +95,7 @@
                                 </div>
                                 <div>
                                     <flux:label>Port GMT Offset</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->port_gmt_offset)->format('M d, Y h:i A') }}
-                                    </p>
+                                    <p class="text-sm">{{ $report->port_gmt_offset }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Bunker Completed (LT)</flux:label>
@@ -239,19 +219,19 @@
 
                             <flux:separator />
 
-                            @if ($report->master_info)
+                            @if ($report->remarks)
                                 <div class="pt-4">
-                                    <flux:heading size="sm">Master Information</flux:heading>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                    <flux:heading size="sm">Remarks</flux:heading>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
                                 </div>
                             @endif
 
                             <flux:separator />
 
-                            @if ($report->remarks)
+                            @if ($report->master_info)
                                 <div class="pt-4">
-                                    <flux:heading size="sm">Remarks</flux:heading>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                                    <flux:heading size="sm">Master Information</flux:heading>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
                                 </div>
                             @endif
 

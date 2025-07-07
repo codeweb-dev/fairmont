@@ -109,11 +109,11 @@
                                     <p class="text-sm">{{ $report->pi_club }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LOA</flux:label>
+                                    <flux:label>LOA (Length Overall)</flux:label>
                                     <p class="text-sm">{{ $report->loa }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LBP</flux:label>
+                                    <flux:label>LBP (Length Between Perpendiculars)</flux:label>
                                     <p class="text-sm">{{ $report->lbp }}</p>
                                 </div>
                                 <div>
@@ -222,7 +222,7 @@
 
                             <!-- Remarks -->
                             @if ($report->remarks)
-                                <flux:heading>Remarks</flux:heading>
+                                <flux:label>Remarks</flux:label>
                                 <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
                             @endif
 

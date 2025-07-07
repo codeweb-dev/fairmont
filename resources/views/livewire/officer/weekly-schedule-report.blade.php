@@ -32,9 +32,9 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">All Fast Date</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -45,10 +45,10 @@
                     <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -75,15 +75,11 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
-                                <div>
                                     <flux:label>Voyage No</flux:label>
                                     <p class="text-sm">{{ $report->voyage_no }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>All Fast Date</flux:label>
+                                    <flux:label>Date</flux:label>
                                     <p class="text-sm">
                                         {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
                                     </p>
@@ -104,13 +100,13 @@
                                         <div>
                                             <flux:label>ETA/ETB</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($report->eta_etb)->format('M d, Y h:i A') }}
+                                                {{ \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>ETCD</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($report->etcd)->format('M d, Y h:i A') }}
+                                                {{ \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') }}
                                             </p>
                                         </div>
                                         <div>
@@ -147,6 +143,13 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            <flux:separator />
+
+                            <div>
+                                <flux:label size="sm">Remarks</flux:label>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
+                            </div>
 
                             <flux:separator />
 

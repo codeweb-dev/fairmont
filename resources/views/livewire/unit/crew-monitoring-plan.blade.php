@@ -22,8 +22,7 @@
         <div class="flex items-center gap-3">
             <flux:button wire:click="switchToOnBoard" :variant="$onBoardMode ? 'primary' : 'filled'">On Board Crew
             </flux:button>
-            <flux:button wire:click="switchToCrewChange" :variant="!$onBoardMode ? 'primary' : 'filled'">Crew Change
-                Data</flux:button>
+            <flux:button wire:click="switchToCrewChange" :variant="!$onBoardMode ? 'primary' : 'filled'">Crew Change</flux:button>
         </div>
 
         <flux:button wire:click="{{ $onBoardMode ? 'addBoardRow' : 'addCrewRow' }}">Add Crew</flux:button>
@@ -52,7 +51,7 @@
                                 wire:model="board_crew.{{ $index }}.crew_nationality" />
                             <flux:input type="datetime-local" label="Joining Date" required
                                 wire:model="board_crew.{{ $index }}.joining_date" />
-                            <flux:input type="datetime-local" label="Contract Completion Date" required
+                            <flux:input type="datetime-local" label="Days to contract completion" required
                                 wire:model="board_crew.{{ $index }}.contract_completion" />
                             <flux:input type="datetime-local" label="Current Date" required
                                 wire:model="board_crew.{{ $index }}.current_date" />

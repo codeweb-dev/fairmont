@@ -25,10 +25,6 @@
         </tr>
 
         <tr>
-            <td colspan="2"><strong></strong></td>
-        </tr>
-
-        <tr>
             <td colspan="2"><strong>Plastics</strong></td>
         </tr>
         <tr>
@@ -303,10 +299,6 @@
         </tr>
 
         <tr>
-            <td colspan="2"><strong></strong></td>
-        </tr>
-
-        <tr>
             <td style="width: 250px;">Total Sailing Days</td>
             <td style="width: 250px;">{{ $report->call_sign ?? 'N/A' }}</td>
         </tr>
@@ -322,11 +314,7 @@
 
     <table>
         <tr>
-            <td colspan="2"><strong>Crew</strong></td>
-        </tr>
-
-        <tr>
-            <td colspan="2"><strong></strong></td>
+            <td colspan="2"><strong>Crew Matter</strong></td>
         </tr>
 
         <tr>
@@ -345,11 +333,7 @@
 
     <table>
         <tr>
-            <td colspan="2"><strong>MACN</strong></td>
-        </tr>
-
-        <tr>
-            <td colspan="2"><strong></strong></td>
+            <td colspan="2"><strong>Corruption</strong></td>
         </tr>
 
         <tr>
@@ -361,10 +345,6 @@
     <table>
         <tr>
             <td colspan="2"><strong>Inspection</strong></td>
-        </tr>
-
-        <tr>
-            <td colspan="2"><strong></strong></td>
         </tr>
 
         <tr>

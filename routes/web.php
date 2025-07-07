@@ -61,7 +61,9 @@ use App\Livewire\Officer\PortOfCallReport as OfficerPortOfCallReport;
 
 use App\Livewire\Unassigned;
 
-Route::get('/', Login::class)->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/', Login::class)->name('login');
+});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

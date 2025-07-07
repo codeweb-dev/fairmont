@@ -1,4 +1,7 @@
 @foreach ($reports as $r)
+    <table>
+        <tr><td style="font-weight: bold;">Bunkering Report Details</td></tr>
+    </table>
     {{-- Bunkering Details --}}
     <table>
         <tr><td colspan="2" style="font-weight: bold;">Bunkering Details</td></tr>

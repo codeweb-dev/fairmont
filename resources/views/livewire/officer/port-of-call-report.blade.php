@@ -31,8 +31,8 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -43,9 +43,9 @@
                     <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->created_at->format('d M Y H:i A') }}</td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -103,11 +103,11 @@
                                     <p class="text-sm">{{ $report->pi_club }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LOA</flux:label>
+                                    <flux:label>LOA (Length Overall)</flux:label>
                                     <p class="text-sm">{{ $report->loa }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LBP</flux:label>
+                                    <flux:label>LBP (Length Between Perpendiculars)</flux:label>
                                     <p class="text-sm">{{ $report->lbp }}</p>
                                 </div>
                                 <div>
@@ -211,6 +211,14 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            <flux:separator />
+
+                            <!-- Remarks -->
+                            @if ($report->remarks)
+                                <flux:label>Remarks</flux:label>
+                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @endif
 
                             <flux:separator />
 

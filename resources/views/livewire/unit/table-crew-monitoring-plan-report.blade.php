@@ -81,10 +81,6 @@
                                     <flux:label>Vessel</flux:label>
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
-                                <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
                             </div>
 
                             <flux:separator />
@@ -122,7 +118,7 @@
                                             </p>
                                         </div>
                                         <div>
-                                            <flux:label>Contract Completion Date</flux:label>
+                                            <flux:label>Days to contract completion</flux:label>
                                             <p class="text-sm">
                                                 {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
                                             </p>

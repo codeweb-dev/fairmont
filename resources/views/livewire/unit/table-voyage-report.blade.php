@@ -158,11 +158,25 @@
                             <!-- ROB -->
                             <flux:heading size="sm">ROB</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
-                                @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $rob)
+                                @php
+                                    $robLabels = [
+                                        'hsfo' => 'HSFO (MT)',
+                                        'vlsfo' => 'VLSFO (MT)',
+                                        'biofuel' => 'BIO FUEL (MT)',
+                                        'lsmgo' => 'LSMGO (MT)',
+                                        'me_cc_oil' => 'ME CC OIL (LITRES)',
+                                        'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
+                                        'ge_cc_oil' => 'GE CC OIL (LITRES)',
+                                        'fw' => 'FW (MT)',
+                                        'fw_produced' => 'FW Produced (MT)',
+                                    ];
+                                @endphp
+
+                                @foreach ($robLabels as $key => $label)
                                     <div>
-                                        <flux:label>{{ strtoupper($rob) }}</flux:label>
+                                        <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ optional($report->robs->first())->$rob !== null ? number_format(optional($report->robs->first())->$rob, 0) : '-' }}
+                                            {{ optional($report->robs->first())->$key !== null ? number_format(optional($report->robs->first())->$key, 0) : '-' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -170,14 +184,28 @@
 
                             <flux:separator />
 
+                            @php
+                                $fuelLabels = [
+                                    'hsfo' => 'HSFO (MT)',
+                                    'vlsfo' => 'VLSFO (MT)',
+                                    'biofuel' => 'BIO FUEL (MT)',
+                                    'lsmgo' => 'LSMGO (MT)',
+                                    'me_cc_oil' => 'ME CC OIL (LITRES)',
+                                    'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
+                                    'ge_cc_oil' => 'GE CC OIL (LITRES)',
+                                    'fw' => 'FW (MT)',
+                                    'fw_produced' => 'FW Produced (MT)',
+                                ];
+                            @endphp
+
                             {{-- Received --}}
                             <flux:heading size="sm">Received</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
-                                @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $recv)
+                                @foreach ($fuelLabels as $key => $label)
                                     <div>
-                                        <flux:label>{{ strtoupper($recv) }}</flux:label>
+                                        <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->received->$recv) ? number_format($report->received->$recv, 0) : '-' }}
+                                            {{ isset($report->received->$key) ? number_format($report->received->$key, 0) : '-' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -188,11 +216,11 @@
                             {{-- Consumption --}}
                             <flux:heading size="sm">Consumption</flux:heading>
                             <div class="grid grid-cols-4 gap-4">
-                                @foreach (['hsfo', 'vlsfo', 'biofuel', 'lsmgo', 'me_cc_oil', 'mc_cyl_oil', 'ge_cc_oil', 'fw', 'fw_produced'] as $cons)
+                                @foreach ($fuelLabels as $key => $label)
                                     <div>
-                                        <flux:label>{{ strtoupper($cons) }}</flux:label>
+                                        <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->consumption->$cons) ? number_format($report->consumption->$cons, 0) : '-' }}
+                                            {{ isset($report->consumption->$key) ? number_format($report->consumption->$key, 0) : '-' }}
                                         </p>
                                     </div>
                                 @endforeach

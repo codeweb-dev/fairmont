@@ -78,7 +78,11 @@ class Login extends Component
         Auth::logout();
 
         // Redirect to OTP verification screen
-        session(['otp_user_id' => $user->id]);
+        session([
+            'otp_user_id' => $user->id,
+            'otp_remember_me' => $this->remember, // Save the remember flag
+        ]);
+
         $this->redirect(route('otp.verify'), navigate: true);
 
         // Audit::create([

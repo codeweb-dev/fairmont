@@ -1,4 +1,8 @@
 <table>
+    <tr>
+        <td colspan="6" style="font-weight: bold;">Weekly Schedule Report Details</td>
+    </tr>
+
     {{-- Schedule Details --}}
     <tr>
         <td colspan="6" style="font-weight: bold; width: 150px;">Schedule Details</td>

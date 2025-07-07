@@ -82,7 +82,7 @@
                         <!-- Row 5 -->
                         <flux:input label="ETA Next Port (LT)" type="datetime-local" wire:model.defer="eta_next_port" />
 
-                        <flux:select label="ETA GMT Offset" required wire:model.defer="eta_gmt_offset">
+                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset">
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
@@ -130,7 +130,7 @@
                     <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                         <flux:input label="Next Port" wire:model.defer="next_port_voyage" />
 
-                        <flux:select label="Via" required wire:model.defer="via">
+                        <flux:select label="Via" wire:model.defer="via">
                             <flux:select.option>Select</flux:select.option>
                             <flux:select.option>Direct</flux:select.option>
                             <flux:select.option>Cape Horn</flux:select.option>
@@ -143,7 +143,7 @@
 
                         <flux:input label="ETA (LT)" type="datetime-local" wire:model.defer="eta_lt" />
 
-                        <flux:select label="GMT Offset" required wire:model.defer="gmt_offset_voyage">
+                        <flux:select label="GMT Offset" wire:model.defer="gmt_offset_voyage">
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}
@@ -164,7 +164,7 @@
             <flux:legend>Noon Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" required required wire:model.defer="condition">
+                    <flux:select label="Condition" wire:model.defer="condition">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
@@ -192,7 +192,7 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Wind Force (Bft.) (T)" wire:model.defer="wind_force_average_weather" />
 
-                    <flux:select label="Swell" required wire:model.defer="swell">
+                    <flux:select label="Swell" wire:model.defer="swell">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="00 NO SWELL">00 NO SWELL</flux:select.option>
                         <flux:select.option value="01 LOW SWELL, SHORT OR AVERAGE LENGTH">01 LOW SWELL, SHORT OR
@@ -215,7 +215,7 @@
                     <flux:input label="Sea Currents (Kts) (Rel.)" wire:model.defer="sea_current" />
                     <flux:input label="Sea Temp (Deg. C)" wire:model.defer="sea_temp" />
 
-                    <flux:select label="Observed Wind Dir. (T)" required wire:model.defer="observed_wind">
+                    <flux:select label="Observed Wind Dir. (T)" wire:model.defer="observed_wind">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
@@ -224,7 +224,7 @@
 
                     <flux:input label="Wind Sea Height (m)" wire:model.defer="wind_sea_height" />
 
-                    <flux:select label="Sea Current Direction (Rel.)" required
+                    <flux:select label="Sea Current Direction (Rel.)"
                         wire:model.defer="sea_current_direction">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Favorable">Favorable</flux:select.option>
@@ -233,7 +233,7 @@
 
                     <flux:input label="Swell Height (m)" wire:model.defer="swell_height" />
 
-                    <flux:select label="Observed Sea Dir. (T)" required wire:model.defer="observed_sea">
+                    <flux:select label="Observed Sea Dir. (T)" wire:model.defer="observed_sea">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
@@ -242,7 +242,7 @@
 
                     <flux:input label="Air Temp (Deg. C)" wire:model.defer="air_temp" />
 
-                    <flux:select label="Observed Swell Dir. (T)" required wire:model.defer="observed_swell">
+                    <flux:select label="Observed Swell Dir. (T)" wire:model.defer="observed_swell">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
@@ -421,8 +421,7 @@
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:select
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade"
-                                            required>
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade">
                                             <flux:select.option>{{ $type }}</flux:select.option>
                                             @foreach (array_keys($rob_data) as $other)
                                                 @if ($other !== $type)
@@ -436,13 +435,6 @@
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.capacity" />
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                        {{-- <flux:select
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit"
-                                            required>
-                                            <flux:select.option>MT</flux:select.option>
-                                            <flux:select.option>L</flux:select.option>
-                                            <flux:select.option>GAL</flux:select.option>
-                                        </flux:select> --}}
                                         <flux:radio.group
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit">
                                             <flux:radio value="MT" label="MT" checked />

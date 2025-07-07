@@ -70,10 +70,10 @@
 
                     <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
                         <div class="space-y-6">
-                            <flux:heading>Voyage Report Details</flux:heading>
+                            <flux:heading>KPI Report Details</flux:heading>
 
                             <!-- Bunkering -->
-                            <flux:heading class="font-bold">Bunkering Details</flux:heading>
+                            <flux:heading class="font-bold">Vessel Information</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <flux:label>Vessel</flux:label>

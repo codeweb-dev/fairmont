@@ -1,4 +1,9 @@
 <table>
+    <thead>
+        <tr>
+            <th colspan="13">All Fast Report Details</th>
+        </tr>
+    </thead>
     {{-- Header: Voyage Details --}}
     <tr>
         <td colspan="5" style="font-weight: bold; width: 250px;">Voyage Details</td>
@@ -71,7 +76,7 @@
     {{-- MASTER INFO --}}
     @if ($report->master_info)
         <tr>
-            <td><strong>Master's Name</strong></td>
+            <td><strong>Master Information</strong></td>
             <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
         </tr>
     @endif

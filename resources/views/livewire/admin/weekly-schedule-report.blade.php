@@ -21,9 +21,9 @@
             <tr>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
                 <th class="px-3 py-3">Voyage No</th>
-                <th class="px-3 py-3">All Fast Date</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -31,10 +31,11 @@
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ $report->all_fast_datetime }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
+                </td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -66,16 +67,14 @@
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>Unit</flux:label>
-                                    <p class="text-sm">{{ $report->unit->name }}</p>
-                                </div>
-                                <div>
                                     <flux:label>Voyage No</flux:label>
                                     <p class="text-sm">{{ $report->voyage_no }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>All Fast Date</flux:label>
-                                    <p class="text-sm">{{ $report->all_fast_datetime }}</p>
+                                    <flux:label>Date</flux:label>
+                                    <p class="text-sm">
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -92,11 +91,15 @@
                                         </div>
                                         <div>
                                             <flux:label>ETA/ETB</flux:label>
-                                            <p class="text-sm">{{ $port->eta_etb }}</p>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') }}
+                                            </p>
                                         </div>
                                         <div>
                                             <flux:label>ETCD</flux:label>
-                                            <p class="text-sm">{{ $port->etcd }}</p>
+                                            <p class="text-sm">
+                                                {{ \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') }}
+                                            </p>
                                         </div>
                                         <div>
                                             <flux:label>Cargo</flux:label>
@@ -135,6 +138,13 @@
 
                             <flux:separator />
 
+                            <div>
+                                <flux:label size="sm">Remarks</flux:label>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
+                            </div>
+
+                            <flux:separator />
+
                             @if ($report->master_info)
                                 <div>
                                     <flux:label>Master Information</flux:label>
@@ -155,10 +165,7 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Weekly Schedule Report for
-                                    <strong>{{ $report->vessel->name }}</strong> on
-                                    <strong>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : 'N/A' }}</strong>?
-                                    This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Weekly Schedule Report? <br> This report will not be permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 

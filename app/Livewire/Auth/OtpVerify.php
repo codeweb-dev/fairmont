@@ -27,8 +27,11 @@ class OtpVerify extends Component
             return;
         }
 
-        Auth::loginUsingId($userId);
-        session()->forget('otp_user_id');
+        $remember = session('otp_remember_me', false);
+        Auth::loginUsingId($userId, $remember);
+
+        // Clean up
+        session()->forget(['otp_user_id', 'otp_remember_me']);
 
         $otp->delete();
 

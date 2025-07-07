@@ -20,8 +20,8 @@
             <tr>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
-                <th class="px-3 py-3">Unit</th>
-                <th class="px-3 py-3">Created At</th>
+                <th class="px-3 py-3">Created Date</th>
+                <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -29,9 +29,9 @@
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
-                <td class="px-3 py-4">{{ $report->vessel->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->unit->name ?? '-' }}</td>
-                <td class="px-3 py-4">{{ $report->created_at->format('d M Y H:i') }}</td>
+                <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -95,11 +95,11 @@
                                     <p class="text-sm">{{ $report->pi_club }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LOA</flux:label>
+                                    <flux:label>LOA (Length Overall)</flux:label>
                                     <p class="text-sm">{{ $report->loa }}</p>
                                 </div>
                                 <div>
-                                    <flux:label>LBP</flux:label>
+                                    <flux:label>LBP (Length Between Perpendiculars)</flux:label>
                                     <p class="text-sm">{{ $report->lbp }}</p>
                                 </div>
                                 <div>
@@ -128,28 +128,29 @@
                                 </div>
                                 <div>
                                     <flux:label>Keel Laid</flux:label>
-                                    <p class="text-sm">{{ $report->keel_laid }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Launched</flux:label>
-                                    <p class="text-sm">{{ $report->launched }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Delivered</flux:label>
-                                    <p class="text-sm">{{ $report->delivered }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : 'N/A' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Shipyard</flux:label>
-                                    <p class="text-sm">{{ $report->shipyard }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->shipyard }}
+                                    </p>
                                 </div>
                             </div>
-
-                            @if ($report->master_info)
-                                <div>
-                                    <flux:label>Master Information</flux:label>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
 
                             @foreach ($report->ports as $pIndex => $port)
                                 <div>
@@ -179,14 +180,18 @@
                                                             {{ $agent->port_of_calling }}</p>
                                                         <p><strong>Country:</strong> {{ $agent->country }}</p>
                                                         <p><strong>Purpose:</strong> {{ $agent->purpose }}</p>
-                                                        <p><strong>ATA/ETA Date:</strong> {{ $agent->ata_eta_date }}
+                                                        <p><strong>ATA/ETA Date:</strong>
+                                                            {{ $agent->ata_eta_date ? \Carbon\Carbon::parse($agent->ata_eta_date)->format('d M Y') : 'N/A' }}
                                                         </p>
-                                                        <p><strong>ATA/ETA Time:</strong> {{ $agent->ata_eta_time }}
+                                                        <p><strong>ATA/ETA Time:</strong>
+                                                            {{ $agent->ata_eta_time ? \Carbon\Carbon::parse($agent->ata_eta_time)->format('h:i A') : 'N/A' }}
                                                         </p>
                                                         <p><strong>Ship Info Date:</strong>
-                                                            {{ $agent->ship_info_date }}</p>
+                                                            {{ $agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('d M Y') : 'N/A' }}
+                                                        </p>
                                                         <p><strong>Ship Info Time:</strong>
-                                                            {{ $agent->ship_info_time }}</p>
+                                                            {{ $agent->ship_info_time ? \Carbon\Carbon::parse($agent->ship_info_time)->format('h:i A') : 'N/A' }}
+                                                        </p>
                                                         <p><strong>GMT:</strong> {{ $agent->gmt }}</p>
                                                         <p><strong>Duration (Days):</strong>
                                                             {{ $agent->duration_days }}</p>
@@ -198,6 +203,23 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            <flux:separator />
+
+                            <!-- Remarks -->
+                            @if ($report->remarks)
+                                <flux:label>Remarks</flux:label>
+                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @endif
+
+                            <flux:separator />
+
+                            @if ($report->master_info)
+                                <div>
+                                    <flux:label>Master Information</flux:label>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                </div>
+                            @endif
 
                             <div class="flex justify-end pt-6">
                                 <flux:modal.close>
@@ -212,10 +234,7 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Port Of Call Report for
-                                    <strong>{{ $report->vessel->name }}</strong> on
-                                    <strong>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') : 'N/A' }}</strong>?
-                                    This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Port Of Call Report? <br> This report will not be permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 
