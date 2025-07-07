@@ -549,7 +549,7 @@
                             <!-- Remarks -->
                             <div>
                                 <flux:label class="font-bold text-lg">Remarks</flux:label>
-                                <p class="text-sm">{{ $report->remarks->remarks ?? '-' }}</p>
+                                <p class="text-sm">{{ $report->remarks->remarks ?? '' }}</p>
                             </div>
 
                             <flux:separator />
