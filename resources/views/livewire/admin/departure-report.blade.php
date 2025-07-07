@@ -157,7 +157,7 @@
                                     <div>
                                         <flux:label>ETA Next Port (LT)</flux:label>
                                         <p class="text-sm">
-                                            {{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '-' }}
+                                            {{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -221,7 +221,7 @@
                                     <div>
                                         <flux:label>ETA (LT)</flux:label>
                                         <p class="text-sm">
-                                            {{ $report->noon_report->eta_lt ? \Carbon\Carbon::parse($report->noon_report->eta_lt)->format('M d, Y h:i A') : '-' }}
+                                            {{ $report->noon_report->eta_lt ? \Carbon\Carbon::parse($report->noon_report->eta_lt)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>

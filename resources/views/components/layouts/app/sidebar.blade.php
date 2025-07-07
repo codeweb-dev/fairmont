@@ -282,8 +282,8 @@
                                 <template x-for="(item, idx) in [
                                             {
                                                 title: 'About Fairmont Ship Reporting Tool',
-                                                content: `Fairmont Ship Reporting Tool is a secure web application designed to simplify the creation, management, and tracking of voyage reports for vessels.<br>
-                                            It is intended for use by both vessel crew and office staff to ensure accurate and timely reporting.`
+                                                content: `<p class='mt-2 text-sm text-primary-600 max-w-xl'>Fairmont Ship Reporting Tool is a secure web application designed to simplify the creation, management, and tracking of voyage reports for vessels.<br>
+                                            It is intended for use by both vessel crew and office staff to ensure accurate and timely reporting.</p>`
                                             },
                                             {
                                                 title: 'Navigation Guide',

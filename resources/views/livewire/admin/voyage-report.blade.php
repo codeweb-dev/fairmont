@@ -86,13 +86,13 @@
                                 <div>
                                     <flux:label>Port of Departure COSP</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->location->port_departure)->format('M d, Y h:i A') }}
+                                        {{ $report->location->port_departure ? \Carbon\Carbon::parse($report->location->port_departure)->format('M d, Y h:i A') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Port of Arrival EOSP</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->location->port_arrival)->format('M d, Y h:i A') }}
+                                        {{ $report->location->port_arrival ? \Carbon\Carbon::parse($report->location->port_arrival)->format('M d, Y h:i A') : '' }}
                                     </p>
                                 </div>
                             </div>
@@ -119,23 +119,33 @@
                             <div class="grid grid-cols-4 gap-4">
                                 <div>
                                     <flux:label>Avg ME RPM</flux:label>
-                                    <p class="text-sm">{{ number_format($report->engine->avg_me_rpm, 0) }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->engine->avg_me_rpm !== null ? number_format($report->engine->avg_me_rpm) : '' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Avg ME kW</flux:label>
-                                    <p class="text-sm">{{ number_format($report->engine->avg_me_kw, 0) }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->engine->avg_me_kw !== null ? number_format($report->engine->avg_me_kw) : '' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>TDR (Nm)</flux:label>
-                                    <p class="text-sm">{{ number_format($report->engine->tdr, 0) }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->engine->tdr !== null ? number_format($report->engine->tdr) : '' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>TST (Hrs)</flux:label>
-                                    <p class="text-sm">{{ number_format($report->engine->tst, 0) }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->engine->tst !== null ? number_format($report->engine->tst) : '' }}
+                                    </p>
                                 </div>
                                 <div>
                                     <flux:label>Slip (%)</flux:label>
-                                    <p class="text-sm">{{ number_format($report->engine->slip, 0) }}</p>
+                                    <p class="text-sm">
+                                        {{ $report->engine->slip !== null ? number_format($report->engine->slip) : '' }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -162,7 +172,7 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ optional($report->robs->first())->$key !== null ? number_format(optional($report->robs->first())->$key, 0) : '-' }}
+                                            {{ optional($report->robs->first())->$key !== null ? number_format(optional($report->robs->first())->$key, 0) : '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -191,7 +201,7 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->received->$key) ? number_format($report->received->$key, 0) : '-' }}
+                                            {{ isset($report->received->$key) ? number_format($report->received->$key, 0) : '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -206,7 +216,7 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->consumption->$key) ? number_format($report->consumption->$key, 0) : '-' }}
+                                            {{ isset($report->consumption->$key) ? number_format($report->consumption->$key, 0) : '' }}
                                         </p>
                                     </div>
                                 @endforeach
