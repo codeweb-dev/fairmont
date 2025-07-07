@@ -90,7 +90,7 @@
             <flux:legend>Arrival Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" required wire:model.defer="condition">
+                    <flux:select label="Condition" wire:model.defer="condition">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>

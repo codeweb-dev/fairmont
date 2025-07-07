@@ -79,7 +79,7 @@
                         <flux:input label="ETA Next Port (LT)" type="datetime-local" wire:model.defer="eta_next_port" />
                     </div>
                     <div>
-                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset" required>
+                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset">
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($this->gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
@@ -96,7 +96,7 @@
             <flux:legend>Departure Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" required wire:model.defer="condition" required>
+                    <flux:select label="Condition" wire:model.defer="condition">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
@@ -124,7 +124,7 @@
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Next Port" wire:model.defer="next_port_voyage" />
 
-                    <flux:select label="Via" required wire:model.defer="via">
+                    <flux:select label="Via" wire:model.defer="via">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option>Direct</flux:select.option>
                         <flux:select.option>Cape Horn</flux:select.option>
@@ -137,7 +137,7 @@
 
                     <flux:input label="ETA (LT)" type="datetime-local" wire:model.defer="eta_lt" />
 
-                    <flux:select label="GMT Offset" required wire:model.defer="gmt_offset_voyage">
+                    <flux:select label="GMT Offset" wire:model.defer="gmt_offset_voyage">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}

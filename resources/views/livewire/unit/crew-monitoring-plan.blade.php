@@ -39,26 +39,17 @@
                     <div class="space-y-6">
                         <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                             <flux:input label="No" wire:model="board_crew.{{ $index }}.no" />
-                            <flux:input label="Vessel Name" badge="Required" disabled
-                                wire:model="board_crew.{{ $index }}.vessel_name" />
+                            <flux:input label="Vessel Name" wire:model="board_crew.{{ $index }}.vessel_name" />
 
-                            <flux:input label="Crew Surname" required
-                                wire:model="board_crew.{{ $index }}.crew_surname" />
-                            <flux:input label="Crew First Name" required
-                                wire:model="board_crew.{{ $index }}.crew_first_name" />
-                            <flux:input label="Rank" required wire:model="board_crew.{{ $index }}.rank" />
-                            <flux:input label="Crew Nationality" required
-                                wire:model="board_crew.{{ $index }}.crew_nationality" />
-                            <flux:input type="datetime-local" label="Joining Date" required
-                                wire:model="board_crew.{{ $index }}.joining_date" />
-                            <flux:input type="datetime-local" label="Days to contract completion" required
-                                wire:model="board_crew.{{ $index }}.contract_completion" />
-                            <flux:input type="datetime-local" label="Current Date" required
-                                wire:model="board_crew.{{ $index }}.current_date" />
-                            <flux:input label="Date to Contract Completion" required
-                                wire:model="board_crew.{{ $index }}.days_contract_completion" />
-                            <flux:input label="No of Months On Board" required
-                                wire:model="board_crew.{{ $index }}.months_on_board" />
+                            <flux:input label="Crew Surname" wire:model="board_crew.{{ $index }}.crew_surname" />
+                            <flux:input label="Crew First Name" wire:model="board_crew.{{ $index }}.crew_first_name" />
+                            <flux:input label="Rank" wire:model="board_crew.{{ $index }}.rank" />
+                            <flux:input label="Crew Nationality" wire:model="board_crew.{{ $index }}.crew_nationality" />
+                            <flux:input type="datetime-local" label="Joining Date" wire:model="board_crew.{{ $index }}.joining_date" />
+                            <flux:input type="datetime-local" label="Days to contract completion" wire:model="board_crew.{{ $index }}.contract_completion" />
+                            <flux:input type="datetime-local" label="Current Date" wire:model="board_crew.{{ $index }}.current_date" />
+                            <flux:input label="Date to Contract Completion" wire:model="board_crew.{{ $index }}.days_contract_completion" />
+                            <flux:input label="No of Months On Board" wire:model="board_crew.{{ $index }}.months_on_board" />
                         </div>
                     </div>
 
@@ -83,26 +74,17 @@
 
                     <div class="space-y-6">
                         <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                            <flux:input label="Vessel Name" badge="Required" disabled
-                                wire:model="crew_change.{{ $index }}.vessel_name" />
+                            <flux:input label="Vessel Name" disabled wire:model="crew_change.{{ $index }}.vessel_name" />
 
-                            <flux:input label="Port" required wire:model="crew_change.{{ $index }}.port" />
-                            <flux:input label="Country" required
-                                wire:model="crew_change.{{ $index }}.country" />
-                            <flux:input type="datetime-local" label="Date of Joiners Boarding" required
-                                wire:model="crew_change.{{ $index }}.joiners_boarding" />
-                            <flux:input type="datetime-local" label="Date of Off-signers Sign Off" required
-                                wire:model="crew_change.{{ $index }}.off_signers" />
-                            <flux:input label="Joiners Ranks" required
-                                wire:model="crew_change.{{ $index }}.joiner_ranks" />
-                            <flux:input label="Off-Signers Ranks" required
-                                wire:model="crew_change.{{ $index }}.off_signers_ranks" />
-                            <flux:input label="Total Crew Change" required
-                                wire:model="crew_change.{{ $index }}.total_crew_change" />
-                            <flux:input label="Reason for Change" required
-                                wire:model="crew_change.{{ $index }}.reason_change" />
-                            <flux:input label="Remarks" required
-                                wire:model="crew_change.{{ $index }}.remarks" />
+                            <flux:input label="Port" wire:model="crew_change.{{ $index }}.port" />
+                            <flux:input label="Country" wire:model="crew_change.{{ $index }}.country" />
+                            <flux:input type="datetime-local" label="Date of Joiners Boarding" wire:model="crew_change.{{ $index }}.joiners_boarding" />
+                            <flux:input type="datetime-local" label="Date of Off-signers Sign Off" wire:model="crew_change.{{ $index }}.off_signers" />
+                            <flux:input label="Joiners Ranks" wire:model="crew_change.{{ $index }}.joiner_ranks" />
+                            <flux:input label="Off-Signers Ranks" wire:model="crew_change.{{ $index }}.off_signers_ranks" />
+                            <flux:input label="Total Crew Change" wire:model="crew_change.{{ $index }}.total_crew_change" />
+                            <flux:input label="Reason for Change" wire:model="crew_change.{{ $index }}.reason_change" />
+                            <flux:input label="Remarks" wire:model="crew_change.{{ $index }}.remarks" />
                         </div>
                     </div>
 
