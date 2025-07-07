@@ -156,8 +156,8 @@ class VoyageReport extends Component
             'voyage_no' => 'required|string|max:50',
             'all_fast_datetime' => 'required|date',
 
-            'port_departure' => 'required|string|max:100',
-            'port_arrival' => 'required|string|max:100',
+            'port_departure' => 'nullable|string|max:100',
+            'port_arrival' => 'nullable|string|max:100',
 
             'hire_hours' => 'nullable|numeric|min:0',
             'hire_reason' => 'nullable|string|max:255',

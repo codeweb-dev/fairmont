@@ -118,8 +118,8 @@ class WeeklySchedule extends Component
         $this->ports[] = [
             'port' => '',
             'activity' => '',
-            'eta_etb' => '',
-            'etcd' => '',
+            'eta_etb' => null,
+            'etcd' => null,
             'cargo' => '',
             'cargo_qty' => '',
             'remarks' => '',

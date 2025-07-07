@@ -5,10 +5,12 @@
         </h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm"
+                @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+                @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-voyage-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
@@ -40,8 +42,10 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-6">
-                    <flux:input label="Port of Departure COSP (Date and UTC)" type="datetime-local" max="2999-12-31" wire:model.defer="port_departure" />
-                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="datetime-local" max="2999-12-31" wire:model.defer="port_arrival" />
+                    <flux:input label="Port of Departure COSP (Date and UTC)" type="datetime-local" max="2999-12-31"
+                        wire:model.defer="port_departure" />
+                    <flux:input label="Port of Arrival EOSP (Date and UTC)" type="datetime-local" max="2999-12-31"
+                        wire:model.defer="port_arrival" />
                 </div>
             </div>
         </flux:fieldset>
@@ -61,7 +65,7 @@
     </div>
 
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
-        <flux:fieldse
+        <flux:fieldset>
             <flux:legend>Engine</flux:legend>
 
             <div class="space-y-6">
@@ -87,8 +91,7 @@
                     <flux:input label="BIO FUEL (MT)" type="number" wire:model.defer="robs.biofuel" />
                     <flux:input label="LSMGO (MT)" type="number" wire:model.defer="robs.lsmgo" />
                     <flux:input label="ME CC OIL (LITRES)" type="number" wire:model.defer="robs.me_cc_oil" />
-                    <flux:input label="ME CYL OIL (LITRES)" type="number"
-                        wire:model.defer="robs.mc_cyl_oil" />
+                    <flux:input label="ME CYL OIL (LITRES)" type="number" wire:model.defer="robs.mc_cyl_oil" />
                     <flux:input label="GE CC OIL (LITRES)" type="number" wire:model.defer="robs.ge_cc_oil" />
                     <flux:input label="FW (MT)" type="number" wire:model.defer="robs.fw" />
                     <flux:input label="FW Produced (MT)" type="number" wire:model.defer="robs.fw_produced" />
@@ -128,7 +131,8 @@
                     <flux:input label="BIO FUEL (MT)" type="number" wire:model.defer="consumption.biofuel" />
                     <flux:input label="LSMGO (MT)" type="number" wire:model.defer="consumption.lsmgo" />
                     <flux:input label="ME CC OIL (LITRES)" type="number" wire:model.defer="consumption.me_cc_oil" />
-                    <flux:input label="ME CYL OIL (LITRES)" type="number" wire:model.defer="consumption.mc_cyl_oil" />
+                    <flux:input label="ME CYL OIL (LITRES)" type="number"
+                        wire:model.defer="consumption.mc_cyl_oil" />
                     <flux:input label="GE CC OIL (LITRES)" type="number" wire:model.defer="consumption.ge_cc_oil" />
                     <flux:input label="FW (MT)" type="number" wire:model.defer="consumption.fw" />
                     <flux:input label="FW Produced (MT)" type="number" wire:model.defer="consumption.fw_produced" />

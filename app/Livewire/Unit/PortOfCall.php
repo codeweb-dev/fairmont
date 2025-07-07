@@ -144,13 +144,13 @@ class PortOfCall extends Component
                     'port_of_calling' => '',
                     'country' => '',
                     'purpose' => '',
-                    'ata_eta_date' => '',
-                    'ata_eta_time' => '',
-                    'ship_info_date' => '',
-                    'ship_info_time' => '',
+                    'ata_eta_date' => null,
+                    'ata_eta_time' => null,
+                    'ship_info_date' => null,
+                    'ship_info_time' => null,
                     'gmt' => '',
-                    'duration_days' => '',
-                    'total_days' => '',
+                    'duration_days' => null,
+                    'total_days' => null,
                 ]
             ]
         ];
@@ -162,13 +162,13 @@ class PortOfCall extends Component
             'port_of_calling' => '',
             'country' => '',
             'purpose' => '',
-            'ata_eta_date' => '',
-            'ata_eta_time' => '',
-            'ship_info_date' => '',
-            'ship_info_time' => '',
+            'ata_eta_date' => null,
+            'ata_eta_time' => null,
+            'ship_info_date' => null,
+            'ship_info_time' => null,
             'gmt' => '',
-            'duration_days' => '',
-            'total_days' => '',
+            'duration_days' => null,
+            'total_days' => null,
         ];
     }
 
@@ -280,6 +280,9 @@ class PortOfCall extends Component
             $port = $voyage->ports()->create($portData);
 
             foreach ($portData['agents'] as $agentData) {
+                $agentData['duration_days'] = $agentData['duration_days'] !== '' ? (int) $agentData['duration_days'] : null;
+                $agentData['total_days'] = $agentData['total_days'] !== '' ? (int) $agentData['total_days'] : null;
+
                 $port->agents()->create($agentData);
             }
         }

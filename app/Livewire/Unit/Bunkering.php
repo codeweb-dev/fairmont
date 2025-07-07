@@ -163,7 +163,7 @@ class Bunkering extends Component
             'lsmgo_viscosity' => 'nullable|string',
 
             // Associated Info Fields
-            'port_delivery' => 'required|string',
+            'port_delivery' => 'nullable|string',
             'eosp' => 'nullable|date',
             'eosp_gmt' => 'nullable|string',
             'barge' => 'nullable|date',

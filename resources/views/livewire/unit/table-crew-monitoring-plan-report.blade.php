@@ -114,19 +114,19 @@
                                         <div>
                                             <flux:label>Joining Date</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}
+                                                {{ $crew->joining_date ? \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Days to contract completion</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
+                                                {{ $crew->contract_completion ? \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Current Date</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') }}
+                                                {{ $crew->current_date ? \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
@@ -197,7 +197,7 @@
 
                             <div>
                                 <flux:label size="sm">Remarks</flux:label>
-                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : "" }}</p>
+                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
                             </div>
 
                             <flux:separator />
@@ -205,7 +205,7 @@
                             <div>
                                 <flux:label>Master Information</flux:label>
                                 <p class="text-sm">
-                                    {{ $report->master_info ? $report->master_info->master_info : "" }}
+                                    {{ $report->master_info ? $report->master_info->master_info : '' }}
                                 </p>
                             </div>
 
