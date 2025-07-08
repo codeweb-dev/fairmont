@@ -206,15 +206,20 @@
 
                             <flux:separator />
 
-                            <flux:label>Remarks</flux:label>
-                            <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks ?? '' }}</p>
+                            <!-- Remarks -->
+                            @if ($report->remarks)
+                                <flux:label>Remarks</flux:label>
+                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @endif
 
                             <flux:separator />
 
-                            <div>
-                                <flux:label>Master Information</flux:label>
-                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info ?? '' }}</p>
-                            </div>
+                            @if ($report->master_info)
+                                <div>
+                                    <flux:label>Master Information</flux:label>
+                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                </div>
+                            @endif
 
                             <div class="flex justify-end pt-6">
                                 <flux:modal.close>
@@ -229,8 +234,7 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Port Of Call Report? <br> This report will not
-                                    be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Port Of Call Report? <br> This report will not be permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 
