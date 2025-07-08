@@ -129,7 +129,7 @@
                                 <div>
                                     <flux:label>Date</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}</p>
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</p>
                                 </div>
                             </div>
 

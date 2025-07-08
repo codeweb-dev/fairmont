@@ -175,7 +175,7 @@
                 <td colspan="13"><strong>Voyage Itinerary</strong></td>
             </tr>
             <tr>
-                <td>Port:</td>
+                <td>Next Port:</td>
                 <td colspan="12">{{ $report->noon_report->next_port_voyage ?? '' }}</td>
             </tr>
             <tr>
