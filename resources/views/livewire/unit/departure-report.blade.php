@@ -3,10 +3,12 @@
         <h1 class="text-3xl font-bold">Departure Report</h1>
 
         <div class="flex items-center gap-3">
-            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
+            <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm"
+                @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
+            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+                @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
             </flux:button>
             <flux:button href="{{ route('table-departure-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
@@ -174,10 +176,14 @@
                 <table class="min-w-full mb-8">
                     <thead>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                            <th rowspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Bunker Type</th>
-                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ROB (in MT)</th>
-                            <th colspan="4" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Consumption</th>
-                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Cons./24 hr</th>
+                            <th rowspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">Bunker
+                                Type</th>
+                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ROB (in
+                                MT)</th>
+                            <th colspan="4" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
+                                Consumption</th>
+                            <th colspan="2" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
+                                Cons./24 hr</th>
                             <th rowspan="2" class="px-4 py-2">Total Cons.</th>
                         </tr>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
@@ -193,7 +199,8 @@
                     </thead>
                     <tbody>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                            <td class="px-4 py-2 font-semibold border-r border-zinc-200 dark:border-zinc-700">{{ $type }} (MT)</td>
+                            <td class="px-4 py-2 font-semibold border-r border-zinc-200 dark:border-zinc-700">
+                                {{ $type }} (MT)</td>
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.previous" />
                             </td>
@@ -231,8 +238,10 @@
                 <table class="min-w-full">
                     <thead>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CYL</th>
-                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CC</th>
+                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CYL
+                            </th>
+                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CC
+                            </th>
                             <th colspan="3" class="px-4 py-2">AE CC</th>
                         </tr>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
@@ -252,11 +261,17 @@
                         <tr class="border border-zinc-200 dark:border-zinc-700">
                             <!-- ME CYL -->
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                <flux:radio.group wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                {{-- <flux:radio.group wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
                                     <flux:radio value="TBN 100" label="TBN 100" checked />
                                     <flux:radio value="TBN 70" label="TBN 70" />
                                     <flux:radio value="TBN 40" label="TBN 40" />
-                                </flux:radio.group>
+                                </flux:radio.group> --}}
+                                <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade"
+                                    placeholder="Select">
+                                    <flux:select.option>TBN 100</flux:select.option>
+                                    <flux:select.option>TBN 70</flux:select.option>
+                                    <flux:select.option>TBN 40</flux:select.option>
+                                </flux:select>
                             </td>
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />

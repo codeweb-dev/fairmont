@@ -11,6 +11,8 @@ use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PortOfCallReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PortOfCallReportsByDateExport;
+use Illuminate\Support\Carbon;
 use ZipArchive;
 
 #[Title('Port Of Call Report')]
@@ -101,6 +103,39 @@ class TablePortOfCallReport extends Component
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
         }
+    }
+
+    public function exportByDateRange()
+    {
+        if (!$this->dateRange) {
+            Toaster::error('Please select a valid date range to export.');
+            return;
+        }
+
+        // Check if both start and end dates are present
+        $dates = explode(' to ', $this->dateRange);
+
+        if (count($dates) !== 2 || empty($dates[0]) || empty($dates[1])) {
+            Toaster::error('Please select a full date range with both start and end dates.');
+            $this->dateRange = null;
+            return;
+        }
+
+        [$start, $end] = $dates;
+        $startDate = Carbon::parse($start)->startOfDay();
+        $endDate = Carbon::parse($end)->endOfDay();
+
+        $filename = 'port_of_call_reports_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+        Toaster::success('Reports exported by date range.');
+        $this->selectedReports = [];
+        $this->selectAll = false;
+        $this->dateRange = null;
+
+        return Excel::download(
+            new PortOfCallReportsByDateExport($startDate, $endDate),
+            $filename
+        );
     }
 
     public function exportSelected()

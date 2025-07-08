@@ -198,7 +198,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -223,7 +223,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -248,7 +248,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -273,7 +273,7 @@ class NoonReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -407,20 +407,6 @@ class NoonReport extends Component
             'vessel_id' => 'required|exists:vessels,id',
             'master_info' => 'nullable|string|max:5000',
         ]);
-
-        $filledFuelTypes = collect($this->rob_data)->filter(function ($data) {
-            return collect($data['tanks'])->contains(function ($tank) {
-                return !empty($tank['description']) ||
-                    !empty($tank['rob']) ||
-                    !empty($tank['capacity']) ||
-                    !empty($tank['supply_date']);
-            });
-        });
-
-        if ($filledFuelTypes->isEmpty()) {
-            Toaster::error('At least one ROB tank must have data before submitting.');
-            return;
-        }
 
         $voyage = Voyage::create([
             'vessel_id' => $this->vessel_id,

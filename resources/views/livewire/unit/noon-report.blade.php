@@ -549,16 +549,11 @@
                             <tr class="border border-zinc-200 dark:border-zinc-700">
                                 <!-- ME CYL -->
                                 <td class="px-4 py-2  border-r border-zinc-200 dark:border-zinc-700">
-                                    {{-- <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
+                                    <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" placeholder="Select">
                                         <flux:select.option>TBN 100</flux:select.option>
                                         <flux:select.option>TBN 70</flux:select.option>
                                         <flux:select.option>TBN 40</flux:select.option>
-                                    </flux:select> --}}
-                                    <flux:radio.group wire:model="rob_data.{{ $type }}.summary.me_cyl_grade">
-                                        <flux:radio value="TBN 100" label="TBN 100" checked />
-                                        <flux:radio value="TBN 70" label="TBN 70" />
-                                        <flux:radio value="TBN 40" label="TBN 40" />
-                                    </flux:radio.group>
+                                    </flux:select>
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                     <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />

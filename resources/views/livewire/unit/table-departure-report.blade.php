@@ -40,6 +40,14 @@
                 </flux:button>
             @endif
 
+            @if ($dateRange)
+                <div>
+                    <flux:button wire:click="$set('dateRange', null)" variant="danger" icon="x-circle">
+                        Clear Filter
+                    </flux:button>
+                </div>
+            @endif
+
             <div x-data="{
                 fp: null
             }" x-init="fp = flatpickr($refs.rangeInput, {

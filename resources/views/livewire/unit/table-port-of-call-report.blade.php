@@ -26,12 +26,18 @@
         </div>
 
         <div class="flex gap-3 justify-end items-center w-full">
-            @if (count($selectedReports) > 0)
+            @if (count($selectedReports) > 0 && !$dateRange)
                 <div>
                     <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
                         Export Selected ({{ count($selectedReports) }})
                     </flux:button>
                 </div>
+            @endif
+
+            @if ($dateRange)
+                <flux:button wire:click="exportByDateRange" icon:trailing="arrow-down-tray">
+                    Export by Date Range
+                </flux:button>
             @endif
 
             @if ($dateRange)

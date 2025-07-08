@@ -116,7 +116,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -140,7 +140,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -164,7 +164,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -188,7 +188,7 @@ class ArrivalReport extends Component
                 'ae_24' => '',
                 'total_cons' => '',
                 // Lube
-                'me_cyl_grade' => 'TBN 100',
+                'me_cyl_grade' => '',
                 'me_cyl_qty' => '',
                 'me_cyl_hrs' => '',
                 'me_cyl_cons' => '',
@@ -254,15 +254,6 @@ class ArrivalReport extends Component
             'vessel_id' => 'required|exists:vessels,id',
             'master_info' => 'nullable|string|max:5000',
         ]);
-
-        $hasRobSummary = collect($this->rob_data)->contains(function ($data) {
-            return collect($data['summary'])->filter(fn($value) => !empty($value))->isNotEmpty();
-        });
-
-        if (!$hasRobSummary) {
-            Toaster::error('At least one ROB summary field must be filled before submitting.');
-            return;
-        }
 
         $voyage = Voyage::create([
             'vessel_id' => $this->vessel_id,
