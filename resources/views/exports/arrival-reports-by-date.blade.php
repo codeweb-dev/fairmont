@@ -9,7 +9,7 @@
 
                     // Since Last Report
                     'CP/Ordered Speed (Kts)', 'Allowed M/E Cons. at C/P Speed', 'Obs. Distance (NM)', 'Steaming Time (Hrs)',
-                    'Avg Speed (Kts)', 'Distance sailed from last port (NM)', 'Breakdown (Hrs)', 'M/E Revs Counter',
+                    'Avg Speed (Kts)', 'Distance sailed from last port (NM)', 'Breakdown (Hrs)', 'M/E Revs Counter (Noon to Noon)',
                     'Avg RPM', 'Engine Distance (NM)', 'Slip (%)', 'Avg Power (KW)', 'Logged Distance (NM)',
                     'Speed Through Water (Kts)', 'Course (Deg)',
 

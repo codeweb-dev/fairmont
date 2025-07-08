@@ -42,11 +42,11 @@
                     'GM',
 
                     // Voyage Itinerary
-                    'Next Port (Voyage)',
+                    'Next Port',
                     'Via',
                     'ETA (LT)',
-                    'Voyage GMT Offset',
-                    'Distance to Go (Voyage)',
+                    'GMT Offset',
+                    'Distance to go',
                     'Projected Speed (kts)',
                 ];
 
@@ -60,8 +60,8 @@
                         "{$type} AE Cons",
                         "{$type} Boiler Cons",
                         "{$type} Incinerators",
-                        "{$type} ME 24",
-                        "{$type} AE 24",
+                        "{$type} M/E 24",
+                        "{$type} A/E 24",
                         "{$type} Total Cons",
                         "{$type} ME CYL Grade",
                         "{$type} ME CYL Qty",

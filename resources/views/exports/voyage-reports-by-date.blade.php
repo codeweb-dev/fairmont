@@ -6,10 +6,10 @@
                     'Report Type', 'Vessel', 'Voyage No', 'Date',
 
                     // Location
-                    'Port of Departure COSP', 'Port of Arrival EOSP',
+                    'Port of Departure (COSP)', 'Port of Arrival (EOSP)',
 
                     // Off Hire
-                    'Off Hire Hours (Hrs)', 'Off Hire Reason',
+                    'Off Hire Hours', 'Off Hire Reason',
 
                     // Engine
                     'Avg ME RPM', 'Avg ME kW', 'TDR (Nm)', 'TST (Hrs)', 'Slip (%)',

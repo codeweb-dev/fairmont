@@ -7,16 +7,16 @@
 
                     // Board Crew
                     'Board Crew No', 'Crew Surname', 'Crew First Name', 'Rank', 'Crew Nationality',
-                    'Joining Date', 'Contract Completion', 'Current Date',
-                    'Date to Contract Completion', 'Months on Board',
+                    'Joining Date', 'Days to contract completion', 'Current Date',
+                    'Date to Contract Completion', 'No of Months On Board',
 
                     // Crew Change
-                    'Change Port', 'Change Country', 'Joiners Boarding Date',
-                    'Off-signers Sign-off Date', 'Joiners Ranks', 'Off-signers Ranks',
+                    'Port', 'Country', 'Date of Joiners Boarding',
+                    'Date of Off-signers Sign Off', 'Joiners Ranks', 'Off-signers Ranks',
                     'Total Crew Change', 'Reason for Change', 'Change Remarks',
 
                     // Report Remarks & Master Info
-                    'Report Remarks', 'Master Information',
+                    'Remarks', 'Master Information',
                 ];
             @endphp
 
