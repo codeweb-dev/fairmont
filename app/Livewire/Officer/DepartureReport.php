@@ -10,6 +10,8 @@ use Livewire\Component;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\DepartureReportsExport;
+use App\Exports\DepartureReportsByDateExport;
+use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
 
@@ -101,6 +103,39 @@ class DepartureReport extends Component
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
         }
+    }
+
+    public function exportByDateRange()
+    {
+        if (!$this->dateRange) {
+            Toaster::error('Please select a valid date range to export.');
+            return;
+        }
+
+        // Check if both start and end dates are present
+        $dates = explode(' to ', $this->dateRange);
+
+        if (count($dates) !== 2 || empty($dates[0]) || empty($dates[1])) {
+            Toaster::error('Please select a full date range with both start and end dates.');
+            $this->dateRange = null;
+            return;
+        }
+
+        [$start, $end] = $dates;
+        $startDate = Carbon::parse($start)->startOfDay();
+        $endDate = Carbon::parse($end)->endOfDay();
+
+        $filename = 'departure_reports_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+        Toaster::success('Reports exported by date range.');
+        $this->selectedReports = [];
+        $this->selectAll = false;
+        $this->dateRange = null;
+
+        return Excel::download(
+            new DepartureReportsByDateExport($startDate, $endDate),
+            $filename
+        );
     }
 
     public function exportSelected()
