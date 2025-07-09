@@ -6,14 +6,14 @@
                     'Vessel',
 
                     // Board Crew
-                    'Board Crew No', 'Crew Surname', 'Crew First Name', 'Rank', 'Crew Nationality',
+                    'No', 'Crew Surname', 'Crew First Name', 'Rank', 'Crew Nationality',
                     'Joining Date', 'Days to contract completion', 'Current Date',
                     'Date to Contract Completion', 'No of Months On Board',
 
                     // Crew Change
                     'Port', 'Country', 'Date of Joiners Boarding',
                     'Date of Off-signers Sign Off', 'Joiners Ranks', 'Off-signers Ranks',
-                    'Total Crew Change', 'Reason for Change', 'Change Remarks',
+                    'Total Crew Change', 'Reason for Change', 'Remarks',
 
                     // Report Remarks & Master Info
                     'Remarks', 'Master Information',

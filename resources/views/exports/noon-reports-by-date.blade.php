@@ -8,29 +8,29 @@
                     'Latitude', 'Longitude', 'Port of Departure',
 
                     // Noon Report Details
-                    'CP/Ordered Speed', 'Allowed M/E Cons.', 'Obs Distance', 'Steaming Time', 'Avg Speed',
+                    'CP/Ordered Speed', 'Allowed M/E Cons. at C/P Speed', 'Observed Distance', 'Steaming Time', 'Avg Speed',
                     'Distance to Go', 'Course', 'Breakdown', 'Avg RPM', 'Engine Distance', 'Slip',
-                    'M/E Output %MCR', 'Avg Power', 'Logged Distance', 'Speed Through Water', 'Next Port',
+                    'M/E Output %MCR', 'Avg Power (kW)', 'Logged Distance', 'Speed Through Water', 'Next Port',
                     'ETA Next Port', 'ETA GMT Offset', 'Anchored Hours', 'Drifting Hours', 'Maneuvering Hours',
                     'Condition', 'Displacement', 'Cargo Name', 'Cargo Weight', 'Ballast Weight',
                     'Fresh Water', 'Fwd Draft', 'Aft Draft', 'GM',
 
                     // Average & Bad Weather
-                    'Wind Force (Avg)', 'Swell', 'Sea Current', 'Sea Temp', 'Observed Wind Dir',
-                    'Wind Sea Height', 'Sea Current Dir', 'Swell Height', 'Observed Sea Dir', 'Air Temp',
-                    'Observed Swell Dir', 'Sea DS', 'Atm. Pressure',
-                    'Bad Wind Force Prev', 'Bad Wind Force Curr', 'Sea State Prev', 'Sea State Curr',
+                    'Wind Force (Bft.) (T)', 'Swell', 'Sea Current (Kts) (Rel.)', 'Sea Temp (Deg. °C)', 'Observed Wind Dir. (T)',
+                    'Wind Sea Height (m)', 'Sea Current Direction. (Rel.)', 'Swell Height (m)', 'Observed Sea Dir. (T)', 'Air Temp (Deg. °C)',
+                    'Observed Swell Dir. (T)', 'Sea DS', 'Atm. Pressure (millibar)',
+                    'Wind force (Bft.) >0 hrs (since last report)', 'Wind Force (Bft.) (continuous)', 'Sea State (DS) >0 hrs (since last report)', 'Sea State (continuous)',
 
                     // Weather Observations (All)
-                    'Weather Time Block', 'Wind Force', 'Wind Dir', 'Swell Height', 'Swell Dir',
+                    'Time Block', 'Wind Force', 'Wind Dir', 'Swell Height', 'Swell Dir',
                     'Wind Sea Height', 'Sea Dir', 'Sea DS',
 
                     // ROB Tank (All)
-                    'Tank No', 'Tank Desc', 'Fuel Grade', 'Tank Cap.', 'Tank Unit', 'ROB (MT)', 'Supply Date',
+                    'Tank No', 'Description', 'Fuel Grade', 'Capacity', 'Unit', 'ROB (MT)', 'Supply Date (LT)',
 
                     // ROB Fuel (All)
-                    'Fuel Type', 'Prev ROB', 'Current ROB', 'M/E Cons.', 'A/E Cons.', 'Boiler Cons.',
-                    'Incinerators', 'M/E 24h', 'A/E 24h', 'Total Cons.',
+                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion.', 'A/E Cons.', 'Boiler Cons.',
+                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Cons.',
 
                     // Condensed Oil Grades
                     'ME CYL Grade', 'ME CYL Qty', 'ME CYL Hrs', 'ME CYL Cons.',

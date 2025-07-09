@@ -7,14 +7,14 @@
 
                 // Port-level
                 'Port', 'Activity', 'ETA/ETB', 'ETCD',
-                'Cargo', 'Cargo Qty', 'Port Remarks',
+                'Cargo', 'Cargo Qty', 'Remarks',
 
                 // Agent-level
                 'Name', 'Address', 'PIC',
                 'Phone', 'Mobile', 'Email',
 
                 // Footer Info
-                'Report Remarks', 'Master Information',
+                'Remarks', 'Master Information',
             ];
         @endphp
 

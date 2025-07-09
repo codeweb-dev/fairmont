@@ -24,8 +24,8 @@
                 foreach ($fuelTypes as $type) {
                     $headers = array_merge($headers, [
                         "{$type} Previous", "{$type} Current",
-                        "{$type} ME Propulsion", "{$type} AE Cons", "{$type} Boiler Cons", "{$type} Incinerators",
-                        "{$type} ME 24", "{$type} AE 24", "{$type} Total Cons",
+                        "{$type} M/E Propulsion", "{$type} A/E Cons", "{$type} Boiler Cons", "{$type} Incinerators",
+                        "{$type} M/E 24", "{$type} A/E 24", "{$type} Total Cons.",
                         "{$type} ME CYL Grade", "{$type} ME CYL Qty", "{$type} ME CYL Hrs", "{$type} ME CYL Cons",
                         "{$type} ME CC Qty", "{$type} ME CC Hrs", "{$type} ME CC Cons",
                         "{$type} AE CC Qty", "{$type} AE CC Hrs", "{$type} AE CC Cons",

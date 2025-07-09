@@ -6,7 +6,7 @@
                     'Report Type', 'Vessel', 'Voyage No', 'Date',
 
                     // Location
-                    'Port of Departure (COSP)', 'Port of Arrival (EOSP)',
+                    'Port Departure (COSP)', 'Port Arrival (EOSP)',
 
                     // Off Hire
                     'Off Hire Hours', 'Off Hire Reason',

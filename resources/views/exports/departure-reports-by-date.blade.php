@@ -56,8 +56,8 @@
                     $headers = array_merge($headers, [
                         "{$type} Previous",
                         "{$type} Current",
-                        "{$type} ME Propulsion",
-                        "{$type} AE Cons",
+                        "{$type} M/E Propulsion",
+                        "{$type} A/E Cons",
                         "{$type} Boiler Cons",
                         "{$type} Incinerators",
                         "{$type} M/E 24",
