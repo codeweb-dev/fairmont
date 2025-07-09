@@ -27,6 +27,12 @@
     </thead>
     <tbody>
         @foreach ($reports as $report)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             @php
                 $crewList = $report->board_crew ?? [];
                 $changeList = $report->crew_change ?? [];

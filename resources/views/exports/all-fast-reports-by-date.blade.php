@@ -3,9 +3,17 @@
         <tr>
             @php
                 $headers = [
-                    'Vessel', 'Voyage No', 'All Fast Date/Time (LT)', 'GMT Offset', 'Port',
-                    'HSFO (MT)', 'BIOFUEL (MT)', 'VLSFO (MT)', 'LSMGO (MT)',
-                    'Remarks', 'Master Information'
+                    'Vessel',
+                    'Voyage No',
+                    'All Fast Date/Time (LT)',
+                    'GMT Offset',
+                    'Port',
+                    'HSFO (MT)',
+                    'BIOFUEL (MT)',
+                    'VLSFO (MT)',
+                    'LSMGO (MT)',
+                    'Remarks',
+                    'Master Information',
                 ];
             @endphp
 
@@ -16,12 +24,19 @@
     </thead>
     <tbody>
         @foreach ($reports as $report)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             @forelse ($report->robs as $rob)
                 <tr>
                     {{-- Voyage Details --}}
                     <td>{{ $report->vessel->name ?? '' }}</td>
                     <td>{{ $report->voyage_no ?? '' }}</td>
-                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
+                    </td>
                     <td>{{ $report->gmt_offset ?? '' }}</td>
                     <td>{{ $report->port ?? '' }}</td>
 
@@ -40,7 +55,8 @@
                 <tr>
                     <td>{{ $report->vessel->name ?? '' }}</td>
                     <td>{{ $report->voyage_no ?? '' }}</td>
-                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
+                    </td>
                     <td>{{ $report->gmt_offset ?? '' }}</td>
                     <td>{{ $report->port ?? '' }}</td>
 

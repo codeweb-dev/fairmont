@@ -34,6 +34,12 @@
                 $ports = $report->ports ?? [];
             @endphp
 
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             @foreach ($ports as $port)
                 @php
                     $agents = $port->agents ?? [];

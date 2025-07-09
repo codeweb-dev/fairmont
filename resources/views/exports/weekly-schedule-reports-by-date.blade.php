@@ -35,6 +35,12 @@
                 $reportDate = optional($report->all_fast_datetime) ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '';
             @endphp
 
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             @foreach ($ports as $port)
                 @php
                     $agents = $port->agents ?? [];

@@ -66,6 +66,12 @@
                 $max = $max > 0 ? $max : 1;
             @endphp
 
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             @for ($i = 0; $i < $max; $i++)
                 <tr>
                     {{-- Voyage Info --}}

@@ -46,6 +46,13 @@
                 $recv = $report->received;
                 $cons = $report->consumption;
             @endphp
+
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             <tr>
                 {{-- Voyage --}}
                 <td>{{ $report->report_type }}</td>

@@ -89,6 +89,12 @@
     </thead>
     <tbody>
         @foreach ($reports as $report)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             <tr>
                 {{-- Voyage Details --}}
                 <td>{{ $report->vessel->name ?? '' }}</td>

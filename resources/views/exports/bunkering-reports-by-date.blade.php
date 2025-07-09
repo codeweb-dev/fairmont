@@ -28,6 +28,12 @@
     </thead>
     <tbody>
         @foreach ($reports as $r)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             <tr>
                 {{-- Bunkering Details --}}
                 <td>{{ $r->vessel->name ?? '' }}</td>

@@ -50,6 +50,12 @@
     </thead>
     <tbody>
         @foreach ($reports as $report)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                </tr>
+            @endif
+
             <tr>
                 <td style="width: 250px;">{{ $report->vessel->name ?? '' }}</td>
                 <td style="width: 250px;">{{ $report->report_type }}</td>
