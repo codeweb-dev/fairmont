@@ -178,71 +178,71 @@
                                 <div class="grid grid-cols-4 gap-4">
                                     <div>
                                         <flux:label>CP/Ordered Speed (Kts)</flux:label>
-                                        <p>{{ $report->noon_report->cp_ordered_speed ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->cp_ordered_speed ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
-                                        <p>{{ $report->noon_report->me_cons_cp_speed ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->me_cons_cp_speed ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Obs. Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->obs_distance ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->obs_distance ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Steaming Time (Hrs)</flux:label>
-                                        <p>{{ $report->noon_report->steaming_time ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->steaming_time ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Avg Speed (Kts)</flux:label>
-                                        <p>{{ $report->noon_report->avg_speed ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->avg_speed ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Distance to go (NM)</flux:label>
-                                        <p>{{ $report->noon_report->distance_to_go ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->distance_to_go ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Course (Deg)</flux:label>
-                                        <p>{{ $report->noon_report->course ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->course ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Breakdown (Hrs)</flux:label>
-                                        <p>{{ $report->noon_report->breakdown ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->breakdown ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Average RPM</flux:label>
-                                        <p>{{ $report->noon_report->avg_rpm ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->avg_rpm ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Engine Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->engine_distance ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->engine_distance ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Slip (%)</flux:label>
-                                        <p>{{ $report->noon_report->slip ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->slip ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>M/E Output (% MCR)</flux:label>
-                                        <p>{{ $report->noon_report->me_output_mcr ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->me_output_mcr ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Average Power (kW)</flux:label>
-                                        <p>{{ $report->noon_report->avg_power ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->avg_power ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Logged Distance (NM)</flux:label>
-                                        <p>{{ $report->noon_report->logged_distance ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->logged_distance ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Speed Through Water (Kn)</flux:label>
-                                        <p>{{ $report->noon_report->speed_through_water ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->speed_through_water ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Next Port</flux:label>
-                                        <p>{{ $report->noon_report->next_port ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->next_port ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>ETA Next Port</flux:label>
-                                        <p>{{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : 'N/A' }}
+                                        <p>{{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '' }}
                                         </p>
                                     </div>
                                     <div>
@@ -464,8 +464,8 @@
                                                 <th class="p-2 border border-zinc-200 dark:border-zinc-700">Capacity
                                                 </th>
                                                 <th class="p-2 border border-zinc-200 dark:border-zinc-700">Unit</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">ROB</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">Supply Date
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">ROB (MT)</th>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">Supply Date (LT)
                                                 </th>
                                             </tr>
                                         </thead>
@@ -560,28 +560,16 @@
                                         <tr class="border border-zinc-200 dark:border-zinc-700">
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Fuel Type
                                             </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CYL
-                                                Grade</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CYL
-                                                Qty</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CYL
-                                                Run Hrs</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CYL
-                                                Cons.</th>
-
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CC Qty
-                                            </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CC Run
-                                                Hrs</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">ME CC
-                                                Cons.</th>
-
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">AE CC Qty
-                                            </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">AE CC Run
-                                                Hrs</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">AE CC
-                                                Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>

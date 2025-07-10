@@ -78,7 +78,7 @@
 
                                 <flux:modal.trigger name="view-vessel-{{ $vessel->id }}">
                                     <flux:menu.item icon="eye">
-                                        View Assigned VEssel User/Officer
+                                        View Assigned Vessel User/Officer
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 

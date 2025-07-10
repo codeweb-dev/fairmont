@@ -45,11 +45,16 @@ class NoonReport extends Component
             ->with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
             ->where('report_type', 'Noon Report')
             ->when($this->search, function ($query) {
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                );
+                $query->where(function ($query) {
+                    $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                        ->orWhere('port_gmt_offset', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('vessel', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        });
+                });
             })
             ->latest()
             ->paginate($this->perPage);

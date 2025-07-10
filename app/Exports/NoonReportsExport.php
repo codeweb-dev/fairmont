@@ -39,6 +39,7 @@ class NoonReportsExport implements FromView
 
         $reports = $query->get();
 
+        libxml_use_internal_errors(true);
         return view('exports.noon-reports', ['reports' => $reports]);
     }
 }
