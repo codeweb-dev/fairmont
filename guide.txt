@@ -1,3 +1,0 @@
-php artisan permission:create-role admin
-php artisan permission:create-role unit
-php artisan permission:create-role officer
