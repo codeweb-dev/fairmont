@@ -59,64 +59,64 @@
             </tr>
             <tr>
                 <td>CP/Ordered Speed (Kts):</td>
-                <td colspan="12">{{ $report->noon_report->cp_ordered_speed ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->cp_ordered_speed ?? '' }}</td>
             </tr>
             <tr>
                 <td>Obs. Distance (NM):</td>
-                <td colspan="12">{{ $report->noon_report->obs_distance ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->obs_distance ?? '' }}</td>
             </tr>
             <tr>
                 <td>Steaming Time (Hrs):</td>
-                <td colspan="12">{{ $report->noon_report->steaming_time ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->steaming_time ?? '' }}</td>
             </tr>
             <tr>
                 <td>Avg Speed (Kts):</td>
-                <td colspan="12">{{ $report->noon_report->avg_speed ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->avg_speed ?? '' }}</td>
             </tr>
             <tr>
                 <td>Distance to go (NM):</td>
-                <td colspan="12">{{ $report->noon_report->distance_to_go ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->distance_to_go ?? '' }}</td>
             </tr>
             <tr>
                 <td>Avg RPM:</td>
-                <td colspan="12">{{ $report->noon_report->avg_rpm ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->avg_rpm ?? '' }}</td>
             </tr>
             <tr>
                 <td>Engine Distance (NM):</td>
-                <td colspan="12">{{ $report->noon_report->engine_distance ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->engine_distance ?? '' }}</td>
             </tr>
             <tr>
                 <td>Slip (%):</td>
-                <td colspan="12">{{ $report->noon_report->maneuvering_hours ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->maneuvering_hours ?? '' }}</td>
             </tr>
             <tr>
                 <td>Avg Power (KW):</td>
-                <td colspan="12">{{ $report->noon_report->avg_power ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->avg_power ?? '' }}</td>
             </tr>
             <tr>
                 <td>Course (Deg):</td>
-                <td colspan="12">{{ $report->noon_report->course ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->course ?? '' }}</td>
             </tr>
             <tr>
                 <td>Logged Distance (NM):</td>
-                <td colspan="12">{{ $report->noon_report->logged_distance ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->logged_distance ?? '' }}</td>
             </tr>
             <tr>
                 <td>Speed Through Water (Kts):</td>
-                <td colspan="12">{{ $report->noon_report->speed_through_water ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->speed_through_water ?? '' }}</td>
             </tr>
             <tr>
                 <td>Next Port:</td>
-                <td colspan="12">{{ $report->noon_report->next_port ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->next_port ?? '' }}</td>
             </tr>
             <tr>
                 <td>ETA Next Port (LT):</td>
                 <td colspan="12">
-                    {{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : 'N/A' }}</td>
+                    {{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '' }}</td>
             </tr>
             <tr>
                 <td>ETA GMT Offset:</td>
-                <td colspan="12">{{ $report->noon_report->eta_gmt_offset ?? 'N/A' }}</td>
+                <td colspan="12">{{ $report->noon_report->eta_gmt_offset ?? '' }}</td>
             </tr>
 
             <tr>

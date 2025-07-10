@@ -209,7 +209,7 @@
                                         <p>{{ $report->noon_report->breakdown ?? '' }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Average RPM</flux:label>
+                                        <flux:label>Avg RPM</flux:label>
                                         <p>{{ $report->noon_report->avg_rpm ?? '' }}</p>
                                     </div>
                                     <div>
@@ -225,7 +225,7 @@
                                         <p>{{ $report->noon_report->me_output_mcr ?? '' }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Average Power (kW)</flux:label>
+                                        <flux:label>Avg Power (kW)</flux:label>
                                         <p>{{ $report->noon_report->avg_power ?? '' }}</p>
                                     </div>
                                     <div>
@@ -233,7 +233,7 @@
                                         <p>{{ $report->noon_report->logged_distance ?? '' }}</p>
                                     </div>
                                     <div>
-                                        <flux:label>Speed Through Water (Kn)</flux:label>
+                                        <flux:label>Speed Through Water (Kts)</flux:label>
                                         <p>{{ $report->noon_report->speed_through_water ?? '' }}</p>
                                     </div>
                                     <div>
