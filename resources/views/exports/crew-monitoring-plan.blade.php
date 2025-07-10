@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td style="width: 150px;">Off-Signers Ranks</td>
-                <td>{{ $change->off_signer_ranks ?? '' }}</td>
+                <td>{{ $change->off_signers_ranks ?? '' }}</td>
             </tr>
             <tr>
                 <td style="width: 150px;">Total Crew Change</td>

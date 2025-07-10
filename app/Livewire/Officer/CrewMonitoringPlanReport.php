@@ -65,15 +65,22 @@ class CrewMonitoringPlanReport extends Component
         return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds)
-            ->when(
-                $this->search,
-                fn($query) =>
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                )
-            )
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    if (strtolower($this->search) === 'on board crew') {
+                        $query->whereHas('board_crew');
+                    } elseif (strtolower($this->search) === 'crew change') {
+                        $query->whereHas('crew_change');
+                    } else {
+                        $query->whereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                            ->orWhereHas('vessel', function ($q) {
+                                $q->where('name', 'like', '%' . $this->search . '%');
+                            });
+                    }
+                });
+            })
             ->when($this->dateRange, function ($query) {
                 $dates = explode(' to ', $this->dateRange);
 

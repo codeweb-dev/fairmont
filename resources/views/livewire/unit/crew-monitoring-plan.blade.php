@@ -39,7 +39,7 @@
                     <div class="space-y-6">
                         <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                             <flux:input label="No" wire:model="board_crew.{{ $index }}.no" />
-                            <flux:input label="Vessel Name" wire:model="board_crew.{{ $index }}.vessel_name" />
+                            <flux:input label="Vessel Name" wire:model="board_crew.{{ $index }}.vessel_name" disabled />
 
                             <flux:input label="Crew Surname" wire:model="board_crew.{{ $index }}.crew_surname" />
                             <flux:input label="Crew First Name" wire:model="board_crew.{{ $index }}.crew_first_name" />

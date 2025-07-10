@@ -39,8 +39,19 @@ class CrewMonitoringPlanReport extends Component
             ->with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->when($this->search, function ($query) {
-                $query->whereHas('unit', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%');
+                $query->where(function ($query) {
+                    if (strtolower($this->search) === 'on board crew') {
+                        $query->whereHas('board_crew');
+                    } elseif (strtolower($this->search) === 'crew change') {
+                        $query->whereHas('crew_change');
+                    } else {
+                        $query->whereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                            ->orWhereHas('vessel', function ($q) {
+                                $q->where('name', 'like', '%' . $this->search . '%');
+                            });
+                    }
                 });
             })
             ->latest()
