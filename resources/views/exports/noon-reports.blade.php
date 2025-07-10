@@ -322,30 +322,42 @@
                 <td><strong>ROB Details</strong></td>
             </tr>
 
-            {{-- ROB TANK TABLE --}}
             @if ($report->rob_tanks && $report->rob_tanks->count())
-                <tr>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Tank No</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Description</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Fuel Grade</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Capacity</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Unit</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>ROB (MT)</strong></td>
-                    <td style="width: 200px; border: 1px solid #000;"><strong>Supply Date (LT)</strong></td>
-                </tr>
+                @php
+                    $groupedTanks = $report->rob_tanks->groupBy('grade');
+                @endphp
 
-                @foreach ($report->rob_tanks as $tank)
+                @foreach ($groupedTanks as $tanks)
+                    {{-- Blank Separator Row --}}
                     <tr>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->tank_no ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->description ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->grade ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->capacity ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->unit ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">{{ $tank->rob ?? '' }}</td>
-                        <td style="width: 200px; border: 1px solid #000;">
-                            {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y h:i A') : '-' }}
-                        </td>
+                        <td colspan="7"></td>
                     </tr>
+
+                    {{-- Table Head --}}
+                    <tr>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Tank No</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Description</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Fuel Grade</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Capacity</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Unit</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>ROB (MT)</strong></td>
+                        <td style="width: 200px; border: 1px solid #000;"><strong>Supply Date (LT)</strong></td>
+                    </tr>
+
+                    {{-- Tank Rows --}}
+                    @foreach ($tanks as $tank)
+                        <tr>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->tank_no ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->description ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->grade ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->capacity ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->unit ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $tank->rob ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">
+                                {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y h:i A') : '-' }}
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
             @endif
 
