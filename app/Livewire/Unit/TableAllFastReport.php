@@ -64,15 +64,17 @@ class TableAllFastReport extends Component
         return Voyage::with(['vessel', 'unit', 'remarks', 'master_info', 'noon_report'])
             ->where('report_type', 'All Fast')
             ->whereIn('vessel_id', $assignedVesselIds)
-            ->when(
-                $this->search,
-                fn($query) =>
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                )
-            )
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('vessel', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        });
+                });
+            })
             ->when($this->dateRange, function ($query) {
                 $dates = explode(' to ', $this->dateRange);
 

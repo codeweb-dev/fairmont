@@ -41,15 +41,17 @@ class WeeklyScheduleReport extends Component
     {
         $reports = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])
             ->where('report_type', 'Weekly Schedule')
-            ->when(
-                $this->search,
-                fn($q) =>
-                $q->whereHas(
-                    'unit',
-                    fn($u) =>
-                    $u->where('name', 'like', '%' . $this->search . '%')
-                )
-            )
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('vessel', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        });
+                });
+            })
             ->latest()
             ->paginate($this->perPage);
 

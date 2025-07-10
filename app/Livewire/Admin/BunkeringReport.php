@@ -53,11 +53,15 @@ class BunkeringReport extends Component
             ])
             ->where('report_type', 'Bunkering')
             ->when($this->search, function ($query) {
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                );
+                $query->where(function ($query) {
+                    $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('unit', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('vessel', function ($q) {
+                            $q->where('name', 'like', '%' . $this->search . '%');
+                        });
+                });
             })
             ->latest()
             ->paginate($this->perPage);
