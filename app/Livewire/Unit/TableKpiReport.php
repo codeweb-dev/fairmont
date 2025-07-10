@@ -68,15 +68,15 @@ class TableKpiReport extends Component
         ])
             ->where('report_type', 'KPI')
             ->whereIn('vessel_id', $assignedVesselIds)
-            ->when(
-                $this->search,
-                fn($query) =>
-                $query->whereHas(
-                    'unit',
-                    fn($q) =>
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                )
-            )
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query->whereHas('unit', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    })->orWhereHas('vessel', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
+                });
+            })
             ->when($this->dateRange, function ($query) {
                 $dates = explode(' to ', $this->dateRange);
 

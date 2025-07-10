@@ -40,15 +40,15 @@ class PortOfCallReport extends Component
     {
         $reports = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])
             ->where('report_type', 'Port Of Call')
-            ->when(
-                $this->search,
-                fn($q) =>
-                $q->whereHas(
-                    'unit',
-                    fn($u) =>
-                    $u->where('name', 'like', '%' . $this->search . '%')
-                )
-            )
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query->whereHas('unit', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    })->orWhereHas('vessel', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
+                });
+            })
             ->latest()
             ->paginate($this->perPage);
 
