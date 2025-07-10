@@ -17,11 +17,11 @@
             </tr>
             <tr>
                 <td>Vessel Name:</td>
-                <td>{{ $report->vessel->name ?? 'N/A' }}</td>
+                <td>{{ $report->vessel->name ?? '' }}</td>
             </tr>
             <tr>
                 <td>Voyage No:</td>
-                <td>{{ $report->voyage_no ?? 'N/A' }}</td>
+                <td>{{ $report->voyage_no ?? '' }}</td>
             </tr>
             <tr>
                 <td>Date/Time (LT):</td>
@@ -29,31 +29,31 @@
             </tr>
             <tr>
                 <td>GMT Offset:</td>
-                <td>{{ $report->gmt_offset ?? 'N/A' }}</td>
+                <td>{{ $report->gmt_offset ?? '' }}</td>
             </tr>
             <tr>
                 <td>Latitude:</td>
-                <td>{{ $report->port ?? 'N/A' }}</td>
+                <td>{{ $report->port ?? '' }}</td>
             </tr>
             <tr>
                 <td>Longitude:</td>
-                <td>{{ $report->bunkering_port ?? 'N/A' }}</td>
+                <td>{{ $report->bunkering_port ?? '' }}</td>
             </tr>
             <tr>
                 <td>Arrival Type:</td>
-                <td>{{ $report->port_gmt_offset ?? 'N/A' }}</td>
+                <td>{{ $report->port_gmt_offset ?? '' }}</td>
             </tr>
             <tr>
                 <td>Arrival Port:</td>
-                <td>{{ $report->supplier ?? 'N/A' }}</td>
+                <td>{{ $report->supplier ?? '' }}</td>
             </tr>
             <tr>
                 <td>Anchored Hours:</td>
-                <td>{{ $report->call_sign ?? 'N/A' }}</td>
+                <td>{{ $report->call_sign ?? '' }}</td>
             </tr>
             <tr>
                 <td>Drifting Hours:</td>
-                <td>{{ $report->flag ?? 'N/A' }}</td>
+                <td>{{ $report->flag ?? '' }}</td>
             </tr>
 
             <tr colspan="2">
@@ -67,63 +67,63 @@
                 </tr>
                 <tr>
                     <td>CP/Ordered Speed (Kts):</td>
-                    <td>{{ $report->noon_report->cp_ordered_speed ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->cp_ordered_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Allowed M/E Cons. at C/P Speed:</td>
-                    <td>{{ $report->noon_report->me_cons_cp_speed ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->me_cons_cp_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Obs. Distance (NM):</td>
-                    <td>{{ $report->noon_report->obs_distance ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->obs_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Steaming Time (Hrs):</td>
-                    <td>{{ $report->noon_report->steaming_time ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->steaming_time ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg Speed (Kts):</td>
-                    <td>{{ $report->noon_report->avg_speed ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->avg_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Distance sailed from last port (NM):</td>
-                    <td>{{ $report->noon_report->distance_to_go ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->distance_to_go ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Breakdown (Hrs):</td>
-                    <td>{{ $report->noon_report->breakdown ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->breakdown ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>M/E Revs Counter (Noon to Noon):</td>
-                    <td>{{ $report->noon_report->maneuvering_hours ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->maneuvering_hours ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg RPM:</td>
-                    <td>{{ $report->noon_report->avg_rpm ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->avg_rpm ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Engine Distance (NM):</td>
-                    <td>{{ $report->noon_report->engine_distance ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->engine_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Slip (%):</td>
-                    <td>{{ $report->noon_report->next_port ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->next_port ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg Power (KW):</td>
-                    <td>{{ $report->noon_report->avg_power ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->avg_power ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Logged Distance (NM):</td>
-                    <td>{{ $report->noon_report->logged_distance ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->logged_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Speed Through Water (Kts):</td>
-                    <td>{{ $report->noon_report->speed_through_water ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->speed_through_water ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Course (Deg):</td>
-                    <td>{{ $report->noon_report->course ?? 'N/A' }}</td>
+                    <td>{{ $report->noon_report->course ?? '' }}</td>
                 </tr>
 
                 <tr colspan="2">
@@ -221,16 +221,16 @@
                     {{-- Fuel Rows --}}
                     @foreach ($groupedFuels as $fuel)
                         <tr>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->fuel_type ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->previous ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->current ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_propulsion ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cons ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->boiler_cons ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->incinerators ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_24 ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_24 ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->total_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->fuel_type ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->previous ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->current ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_propulsion ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cons ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->boiler_cons ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->incinerators ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_24 ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_24 ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->total_cons ?? '' }}</td>
                         </tr>
 
                         {{-- Condensed Oil Details --}}
@@ -254,18 +254,18 @@
                             <th style="width: 200px; border: 1px solid #000;">Oil Cons.</th>
                         </tr>
                         <tr>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_grade ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_qty ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_hrs ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_grade ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_qty ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_hrs ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_cons ?? '' }}</td>
 
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_qty ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_hrs ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_qty ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_hrs ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_cons ?? '' }}</td>
 
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_qty ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_hrs ?? 'N/A' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? 'N/A' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_qty ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_hrs ?? '' }}</td>
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? '' }}</td>
                         </tr>
 
                         <tr>
@@ -291,7 +291,7 @@
             @if ($report->master_info)
                 <tr>
                     <td><strong>Master's Name</strong></td>
-                    <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+                    <td>{{ $report->master_info->master_info ?? '' }}</td>
                 </tr>
             @endif
         @endforeach
