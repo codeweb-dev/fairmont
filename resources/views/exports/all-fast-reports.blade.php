@@ -45,10 +45,10 @@
         <td colspan="5" style="font-weight: bold; width: 250px;">All Fast ROBs</td>
     </tr>
     <tr>
-        <th style="border: 1px solid #000; width: 250px;">HSFO (MT)</th>
-        <th style="border: 1px solid #000; width: 250px;">BIOFUEL (MT)</th>
-        <th style="border: 1px solid #000; width: 250px;">VLSFO (MT)</th>
-        <th style="border: 1px solid #000; width: 250px;">LSMGO (MT)</th>
+        <th style="border: 1px solid #000; width: 250px;"><strong>HSFO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px;"><strong>BIOFUEL (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px;"><strong>VLSFO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px;"><strong>LSMGO (MT)</strong></th>
     </tr>
 
     @foreach ($reports as $report)

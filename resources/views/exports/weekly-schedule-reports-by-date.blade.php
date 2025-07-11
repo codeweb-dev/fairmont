@@ -20,7 +20,7 @@
 
         <tr>
             @foreach ($headers as $header)
-                <th style="width: 250px;">{{ $header }}</th>
+                <th style="width: 250px;"><strong>{{ $header }}</strong></th>
             @endforeach
         </tr>
     </thead>

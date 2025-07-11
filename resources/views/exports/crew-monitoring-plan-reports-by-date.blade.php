@@ -2,31 +2,31 @@
     <thead>
         <tr>
             {{-- Board Crew headers --}}
-            <th style="width: 150px;">No</th>
-            <th style="width: 150px;">Crew Surname</th>
-            <th style="width: 150px;">Crew First Name</th>
-            <th style="width: 150px;">Rank</th>
-            <th style="width: 150px;">Crew Nationality</th>
-            <th style="width: 150px;">Joining Date</th>
-            <th style="width: 150px;">Days to Contract Completion</th>
-            <th style="width: 150px;">Current Date</th>
-            <th style="width: 150px;">Date to Contract Completion</th>
-            <th style="width: 150px;">No of Months On Board</th>
+            <th style="width: 150px;"><strong>No</strong></th>
+            <th style="width: 150px;"><strong>Crew Surname</strong></th>
+            <th style="width: 150px;"><strong>Crew First Name</strong></th>
+            <th style="width: 150px;"><strong>Rank</strong></th>
+            <th style="width: 150px;"><strong>Crew Nationality</strong></th>
+            <th style="width: 150px;"><strong>Joining Date</strong></th>
+            <th style="width: 150px;"><strong>Days to Contract Completion</strong></th>
+            <th style="width: 150px;"><strong>Current Date</strong></th>
+            <th style="width: 150px;"><strong>Date to Contract Completion</strong></th>
+            <th style="width: 150px;"><strong>No of Months On Board</strong></th>
 
             {{-- Crew Change headers --}}
-            <th style="width: 150px;">Port</th>
-            <th style="width: 150px;">Country</th>
-            <th style="width: 150px;">Date of Joiners Boarding</th>
-            <th style="width: 150px;">Date of Off-signers Sign Off</th>
-            <th style="width: 150px;">Joiners Ranks</th>
-            <th style="width: 150px;">Off-signers Ranks</th>
-            <th style="width: 150px;">Total Crew Change</th>
-            <th style="width: 150px;">Reason for Change</th>
-            <th style="width: 150px;">Remarks</th>
+            <th style="width: 150px;"><strong>Port</strong></th>
+            <th style="width: 150px;"><strong>Country</strong></th>
+            <th style="width: 150px;"><strong>Date of Joiners Boarding</strong></th>
+            <th style="width: 150px;"><strong>Date of Off-signers Sign Off</strong></th>
+            <th style="width: 150px;"><strong>Joiners Ranks</strong></th>
+            <th style="width: 150px;"><strong>Off-signers Ranks</strong></th>
+            <th style="width: 150px;"><strong>Total Crew Change</strong></th>
+            <th style="width: 150px;"><strong>Reason for Change</strong></th>
+            <th style="width: 150px;"><strong>Remarks</strong></th>
 
             {{-- General --}}
-            <th style="width: 150px;">Remarks</th>
-            <th style="width: 150px;">Master Information</th>
+            <th style="width: 150px;"><strong>Remarks</strong></th>
+            <th style="width: 150px;"><strong>Master Information</strong></th>
         </tr>
     </thead>
 
