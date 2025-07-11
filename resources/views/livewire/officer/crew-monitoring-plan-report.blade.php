@@ -72,6 +72,7 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Crew Report Type</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
@@ -100,6 +101,7 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}</td>
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
@@ -120,7 +122,7 @@
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
                         <div class="space-y-6">
                             <flux:heading size="lg">
-                                {{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change Data' }}
+                                {{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}
                             </flux:heading>
 
                             <div class="grid grid-cols-2 gap-4">
