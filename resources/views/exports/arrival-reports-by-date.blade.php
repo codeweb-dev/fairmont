@@ -16,26 +16,17 @@
                     // Arrival Conditions
                     'Condition', 'Displacement (MT)', 'Cargo Name', 'Cargo Weight (MT)',
                     'Ballast Weight (MT)', 'Fresh Water (MT)', 'Fwd Draft (m)', 'Aft Draft (m)', 'GM',
+
+                    // ROB Fuel (per entry)
+                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Cons', 'Boiler Cons',
+                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Cons.',
+                    'ME CYL Grade', 'ME CYL Qty', 'ME CYL Hrs', 'ME CYL Cons',
+                    'ME CC Qty', 'ME CC Hrs', 'ME CC Cons',
+                    'AE CC Qty', 'AE CC Hrs', 'AE CC Cons',
+
+                    // Final
+                    'Remarks', 'Master Information'
                 ];
-
-                // Common fuel types to include in columns
-                $fuelTypes = ['HSFO', 'BIOFUEL', 'VLSFO', 'LSMGO'];
-
-                foreach ($fuelTypes as $type) {
-                    $headers = array_merge($headers, [
-                        "{$type} Previous", "{$type} Current",
-                        "{$type} M/E Propulsion", "{$type} A/E Cons", "{$type} Boiler Cons", "{$type} Incinerators",
-                        "{$type} M/E 24", "{$type} A/E 24", "{$type} Total Cons.",
-                        "{$type} ME CYL Grade", "{$type} ME CYL Qty", "{$type} ME CYL Hrs", "{$type} ME CYL Cons",
-                        "{$type} ME CC Qty", "{$type} ME CC Hrs", "{$type} ME CC Cons",
-                        "{$type} AE CC Qty", "{$type} AE CC Hrs", "{$type} AE CC Cons",
-                    ]);
-                }
-
-                $headers = array_merge($headers, [
-                    'Remarks',
-                    'Master Information',
-                ]);
             @endphp
 
             @foreach ($headers as $header)
@@ -45,60 +36,67 @@
     </thead>
     <tbody>
         @foreach ($reports as $report)
+            @php
+                $noon = $report->noon_report;
+                $robFuels = $report->rob_fuel_reports;
+                $max = max(1, $robFuels->count());
+            @endphp
+
             @if (!$loop->first)
-                <tr>
-                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
-                </tr>
+                <tr><td colspan="11" style="height: 15px;"></td></tr> {{-- Spacer --}}
             @endif
 
-            <tr>
-                {{-- Voyage Details --}}
-                <td>{{ $report->vessel->name ?? 'N/A' }}</td>
-                <td>{{ $report->voyage_no ?? 'N/A' }}</td>
-                <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : 'N/A' }}</td>
-                <td>{{ $report->gmt_offset ?? 'N/A' }}</td>
-                <td>{{ $report->port ?? 'N/A' }}</td>
-                <td>{{ $report->bunkering_port ?? 'N/A' }}</td>
-                <td>{{ $report->port_gmt_offset ?? 'N/A' }}</td>
-                <td>{{ $report->supplier ?? 'N/A' }}</td>
-                <td>{{ $report->call_sign ?? 'N/A' }}</td>
-                <td>{{ $report->flag ?? 'N/A' }}</td>
+            @for ($i = 0; $i < $max; $i++)
+                @php $fuel = $robFuels[$i] ?? null; @endphp
 
-                {{-- Since Last Report --}}
-                <td>{{ $report->noon_report->cp_ordered_speed ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->me_cons_cp_speed ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->obs_distance ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->steaming_time ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->avg_speed ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->distance_to_go ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->breakdown ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->maneuvering_hours ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->avg_rpm ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->engine_distance ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->next_port ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->avg_power ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->logged_distance ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->speed_through_water ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->course ?? 'N/A' }}</td>
+                {{-- Skip if this fuel record is empty --}}
+                @if ($fuel && collect($fuel->toArray())->filter()->isEmpty())
+                    @continue
+                @endif
 
-                {{-- Arrival Conditions --}}
-                <td>{{ $report->noon_report->condition ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->displacement ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->cargo_name ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->cargo_weight ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->ballast_weight ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->fresh_water ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->fwd_draft ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->aft_draft ?? 'N/A' }}</td>
-                <td>{{ $report->noon_report->gm ?? 'N/A' }}</td>
+                <tr>
+                    {{-- Voyage Details --}}
+                    <td>{{ $report->vessel->name ?? 'N/A' }}</td>
+                    <td>{{ $report->voyage_no ?? 'N/A' }}</td>
+                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : 'N/A' }}</td>
+                    <td>{{ $report->gmt_offset ?? 'N/A' }}</td>
+                    <td>{{ $report->port ?? 'N/A' }}</td>
+                    <td>{{ $report->bunkering_port ?? 'N/A' }}</td>
+                    <td>{{ $report->port_gmt_offset ?? 'N/A' }}</td>
+                    <td>{{ $report->supplier ?? 'N/A' }}</td>
+                    <td>{{ $report->call_sign ?? 'N/A' }}</td>
+                    <td>{{ $report->flag ?? 'N/A' }}</td>
 
-                {{-- ROB Fuel Reports --}}
-                @php
-                    $rob = $report->rob_fuel_reports->keyBy('fuel_type');
-                @endphp
+                    {{-- Since Last Report --}}
+                    <td>{{ $noon->cp_ordered_speed ?? 'N/A' }}</td>
+                    <td>{{ $noon->me_cons_cp_speed ?? 'N/A' }}</td>
+                    <td>{{ $noon->obs_distance ?? 'N/A' }}</td>
+                    <td>{{ $noon->steaming_time ?? 'N/A' }}</td>
+                    <td>{{ $noon->avg_speed ?? 'N/A' }}</td>
+                    <td>{{ $noon->distance_to_go ?? 'N/A' }}</td>
+                    <td>{{ $noon->breakdown ?? 'N/A' }}</td>
+                    <td>{{ $noon->maneuvering_hours ?? 'N/A' }}</td>
+                    <td>{{ $noon->avg_rpm ?? 'N/A' }}</td>
+                    <td>{{ $noon->engine_distance ?? 'N/A' }}</td>
+                    <td>{{ $noon->next_port ?? 'N/A' }}</td>
+                    <td>{{ $noon->avg_power ?? 'N/A' }}</td>
+                    <td>{{ $noon->logged_distance ?? 'N/A' }}</td>
+                    <td>{{ $noon->speed_through_water ?? 'N/A' }}</td>
+                    <td>{{ $noon->course ?? 'N/A' }}</td>
 
-                @foreach ($fuelTypes as $type)
-                    @php $fuel = $rob[$type] ?? null; @endphp
+                    {{-- Arrival Conditions --}}
+                    <td>{{ $noon->condition ?? 'N/A' }}</td>
+                    <td>{{ $noon->displacement ?? 'N/A' }}</td>
+                    <td>{{ $noon->cargo_name ?? 'N/A' }}</td>
+                    <td>{{ $noon->cargo_weight ?? 'N/A' }}</td>
+                    <td>{{ $noon->ballast_weight ?? 'N/A' }}</td>
+                    <td>{{ $noon->fresh_water ?? 'N/A' }}</td>
+                    <td>{{ $noon->fwd_draft ?? 'N/A' }}</td>
+                    <td>{{ $noon->aft_draft ?? 'N/A' }}</td>
+                    <td>{{ $noon->gm ?? 'N/A' }}</td>
+
+                    {{-- ROB Fuel (per fuel row) --}}
+                    <td>{{ $fuel->fuel_type ?? '' }}</td>
                     <td>{{ $fuel->previous ?? '' }}</td>
                     <td>{{ $fuel->current ?? '' }}</td>
                     <td>{{ $fuel->me_propulsion ?? '' }}</td>
@@ -113,20 +111,18 @@
                     <td>{{ $fuel->me_cyl_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_hrs ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_cons ?? '' }}</td>
-
                     <td>{{ $fuel->me_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cc_hrs ?? '' }}</td>
                     <td>{{ $fuel->me_cc_cons ?? '' }}</td>
-
                     <td>{{ $fuel->ae_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_hrs ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_cons ?? '' }}</td>
-                @endforeach
 
-                {{-- Remarks and Master --}}
-                <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
-                <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
-            </tr>
+                    {{-- Final --}}
+                    <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
+                    <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+                </tr>
+            @endfor
         @endforeach
     </tbody>
 </table>

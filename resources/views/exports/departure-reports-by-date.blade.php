@@ -1,157 +1,112 @@
-<table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+<table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%;">
     <thead>
         <tr>
             @php
                 $headers = [
-                    // Voyage Details
-                    'Vessel Name',
-                    'Voyage No',
-                    'Date/Time (LT)',
-                    'GMT Offset',
-                    'Latitude',
-                    'Longitude',
-                    'Departure Type',
-                    'Departure Port',
+                    // Voyage Info
+                    'Vessel', 'Voyage No', 'Date/Time (LT)', 'GMT Offset',
+                    'Latitude', 'Longitude', 'Departure Type', 'Departure Port',
 
                     // Since Last Report
-                    'CP/Ordered Speed (Kts)',
-                    'Obs. Distance (NM)',
-                    'Steaming Time (Hrs)',
-                    'Avg Speed (Kts)',
-                    'Distance to Go (NM)',
-                    'Avg RPM',
-                    'Engine Distance (NM)',
-                    'Slip (%)',
-                    'Avg Power (KW)',
-                    'Course (Deg)',
-                    'Logged Distance (NM)',
-                    'Speed Through Water (Kts)',
-                    'Next Port',
-                    'ETA Next Port (LT)',
-                    'ETA GMT Offset',
+                    'CP/Ordered Speed', 'Obs. Distance', 'Steaming Time', 'Avg Speed', 'Distance to Go',
+                    'Avg RPM', 'Engine Distance', 'Slip', 'Avg Power (KW)', 'Course',
+                    'Logged Distance', 'Speed Through Water', 'Next Port', 'ETA Next Port', 'ETA GMT Offset',
 
                     // Departure Conditions
-                    'Departure Condition',
-                    'Displacement (MT)',
-                    'Cargo Name',
-                    'Cargo Weight (MT)',
-                    'Ballast Weight (MT)',
-                    'Fresh Water (MT)',
-                    'Fwd Draft (m)',
-                    'Aft Draft (m)',
-                    'GM',
+                    'Departure Condition', 'Displacement', 'Cargo Name', 'Cargo Weight', 'Ballast Weight',
+                    'Fresh Water', 'Fwd Draft', 'Aft Draft', 'GM',
 
                     // Voyage Itinerary
-                    'Next Port',
-                    'Via',
-                    'ETA (LT)',
-                    'GMT Offset',
-                    'Distance to go',
-                    'Projected Speed (kts)',
+                    'Next Port', 'Via', 'ETA (LT)', 'GMT Offset', 'Distance to Go', 'Projected Speed',
+
+                    // ROB Fuel (Flat)
+                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Cons', 'Boiler Cons',
+                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Cons',
+
+                    // Condensed Oil Grades
+                    'ME CYL Grade', 'ME CYL Qty', 'ME CYL Hrs', 'ME CYL Cons',
+                    'ME CC Qty', 'ME CC Hrs', 'ME CC Cons',
+                    'AE CC Qty', 'AE CC Hrs', 'AE CC Cons',
+
+                    // Misc
+                    'Remarks', 'Master Information'
                 ];
-
-                // Add flattened ROB fuel headers dynamically
-                $fuelTypes = ['HSFO', 'BIOFUEL', 'VLSFO', 'LSMGO']; // Adjust as needed
-                foreach ($fuelTypes as $type) {
-                    $headers = array_merge($headers, [
-                        "{$type} Previous",
-                        "{$type} Current",
-                        "{$type} M/E Propulsion",
-                        "{$type} A/E Cons",
-                        "{$type} Boiler Cons",
-                        "{$type} Incinerators",
-                        "{$type} M/E 24",
-                        "{$type} A/E 24",
-                        "{$type} Total Cons",
-                        "{$type} ME CYL Grade",
-                        "{$type} ME CYL Qty",
-                        "{$type} ME CYL Hrs",
-                        "{$type} ME CYL Cons",
-                        "{$type} ME CC Qty",
-                        "{$type} ME CC Hrs",
-                        "{$type} ME CC Cons",
-                        "{$type} AE CC Qty",
-                        "{$type} AE CC Hrs",
-                        "{$type} AE CC Cons",
-                    ]);
-                }
-
-                $headers = array_merge($headers, [
-                    'Remarks',
-                    'Master Information',
-                ]);
             @endphp
-
             @foreach ($headers as $header)
                 <th style="width: 250px;"><strong>{{ $header }}</strong></th>
             @endforeach
         </tr>
     </thead>
+
     <tbody>
         @foreach ($reports as $report)
+            @php
+                $noon = $report->noon_report;
+                $robFuels = $report->rob_fuel_reports;
+                $max = max(1, $robFuels->count());
+            @endphp
+
             @if (!$loop->first)
-                <tr>
-                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
-                </tr>
+                <tr><td colspan="11" style="height: 15px;"></td></tr> {{-- Spacer --}}
             @endif
 
-            <tr>
-                {{-- Voyage Details --}}
-                <td>{{ $report->vessel->name ?? '' }}</td>
-                <td>{{ $report->voyage_no ?? '' }}</td>
-                <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
-                </td>
-                <td>{{ $report->gmt_offset ?? '' }}</td>
-                <td>{{ $report->port ?? '' }}</td>
-                <td>{{ $report->bunkering_port ?? '' }}</td>
-                <td>{{ $report->port_gmt_offset ?? '' }}</td>
-                <td>{{ $report->supplier ?? '' }}</td>
+            @for ($i = 0; $i < $max; $i++)
+                @php $fuel = $robFuels[$i] ?? null; @endphp
 
-                {{-- Since Last Report --}}
-                <td>{{ $report->noon_report->cp_ordered_speed ?? '' }}</td>
-                <td>{{ $report->noon_report->obs_distance ?? '' }}</td>
-                <td>{{ $report->noon_report->steaming_time ?? '' }}</td>
-                <td>{{ $report->noon_report->avg_speed ?? '' }}</td>
-                <td>{{ $report->noon_report->distance_to_go ?? '' }}</td>
-                <td>{{ $report->noon_report->avg_rpm ?? '' }}</td>
-                <td>{{ $report->noon_report->engine_distance ?? '' }}</td>
-                <td>{{ $report->noon_report->maneuvering_hours ?? '' }}</td>
-                <td>{{ $report->noon_report->avg_power ?? '' }}</td>
-                <td>{{ $report->noon_report->course ?? '' }}</td>
-                <td>{{ $report->noon_report->logged_distance ?? '' }}</td>
-                <td>{{ $report->noon_report->speed_through_water ?? '' }}</td>
-                <td>{{ $report->noon_report->next_port ?? '' }}</td>
-                <td>{{ $report->noon_report->eta_next_port ? \Carbon\Carbon::parse($report->noon_report->eta_next_port)->format('M d, Y h:i A') : '' }}
-                </td>
-                <td>{{ $report->noon_report->eta_gmt_offset ?? '' }}</td>
+                {{-- Skip row if this fuel object is completely empty --}}
+                @if ($fuel && collect($fuel->toArray())->filter()->isEmpty())
+                    @continue
+                @endif
 
-                {{-- Departure Conditions --}}
-                <td>{{ $report->noon_report->condition ?? '' }}</td>
-                <td>{{ $report->noon_report->displacement ?? '' }}</td>
-                <td>{{ $report->noon_report->cargo_name ?? '' }}</td>
-                <td>{{ $report->noon_report->cargo_weight ?? '' }}</td>
-                <td>{{ $report->noon_report->ballast_weight ?? '' }}</td>
-                <td>{{ $report->noon_report->fresh_water ?? '' }}</td>
-                <td>{{ $report->noon_report->fwd_draft ?? '' }}</td>
-                <td>{{ $report->noon_report->aft_draft ?? '' }}</td>
-                <td>{{ $report->noon_report->gm ?? '' }}</td>
+                <tr>
+                    {{-- Voyage Info --}}
+                    <td>{{ $report->vessel->name ?? '' }}</td>
+                    <td>{{ $report->voyage_no ?? '' }}</td>
+                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $report->gmt_offset ?? '' }}</td>
+                    <td>{{ $report->port ?? '' }}</td>
+                    <td>{{ $report->bunkering_port ?? '' }}</td>
+                    <td>{{ $report->port_gmt_offset ?? '' }}</td>
+                    <td>{{ $report->supplier ?? '' }}</td>
 
-                {{-- Voyage Itinerary --}}
-                <td>{{ $report->noon_report->next_port_voyage ?? '' }}</td>
-                <td>{{ $report->noon_report->via ?? '' }}</td>
-                <td>{{ $report->noon_report->eta_lt ? \Carbon\Carbon::parse($report->noon_report->eta_lt)->format('M d, Y h:i A') : '' }}
-                </td>
-                <td>{{ $report->noon_report->gmt_offset_voyage ?? '' }}</td>
-                <td>{{ $report->noon_report->distance_to_go_voyage ?? '' }}</td>
-                <td>{{ $report->noon_report->projected_speed ?? '' }}</td>
+                    {{-- Since Last Report --}}
+                    <td>{{ $noon->cp_ordered_speed ?? '' }}</td>
+                    <td>{{ $noon->obs_distance ?? '' }}</td>
+                    <td>{{ $noon->steaming_time ?? '' }}</td>
+                    <td>{{ $noon->avg_speed ?? '' }}</td>
+                    <td>{{ $noon->distance_to_go ?? '' }}</td>
+                    <td>{{ $noon->avg_rpm ?? '' }}</td>
+                    <td>{{ $noon->engine_distance ?? '' }}</td>
+                    <td>{{ $noon->maneuvering_hours ?? '' }}</td>
+                    <td>{{ $noon->avg_power ?? '' }}</td>
+                    <td>{{ $noon->course ?? '' }}</td>
+                    <td>{{ $noon->logged_distance ?? '' }}</td>
+                    <td>{{ $noon->speed_through_water ?? '' }}</td>
+                    <td>{{ $noon->next_port ?? '' }}</td>
+                    <td>{{ $noon->eta_next_port ? \Carbon\Carbon::parse($noon->eta_next_port)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $noon->eta_gmt_offset ?? '' }}</td>
 
-                {{-- Flattened ROB Fuel Reports --}}
-                @php
-                    $rob = $report->rob_fuel_reports->keyBy('fuel_type');
-                @endphp
+                    {{-- Departure Conditions --}}
+                    <td>{{ $noon->condition ?? '' }}</td>
+                    <td>{{ $noon->displacement ?? '' }}</td>
+                    <td>{{ $noon->cargo_name ?? '' }}</td>
+                    <td>{{ $noon->cargo_weight ?? '' }}</td>
+                    <td>{{ $noon->ballast_weight ?? '' }}</td>
+                    <td>{{ $noon->fresh_water ?? '' }}</td>
+                    <td>{{ $noon->fwd_draft ?? '' }}</td>
+                    <td>{{ $noon->aft_draft ?? '' }}</td>
+                    <td>{{ $noon->gm ?? '' }}</td>
 
-                @foreach ($fuelTypes as $type)
-                    @php $fuel = $rob[$type] ?? null; @endphp
+                    {{-- Voyage Itinerary --}}
+                    <td>{{ $noon->next_port_voyage ?? '' }}</td>
+                    <td>{{ $noon->via ?? '' }}</td>
+                    <td>{{ $noon->eta_lt ? \Carbon\Carbon::parse($noon->eta_lt)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $noon->gmt_offset_voyage ?? '' }}</td>
+                    <td>{{ $noon->distance_to_go_voyage ?? '' }}</td>
+                    <td>{{ $noon->projected_speed ?? '' }}</td>
+
+                    {{-- ROB Fuel --}}
+                    <td>{{ $fuel->fuel_type ?? '' }}</td>
                     <td>{{ $fuel->previous ?? '' }}</td>
                     <td>{{ $fuel->current ?? '' }}</td>
                     <td>{{ $fuel->me_propulsion ?? '' }}</td>
@@ -162,24 +117,23 @@
                     <td>{{ $fuel->ae_24 ?? '' }}</td>
                     <td>{{ $fuel->total_cons ?? '' }}</td>
 
+                    {{-- Oil Grades --}}
                     <td>{{ $fuel->me_cyl_grade ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_hrs ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_cons ?? '' }}</td>
-
                     <td>{{ $fuel->me_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cc_hrs ?? '' }}</td>
                     <td>{{ $fuel->me_cc_cons ?? '' }}</td>
-
                     <td>{{ $fuel->ae_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_hrs ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_cons ?? '' }}</td>
-                @endforeach
 
-                {{-- Remarks and Master --}}
-                <td>{{ $report->remarks->remarks ?? '' }}</td>
-                <td>{{ $report->master_info->master_info ?? '' }}</td>
-            </tr>
+                    {{-- Misc --}}
+                    <td>{{ $report->remarks->remarks ?? '' }}</td>
+                    <td>{{ $report->master_info->master_info ?? '' }}</td>
+                </tr>
+            @endfor
         @endforeach
     </tbody>
 </table>
