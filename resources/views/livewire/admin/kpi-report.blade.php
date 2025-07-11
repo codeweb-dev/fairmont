@@ -27,6 +27,21 @@
             </tr>
         </thead>
 
+        @if ($reports->isEmpty())
+            <tr>
+                <td colspan="8" class="text-center text-zinc-500 py-10">
+                    <div class="flex flex-col items-center space-y-2">
+                        <flux:icon.archive-box-x-mark class="size-12" />
+
+                        <flux:heading>No reports found.</flux:heading>
+                        <flux:text class="mt-1 text-center max-w-sm">
+                            Try adding a new report or adjusting your search or date range
+                            filter.
+                        </flux:text>
+                    </div>
+                </td>
+            </tr>
+        @endif
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>

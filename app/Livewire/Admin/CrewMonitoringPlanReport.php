@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Voyage;
 use Livewire\Attributes\Title;
@@ -11,6 +13,8 @@ use Flux\Flux;
 #[Title('Crew Monitoring Plan Report')]
 class CrewMonitoringPlanReport extends Component
 {
+    use WithPagination, WithoutUrlPagination;
+
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];

@@ -29,6 +29,21 @@
             </tr>
         </thead>
 
+        @if ($reports->isEmpty())
+            <tr>
+                <td colspan="8" class="text-center text-zinc-500 py-10">
+                    <div class="flex flex-col items-center space-y-2">
+                        <flux:icon.archive-box-x-mark class="size-12" />
+
+                        <flux:heading>No reports found.</flux:heading>
+                        <flux:text class="mt-1 text-center max-w-sm">
+                            Try adding a new report or adjusting your search or date range
+                            filter.
+                        </flux:text>
+                    </div>
+                </td>
+            </tr>
+        @endif
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
@@ -220,91 +235,116 @@
 
                             <flux:separator />
 
-                            @if ($report->rob_fuel_reports && $report->rob_fuel_reports->count())
-                                <div>
-                                    <flux:label class="mb-2">ROB Summary</flux:label>
+                            <div class="overflow-x-auto mt-6">
+                                <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
+                                    <thead>
+                                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Fuel Type
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Previous
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Current
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E
+                                                Propulsion</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E Cons.
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Boiler
+                                                Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                Incinerators</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E 24hr
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E 24hr
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
+                                                Cons.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($report->rob_fuel_reports as $summary)
+                                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                                <td
+                                                    class="px-4 py-2 font-semibold border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->fuel_type }}
+                                                </td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->previous }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->current }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_propulsion }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cons }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->boiler_cons }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->incinerators }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_24 }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_24 }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->total_cons }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                    @foreach ($report->rob_fuel_reports->groupBy('fuel_type') as $fuelType => $fuels)
-                                        <p class="font-semibold mt-4">{{ $fuelType }}</p>
+                            <!-- Lube Oil Table -->
+                            <div class="overflow-x-auto mt-10">
+                                <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
+                                    <thead>
+                                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Fuel Type
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($report->rob_fuel_reports as $summary)
+                                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                                <td
+                                                    class="px-4 py-2 font-semibold border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->fuel_type }}
+                                                </td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_grade }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_qty }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_hrs }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_cons }}</td>
 
-                                        <table
-                                            class="w-full text-sm border-collapse border border-zinc-200 dark:border-zinc-700 mb-6">
-                                            <thead>
-                                                <tr>
-                                                    <th class="p-2 border text-center" rowspan="2">Bunker Type</th>
-                                                    <th class="p-2 border text-center" colspan="2">ROB (in MT)</th>
-                                                    <th class="p-2 border text-center" colspan="4">Consumption</th>
-                                                    <th class="p-2 border text-center" colspan="2">Cons./24hr</th>
-                                                    <th class="p-2 border text-center" rowspan="2">Total Cons.</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="p-2 border">Previous</th>
-                                                    <th class="p-2 border">Current</th>
-                                                    <th class="p-2 border">M/E Propulsion</th>
-                                                    <th class="p-2 border">A/E Cons.</th>
-                                                    <th class="p-2 border">Boiler Cons.</th>
-                                                    <th class="p-2 border">Incinerators</th>
-                                                    <th class="p-2 border">M/E 24</th>
-                                                    <th class="p-2 border">A/E 24</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($fuels as $fuel)
-                                                    <tr>
-                                                        <td class="p-2 border">{{ $fuel->fuel_type ?? 'N/A' }} (MT)
-                                                        </td>
-                                                        <td class="p-2 border">{{ $fuel->previous ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->current ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_propulsion ?? 'N/A' }}
-                                                        </td>
-                                                        <td class="p-2 border">{{ $fuel->ae_cons ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->boiler_cons ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->incinerators ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_24 ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->ae_24 ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->total_cons ?? 'N/A' }}</td>
-                                                    </tr>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_qty }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_hrs }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_cons }}</td>
 
-                                                    {{-- Lube Oils Section --}}
-                                                    <tr class="bg-zinc-100 dark:bg-zinc-800 text-center font-semibold">
-                                                        <td colspan="4" class="p-2 border">ME CYL</td>
-                                                        <td colspan="3" class="p-2 border">ME CC</td>
-                                                        <td colspan="3" class="p-2 border">AE CC</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="p-2 border">Oil Grade</th>
-                                                        <th class="p-2 border">Oil Quantity</th>
-                                                        <th class="p-2 border">Total Run Hrs.</th>
-                                                        <th class="p-2 border">Oil Cons.</th>
-
-                                                        <th class="p-2 border">Oil Quantity</th>
-                                                        <th class="p-2 border">Total Run Hrs.</th>
-                                                        <th class="p-2 border">Oil Cons.</th>
-
-                                                        <th class="p-2 border">Oil Quantity</th>
-                                                        <th class="p-2 border">Total Run Hrs.</th>
-                                                        <th class="p-2 border">Oil Cons.</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="p-2 border">{{ $fuel->me_cyl_grade ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_cyl_qty ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_cyl_hrs ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_cyl_cons ?? 'N/A' }}</td>
-
-                                                        <td class="p-2 border">{{ $fuel->me_cc_qty ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_cc_hrs ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->me_cc_cons ?? 'N/A' }}</td>
-
-                                                        <td class="p-2 border">{{ $fuel->ae_cc_qty ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->ae_cc_hrs ?? 'N/A' }}</td>
-                                                        <td class="p-2 border">{{ $fuel->ae_cc_cons ?? 'N/A' }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    @endforeach
-                                </div>
-                            @endif
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_qty }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_hrs }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_cons }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <flux:separator />
 

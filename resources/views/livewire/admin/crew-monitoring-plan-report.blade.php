@@ -1,8 +1,6 @@
 <div>
     <div class="mb-6 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
-        <h1 class="text-3xl font-bold">
-            Crew Monitoring Plan Reports
-        </h1>
+        <h1 class="text-3xl font-bold">Crew Monitoring Plan Reports</h1>
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
@@ -23,16 +21,33 @@
             <tr>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Crew Report Type</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
 
+        @if ($reports->isEmpty())
+            <tr>
+                <td colspan="8" class="text-center text-zinc-500 py-10">
+                    <div class="flex flex-col items-center space-y-2">
+                        <flux:icon.archive-box-x-mark class="size-12" />
+
+                        <flux:heading>No reports found.</flux:heading>
+                        <flux:text class="mt-1 text-center max-w-sm">
+                            Try adding a new report or adjusting your search or date range
+                            filter.
+                        </flux:text>
+                    </div>
+                </td>
+            </tr>
+        @endif
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}</td>
                 <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
@@ -59,7 +74,7 @@
                     <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
                         <div class="space-y-6">
                             <flux:heading size="lg">
-                                {{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change Data' }}
+                                {{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}
                             </flux:heading>
 
                             <div class="grid grid-cols-2 gap-4">
