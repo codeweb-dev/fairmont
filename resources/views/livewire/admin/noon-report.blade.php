@@ -113,7 +113,7 @@
                                     </div>
                                     <div>
                                         <flux:label>Port of Departure</flux:label>
-                                        <p class="text-sm">{{ $report->supplier ?? 'N/A' }}</p>
+                                        <p class="text-sm">{{ $report->supplier ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -195,19 +195,19 @@
                                     </div>
                                     <div>
                                         <flux:label>ETA GMT Offset</flux:label>
-                                        <p>{{ $report->noon_report->eta_gmt_offset ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->eta_gmt_offset ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Anchored Hours</flux:label>
-                                        <p>{{ $report->noon_report->anchored_hours ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->anchored_hours ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Drifting Hours</flux:label>
-                                        <p>{{ $report->noon_report->drifting_hours ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->drifting_hours ?? '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>Maneuvering Hours</flux:label>
-                                        <p>{{ $report->noon_report->maneuvering_hours ?? 'N/A' }}</p>
+                                        <p>{{ $report->noon_report->maneuvering_hours ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
