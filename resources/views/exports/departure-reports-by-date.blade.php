@@ -122,12 +122,14 @@
                     <td>{{ $fuel->me_cyl_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_hrs ?? '' }}</td>
                     <td>{{ $fuel->me_cyl_cons ?? '' }}</td>
+
+                    <td>{{ $fuel->me_cc_cons ?? '' }}</td>
                     <td>{{ $fuel->me_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->me_cc_hrs ?? '' }}</td>
-                    <td>{{ $fuel->me_cc_cons ?? '' }}</td>
+
+                    <td>{{ $fuel->ae_cc_cons ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_qty ?? '' }}</td>
                     <td>{{ $fuel->ae_cc_hrs ?? '' }}</td>
-                    <td>{{ $fuel->ae_cc_cons ?? '' }}</td>
 
                     {{-- Misc --}}
                     <td>{{ $report->remarks->remarks ?? '' }}</td>

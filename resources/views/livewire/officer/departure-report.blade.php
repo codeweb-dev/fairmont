@@ -368,18 +368,40 @@
                                                         <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
                                                     </tr>
                                                     <tr>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cyl_grade ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cyl_qty ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cyl_hrs ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cyl_cons ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cyl_grade ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cyl_qty ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cyl_hrs ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cyl_cons ?? '' }}</td>
 
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cc_qty ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cc_hrs ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->me_cc_cons ?? '' }}</td>
 
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->ae_cc_qty ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->ae_cc_hrs ?? '' }}</td>
-                                                        <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">{{ $fuel->ae_cc_cons ?? ''}}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cc_cons ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cc_qty ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->me_cc_hrs ?? '' }}</td>
+
+
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->ae_cc_cons ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->ae_cc_qty ?? '' }}</td>
+                                                        <td
+                                                            class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                            {{ $fuel->ae_cc_hrs ?? '' }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
