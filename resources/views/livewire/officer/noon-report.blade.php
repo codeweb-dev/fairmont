@@ -87,7 +87,7 @@
                         <flux:heading>No reports found.</flux:heading>
                         <flux:text class="mt-1 text-center max-w-sm">
                             Try adding a new report or adjusting your search or date range
-                                filter.
+                            filter.
                         </flux:text>
                     </div>
                 </td>
@@ -305,6 +305,39 @@
 
                             <flux:separator />
 
+                            <!-- Via -->
+                            <div class="pt-4">
+                                <flux:label class="font-bold text-lg mb-2">Voyage Itinerary</flux:label>
+                                <div class="grid grid-cols-4 gap-4">
+                                    <div>
+                                        <flux:label>Next Port</flux:label>
+                                        <p>{{ $report->noon_report->next_port_voyage }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Via</flux:label>
+                                        <p>{{ $report->noon_report->via }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>ETA (LT)</flux:label>
+                                        <p>{{ $report->noon_report->eta_lt }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>GMT Offset</flux:label>
+                                        <p>{{ $report->noon_report->gmt_offset_voyage }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Distance to go</flux:label>
+                                        <p>{{ $report->noon_report->distance_to_go_voyage }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Projected Speed (kts)</flux:label>
+                                        <p>{{ $report->noon_report->projected_speed }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <flux:separator />
+
                             <div>
                                 <flux:label class="text-lg font-bold mb-2">Average Weather</flux:label>
                                 <div class="grid grid-cols-4 gap-4">
@@ -458,8 +491,10 @@
                                                 <th class="p-2 border border-zinc-200 dark:border-zinc-700">Capacity
                                                 </th>
                                                 <th class="p-2 border border-zinc-200 dark:border-zinc-700">Unit</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">ROB (MT)</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">Supply Date (LT)
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">ROB (MT)
+                                                </th>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">Supply Date
+                                                    (LT)
                                                 </th>
                                             </tr>
                                         </thead>
@@ -493,9 +528,19 @@
                             <div class="overflow-x-auto mt-6">
                                 <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
                                     <thead>
+                                        <tr>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                rowspan="2">Bunker Type</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="2">ROB (in MT)</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="4">Consumption</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="2">Cons./24hr</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                rowspan="2">Total Cons.</th>
+                                        </tr>
                                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Fuel Type
-                                            </th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Previous
                                             </th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Current
@@ -512,8 +557,6 @@
                                             </th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E 24hr
                                             </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
-                                                Cons.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -551,28 +594,43 @@
                             <div class="overflow-x-auto mt-10">
                                 <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
                                     <thead>
+                                        <tr class="border-zinc-200 dark:border-zinc-700 text-center font-semibold">
+                                            <td colspan="4"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                ME CYL</td>
+                                            <td colspan="3"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                ME CC</td>
+                                            <td colspan="3"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                AE CC</td>
+                                        </tr>
                                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Fuel Type
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
                                             </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
+                                                Runn Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
+                                                Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
+                                                Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($report->rob_fuel_reports as $summary)
                                             <tr class="border border-zinc-200 dark:border-zinc-700">
-                                                <td
-                                                    class="px-4 py-2 font-semibold border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->fuel_type }}
-                                                </td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cyl_grade }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
@@ -583,18 +641,18 @@
                                                     {{ $summary->me_cyl_cons }}</td>
 
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_cons }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cc_qty }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cc_hrs }}</td>
-                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->me_cc_cons }}</td>
 
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_cons }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->ae_cc_qty }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->ae_cc_hrs }}</td>
-                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->ae_cc_cons }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

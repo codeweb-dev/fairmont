@@ -199,19 +199,19 @@
                                 <div>
                                     <flux:label>Keel Laid</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : 'N/A' }}
+                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Launched</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : 'N/A' }}
+                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Delivered</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : 'N/A' }}
+                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>

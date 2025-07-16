@@ -198,6 +198,40 @@
                     </td>
                 </tr>
 
+                {{-- VOYAGE ITINERARY --}}
+                <tr>
+                    <td colspan="13"><strong>Voyage Itinerary</strong></td>
+                </tr>
+                <tr>
+                    <td>Next Port</td>
+                    <td>{{ $report->noon_report->next_port_voyage ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Via</td>
+                    <td>{{ $report->noon_report->via ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>ETA (LT)</td>
+                    <td>{{ $report->noon_report->eta_lt ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>GMT Offset</td>
+                    <td>{{ $report->noon_report->gmt_offset_voyage ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Distance to go</td>
+                    <td>{{ $report->noon_report->distance_to_go_voyage ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Projected Speed (kts)</td>
+                    <td>{{ $report->noon_report->projected_speed ?? '' }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="13">
+                    </td>
+                </tr>
+
                 <tr>
                     <td colspan="13"><strong>Average Weather</strong></td>
                 </tr>
@@ -454,13 +488,13 @@
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_hrs ?? '' }}</td>
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cyl_cons ?? '' }}</td>
 
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_cons ?? '' }}</td>
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_qty ?? '' }}</td>
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_hrs ?? '' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->me_cc_cons ?? '' }}</td>
 
+                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? '' }}</td>
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_qty ?? '' }}</td>
                             <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_hrs ?? '' }}</td>
-                            <td style="width: 200px; border: 1px solid #000;">{{ $fuel->ae_cc_cons ?? '' }}</td>
                         </tr>
 
                         <tr>
@@ -500,7 +534,7 @@
             {{-- REMARKS / MASTER INFO --}}
             <tr>
                 <td><strong>Remarks</strong></td>
-                <td colspan="12">{{ optional($report->remarks)->remarks ?? '' }}</td>
+                <td>{{ optional($report->remarks)->remarks ?? '' }}</td>
             </tr>
 
             <tr>
@@ -510,7 +544,7 @@
 
             <tr>
                 <td><strong>Master Information</strong></td>
-                <td colspan="12">{{ optional($report->master_info)->master_info ?? '' }}</td>
+                <td>{{ optional($report->master_info)->master_info ?? '' }}</td>
             </tr>
         @endforeach
     </tbody>

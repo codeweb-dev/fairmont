@@ -56,44 +56,44 @@
 
                 <tr>
                     {{-- Voyage Details --}}
-                    <td>{{ $report->vessel->name ?? 'N/A' }}</td>
-                    <td>{{ $report->voyage_no ?? 'N/A' }}</td>
-                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : 'N/A' }}</td>
-                    <td>{{ $report->gmt_offset ?? 'N/A' }}</td>
-                    <td>{{ $report->port ?? 'N/A' }}</td>
-                    <td>{{ $report->bunkering_port ?? 'N/A' }}</td>
-                    <td>{{ $report->port_gmt_offset ?? 'N/A' }}</td>
-                    <td>{{ $report->supplier ?? 'N/A' }}</td>
-                    <td>{{ $report->call_sign ?? 'N/A' }}</td>
-                    <td>{{ $report->flag ?? 'N/A' }}</td>
+                    <td>{{ $report->vessel->name ?? '' }}</td>
+                    <td>{{ $report->voyage_no ?? '' }}</td>
+                    <td>{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}</td>
+                    <td>{{ $report->gmt_offset ?? '' }}</td>
+                    <td>{{ $report->port ?? '' }}</td>
+                    <td>{{ $report->bunkering_port ?? '' }}</td>
+                    <td>{{ $report->port_gmt_offset ?? '' }}</td>
+                    <td>{{ $report->supplier ?? '' }}</td>
+                    <td>{{ $report->call_sign ?? '' }}</td>
+                    <td>{{ $report->flag ?? '' }}</td>
 
                     {{-- Since Last Report --}}
-                    <td>{{ $noon->cp_ordered_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->me_cons_cp_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->obs_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->steaming_time ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->distance_to_go ?? 'N/A' }}</td>
-                    <td>{{ $noon->breakdown ?? 'N/A' }}</td>
-                    <td>{{ $noon->maneuvering_hours ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_rpm ?? 'N/A' }}</td>
-                    <td>{{ $noon->engine_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->next_port ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_power ?? 'N/A' }}</td>
-                    <td>{{ $noon->logged_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->speed_through_water ?? 'N/A' }}</td>
-                    <td>{{ $noon->course ?? 'N/A' }}</td>
+                    <td>{{ $noon->cp_ordered_speed ?? '' }}</td>
+                    <td>{{ $noon->me_cons_cp_speed ?? '' }}</td>
+                    <td>{{ $noon->obs_distance ?? '' }}</td>
+                    <td>{{ $noon->steaming_time ?? '' }}</td>
+                    <td>{{ $noon->avg_speed ?? '' }}</td>
+                    <td>{{ $noon->distance_to_go ?? '' }}</td>
+                    <td>{{ $noon->breakdown ?? '' }}</td>
+                    <td>{{ $noon->maneuvering_hours ?? '' }}</td>
+                    <td>{{ $noon->avg_rpm ?? '' }}</td>
+                    <td>{{ $noon->engine_distance ?? '' }}</td>
+                    <td>{{ $noon->next_port ?? '' }}</td>
+                    <td>{{ $noon->avg_power ?? '' }}</td>
+                    <td>{{ $noon->logged_distance ?? '' }}</td>
+                    <td>{{ $noon->speed_through_water ?? '' }}</td>
+                    <td>{{ $noon->course ?? '' }}</td>
 
                     {{-- Arrival Conditions --}}
-                    <td>{{ $noon->condition ?? 'N/A' }}</td>
-                    <td>{{ $noon->displacement ?? 'N/A' }}</td>
-                    <td>{{ $noon->cargo_name ?? 'N/A' }}</td>
-                    <td>{{ $noon->cargo_weight ?? 'N/A' }}</td>
-                    <td>{{ $noon->ballast_weight ?? 'N/A' }}</td>
-                    <td>{{ $noon->fresh_water ?? 'N/A' }}</td>
-                    <td>{{ $noon->fwd_draft ?? 'N/A' }}</td>
-                    <td>{{ $noon->aft_draft ?? 'N/A' }}</td>
-                    <td>{{ $noon->gm ?? 'N/A' }}</td>
+                    <td>{{ $noon->condition ?? '' }}</td>
+                    <td>{{ $noon->displacement ?? '' }}</td>
+                    <td>{{ $noon->cargo_name ?? '' }}</td>
+                    <td>{{ $noon->cargo_weight ?? '' }}</td>
+                    <td>{{ $noon->ballast_weight ?? '' }}</td>
+                    <td>{{ $noon->fresh_water ?? '' }}</td>
+                    <td>{{ $noon->fwd_draft ?? '' }}</td>
+                    <td>{{ $noon->aft_draft ?? '' }}</td>
+                    <td>{{ $noon->gm ?? '' }}</td>
 
                     {{-- ROB Fuel (per fuel row) --}}
                     <td>{{ $fuel->fuel_type ?? '' }}</td>
@@ -119,8 +119,8 @@
                     <td>{{ $fuel->ae_cc_cons ?? '' }}</td>
 
                     {{-- Final --}}
-                    <td>{{ $report->remarks->remarks ?? 'N/A' }}</td>
-                    <td>{{ $report->master_info->master_info ?? 'N/A' }}</td>
+                    <td>{{ $report->remarks->remarks ?? '' }}</td>
+                    <td>{{ $report->master_info->master_info ?? '' }}</td>
                 </tr>
             @endfor
         @endforeach

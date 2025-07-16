@@ -15,6 +15,9 @@
                     'Condition', 'Displacement', 'Cargo Name', 'Cargo Weight', 'Ballast Weight',
                     'Fresh Water', 'Fwd Draft', 'Aft Draft', 'GM',
 
+                    // Voyage Itinerary
+                    'Next Port', 'Via', 'ETA (LT)', 'GMT Offset', 'Distance to go', 'Projected Speed (kts)'
+
                     // Average & Bad Weather
                     'Wind Force (Bft.) (T)', 'Swell', 'Sea Current (Kts) (Rel.)', 'Sea Temp (Deg. °C)', 'Observed Wind Dir. (T)',
                     'Wind Sea Height (m)', 'Sea Current Direction. (Rel.)', 'Swell Height (m)', 'Observed Sea Dir. (T)', 'Air Temp (Deg. °C)',
@@ -86,36 +89,43 @@
                     <td>{{ $report->supplier ?? '' }}</td>
 
                     {{-- Noon Report --}}
-                    <td>{{ $noon->cp_ordered_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->me_cons_cp_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->obs_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->steaming_time ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_speed ?? 'N/A' }}</td>
-                    <td>{{ $noon->distance_to_go ?? 'N/A' }}</td>
-                    <td>{{ $noon->course ?? 'N/A' }}</td>
-                    <td>{{ $noon->breakdown ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_rpm ?? 'N/A' }}</td>
-                    <td>{{ $noon->engine_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->slip ?? 'N/A' }}</td>
-                    <td>{{ $noon->me_output_mcr ?? 'N/A' }}</td>
-                    <td>{{ $noon->avg_power ?? 'N/A' }}</td>
-                    <td>{{ $noon->logged_distance ?? 'N/A' }}</td>
-                    <td>{{ $noon->speed_through_water ?? 'N/A' }}</td>
-                    <td>{{ $noon->next_port ?? 'N/A' }}</td>
-                    <td>{{ $noon->eta_next_port ?? 'N/A' }}</td>
-                    <td>{{ $noon->eta_gmt_offset ?? 'N/A' }}</td>
-                    <td>{{ $noon->anchored_hours ?? 'N/A' }}</td>
-                    <td>{{ $noon->drifting_hours ?? 'N/A' }}</td>
-                    <td>{{ $noon->maneuvering_hours ?? 'N/A' }}</td>
-                    <td>{{ $noon->condition ?? 'N/A' }}</td>
-                    <td>{{ $noon->displacement ?? 'N/A' }}</td>
-                    <td>{{ $noon->cargo_name ?? 'N/A' }}</td>
-                    <td>{{ $noon->cargo_weight ?? 'N/A' }}</td>
-                    <td>{{ $noon->ballast_weight ?? 'N/A' }}</td>
-                    <td>{{ $noon->fresh_water ?? 'N/A' }}</td>
-                    <td>{{ $noon->fwd_draft ?? 'N/A' }}</td>
-                    <td>{{ $noon->aft_draft ?? 'N/A' }}</td>
-                    <td>{{ $noon->gm ?? 'N/A' }}</td>
+                    <td>{{ $noon->cp_ordered_speed ?? '' }}</td>
+                    <td>{{ $noon->me_cons_cp_speed ?? '' }}</td>
+                    <td>{{ $noon->obs_distance ?? '' }}</td>
+                    <td>{{ $noon->steaming_time ?? '' }}</td>
+                    <td>{{ $noon->avg_speed ?? '' }}</td>
+                    <td>{{ $noon->distance_to_go ?? '' }}</td>
+                    <td>{{ $noon->course ?? '' }}</td>
+                    <td>{{ $noon->breakdown ?? '' }}</td>
+                    <td>{{ $noon->avg_rpm ?? '' }}</td>
+                    <td>{{ $noon->engine_distance ?? '' }}</td>
+                    <td>{{ $noon->slip ?? '' }}</td>
+                    <td>{{ $noon->me_output_mcr ?? '' }}</td>
+                    <td>{{ $noon->avg_power ?? '' }}</td>
+                    <td>{{ $noon->logged_distance ?? '' }}</td>
+                    <td>{{ $noon->speed_through_water ?? '' }}</td>
+                    <td>{{ $noon->next_port ?? '' }}</td>
+                    <td>{{ $noon->eta_next_port ?? '' }}</td>
+                    <td>{{ $noon->eta_gmt_offset ?? '' }}</td>
+                    <td>{{ $noon->anchored_hours ?? '' }}</td>
+                    <td>{{ $noon->drifting_hours ?? '' }}</td>
+                    <td>{{ $noon->maneuvering_hours ?? '' }}</td>
+                    <td>{{ $noon->condition ?? '' }}</td>
+                    <td>{{ $noon->displacement ?? '' }}</td>
+                    <td>{{ $noon->cargo_name ?? '' }}</td>
+                    <td>{{ $noon->cargo_weight ?? '' }}</td>
+                    <td>{{ $noon->ballast_weight ?? '' }}</td>
+                    <td>{{ $noon->fresh_water ?? '' }}</td>
+                    <td>{{ $noon->fwd_draft ?? '' }}</td>
+                    <td>{{ $noon->aft_draft ?? '' }}</td>
+                    <td>{{ $noon->gm ?? '' }}</td>
+
+                    <td>{{ $noon->next_port_voyage ?? '' }}</td>
+                    <td>{{ $noon->via ?? '' }}</td>
+                    <td>{{ $noon->eta_lt ?? '' }}</td>
+                    <td>{{ $noon->gmt_offset_voyage ?? '' }}</td>
+                    <td>{{ $noon->distance_to_go_voyage ?? '' }}</td>
+                    <td>{{ $noon->projected_speed ?? '' }}</td>
 
                     {{-- Avg & Bad Weather --}}
                     <td>{{ $noon->wind_force_average_weather ?? '' }}</td>

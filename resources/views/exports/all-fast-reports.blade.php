@@ -15,11 +15,11 @@
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Vessel:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? 'N/A' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->vessel->name ?? '' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Voyage No:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->voyage_no ?? 'N/A' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->voyage_no ?? '' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>All Fast Date/Time (LT):</strong></td>
@@ -28,11 +28,11 @@
     </tr>
     <tr>
         <td style="width: 250px;"><strong>GMT Offset:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->gmt_offset ?? 'N/A' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->gmt_offset ?? '' }}</td>
     </tr>
     <tr>
         <td style="width: 250px;"><strong>Port:</strong></td>
-        <td colspan="4" style="width: 250px;">{{ $reports->first()->port ?? 'N/A' }}</td>
+        <td colspan="4" style="width: 250px;">{{ $reports->first()->port ?? '' }}</td>
     </tr>
 
     {{-- Separator Row --}}
