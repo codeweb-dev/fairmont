@@ -72,19 +72,19 @@
                         @foreach ($robs as $index => $rob)
                             <tr>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.hsfo"
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.hsfo"
                                         placeholder="HSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.biofuel"
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.biofuel"
                                         placeholder="BIOFUEL (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.vlsfo"
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.vlsfo"
                                         placeholder="VLSFO (MT)" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" wire:model="robs.{{ $index }}.lsmgo"
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.lsmgo"
                                         placeholder="LSMGO (MT)" />
                                 </td>
                                 <td class="p-2">

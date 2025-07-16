@@ -63,28 +63,28 @@
             <flux:legend>Bunker Type Quantity Taken (in MT)</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:input type="number" label="HSFO Quantity (MT)" wire:model.defer="hsfo_quantity" />
+                    <flux:input type="number" step="0.01" label="HSFO Quantity (MT)" wire:model.defer="hsfo_quantity" />
                     <flux:select label="HSFO Viscosity (CST)" wire:model.defer="hsfo_viscosity">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
-                    <flux:input type="number" label="BIOFUEL Quantity (MT)" wire:model.defer="biofuel_quantity" />
+                    <flux:input type="number" step="0.01" label="BIOFUEL Quantity (MT)" wire:model.defer="biofuel_quantity" />
                     <flux:select label="BIOFUEL Viscosity (CST)" wire:model.defer="biofuel_viscosity">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
-                    <flux:input type="number" label="VLSFO Quantity (MT)" wire:model.defer="vlsfo_quantity" />
+                    <flux:input type="number" step="0.01" label="VLSFO Quantity (MT)" wire:model.defer="vlsfo_quantity" />
                     <flux:select label="VLSFO Viscosity (CST)" wire:model.defer="vlsfo_viscosity">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>
                         <flux:select.option value="Greater than 80">Greater than 80</flux:select.option>
                     </flux:select>
 
-                    <flux:input type="number" label="LSMGO Quantity (MT)" wire:model.defer="lsmgo_quantity" />
+                    <flux:input type="number" step="0.01" label="LSMGO Quantity (MT)" wire:model.defer="lsmgo_quantity" />
                     <flux:select label="LSMGO Viscosity (CST)" wire:model.defer="lsmgo_viscosity">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Less than 80">Less than 80</flux:select.option>

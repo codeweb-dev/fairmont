@@ -141,7 +141,8 @@
                                 <div>
                                     <flux:label>Date</flux:label>
                                     <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</p>
+                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -187,31 +188,31 @@
                                 <div>
                                     <flux:label>Avg ME RPM</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->avg_me_rpm !== null ? number_format($report->engine->avg_me_rpm) : '' }}
+                                        {{ $report->engine->avg_me_rpm }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Avg ME kW</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->avg_me_kw !== null ? number_format($report->engine->avg_me_kw) : '' }}
+                                        {{ $report->engine->avg_me_kw }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>TDR (Nm)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->tdr !== null ? number_format($report->engine->tdr) : '' }}
+                                        {{ $report->engine->tdr }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>TST (Hrs)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->tst !== null ? number_format($report->engine->tst) : '' }}
+                                        {{ $report->engine->tst }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Slip (%)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->slip !== null ? number_format($report->engine->slip) : '' }}
+                                        {{ $report->engine->slip }}
                                     </p>
                                 </div>
                             </div>
@@ -239,7 +240,11 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ optional($report->robs->first())->$key !== null ? number_format(optional($report->robs->first())->$key, 0) : '' }}
+                                            @php
+                                                $value = optional($report->robs->first())->$key;
+                                            @endphp
+
+                                            {{ $value ?? '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -268,7 +273,7 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->received->$key) ? number_format($report->received->$key, 0) : '' }}
+                                            {{ $report->received->$key ?? '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -283,7 +288,7 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ isset($report->consumption->$key) ? number_format($report->consumption->$key, 0) : '' }}
+                                            {{ $report->consumption->$key ?? '' }}
                                         </p>
                                     </div>
                                 @endforeach
