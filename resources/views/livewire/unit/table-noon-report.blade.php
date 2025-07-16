@@ -481,7 +481,7 @@
 
                             <!-- ROB Tanks -->
                             <div>
-                                <flux:label class="mb-2">ROB Tanks</flux:label>
+                                <flux:label class="mb-2">ROB Summary</flux:label>
                                 @foreach ($report->rob_tanks->groupBy('grade') as $grade => $tanks)
                                     <p class="font-semibold mt-4">{{ $grade }}</p>
                                     <table

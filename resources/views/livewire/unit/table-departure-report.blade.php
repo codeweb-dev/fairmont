@@ -311,6 +311,7 @@
                             <flux:separator />
 
                             <div class="overflow-x-auto mt-6">
+                                <flux:label class="mb-6">ROB Summary</flux:label>
                                 <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
                                     <thead>
                                         <tr>
