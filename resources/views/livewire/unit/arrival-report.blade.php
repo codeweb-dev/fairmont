@@ -26,7 +26,7 @@
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
                     <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
                     <flux:input
-                        :label="$port_gmt_offset === 'Pilot Station' ? 'EOSP Date/Time (LT)' : 'FWE Date/Time (LT)'"
+                        label="Date/Time (LT)"
                         type="datetime-local" max="2999-12-31" badge="Required" wire:model.defer="all_fast_datetime"
                         required />
 

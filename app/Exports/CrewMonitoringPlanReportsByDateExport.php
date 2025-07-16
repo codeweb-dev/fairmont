@@ -22,11 +22,19 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
 
-        $reports = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
+        $query = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
-            ->whereIn('vessel_id', $assignedVesselIds)
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])
-            ->get();
+            ->whereIn('vessel_id', $assignedVesselIds);
+
+        if ($this->startDate && $this->endDate) {
+            $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        } elseif ($this->startDate) {
+            $query->where('created_at', '>=', $this->startDate);
+        } elseif ($this->endDate) {
+            $query->where('created_at', '<=', $this->endDate);
+        }
+
+        $reports = $query->get();
 
         return view('exports.crew-monitoring-plan-reports-by-date', compact('reports'));
     }

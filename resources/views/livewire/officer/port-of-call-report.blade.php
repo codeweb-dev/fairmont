@@ -42,20 +42,28 @@
                 </div>
             @endif
 
-            <div x-data="{
-                fp: null
-            }" x-init="fp = flatpickr($refs.rangeInput, {
+            <div x-data="{ fp: null }" x-init="fp = flatpickr($refs.rangeInput, {
                 mode: 'range',
                 dateFormat: 'Y-m-d',
                 onChange: function(selectedDates, dateStr) {
-                    $wire.set('dateRange', dateStr || null);
+                    if (selectedDates.length === 1) {
+                        const onlyDate = selectedDates[0];
+                        const singleDate = flatpickr.formatDate(onlyDate, 'Y-m-d');
+                        $wire.set('dateRange', `${singleDate} to ${singleDate}`);
+                    } else if (selectedDates.length === 2) {
+                        const start = flatpickr.formatDate(selectedDates[0], 'Y-m-d');
+                        const end = flatpickr.formatDate(selectedDates[1], 'Y-m-d');
+                        $wire.set('dateRange', `${start} to ${end}`);
+                    } else {
+                        $wire.set('dateRange', null);
+                    }
                 }
             });"
                 x-effect="
-                    if ($wire.dateRange === null && fp) {
-                        fp.clear();
-                    }
-                "
+        if ($wire.dateRange === null && fp) {
+            fp.clear();
+        }
+     "
                 wire:ignore>
                 <input x-ref="rangeInput" type="text"
                     class="form-input w-full border rounded-lg block disabled:shadow-none dark:shadow-none text-base sm:text-sm py-2 h-10 leading-[1.375rem] ps-3 bg-white dark:bg-white/10 dark:disabled:bg-white/[7%] shadow-xs border-zinc-200 border-b-zinc-300/80 disabled:border-b-zinc-200 dark:border-white/10 dark:disabled:border-white/5"
@@ -193,19 +201,19 @@
                                 <div>
                                     <flux:label>Keel Laid</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : 'N/A' }}
+                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Launched</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : 'N/A' }}
+                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Delivered</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : 'N/A' }}
+                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : '' }}
                                     </p>
                                 </div>
                                 <div>

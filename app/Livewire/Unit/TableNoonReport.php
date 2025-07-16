@@ -107,7 +107,7 @@ class TableNoonReport extends Component
             $this->selectAll = count($reportIds) > 0;
         }
     }
-
+    
     public function exportByDateRange()
     {
         if (!$this->dateRange) {
@@ -115,18 +115,35 @@ class TableNoonReport extends Component
             return;
         }
 
-        // Check if both start and end dates are present
         $dates = explode(' to ', $this->dateRange);
+        $start = trim($dates[0] ?? '');
+        $end = trim($dates[1] ?? '');
 
-        if (count($dates) !== 2 || empty($dates[0]) || empty($dates[1])) {
-            Toaster::error('Please select a full date range with both start and end dates.');
-            $this->dateRange = null;
+        $startDate = $start ? Carbon::parse($start)->startOfDay() : null;
+        $endDate = $end ? Carbon::parse($end)->endOfDay() : null;
+
+        if (!$startDate && !$endDate) {
+            Toaster::error('Please select at least a start or end date.');
             return;
         }
 
-        [$start, $end] = $dates;
-        $startDate = Carbon::parse($start)->startOfDay();
-        $endDate = Carbon::parse($end)->endOfDay();
+        // Temporarily apply filters here to check for matching reports
+        $reportQuery = $this->getReportsQuery();
+
+        // Filter the query again with new dynamic range
+        if ($startDate && $endDate) {
+            $reportQuery->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $reportQuery->where('created_at', '>=', $startDate);
+        } elseif ($endDate) {
+            $reportQuery->where('created_at', '<=', $endDate);
+        }
+
+        $reportCount = $reportQuery->count();
+        if ($reportCount === 0) {
+            Toaster::error('No reports found for the selected date range.');
+            return;
+        }
 
         $filename = 'noon_reports_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
