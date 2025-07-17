@@ -106,10 +106,18 @@
                                 <flux:label>ROB Entries</flux:label>
                                 <div class="grid grid-cols-4">
                                     @foreach ($report->robs as $rob)
-                                        <p>HSFO : {{ $rob->hsfo ?? '' }}</p>
-                                        <p>BIO : {{ $rob->biofuel ?? '' }}</p>
-                                        <p>VLSFO : {{ $rob->vlsfo ?? '' }}</p>
-                                        <p>LSMGO : {{ $rob->lsmgo ?? '' }}</p>
+                                        <p>HSFO :
+                                            {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
+                                        <p>BIO :
+                                            {{ $rob->biofuel !== null ? rtrim(rtrim(number_format((float) $rob->biofuel, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
+                                        <p>VLSFO :
+                                            {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
+                                        <p>LSMGO :
+                                            {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
                                     @endforeach
                                 </div>
                             </div>

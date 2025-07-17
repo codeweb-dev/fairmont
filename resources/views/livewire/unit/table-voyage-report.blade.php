@@ -196,31 +196,31 @@
                                 <div>
                                     <flux:label>Avg ME RPM</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->avg_me_rpm }}
+                                        {{ $report->engine->avg_me_rpm !== null ? rtrim(rtrim(number_format((float) $report->engine->avg_me_rpm, 3, '.', ''), '0'), '.') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Avg ME kW</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->avg_me_kw }}
+                                        {{ $report->engine->avg_me_kw !== null ? rtrim(rtrim(number_format((float) $report->engine->avg_me_kw, 3, '.', ''), '0'), '.') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>TDR (Nm)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->tdr }}
+                                        {{ $report->engine->tdr !== null ? rtrim(rtrim(number_format((float) $report->engine->tdr, 3, '.', ''), '0'), '.') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>TST (Hrs)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->tst }}
+                                        {{ $report->engine->tst !== null ? rtrim(rtrim(number_format((float) $report->engine->tst, 3, '.', ''), '0'), '.') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Slip (%)</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->engine->slip }}
+                                        {{ $report->engine->slip !== null ? rtrim(rtrim(number_format((float) $report->engine->slip, 3, '.', ''), '0'), '.') : '' }}
                                     </p>
                                 </div>
                             </div>
@@ -251,8 +251,7 @@
                                             @php
                                                 $value = optional($report->robs->first())->$key;
                                             @endphp
-
-                                            {{ $value ?? '' }}
+                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -281,7 +280,10 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ $report->received->$key ?? '' }}
+                                            @php
+                                                $value = optional($report->received)->$key;
+                                            @endphp
+                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -296,7 +298,10 @@
                                     <div>
                                         <flux:label>{{ $label }}</flux:label>
                                         <p class="text-sm">
-                                            {{ $report->consumption->$key ?? '' }}
+                                            @php
+                                                $value = optional($report->consumption)->$key;
+                                            @endphp
+                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
                                         </p>
                                     </div>
                                 @endforeach

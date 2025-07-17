@@ -179,7 +179,7 @@
 
                                     <div>
                                         <flux:label>HSFO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->hsfo_quantity }}</p>
+                                        <p class="text-sm">{{ $report->bunker->hsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->hsfo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>HSFO Viscosity</flux:label>
@@ -188,7 +188,7 @@
 
                                     <div>
                                         <flux:label>BIOFUEL (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->biofuel_quantity }}</p>
+                                        <p class="text-sm">{{ $report->bunker->biofuel_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->biofuel_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>BIOFUEL Viscosity</flux:label>
@@ -197,7 +197,7 @@
 
                                     <div>
                                         <flux:label>VLSFO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->vlsfo_quantity }}</p>
+                                        <p class="text-sm">{{ $report->bunker->vlsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->vlsfo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>VLSFO Viscosity</flux:label>
@@ -206,7 +206,7 @@
 
                                     <div>
                                         <flux:label>LSMGO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->lsmgo_quantity }}</p>
+                                        <p class="text-sm">{{ $report->bunker->lsmgo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->lsmgo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
                                     </div>
                                     <div>
                                         <flux:label>LSMGO Viscosity</flux:label>
