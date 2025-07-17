@@ -11,11 +11,13 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
 {
     protected $startDate;
     protected $endDate;
+    protected $viewing;
 
-    public function __construct($startDate, $endDate)
+    public function __construct($startDate, $endDate, $viewing = 'on-board')
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->viewing = $viewing;
     }
 
     public function view(): View
@@ -26,6 +28,14 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds);
 
+        // Filter by viewing type
+        if ($this->viewing === 'on-board') {
+            $query->whereHas('board_crew');
+        } elseif ($this->viewing === 'crew-change') {
+            $query->whereHas('crew_change');
+        }
+
+        // Apply date filter
         if ($this->startDate && $this->endDate) {
             $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
         } elseif ($this->startDate) {
@@ -36,6 +46,9 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
 
         $reports = $query->get();
 
-        return view('exports.crew-monitoring-plan-reports-by-date', compact('reports'));
+        return view('exports.crew-monitoring-plan-reports-by-date', [
+            'reports' => $reports,
+            'viewing' => $this->viewing,
+        ]);
     }
 }

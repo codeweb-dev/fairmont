@@ -27,6 +27,8 @@ class TableCrewMonitoringPlanReport extends Component
     public $selectedReports = [];
     public $selectAll = false;
 
+    public string $viewing = 'on-board';
+
     public $dateRange;
 
     protected $paginationTheme = 'tailwind';
@@ -65,20 +67,16 @@ class TableCrewMonitoringPlanReport extends Component
         return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
+            ->when($this->viewing === 'crew-change', fn($q) => $q->whereHas('crew_change'))
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
-                    if (strtolower($this->search) === 'on board crew') {
-                        $query->whereHas('board_crew');
-                    } elseif (strtolower($this->search) === 'crew change') {
-                        $query->whereHas('crew_change');
-                    } else {
-                        $query->whereHas('unit', function ($q) {
+                    $query->whereHas('unit', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    })
+                        ->orWhereHas('vessel', function ($q) {
                             $q->where('name', 'like', '%' . $this->search . '%');
-                        })
-                            ->orWhereHas('vessel', function ($q) {
-                                $q->where('name', 'like', '%' . $this->search . '%');
-                            });
-                    }
+                        });
                 });
             })
             ->when($this->dateRange, function ($query) {
@@ -86,7 +84,6 @@ class TableCrewMonitoringPlanReport extends Component
 
                 if (count($dates) === 2) {
                     [$start, $end] = $dates;
-
                     return $query->whereBetween('created_at', [
                         \Carbon\Carbon::parse($start)->startOfDay(),
                         \Carbon\Carbon::parse($end)->endOfDay(),
@@ -158,7 +155,7 @@ class TableCrewMonitoringPlanReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate),
+            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, $this->viewing),
             $filename
         );
     }
@@ -253,6 +250,7 @@ class TableCrewMonitoringPlanReport extends Component
         return view('livewire.unit.table-crew-monitoring-plan-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'viewing' => $this->viewing,
         ]);
     }
 }
