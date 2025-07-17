@@ -19,6 +19,8 @@ class CrewMonitoringPlanReport extends Component
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
 
+    public string $viewing = 'on-board';
+
     public function updatingPerPage()
     {
         $this->resetPage();
@@ -42,6 +44,8 @@ class CrewMonitoringPlanReport extends Component
         $reports = Voyage::query()
             ->with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
+            ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
+            ->when($this->viewing === 'crew-change', fn($q) => $q->whereHas('crew_change'))
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     if (strtolower($this->search) === 'on board crew') {
@@ -64,6 +68,7 @@ class CrewMonitoringPlanReport extends Component
         return view('livewire.admin.crew-monitoring-plan-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'viewing' => $this->viewing,
         ]);
     }
 }

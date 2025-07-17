@@ -176,6 +176,29 @@
                                 </div>
                             </div>
                         </flux:modal>
+                        
+                        <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">Soft Delete Report?</flux:heading>
+                                    <flux:text class="mt-2">
+                                        Are you sure you want to delete the Crew Monitoring Plan Report? <br> This
+                                        report will not be permanently deleted and can be restored if needed.
+                                    </flux:text>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <flux:spacer />
+                                    <flux:modal.close>
+                                        <flux:button variant="ghost">Cancel</flux:button>
+                                    </flux:modal.close>
+                                    <flux:button type="button" variant="danger"
+                                        wire:click="delete({{ $report->id }})">
+                                        Move to Trash
+                                    </flux:button>
+                                </div>
+                            </div>
+                        </flux:modal>
                     @endif
 
                     @if ($report->crew_change->isNotEmpty())
@@ -283,6 +306,7 @@
                                 </div>
                             </div>
                         </flux:modal>
+                    @endif
                 </td>
             </tr>
         @endforeach
