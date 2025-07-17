@@ -36,43 +36,43 @@
 
             <tr>
                 {{-- Bunkering Details --}}
-                <td>{{ $r->vessel->name ?? '' }}</td>
-                <td>{{ $r->voyage_no ?? '' }}</td>
-                <td>{{ $r->bunkering_port ?? '' }}</td>
-                <td>{{ $r->supplier ?? '' }}</td>
-                <td>{{ $r->port_etd ?? '' }}</td>
-                <td>{{ $r->port_gmt_offset ?? '' }}</td>
-                <td>{{ $r->bunker_completed ?? '' }}</td>
-                <td>{{ $r->bunker_gmt_offset ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->vessel->name ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->voyage_no ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunkering_port ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->supplier ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->port_etd ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->port_gmt_offset ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker_completed ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker_gmt_offset ?? '' }}</td>
 
                 {{-- Bunker Quantities --}}
-                <td>{{ $r->bunker->hsfo_quantity ?? '' }}</td>
-                <td>{{ $r->bunker->hsfo_viscosity ?? '' }}</td>
-                <td>{{ $r->bunker->biofuel_quantity ?? '' }}</td>
-                <td>{{ $r->bunker->biofuel_viscosity ?? '' }}</td>
-                <td>{{ $r->bunker->vlsfo_quantity ?? '' }}</td>
-                <td>{{ $r->bunker->vlsfo_viscosity ?? '' }}</td>
-                <td>{{ $r->bunker->lsmgo_quantity ?? '' }}</td>
-                <td>{{ $r->bunker->lsmgo_viscosity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->hsfo_quantity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->hsfo_viscosity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->biofuel_quantity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->biofuel_viscosity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->vlsfo_quantity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->vlsfo_viscosity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->lsmgo_quantity ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->bunker->lsmgo_viscosity ?? '' }}</td>
 
                 {{-- Associated Info --}}
-                <td>{{ $r->assiociated_information->port_delivery ?? '' }}</td>
-                <td>{{ $r->assiociated_information->eosp ?? '' }}</td>
-                <td>{{ $r->assiociated_information->eosp_gmt ?? '' }}</td>
-                <td>{{ $r->assiociated_information->barge ?? '' }}</td>
-                <td>{{ $r->assiociated_information->barge_gmt ?? '' }}</td>
-                <td>{{ $r->assiociated_information->cosp ?? '' }}</td>
-                <td>{{ $r->assiociated_information->cosp_gmt ?? '' }}</td>
-                <td>{{ $r->assiociated_information->anchor ?? '' }}</td>
-                <td>{{ $r->assiociated_information->anchor_gmt ?? '' }}</td>
-                <td>{{ $r->assiociated_information->pumping ?? '' }}</td>
-                <td>{{ $r->assiociated_information->pumping_gmt ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->port_delivery ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->eosp ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->eosp_gmt ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->barge ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->barge_gmt ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->cosp ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->cosp_gmt ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->anchor ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->anchor_gmt ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->pumping ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->assiociated_information->pumping_gmt ?? '' }}</td>
 
                 {{-- Remarks --}}
-                <td>{{ $r->remarks->remarks ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->remarks->remarks ?? '' }}</td>
 
                 {{-- Master Info --}}
-                <td>{{ $r->master_info->master_info ?? '' }}</td>
+                <td style="text-align: left;">{{ $r->master_info->master_info ?? '' }}</td>
             </tr>
         @endforeach
     </tbody>

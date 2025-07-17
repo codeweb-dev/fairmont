@@ -2,18 +2,10 @@
     <thead>
         @php
             $headers = [
-                // Report-level
                 'Vessel Name', 'Voyage No', 'Date',
-
-                // Port-level
                 'Port', 'Activity', 'ETA/ETB', 'ETCD',
                 'Cargo', 'Cargo Qty', 'Remarks',
-
-                // Agent-level
-                'Name', 'Address', 'PIC',
-                'Phone', 'Mobile', 'Email',
-
-                // Footer Info
+                'Name', 'Address', 'PIC', 'Phone', 'Mobile', 'Email',
                 'Remarks', 'Master Information',
             ];
         @endphp
@@ -37,14 +29,15 @@
 
             @if (!$loop->first)
                 <tr>
-                    <td colspan="11" style="height: 15px;"></td> {{-- Spacer row --}}
+                    <td colspan="18" style="height: 15px;"></td> {{-- Spacer row --}}
                 </tr>
             @endif
 
             @foreach ($ports as $port)
                 @php
                     $agents = $port->agents ?? [];
-                    $agentCount = count($agents) ?: 1; // Show at least one row if empty
+                    $agentCount = count($agents) ?: 1;
+                    $firstAgent = true;
                 @endphp
 
                 @for ($i = 0; $i < $agentCount; $i++)
@@ -53,32 +46,34 @@
                     @endphp
 
                     <tr>
-                        {{-- Report-level --}}
-                        <td>{{ $vessel->name ?? '' }}</td>
-                        <td>{{ $report->voyage_no ?? '' }}</td>
-                        <td>{{ $reportDate }}</td>
+                        {{-- Report-level (show only on first agent row per port) --}}
+                        <td style="text-align: left;">{{ $firstAgent ? ($vessel->name ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($report->voyage_no ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? $reportDate : '' }}</td>
 
                         {{-- Port-level --}}
-                        <td>{{ $port->port ?? '' }}</td>
-                        <td>{{ $port->activity ?? '' }}</td>
-                        <td>{{ $port->eta_etb ?? '' }}</td>
-                        <td>{{ $port->etcd ?? '' }}</td>
-                        <td>{{ $port->cargo ?? '' }}</td>
-                        <td>{{ $port->cargo_qty ?? '' }}</td>
-                        <td>{{ $port->remarks ?? '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->port ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->activity ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->eta_etb ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->etcd ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->cargo ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->cargo_qty ?? '') : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? ($port->remarks ?? '') : '' }}</td>
 
                         {{-- Agent-level --}}
-                        <td>{{ $agent?->name ?? '' }}</td>
-                        <td>{{ $agent?->address ?? '' }}</td>
-                        <td>{{ $agent?->pic_name ?? '' }}</td>
-                        <td>{{ $agent?->telephone ?? '' }}</td>
-                        <td>{{ $agent?->mobile ?? '' }}</td>
-                        <td>{{ $agent?->email ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->name ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->address ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->pic_name ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->telephone ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->mobile ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->email ?? '' }}</td>
 
                         {{-- Footer --}}
-                        <td>{{ $remarks }}</td>
-                        <td>{{ $master }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? $remarks : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgent ? $master : '' }}</td>
                     </tr>
+
+                    @php $firstAgent = false; @endphp
                 @endfor
             @endforeach
         @endforeach

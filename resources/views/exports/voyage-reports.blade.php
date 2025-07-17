@@ -14,23 +14,23 @@
     <table>
         {{-- Voyage Details --}}
         <tr>
-            <td colspan="2" style="font-weight: bold; width: 150px;">Voyage Details</td>
+            <td colspan="2" style="font-weight: bold; width: 250px;">Voyage Details</td>
         </tr>
         <tr>
-            <td style="width: 150px;">Report Type:</td>
-            <td style="width: 150px;">{{ $report->report_type }}</td>
+            <td style="width: 250px;">Report Type:</td>
+            <td style="width: 250px;">{{ $report->report_type }}</td>
         </tr>
         <tr>
             <td>Vessel:</td>
-            <td>{{ $report->vessel->name ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
         <tr>
             <td>Voyage No:</td>
-            <td>{{ $report->voyage_no ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->voyage_no ?? '' }}</td>
         </tr>
         <tr>
             <td>Date:</td>
-            <td>{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}</td>
+            <td style="text-align: left;">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y') }}</td>
         </tr>
 
         <tr>
@@ -43,11 +43,11 @@
         </tr>
         <tr>
             <td>Port Departure (COSP):</td>
-            <td>{{ $report->location->port_departure ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->location->port_departure ?? '' }}</td>
         </tr>
         <tr>
             <td>Port Arrival (EOSP):</td>
-            <td>{{ $report->location->port_arrival ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->location->port_arrival ?? '' }}</td>
         </tr>
 
         <tr>
@@ -60,11 +60,11 @@
         </tr>
         <tr>
             <td>Off Hire Hours:</td>
-            <td>{{ $report->off_hire->hire_hours ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->off_hire->hire_hours ?? '' }}</td>
         </tr>
         <tr>
             <td>Off Hire Reason:</td>
-            <td>{{ $report->off_hire->hire_reason ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->off_hire->hire_reason ?? '' }}</td>
         </tr>
 
         <tr>
@@ -77,23 +77,23 @@
         </tr>
         <tr>
             <td>Avg ME RPM:</td>
-            <td>{{ $report->engine->avg_me_rpm ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->engine->avg_me_rpm ?? '' }}</td>
         </tr>
         <tr>
             <td>Avg ME kW:</td>
-            <td>{{ $report->engine->avg_me_kw ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->engine->avg_me_kw ?? '' }}</td>
         </tr>
         <tr>
             <td>TDR (Nm):</td>
-            <td>{{ $report->engine->tdr ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->engine->tdr ?? '' }}</td>
         </tr>
         <tr>
             <td>TST (Hrs):</td>
-            <td>{{ $report->engine->tst ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->engine->tst ?? '' }}</td>
         </tr>
         <tr>
             <td>Slip (%):</td>
-            <td>{{ $report->engine->slip ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->engine->slip ?? '' }}</td>
         </tr>
 
         <tr>
@@ -106,39 +106,39 @@
         </tr>
         <tr>
             <td>HSFO (MT):</td>
-            <td>{{ $rob->hsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->hsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>VLSFO (MT):</td>
-            <td>{{ $rob->vlsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->vlsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>BIOFUEL (MT):</td>
-            <td>{{ $rob->biofuel ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->biofuel ?? '' }}</td>
         </tr>
         <tr>
             <td>LSMGO (MT):</td>
-            <td>{{ $rob->lsmgo ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->lsmgo ?? '' }}</td>
         </tr>
         <tr>
             <td>ME CC OIL (LITRES):</td>
-            <td>{{ $rob->me_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->me_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>MC CYL OIL (LITRES):</td>
-            <td>{{ $rob->mc_cyl_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->mc_cyl_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>GE CC OIL (LITRES):</td>
-            <td>{{ $rob->ge_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->ge_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>FW (MT):</td>
-            <td>{{ $rob->fw ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->fw ?? '' }}</td>
         </tr>
         <tr>
             <td>FW Produced (MT):</td>
-            <td>{{ $rob->fw_produced ?? '' }}</td>
+            <td style="text-align: left;">{{ $rob->fw_produced ?? '' }}</td>
         </tr>
 
         <tr>
@@ -151,39 +151,39 @@
         </tr>
         <tr>
             <td>HSFO (MT):</td>
-            <td>{{ $recv->hsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->hsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>VLSFO (MT):</td>
-            <td>{{ $recv->vlsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->vlsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>BIOFUEL (MT):</td>
-            <td>{{ $recv->biofuel ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->biofuel ?? '' }}</td>
         </tr>
         <tr>
             <td>LSMGO (MT):</td>
-            <td>{{ $recv->lsmgo ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->lsmgo ?? '' }}</td>
         </tr>
         <tr>
             <td>ME CC OIL (LITRES):</td>
-            <td>{{ $recv->me_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->me_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>MC CYL OIL (LITRES):</td>
-            <td>{{ $recv->mc_cyl_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->mc_cyl_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>GE CC OIL (LITRES):</td>
-            <td>{{ $recv->ge_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->ge_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>FW (MT):</td>
-            <td>{{ $recv->fw ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->fw ?? '' }}</td>
         </tr>
         <tr>
             <td>FW Produced (MT):</td>
-            <td>{{ $recv->fw_produced ?? '' }}</td>
+            <td style="text-align: left;">{{ $recv->fw_produced ?? '' }}</td>
         </tr>
 
         <tr>
@@ -196,39 +196,39 @@
         </tr>
         <tr>
             <td>HSFO (MT):</td>
-            <td>{{ $cons->hsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->hsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>VLSFO (MT):</td>
-            <td>{{ $cons->vlsfo ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->vlsfo ?? '' }}</td>
         </tr>
         <tr>
             <td>BIOFUEL (MT):</td>
-            <td>{{ $cons->biofuel ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->biofuel ?? '' }}</td>
         </tr>
         <tr>
             <td>LSMGO (MT):</td>
-            <td>{{ $cons->lsmgo ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->lsmgo ?? '' }}</td>
         </tr>
         <tr>
             <td>ME CC OIL (LITRES):</td>
-            <td>{{ $cons->me_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->me_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>MC CYL OIL (LITRES):</td>
-            <td>{{ $cons->mc_cyl_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->mc_cyl_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>GE CC OIL (LITRES):</td>
-            <td>{{ $cons->ge_cc_oil ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->ge_cc_oil ?? '' }}</td>
         </tr>
         <tr>
             <td>FW (MT):</td>
-            <td>{{ $cons->fw ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->fw ?? '' }}</td>
         </tr>
         <tr>
             <td>FW Produced (MT):</td>
-            <td>{{ $cons->fw_produced ?? '' }}</td>
+            <td style="text-align: left;">{{ $cons->fw_produced ?? '' }}</td>
         </tr>
 
         <tr>
@@ -241,7 +241,7 @@
         </tr>
         <tr>
             <td>Remarks:</td>
-            <td>{{ $report->remarks->remarks ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
         </tr>
 
         <tr>
@@ -254,7 +254,7 @@
         </tr>
         <tr>
             <td>Master’s Info:</td>
-            <td>{{ $report->master_info->master_info ?? '' }}</td>
+            <td style="text-align: left;">{{ $report->master_info->master_info ?? '' }}</td>
         </tr>
     </table>
 

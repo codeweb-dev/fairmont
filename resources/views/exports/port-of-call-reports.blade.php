@@ -12,88 +12,88 @@
             <td colspan="2" style="font-weight: bold;">Vessel Details</td>
         </tr>
         <tr>
-            <td style="width:150px;">Vessel Name:</td>
-            <td>{{ e($report->vessel->name ?? '') }}</td>
+            <td style="width: 250px;">Vessel Name:</td>
+            <td style="text-align: left;">{{ e($report->vessel->name ?? '') }}</td>
         </tr>
-        <tr>
+        <tr>s
             <td>Call Sign:</td>
-            <td>{{ e($report->call_sign ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->call_sign ?? '') }}</td>
         </tr>
         <tr>
             <td>Flag:</td>
-            <td>{{ e($report->flag ?? '-') }}</td>
+            <td style="text-align: left;">{{ e($report->flag ?? '-') }}</td>
         </tr>
         <tr>
             <td>Port of Registry:</td>
-            <td>{{ e($report->port_of_registry ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->port_of_registry ?? '') }}</td>
         </tr>
         <tr>
             <td>Official Number:</td>
-            <td>{{ e($report->official_number ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->official_number ?? '') }}</td>
         </tr>
         <tr>
             <td>IMO Number:</td>
-            <td>{{ e($report->imo_number ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->imo_number ?? '') }}</td>
         </tr>
         <tr>
             <td>Class Society:</td>
-            <td>{{ e($report->class_society ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->class_society ?? '') }}</td>
         </tr>
         <tr>
             <td>Class No:</td>
-            <td>{{ e($report->class_no ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->class_no ?? '') }}</td>
         </tr>
         <tr>
             <td>P&amp;I Club:</td>
-            <td>{{ html_entity_decode($report->pi_club ?? '') }}</td>
+            <td style="text-align: left;">{{ html_entity_decode($report->pi_club ?? '') }}</td>
         </tr>
         <tr>
             <td>LOA (Length Overall):</td>
-            <td>{{ e($report->loa ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->loa ?? '') }}</td>
         </tr>
         <tr>
             <td>LBP (Length Between Perpendiculars):</td>
-            <td>{{ e($report->lbp ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->lbp ?? '') }}</td>
         </tr>
         <tr>
             <td>Breadth (Extreme):</td>
-            <td>{{ e($report->breadth_extreme ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->breadth_extreme ?? '') }}</td>
         </tr>
         <tr>
             <td>Depth (Moulded):</td>
-            <td>{{ e($report->depth_moulded ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->depth_moulded ?? '') }}</td>
         </tr>
         <tr>
             <td>Height (Maximum):</td>
-            <td>{{ e($report->height_maximum ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->height_maximum ?? '') }}</td>
         </tr>
         <tr>
             <td>Bridge Front Bow:</td>
-            <td>{{ e($report->bridge_front_bow ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->bridge_front_bow ?? '') }}</td>
         </tr>
         <tr>
             <td>Bridge Front Stern:</td>
-            <td>{{ e($report->bridge_front_stern ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->bridge_front_stern ?? '') }}</td>
         </tr>
         <tr>
             <td>Light Ship Displacement:</td>
-            <td>{{ e($report->light_ship_displacement ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->light_ship_displacement ?? '') }}</td>
         </tr>
         <tr>
             <td>Keel Laid:</td>
-            <td>{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Launched:</td>
-            <td>{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Delivered:</td>
-            <td>{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Shipyard:</td>
-            <td>{{ e($report->shipyard ?? '') }}</td>
+            <td style="text-align: left;">{{ e($report->shipyard ?? '') }}</td>
         </tr>
     </table>
 
@@ -105,13 +105,15 @@
                 <td colspan="4" style="font-weight: bold;">Deliverable #{{ $index + 1 }}</td>
             </tr>
             <tr>
-                <td style="width:150px;">Voyage No:</td>
+                <td style="width:250px;"><strong>Voyage No:</strong></td>
                 <td>{{ e($port->voyage_no ?? '') }}</td>
-                <td style="width:150px;">Charterers:</td>
+            </tr>
+            <tr>
+                <td style="width:250px;"><strong>Charterers:</strong></td>
                 <td>{{ e($port->charterers ?? '') }}</td>
             </tr>
             <tr>
-                <td>Cargo:</td>
+                <td><strong>Cargo:</strong></td>
                 <td>{{ e($port->cargo ?? '') }}</td>
             </tr>
         </table>
@@ -123,21 +125,21 @@
                     <th colspan="10" style="font-weight: bold;">Agents for Deliverable #{{ $index + 1 }}</th>
                 </tr>
                 <tr>
-                    <th style="width:150px; border: 1px solid #000;">Port</th>
-                    <th style="width:150px; border: 1px solid #000;">Country</th>
-                    <th style="width:150px; border: 1px solid #000;">Purpose</th>
-                    <th style="width:150px; border: 1px solid #000;" colspan="2">ATA / ETA</th>
-                    <th style="width:150px; border: 1px solid #000;" colspan="2">Ship's Info</th>
-                    <th style="width:150px; border: 1px solid #000;">GMT</th>
-                    <th style="width:150px; border: 1px solid #000;">Duration</th>
-                    <th style="width:150px; border: 1px solid #000;">Total</th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Port</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Country</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Purpose</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;" colspan="2"><strong>ATA / ETA</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;" colspan="2"><strong>Ship's Info</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>GMT</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Duration</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Total</strong></th>
                 </tr>
                 <tr>
                     <th colspan="3"></th>
-                    <th style="border: 1px solid #000;">Date</th>
-                    <th style="border: 1px solid #000;">Time</th>
-                    <th style="border: 1px solid #000;">Date</th>
-                    <th style="border: 1px solid #000;">Time</th>
+                    <th style="border: 1px solid #000; text-align: center;"><strong>Date</strong></th>
+                    <th style="border: 1px solid #000; text-align: center;"><strong>Time</strong></th>
+                    <th style="border: 1px solid #000; text-align: center;"><strong>Date</strong></th>
+                    <th style="border: 1px solid #000; text-align: center;"><strong>Time</strong></th>
                     <th colspan="3"></th>
                 </tr>
             </thead>
@@ -162,8 +164,6 @@
                 @endforelse
             </tbody>
         </table>
-
-        <br>
     @endforeach
 
     {{-- REMARKS --}}
@@ -172,8 +172,8 @@
             <td colspan="2" style="font-weight: bold;">Remarks</td>
         </tr>
         <tr>
-            <td style="width:150px;">Remarks:</td>
-            <td style="width: 250px;">{{ $report->remarks->remarks ?? '' }}</td>
+            <td style="width: 250px;">Remarks:</td>
+            <td style="width: 250px; text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
         </tr>
     </table>
 
@@ -183,8 +183,8 @@
             <td colspan="2" style="font-weight: bold;">Master Information</td>
         </tr>
         <tr>
-            <td style="width:150px;">Master's Name:</td>
-            <td>{{ e($report->master_info->master_info ?? '') }}</td>
+            <td style="width: 250px;">Master's Name:</td>
+            <td style="width: 250px; text-align: left;">{{ e($report->master_info->master_info ?? '') }}</td>
         </tr>
     </table>
 @endforeach

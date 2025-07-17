@@ -4,47 +4,126 @@
             @php
                 $headers = [
                     // Voyage Info
-                    'Vessel', 'Vessel User', 'Voyage No', 'Report Type', 'Date/Time (LT)', 'GMT Offset',
-                    'Latitude', 'Longitude', 'Port of Departure',
+                    'Vessel',
+                    'Vessel User',
+                    'Voyage No',
+                    'Report Type',
+                    'Date/Time (LT)',
+                    'GMT Offset',
+                    'Latitude',
+                    'Longitude',
+                    'Port of Departure',
 
                     // Noon Report Details
-                    'CP/Ordered Speed', 'Allowed M/E Cons. at C/P Speed', 'Observed Distance', 'Steaming Time', 'Avg Speed',
-                    'Distance to Go', 'Course', 'Breakdown', 'Avg RPM', 'Engine Distance', 'Slip',
-                    'M/E Output %MCR', 'Avg Power (kW)', 'Logged Distance', 'Speed Through Water', 'Next Port',
-                    'ETA Next Port', 'ETA GMT Offset', 'Anchored Hours', 'Drifting Hours', 'Maneuvering Hours',
-                    'Condition', 'Displacement', 'Cargo Name', 'Cargo Weight', 'Ballast Weight',
-                    'Fresh Water', 'Fwd Draft', 'Aft Draft', 'GM',
+                    'CP/Ordered Speed',
+                    'Allowed M/E Cons. at C/P Speed',
+                    'Observed Distance',
+                    'Steaming Time',
+                    'Avg Speed',
+                    'Distance to Go',
+                    'Course',
+                    'Breakdown',
+                    'Avg RPM',
+                    'Engine Distance',
+                    'Slip',
+                    'M/E Output %MCR',
+                    'Avg Power (kW)',
+                    'Logged Distance',
+                    'Speed Through Water',
+                    'Next Port',
+                    'ETA Next Port',
+                    'ETA GMT Offset',
+                    'Anchored Hours',
+                    'Drifting Hours',
+                    'Maneuvering Hours',
+                    'Condition',
+                    'Displacement',
+                    'Cargo Name',
+                    'Cargo Weight',
+                    'Ballast Weight',
+                    'Fresh Water',
+                    'Fwd Draft',
+                    'Aft Draft',
+                    'GM',
 
                     // Voyage Itinerary
-                    'Next Port', 'Via', 'ETA (LT)', 'GMT Offset', 'Distance to go', 'Projected Speed (kts)'
+                    'Next Port',
+                    'Via',
+                    'ETA (LT)',
+                    'GMT Offset',
+                    'Distance to go',
+                    'Projected Speed (kts)',
 
                     // Average & Bad Weather
-                    'Wind Force (Bft.) (T)', 'Swell', 'Sea Current (Kts) (Rel.)', 'Sea Temp (Deg. °C)', 'Observed Wind Dir. (T)',
-                    'Wind Sea Height (m)', 'Sea Current Direction. (Rel.)', 'Swell Height (m)', 'Observed Sea Dir. (T)', 'Air Temp (Deg. °C)',
-                    'Observed Swell Dir. (T)', 'Sea DS', 'Atm. Pressure (millibar)',
-                    'Wind force (Bft.) >0 hrs (since last report)', 'Wind Force (Bft.) (continuous)', 'Sea State (DS) >0 hrs (since last report)', 'Sea State (continuous)',
+                    'Wind Force (Bft.) (T)',
+                    'Swell',
+                    'Sea Current (Kts) (Rel.)',
+                    'Sea Temp (Deg. °C)',
+                    'Observed Wind Dir. (T)',
+                    'Wind Sea Height (m)',
+                    'Sea Current Direction. (Rel.)',
+                    'Swell Height (m)',
+                    'Observed Sea Dir. (T)',
+                    'Air Temp (Deg. °C)',
+                    'Observed Swell Dir. (T)',
+                    'Sea DS',
+                    'Atm. Pressure (millibar)',
+                    'Wind force (Bft.) >0 hrs (since last report)',
+                    'Wind Force (Bft.) (continuous)',
+                    'Sea State (DS) >0 hrs (since last report)',
+                    'Sea State (continuous)',
 
                     // Weather Observations (All)
-                    'Time Block', 'Wind Force', 'Wind Dir', 'Swell Height', 'Swell Dir',
-                    'Wind Sea Height', 'Sea Dir', 'Sea DS',
+                    'Time Block',
+                    'Wind Force',
+                    'Wind Dir',
+                    'Swell Height',
+                    'Swell Dir',
+                    'Wind Sea Height',
+                    'Sea Dir',
+                    'Sea DS',
 
                     // ROB Tank (All)
-                    'Tank No', 'Description', 'Fuel Grade', 'Capacity', 'Unit', 'ROB (MT)', 'Supply Date (LT)',
+                    'Tank No',
+                    'Description',
+                    'Fuel Grade',
+                    'Capacity',
+                    'Unit',
+                    'ROB (MT)',
+                    'Supply Date (LT)',
 
                     // ROB Fuel (All)
-                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion.', 'A/E Cons.', 'Boiler Cons.',
-                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Cons.',
+                    'Fuel Type',
+                    'Previous',
+                    'Current',
+                    'M/E Propulsion.',
+                    'A/E Cons.',
+                    'Boiler Cons.',
+                    'Incinerators',
+                    'M/E 24',
+                    'A/E 24',
+                    'Total Cons.',
 
                     // Condensed Oil Grades
-                    'ME CYL Grade', 'ME CYL Qty', 'ME CYL Hrs', 'ME CYL Cons.',
-                    'ME CC Qty', 'ME CC Hrs', 'ME CC Cons.',
-                    'AE CC Qty', 'AE CC Hrs', 'AE CC Cons.',
+                    'ME CYL Grade',
+                    'ME CYL Qty',
+                    'ME CYL Hrs',
+                    'ME CYL Cons.',
+                    'ME CC Qty',
+                    'ME CC Hrs',
+                    'ME CC Cons.',
+                    'AE CC Qty',
+                    'AE CC Hrs',
+                    'AE CC Cons.',
 
                     // Diesel Engine Hours
-                    'DG1 Run Hours', 'DG2 Run Hours', 'DG3 Run Hours',
+                    'DG1 Run Hours',
+                    'DG2 Run Hours',
+                    'DG3 Run Hours',
 
                     // Master & Remarks
-                    'Remarks', 'Master Information'
+                    'Remarks',
+                    'Master Information',
                 ];
             @endphp
 
@@ -76,130 +155,135 @@
             @endif
 
             @for ($i = 0; $i < $max; $i++)
+                @php
+                    $firstRow = $i === 0;
+                    $weather = $weatherList[$i] ?? null;
+                    $robTank = $robTanks[$i] ?? null;
+                    $robFuel = $robFuels[$i] ?? null;
+                @endphp
                 <tr>
                     {{-- Voyage Info --}}
-                    <td>{{ $report->vessel->name ?? '' }}</td>
-                    <td>{{ $report->unit->name ?? '' }}</td>
-                    <td>{{ $report->voyage_no ?? '' }}</td>
-                    <td>{{ $report->report_type ?? '' }}</td>
-                    <td>{{ $report->all_fast_datetime ?? '' }}</td>
-                    <td>{{ $report->gmt_offset ?? '' }}</td>
-                    <td>{{ $report->port ?? '' }}</td>
-                    <td>{{ $report->bunkering_port ?? '' }}</td>
-                    <td>{{ $report->supplier ?? '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->vessel->name ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->unit->name ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->voyage_no ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->report_type ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->all_fast_datetime ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->gmt_offset ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->port ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->bunkering_port ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->supplier ?? '' : '' }}</td>
 
                     {{-- Noon Report --}}
-                    <td>{{ $noon->cp_ordered_speed ?? '' }}</td>
-                    <td>{{ $noon->me_cons_cp_speed ?? '' }}</td>
-                    <td>{{ $noon->obs_distance ?? '' }}</td>
-                    <td>{{ $noon->steaming_time ?? '' }}</td>
-                    <td>{{ $noon->avg_speed ?? '' }}</td>
-                    <td>{{ $noon->distance_to_go ?? '' }}</td>
-                    <td>{{ $noon->course ?? '' }}</td>
-                    <td>{{ $noon->breakdown ?? '' }}</td>
-                    <td>{{ $noon->avg_rpm ?? '' }}</td>
-                    <td>{{ $noon->engine_distance ?? '' }}</td>
-                    <td>{{ $noon->slip ?? '' }}</td>
-                    <td>{{ $noon->me_output_mcr ?? '' }}</td>
-                    <td>{{ $noon->avg_power ?? '' }}</td>
-                    <td>{{ $noon->logged_distance ?? '' }}</td>
-                    <td>{{ $noon->speed_through_water ?? '' }}</td>
-                    <td>{{ $noon->next_port ?? '' }}</td>
-                    <td>{{ $noon->eta_next_port ?? '' }}</td>
-                    <td>{{ $noon->eta_gmt_offset ?? '' }}</td>
-                    <td>{{ $noon->anchored_hours ?? '' }}</td>
-                    <td>{{ $noon->drifting_hours ?? '' }}</td>
-                    <td>{{ $noon->maneuvering_hours ?? '' }}</td>
-                    <td>{{ $noon->condition ?? '' }}</td>
-                    <td>{{ $noon->displacement ?? '' }}</td>
-                    <td>{{ $noon->cargo_name ?? '' }}</td>
-                    <td>{{ $noon->cargo_weight ?? '' }}</td>
-                    <td>{{ $noon->ballast_weight ?? '' }}</td>
-                    <td>{{ $noon->fresh_water ?? '' }}</td>
-                    <td>{{ $noon->fwd_draft ?? '' }}</td>
-                    <td>{{ $noon->aft_draft ?? '' }}</td>
-                    <td>{{ $noon->gm ?? '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->cp_ordered_speed ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->me_cons_cp_speed ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->obs_distance ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->steaming_time ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->avg_speed ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->distance_to_go ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->course ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->breakdown ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->avg_rpm ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->engine_distance ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->slip ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->me_output_mcr ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->avg_power ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->logged_distance ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->speed_through_water ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->next_port ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->eta_next_port ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->eta_gmt_offset ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->anchored_hours ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->drifting_hours ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->maneuvering_hours ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->condition ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->displacement ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->cargo_name ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->cargo_weight ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->ballast_weight ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->fresh_water ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->fwd_draft ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->aft_draft ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->gm ?? '' : '' }}</td>
 
-                    <td>{{ $noon->next_port_voyage ?? '' }}</td>
-                    <td>{{ $noon->via ?? '' }}</td>
-                    <td>{{ $noon->eta_lt ?? '' }}</td>
-                    <td>{{ $noon->gmt_offset_voyage ?? '' }}</td>
-                    <td>{{ $noon->distance_to_go_voyage ?? '' }}</td>
-                    <td>{{ $noon->projected_speed ?? '' }}</td>
+                    {{-- Voyage Itinerary --}}
+                    <td style="text-align: left;">{{ $firstRow ? $noon->next_port_voyage ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->via ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->eta_lt ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->gmt_offset_voyage ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->distance_to_go_voyage ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->projected_speed ?? '' : '' }}</td>
 
                     {{-- Avg & Bad Weather --}}
-                    <td>{{ $noon->wind_force_average_weather ?? '' }}</td>
-                    <td>{{ $noon->swell ?? '' }}</td>
-                    <td>{{ $noon->sea_current ?? '' }}</td>
-                    <td>{{ $noon->sea_temp ?? '' }}</td>
-                    <td>{{ $noon->observed_wind ?? '' }}</td>
-                    <td>{{ $noon->wind_sea_height ?? '' }}</td>
-                    <td>{{ $noon->sea_current_direction ?? '' }}</td>
-                    <td>{{ $noon->swell_height ?? '' }}</td>
-                    <td>{{ $noon->observed_sea ?? '' }}</td>
-                    <td>{{ $noon->air_temp ?? '' }}</td>
-                    <td>{{ $noon->observed_swell ?? '' }}</td>
-                    <td>{{ $noon->sea_ds ?? '' }}</td>
-                    <td>{{ $noon->atm_pressure ?? '' }}</td>
-                    <td>{{ $noon->wind_force_previous ?? '' }}</td>
-                    <td>{{ $noon->wind_force_current ?? '' }}</td>
-                    <td>{{ $noon->sea_state_previous ?? '' }}</td>
-                    <td>{{ $noon->sea_state_current ?? '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->wind_force_average_weather ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->swell ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_current ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_temp ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->observed_wind ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->wind_sea_height ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_current_direction ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->swell_height ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->observed_sea ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->air_temp ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->observed_swell ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_ds ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->atm_pressure ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->wind_force_previous ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->wind_force_current ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_state_previous ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->sea_state_current ?? '' : '' }}</td>
 
                     {{-- Weather Observation (i-th) --}}
-                    @php $weather = $weatherList[$i] ?? null; @endphp
-                    <td>{{ $weather->time_block ?? '' }}</td>
-                    <td>{{ $weather->wind_force ?? '' }}</td>
-                    <td>{{ $weather->wind_direction ?? '' }}</td>
-                    <td>{{ $weather->swell_height ?? '' }}</td>
-                    <td>{{ $weather->swell_direction ?? '' }}</td>
-                    <td>{{ $weather->wind_sea_height ?? '' }}</td>
-                    <td>{{ $weather->sea_direction ?? '' }}</td>
-                    <td>{{ $weather->sea_ds ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->time_block ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->wind_force ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->wind_direction ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->swell_height ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->swell_direction ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->wind_sea_height ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->sea_direction ?? '' }}</td>
+                    <td style="text-align: left;">{{ $weather->sea_ds ?? '' }}</td>
 
                     {{-- ROB Tank (i-th) --}}
-                    @php $robTank = $robTanks[$i] ?? null; @endphp
-                    <td>{{ $robTank->tank_no ?? '' }}</td>
-                    <td>{{ $robTank->description ?? '' }}</td>
-                    <td>{{ $robTank->grade ?? '' }}</td>
-                    <td>{{ $robTank->capacity ?? '' }}</td>
-                    <td>{{ $robTank->unit ?? '' }}</td>
-                    <td>{{ $robTank->rob ?? '' }}</td>
-                    <td>{{ $robTank && $robTank->supply_date ? \Carbon\Carbon::parse($robTank->supply_date)->format('M d, Y h:i A') : '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->tank_no ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->description ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->grade ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->capacity ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->unit ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank->rob ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robTank && $robTank->supply_date ? \Carbon\Carbon::parse($robTank->supply_date)->format('M d, Y h:i A') : '' }}
+                    </td>
 
                     {{-- ROB Fuel (i-th) --}}
-                    @php $robFuel = $robFuels[$i] ?? null; @endphp
-                    <td>{{ $robFuel->fuel_type ?? '' }}</td>
-                    <td>{{ $robFuel->previous ?? '' }}</td>
-                    <td>{{ $robFuel->current ?? '' }}</td>
-                    <td>{{ $robFuel->me_propulsion ?? '' }}</td>
-                    <td>{{ $robFuel->ae_cons ?? '' }}</td>
-                    <td>{{ $robFuel->boiler_cons ?? '' }}</td>
-                    <td>{{ $robFuel->incinerators ?? '' }}</td>
-                    <td>{{ $robFuel->me_24 ?? '' }}</td>
-                    <td>{{ $robFuel->ae_24 ?? '' }}</td>
-                    <td>{{ $robFuel->total_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->fuel_type ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->previous ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->current ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_propulsion ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->ae_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->boiler_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->incinerators ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_24 ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->ae_24 ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->total_cons ?? '' }}</td>
 
                     {{-- Oil Grades --}}
-                    <td>{{ $robFuel->me_cyl_grade ?? '' }}</td>
-                    <td>{{ $robFuel->me_cyl_qty ?? '' }}</td>
-                    <td>{{ $robFuel->me_cyl_hrs ?? '' }}</td>
-                    <td>{{ $robFuel->me_cyl_cons ?? '' }}</td>
-                    <td>{{ $robFuel->me_cc_qty ?? '' }}</td>
-                    <td>{{ $robFuel->me_cc_hrs ?? '' }}</td>
-                    <td>{{ $robFuel->me_cc_cons ?? '' }}</td>
-                    <td>{{ $robFuel->ae_cc_qty ?? '' }}</td>
-                    <td>{{ $robFuel->ae_cc_hrs ?? '' }}</td>
-                    <td>{{ $robFuel->ae_cc_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cyl_grade ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cyl_qty ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cyl_hrs ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cyl_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cc_qty ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cc_hrs ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->me_cc_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->ae_cc_qty ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->ae_cc_hrs ?? '' }}</td>
+                    <td style="text-align: left;">{{ $robFuel->ae_cc_cons ?? '' }}</td>
 
                     {{-- Diesel Engine Hours --}}
-                    <td>{{ $noon->dg1_run_hours ?? '' }}</td>
-                    <td>{{ $noon->dg2_run_hours ?? '' }}</td>
-                    <td>{{ $noon->dg3_run_hours ?? '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->dg1_run_hours ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->dg2_run_hours ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $noon->dg3_run_hours ?? '' : '' }}</td>
 
                     {{-- Remarks & Master --}}
-                    <td>{{ $report->remarks->remarks ?? '' }}</td>
-                    <td>{{ $report->master_info->master_info ?? '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->remarks->remarks ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->master_info->master_info ?? '' : '' }}</td>
                 </tr>
             @endfor
         @endforeach
