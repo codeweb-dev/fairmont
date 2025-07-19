@@ -24,36 +24,36 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <!-- Row 1 -->
-                    <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
-                    <flux:input label="Call Sign" required badge="Required" wire:model.defer="call_sign" />
-                    <flux:input label="Flag" required badge="Required" wire:model.defer="flag" />
-                    <flux:input label="Port of Registry" required badge="Required" wire:model.defer="port_of_registry" />
+                    <flux:input label="Vessel Name" disabled :value="$vesselName" />
+                    <flux:input label="Call Sign" wire:model.defer="call_sign" />
+                    <flux:input label="Flag" wire:model.defer="flag" />
+                    <flux:input label="Port of Registry" wire:model.defer="port_of_registry" />
 
                     <!-- Row 2 -->
-                    <flux:input label="Official Number" required badge="Required" wire:model.defer="official_number" />
-                    <flux:input label="IMO Number" required badge="Required" wire:model.defer="imo_number" />
-                    <flux:input label="Class Society" required badge="Required" wire:model.defer="class_society" />
-                    <flux:input label="Class No" required badge="Required" wire:model.defer="class_no" />
+                    <flux:input label="Official Number" wire:model.defer="official_number" />
+                    <flux:input label="IMO Number" wire:model.defer="imo_number" />
+                    <flux:input label="Class Society" wire:model.defer="class_society" />
+                    <flux:input label="Class No" wire:model.defer="class_no" />
 
                     <!-- Row 3 -->
-                    <flux:input label="P&I Club" required badge="Required" wire:model.defer="pi_club" />
-                    <flux:input label="LOA (Length Overall)" required badge="Required" wire:model.defer="loa" />
-                    <flux:input label="LBP (Length Between Perpendiculars)" required badge="Required" wire:model.defer="lbp" />
-                    <flux:input label="Breadth (extreme)" required badge="Required" wire:model.defer="breadth_extreme" />
+                    <flux:input label="P&I Club" wire:model.defer="pi_club" />
+                    <flux:input label="LOA (Length Overall)" wire:model.defer="loa" />
+                    <flux:input label="LBP (Length Between Perpendiculars)" wire:model.defer="lbp" />
+                    <flux:input label="Breadth (extreme)" wire:model.defer="breadth_extreme" />
 
                     <!-- Row 4 -->
-                    <flux:input label="Depth (molded)" required badge="Required" wire:model.defer="depth_moulded" />
-                    <flux:input label="Height (maximum)" required badge="Required" wire:model.defer="height_maximum" />
-                    <flux:input label="Bridge Front - Bow" required badge="Required" wire:model.defer="bridge_front_bow" />
-                    <flux:input label="Bridge Front - Stern" required badge="Required" wire:model.defer="bridge_front_stern" />
+                    <flux:input label="Depth (molded)" wire:model.defer="depth_moulded" />
+                    <flux:input label="Height (maximum)" wire:model.defer="height_maximum" />
+                    <flux:input label="Bridge Front - Bow" wire:model.defer="bridge_front_bow" />
+                    <flux:input label="Bridge Front - Stern" wire:model.defer="bridge_front_stern" />
 
                     <!-- Row 5 -->
-                    <flux:input label="Light Ship Displacement" required badge="Required" wire:model.defer="light_ship_displacement" />
-                    <flux:input label="Keel Laid" type="datetime-local" required badge="Required" wire:model.defer="keel_laid" />
-                    <flux:input label="Launched" type="datetime-local" required badge="Required" wire:model.defer="launched" />
-                    <flux:input label="Delivered" type="datetime-local" required badge="Required" wire:model.defer="delivered" />
+                    <flux:input label="Light Ship Displacement" wire:model.defer="light_ship_displacement" />
+                    <flux:input label="Keel Laid" type="datetime-local" wire:model.defer="keel_laid" />
+                    <flux:input label="Launched" type="datetime-local" wire:model.defer="launched" />
+                    <flux:input label="Delivered" type="datetime-local" wire:model.defer="delivered" />
 
-                    <flux:input label="Shipyard" required badge="Required" wire:model.defer="shipyard" />
+                    <flux:input label="Shipyard" wire:model.defer="shipyard" />
                 </div>
             </div>
         </flux:fieldset>

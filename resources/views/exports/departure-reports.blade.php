@@ -271,13 +271,13 @@
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Cons.</strong></td>
 
+                    <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Qty</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Cons.</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Qty</strong></td>
 
+                    <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Qty</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Cons.</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px; text-align: left; width: 250px;"><strong>Oil Qty</strong></td>
                 </tr>
                 @foreach ($report->rob_fuel_reports as $fuel)
                     <tr>
