@@ -21,39 +21,39 @@
             </tr>
             <tr>
                 <td>Voyage No:</td>
-                <td>{{ $report->voyage_no ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->voyage_no ?? '' }}</td>
             </tr>
             <tr>
                 <td>Date/Time (LT):</td>
-                <td>{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</td>
+                <td style="text-align: left;">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</td>
             </tr>
             <tr>
                 <td>GMT Offset:</td>
-                <td>{{ $report->gmt_offset ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->gmt_offset ?? '' }}</td>
             </tr>
             <tr>
                 <td>Latitude:</td>
-                <td>{{ $report->port ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->port ?? '' }}</td>
             </tr>
             <tr>
                 <td>Longitude:</td>
-                <td>{{ $report->bunkering_port ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->bunkering_port ?? '' }}</td>
             </tr>
             <tr>
                 <td>Arrival Type:</td>
-                <td>{{ $report->port_gmt_offset ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->port_gmt_offset ?? '' }}</td>
             </tr>
             <tr>
                 <td>Arrival Port:</td>
-                <td>{{ $report->supplier ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->supplier ?? '' }}</td>
             </tr>
             <tr>
                 <td>Anchored Hours:</td>
-                <td>{{ $report->call_sign ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->call_sign ?? '' }}</td>
             </tr>
             <tr>
                 <td>Drifting Hours:</td>
-                <td>{{ $report->flag ?? '' }}</td>
+                <td style="text-align: left;">{{ $report->flag ?? '' }}</td>
             </tr>
 
             <tr colspan="2">
@@ -67,63 +67,63 @@
                 </tr>
                 <tr>
                     <td>CP/Ordered Speed (Kts):</td>
-                    <td>{{ $report->noon_report->cp_ordered_speed ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->cp_ordered_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Allowed M/E Cons. at C/P Speed:</td>
-                    <td>{{ $report->noon_report->me_cons_cp_speed ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->me_cons_cp_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Obs. Distance (NM):</td>
-                    <td>{{ $report->noon_report->obs_distance ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->obs_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Steaming Time (Hrs):</td>
-                    <td>{{ $report->noon_report->steaming_time ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->steaming_time ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg Speed (Kts):</td>
-                    <td>{{ $report->noon_report->avg_speed ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->avg_speed ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Distance sailed from last port (NM):</td>
-                    <td>{{ $report->noon_report->distance_to_go ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->distance_to_go ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Breakdown (Hrs):</td>
-                    <td>{{ $report->noon_report->breakdown ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->breakdown ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>M/E Revs Counter (Noon to Noon):</td>
-                    <td>{{ $report->noon_report->maneuvering_hours ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->maneuvering_hours ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg RPM:</td>
-                    <td>{{ $report->noon_report->avg_rpm ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->avg_rpm ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Engine Distance (NM):</td>
-                    <td>{{ $report->noon_report->engine_distance ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->engine_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Slip (%):</td>
-                    <td>{{ $report->noon_report->next_port ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->next_port ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Avg Power (KW):</td>
-                    <td>{{ $report->noon_report->avg_power ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->avg_power ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Logged Distance (NM):</td>
-                    <td>{{ $report->noon_report->logged_distance ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->logged_distance ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Speed Through Water (Kts):</td>
-                    <td>{{ $report->noon_report->speed_through_water ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->speed_through_water ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Course (Deg):</td>
-                    <td>{{ $report->noon_report->course ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->course ?? '' }}</td>
                 </tr>
 
                 <tr colspan="2">
@@ -136,39 +136,39 @@
                 </tr>
                 <tr>
                     <td>Condition:</td>
-                    <td>{{ $report->noon_report->condition ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->condition ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Displacement (MT):</td>
-                    <td>{{ $report->noon_report->displacement ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->displacement ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Cargo Name:</td>
-                    <td>{{ $report->noon_report->cargo_name ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->cargo_name ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Cargo Weight (MT):</td>
-                    <td>{{ $report->noon_report->cargo_weight ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->cargo_weight ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Ballast Weight (MT):</td>
-                    <td>{{ $report->noon_report->ballast_weight ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->ballast_weight ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Fresh Water (MT):</td>
-                    <td>{{ $report->noon_report->fresh_water ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->fresh_water ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Fwd Draft (m):</td>
-                    <td>{{ $report->noon_report->fwd_draft ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->fwd_draft ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Aft Draft (m):</td>
-                    <td>{{ $report->noon_report->aft_draft ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->aft_draft ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>GM:</td>
-                    <td>{{ $report->noon_report->gm ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->noon_report->gm ?? '' }}</td>
                 </tr>
             @endif
 
@@ -273,7 +273,7 @@
             @if ($report->remarks)
                 <tr>
                     <td><strong>Remarks</strong></td>
-                    <td>{{ $report->remarks->remarks ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
                 </tr>
             @endif
 
@@ -285,7 +285,7 @@
             @if ($report->master_info)
                 <tr>
                     <td><strong>Master's Name</strong></td>
-                    <td>{{ $report->master_info->master_info ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->master_info->master_info ?? '' }}</td>
                 </tr>
             @endif
         @endforeach

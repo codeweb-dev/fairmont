@@ -5,17 +5,17 @@
                 $headers = [
                     'Vessel Name', 'Voyage No', 'Date/Time (LT)', 'GMT Offset', 'Latitude', 'Longitude',
                     'Arrival Type', 'Arrival Port', 'Anchored Hours', 'Drifting Hours',
-                    'CP/Ordered Speed (Kts)', 'Allowed M/E Cons. at C/P Speed', 'Obs. Distance (NM)', 'Steaming Time (Hrs)',
-                    'Avg Speed (Kts)', 'Distance sailed from last port (NM)', 'Breakdown (Hrs)', 'M/E Revs Counter (Noon to Noon)',
+                    'CP/Ordered Speed (Kts)', 'Allowed M/E Consumption at C/P Speed', 'Obs. Distance (NM)', 'Steaming Time (Hours)',
+                    'Avg Speed (Kts)', 'Distance sailed from last port (NM)', 'Breakdown (Hours)', 'M/E Revs Counter (Noon to Noon)',
                     'Avg RPM', 'Engine Distance (NM)', 'Slip (%)', 'Avg Power (KW)', 'Logged Distance (NM)',
                     'Speed Through Water (Kts)', 'Course (Deg)',
                     'Condition', 'Displacement (MT)', 'Cargo Name', 'Cargo Weight (MT)',
                     'Ballast Weight (MT)', 'Fresh Water (MT)', 'Fwd Draft (m)', 'Aft Draft (m)', 'GM',
-                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Cons', 'Boiler Cons',
-                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Cons.',
-                    'ME CYL Grade', 'ME CYL Qty', 'ME CYL Hrs', 'ME CYL Cons',
-                    'ME CC Qty', 'ME CC Hrs', 'ME CC Cons',
-                    'AE CC Qty', 'AE CC Hrs', 'AE CC Cons',
+                    'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Consumption', 'Boiler Consumption',
+                    'Incinerators', 'M/E 24', 'A/E 24', 'Total Consumption',
+                    'ME CYL Grade', 'ME CYL Quantity', 'ME CYL Hours', 'ME CYL Consumption',
+                    'ME CC Quantity', 'ME CC Hours', 'ME CC Consumption',
+                    'AE CC Quantity', 'AE CC Hours', 'AE CC Consumption',
                     'Remarks', 'Master Information'
                 ];
             @endphp

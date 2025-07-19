@@ -195,7 +195,7 @@
                 <table class="min-w-full">
                     <thead>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                            <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CYL
+                            <th colspan="4" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CYL
                             </th>
                             <th colspan="3" class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">ME CC
                             </th>

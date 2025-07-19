@@ -54,12 +54,12 @@
                     'Previous',
                     'Current',
                     'M/E Propulsion',
-                    'A/E Cons',
-                    'Boiler Cons',
+                    'A/E Consumption',
+                    'Boiler Consumption',
                     'Incinerators',
                     'M/E 24',
                     'A/E 24',
-                    'Total Cons',
+                    'Total Consumption',
 
                     // Condensed Oil Grades
                     'ME CYL Grade',
