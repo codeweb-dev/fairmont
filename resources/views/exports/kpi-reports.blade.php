@@ -288,7 +288,7 @@
         </tr>
 
         <tr>
-            <td colspan="2"><strong>Ballast Water</strong></td>
+            <td colspan="2"><strong>Hull Management</strong></td>
         </tr>
         <tr>
             <td style="width: 250px;">Total Number of Propeller Cleanings</td>
@@ -306,15 +306,15 @@
         </tr>
 
         <tr>
-            <td style="width: 250px;">Total Sailing Days</td>
+            <td style="width: 250px;">Total</td>
             <td style="width: 250px; text-align: left;">{{ $report->call_sign ?? '' }}</td>
         </tr>
         <tr>
-            <td style="width: 250px;">Eco Speed Sailing Days</td>
+            <td style="width: 250px;">Eco Speed</td>
             <td style="width: 250px; text-align: left;">{{ $report->flag ?? '' }}</td>
         </tr>
         <tr>
-            <td style="width: 250px;">Full Speed Sailing Days</td>
+            <td style="width: 250px;">Full Speed</td>
             <td style="width: 250px; text-align: left;">{{ $report->port_of_registry ?? '' }}</td>
         </tr>
     </table>

@@ -209,9 +209,9 @@
 
             <div class="space-y-6">
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
-                    <flux:input label="Total Sailing Days" wire:model.defer="call_sign" />
-                    <flux:input label="Eco Speed Sailing Days" wire:model.defer="flag" />
-                    <flux:input label="Full Speed Sailing Days" wire:model.defer="port_of_registry" />
+                    <flux:input label="Total" wire:model.defer="call_sign" />
+                    <flux:input label="Eco Speed" wire:model.defer="flag" />
+                    <flux:input label="Full Speed" wire:model.defer="port_of_registry" />
                 </div>
             </div>
         </flux:fieldset>
