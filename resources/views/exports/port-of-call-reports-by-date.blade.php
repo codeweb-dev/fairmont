@@ -32,9 +32,9 @@
                     'Cargo',
 
                     // Agent Info
-                    'Agent Port',
-                    'Agent Country',
-                    'Agent Purpose',
+                    'Port of Calling',
+                    'Country',
+                    'Purpose',
                     'ATA/ETA Date',
                     'ATA/ETA Time',
                     'Ship Info Date',
@@ -76,30 +76,30 @@
                     <tr>
                         {{-- Vessel Info (only first row across the entire report) --}}
                         @if (!$firstRowRendered)
-                            <td>{{ $vessel->name ?? '' }}</td>
-                            <td>{{ $report->call_sign ?? '' }}</td>
-                            <td>{{ $report->flag ?? '' }}</td>
-                            <td>{{ $report->port_of_registry ?? '' }}</td>
-                            <td>{{ $report->official_number ?? '' }}</td>
-                            <td>{{ $report->imo_number ?? '' }}</td>
-                            <td>{{ $report->class_society ?? '' }}</td>
-                            <td>{{ $report->class_no ?? '' }}</td>
-                            <td>{!! $report->pi_club ?? '' !!}</td>
-                            <td>{{ $report->loa ?? '' }}</td>
-                            <td>{{ $report->lbp ?? '' }}</td>
-                            <td>{{ $report->breadth_extreme ?? '' }}</td>
-                            <td>{{ $report->depth_moulded ?? '' }}</td>
-                            <td>{{ $report->height_maximum ?? '' }}</td>
-                            <td>{{ $report->bridge_front_bow ?? '' }}</td>
-                            <td>{{ $report->bridge_front_stern ?? '' }}</td>
-                            <td>{{ $report->light_ship_displacement ?? '' }}</td>
-                            <td>{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">{{ $vessel->name ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->call_sign ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->flag ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->port_of_registry ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->official_number ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->imo_number ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->class_society ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->class_no ?? '' }}</td>
+                            <td style="text-align: left;">{!! $report->pi_club ?? '' !!}</td>
+                            <td style="text-align: left;">{{ $report->loa ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->lbp ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->breadth_extreme ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->depth_moulded ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->height_maximum ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->bridge_front_bow ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->bridge_front_stern ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->light_ship_displacement ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}
                             </td>
-                            <td>{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}
                             </td>
-                            <td>{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}
                             </td>
-                            <td>{{ $report->shipyard ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->shipyard ?? '' }}</td>
                         @else
                             {{-- Leave cells blank to maintain table structure --}}
                             @for ($j = 0; $j < 21; $j++)
@@ -108,26 +108,26 @@
                         @endif
 
                         {{-- Port / Deliverable --}}
-                        <td>{{ $port->voyage_no ?? '' }}</td>
-                        <td>{{ $port->charterers ?? '' }}</td>
-                        <td>{{ $port->cargo ?? '' }}</td>
+                        <td style="text-align: left;">{{ $port->voyage_no ?? '' }}</td>
+                        <td style="text-align: left;">{{ $port->charterers ?? '' }}</td>
+                        <td style="text-align: left;">{{ $port->cargo ?? '' }}</td>
 
                         {{-- Agent Info --}}
-                        <td>{{ $agent?->port_of_calling ?? '' }}</td>
-                        <td>{{ $agent?->country ?? '' }}</td>
-                        <td>{{ $agent?->purpose ?? '' }}</td>
-                        <td>{{ $agent?->ata_eta_date ?? '' }}</td>
-                        <td>{{ $agent?->ata_eta_time ?? '' }}</td>
-                        <td>{{ $agent?->ship_info_date ?? '' }}</td>
-                        <td>{{ $agent?->ship_info_time ?? '' }}</td>
-                        <td>{{ $agent?->gmt ?? '' }}</td>
-                        <td>{{ $agent?->duration_days ?? '' }}</td>
-                        <td>{{ $agent?->total_days ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->port_of_calling ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->country ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->purpose ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->ata_eta_date ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->ata_eta_time ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->ship_info_date ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->ship_info_time ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->gmt ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->duration_days ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->total_days ?? '' }}</td>
 
                         {{-- Remarks & Master Info (only first row across the entire report) --}}
                         @if (!$firstRowRendered)
-                            <td>{{ $report->remarks->remarks ?? '' }}</td>
-                            <td>{{ $report->master_info->master_info ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
+                            <td style="text-align: left;">{{ $report->master_info->master_info ?? '' }}</td>
                             @php $firstRowRendered = true; @endphp
                         @else
                             <td></td>

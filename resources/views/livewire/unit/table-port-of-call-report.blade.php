@@ -7,7 +7,7 @@
 
             <div class="flex items-center gap-3">
                 <div class="max-w-64">
-                    <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
+                    <flux:input wire:model.live="search" placeholder="Search by keyword" icon="magnifying-glass" />
                 </div>
                 <div class="max-w-18">
                     <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -114,7 +114,9 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">
+                    {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
+                </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -249,7 +251,7 @@
                                     </div>
                                     @if ($port->agents->isNotEmpty())
                                         <div class="pt-4">
-                                            <flux:heading size="xs">Agent(s)</flux:heading>
+                                            <flux:heading size="xs">Port of Call(s)</flux:heading>
                                             <div class="grid grid-cols-3 gap-3">
                                                 @foreach ($port->agents as $agent)
                                                     <div

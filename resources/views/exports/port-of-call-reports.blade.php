@@ -106,15 +106,15 @@
             </tr>
             <tr>
                 <td style="width:250px;"><strong>Voyage No:</strong></td>
-                <td>{{ e($port->voyage_no ?? '') }}</td>
+                <td style="text-align: left;">{{ e($port->voyage_no ?? '') }}</td>
             </tr>
             <tr>
                 <td style="width:250px;"><strong>Charterers:</strong></td>
-                <td>{{ e($port->charterers ?? '') }}</td>
+                <td style="text-align: left;">{{ e($port->charterers ?? '') }}</td>
             </tr>
             <tr>
                 <td><strong>Cargo:</strong></td>
-                <td>{{ e($port->cargo ?? '') }}</td>
+                <td style="text-align: left;">{{ e($port->cargo ?? '') }}</td>
             </tr>
         </table>
 
@@ -125,7 +125,7 @@
                     <th colspan="10" style="font-weight: bold;">Agents for Deliverable #{{ $index + 1 }}</th>
                 </tr>
                 <tr>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Port</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Port of Calling</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Country</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Purpose</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: center;" colspan="2"><strong>ATA / ETA</strong></th>
@@ -146,16 +146,16 @@
             <tbody>
                 @forelse ($port->agents as $agent)
                     <tr>
-                        <td style="border: 1px solid #000;">{{ e($agent->port_of_calling ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->country ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->purpose ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->ata_eta_date ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->ata_eta_time ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->ship_info_date ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->ship_info_time ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->gmt ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->duration_days ?? '') }}</td>
-                        <td style="border: 1px solid #000;">{{ e($agent->total_days ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->port_of_calling ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->country ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->purpose ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ata_eta_date ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ata_eta_time ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ship_info_date ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ship_info_time ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->gmt ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->duration_days ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->total_days ?? '') }}</td>
                     </tr>
                 @empty
                     <tr>
