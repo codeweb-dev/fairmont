@@ -7,7 +7,7 @@
 
             <div class="flex items-center gap-3">
                 <div class="max-w-64">
-                    <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
+                    <flux:input wire:model.live="search" placeholder="Search by keyword" icon="magnifying-glass" />
                 </div>
                 <div class="max-w-18">
                     <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -127,7 +127,9 @@
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">
+                    {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
+                </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
                     <flux:dropdown>
@@ -194,19 +196,19 @@
                                         <div>
                                             <flux:label>Joining Date</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') }}
+                                                {{ $crew->joining_date ? \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Contract Completion</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') }}
+                                                {{ $crew->contract_completion ? \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Current Date</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') }}
+                                                {{ $crew->current_date ? \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
@@ -272,13 +274,13 @@
                                         <div>
                                             <flux:label>Date of Joiners Boarding</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') }}
+                                                {{ $crew->joiners_boarding ? \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>
                                             <flux:label>Date of Off-signers Sign Off</flux:label>
                                             <p class="text-sm">
-                                                {{ \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') }}
+                                                {{ $crew->off_signers ? \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') : '' }}
                                             </p>
                                         </div>
                                         <div>

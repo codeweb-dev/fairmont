@@ -46,7 +46,7 @@
                             <flux:input label="Rank" wire:model="board_crew.{{ $index }}.rank" />
                             <flux:input label="Crew Nationality" wire:model="board_crew.{{ $index }}.crew_nationality" />
                             <flux:input type="datetime-local" label="Joining Date" wire:model="board_crew.{{ $index }}.joining_date" />
-                            <flux:input type="datetime-local" label="Days to contract completion" wire:model="board_crew.{{ $index }}.contract_completion" />
+                            <flux:input type="datetime-local" label="Contract Complete Date" wire:model="board_crew.{{ $index }}.contract_completion" />
                             <flux:input type="datetime-local" label="Current Date" wire:model="board_crew.{{ $index }}.current_date" />
                             <flux:input label="Date to Contract Completion" wire:model="board_crew.{{ $index }}.days_contract_completion" />
                             <flux:input label="No of Months On Board" wire:model="board_crew.{{ $index }}.months_on_board" />
