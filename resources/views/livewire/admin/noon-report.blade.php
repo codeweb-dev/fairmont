@@ -300,8 +300,6 @@
                                 @endif
                             @endisset
 
-                            <flux:separator />
-
                             <div>
                                 <flux:label class="text-lg font-bold mb-2">Average Weather</flux:label>
                                 <div class="grid grid-cols-4 gap-4">
@@ -439,7 +437,7 @@
 
                             <!-- ROB Tanks -->
                             <div>
-                                <flux:label class="mb-2">ROB Tanks</flux:label>
+                                <flux:label class="mb-2">ROB Summary</flux:label>
                                 @foreach ($report->rob_tanks->groupBy('grade') as $grade => $tanks)
                                     <p class="font-semibold mt-4">{{ $grade }}</p>
                                     <table
@@ -572,24 +570,21 @@
                                         <tr class="border border-zinc-200 dark:border-zinc-700">
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
                                             </th>
+
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
                                                 Quantity</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
                                                 Runn Hrs.</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
                                             </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
-                                                Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
-                                            </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                                Quantity</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
-                                                Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
-                                            </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                                Quantity</th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Runn Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
