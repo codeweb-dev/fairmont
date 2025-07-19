@@ -4,7 +4,7 @@
 
         <div class="flex items-center gap-3">
             <div class="max-w-64">
-                <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
+                <flux:input wire:model.live="search" placeholder="Search by keyword" icon="magnifying-glass" />
             </div>
             <div class="max-w-18">
                 <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -48,7 +48,9 @@
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">
+                    {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
+                </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
@@ -104,7 +106,7 @@
 
                             <div>
                                 <flux:label>ROB Entries</flux:label>
-                                <div class="grid grid-cols-4">
+                                <div class="flex flex-col gap-4 mt-3">
                                     @foreach ($report->robs as $rob)
                                         <p>HSFO :
                                             {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}

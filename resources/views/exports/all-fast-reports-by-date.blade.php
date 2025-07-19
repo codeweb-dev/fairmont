@@ -35,15 +35,15 @@
             @forelse ($report->robs as $rob)
                 <tr>
                     {{-- Show details only on first ROB row --}}
-                    <td>{{ $firstRob ? ($report->vessel->name ?? '') : '' }}</td>
-                    <td>{{ $firstRob ? ($report->voyage_no ?? '') : '' }}</td>
-                    <td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->vessel->name ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->voyage_no ?? '') : '' }}</td>
+                    <td style="text-align: left;">
                         @if ($firstRob)
                             {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
                         @endif
                     </td>
-                    <td>{{ $firstRob ? ($report->gmt_offset ?? '') : '' }}</td>
-                    <td>{{ $firstRob ? ($report->port ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->gmt_offset ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->port ?? '') : '' }}</td>
 
                     {{-- ROBs --}}
                     <td style="text-align: left;">{{ $rob->hsfo ?? '' }}</td>
@@ -52,26 +52,26 @@
                     <td style="text-align: left;">{{ $rob->lsmgo ?? '' }}</td>
 
                     {{-- Remarks & Master Info --}}
-                    <td>{{ $firstRob ? ($report->remarks->remarks ?? '') : '' }}</td>
-                    <td>{{ $firstRob ? ($report->master_info->master_info ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->remarks->remarks ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? ($report->master_info->master_info ?? '') : '' }}</td>
                 </tr>
 
                 @php $firstRob = false; @endphp
             @empty
                 {{-- If no ROBs, still show the report row with N/A in ROBs --}}
                 <tr>
-                    <td>{{ $report->vessel->name ?? '' }}</td>
-                    <td>{{ $report->voyage_no ?? '' }}</td>
-                    <td>
+                    <td style="text-align: left;">{{ $report->vessel->name ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->voyage_no ?? '' }}</td>
+                    <td style="text-align: left;">
                         {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
-                    </td>
-                    <td>{{ $report->gmt_offset ?? '' }}</td>
-                    <td>{{ $report->port ?? '' }}</td>
+                    </td style="text-align: left;">
+                    <td style="text-align: left;">{{ $report->gmt_offset ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->port ?? '' }}</td>
 
                     <td colspan="4" style="text-align: center;">No ROB Data</td>
 
-                    <td>{{ $report->remarks->remarks ?? '' }}</td>
-                    <td>{{ $report->master_info->master_info ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
+                    <td style="text-align: left;">{{ $report->master_info->master_info ?? '' }}</td>
                 </tr>
             @endforelse
         @endforeach
