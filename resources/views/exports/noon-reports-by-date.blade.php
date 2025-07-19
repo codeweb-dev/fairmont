@@ -106,15 +106,15 @@
 
                     // Condensed Oil Grades
                     'ME CYL Grade',
-                    'ME CYL Qty',
-                    'ME CYL Hrs',
-                    'ME CYL Cons.',
-                    'ME CC Qty',
-                    'ME CC Hrs',
-                    'ME CC Cons.',
-                    'AE CC Qty',
-                    'AE CC Hrs',
-                    'AE CC Cons.',
+                    'ME CYL Quantity',
+                    'ME CYL Hours',
+                    'ME CYL Consumption',
+                    'ME CC Quantity',
+                    'ME CC Hours',
+                    'ME CC Consumption',
+                    'AE CC Quantity',
+                    'AE CC Hours',
+                    'AE CC Consumption',
 
                     // Diesel Engine Hours
                     'DG1 Run Hours',

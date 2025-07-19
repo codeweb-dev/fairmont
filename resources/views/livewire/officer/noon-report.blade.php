@@ -5,7 +5,7 @@
 
             <div class="flex items-center gap-3">
                 <div class="max-w-64">
-                    <flux:input wire:model.live="search" placeholder="Search by unit name..." icon="magnifying-glass" />
+                    <flux:input wire:model.live="search" placeholder="Search by keyword" icon="magnifying-glass" />
                 </div>
                 <div class="max-w-18">
                     <flux:select wire:model.live="perPage" placeholder="Rows per page">
@@ -110,7 +110,9 @@
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
                 <td class="px-3 py-4">{{ $report->port_gmt_offset }}</td>
-                <td class="px-3 py-4">{{ \Carbon\Carbon::parse($report->created_at)->format('M d, Y h:i A') }}
+                <td class="px-3 py-4">
+                    {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
+                </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
@@ -314,35 +316,42 @@
                             <flux:separator />
 
                             <!-- Via -->
-                            <div class="pt-4">
-                                <flux:label class="font-bold text-lg mb-2">Voyage Itinerary</flux:label>
-                                <div class="grid grid-cols-4 gap-4">
-                                    <div>
-                                        <flux:label>Next Port</flux:label>
-                                        <p>{{ $report->noon_report->next_port_voyage }}</p>
+                            @isset($report->port_gmt_offset)
+                                @if (trim($report->port_gmt_offset) === 'At Sea')
+                                    <!-- Via -->
+                                    <div class="pt-4">
+                                        <flux:label class="font-bold text-lg mb-2">Voyage Itinerary</flux:label>
+                                        <div class="grid grid-cols-4 gap-4">
+                                            <div>
+                                                <flux:label>Next Port</flux:label>
+                                                <p>{{ $report->noon_report->next_port_voyage }}</p>
+                                            </div>
+                                            <div>
+                                                <flux:label>Via</flux:label>
+                                                <p>{{ $report->noon_report->via }}</p>
+                                            </div>
+                                            <div>
+                                                <flux:label>ETA (LT)</flux:label>
+                                                <p>{{ $report->noon_report->eta_lt }}</p>
+                                            </div>
+                                            <div>
+                                                <flux:label>GMT Offset</flux:label>
+                                                <p>{{ $report->noon_report->gmt_offset_voyage }}</p>
+                                            </div>
+                                            <div>
+                                                <flux:label>Distance to go</flux:label>
+                                                <p>{{ $report->noon_report->distance_to_go_voyage }}</p>
+                                            </div>
+                                            <div>
+                                                <flux:label>Projected Speed (kts)</flux:label>
+                                                <p>{{ $report->noon_report->projected_speed }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <flux:label>Via</flux:label>
-                                        <p>{{ $report->noon_report->via }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>ETA (LT)</flux:label>
-                                        <p>{{ $report->noon_report->eta_lt }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>GMT Offset</flux:label>
-                                        <p>{{ $report->noon_report->gmt_offset_voyage }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Distance to go</flux:label>
-                                        <p>{{ $report->noon_report->distance_to_go_voyage }}</p>
-                                    </div>
-                                    <div>
-                                        <flux:label>Projected Speed (kts)</flux:label>
-                                        <p>{{ $report->noon_report->projected_speed }}</p>
-                                    </div>
-                                </div>
-                            </div>
+
+                                    <flux:separator />
+                                @endif
+                            @endisset
 
                             <flux:separator />
 

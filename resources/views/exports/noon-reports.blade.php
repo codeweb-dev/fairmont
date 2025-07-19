@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td>Port of Departure</td>
-                <td style="text-align: left;">{{ $report->supplier ?? 'N/A' }}</td>
+                <td style="text-align: left;">{{ $report->supplier ?? '' }}</td>
             </tr>
 
             <tr>
@@ -385,7 +385,7 @@
                         <td style="border: 1px solid #000; padding: 5px; text-align: left;">{{ $tank->unit }}</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: left;">{{ $tank->rob }}</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: left;">
-                            {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y h:i A') : '-' }}
+                            {{ $tank->supply_date ? \Carbon\Carbon::parse($tank->supply_date)->format('M d, Y h:i A') : '' }}
                         </td>
                     </tr>
                 @endforeach
@@ -400,28 +400,28 @@
             @if ($report->rob_fuel_reports && $report->rob_fuel_reports->count())
                 {{-- Table Headers --}}
                 <tr>
-                    <td rowspan="2" style="border: 1px solid #000; padding: 5px; text-align: center;"><strong>Bunker
+                    <td rowspan="2" style="border: 1px solid #000; padding: 5px; text-align: center; width: 250px"><strong>Bunker
                             Type</strong></td>
-                    <td colspan="2" style="border: 1px solid #000; padding: 5px; text-align: center;"><strong>ROB (in
+                    <td colspan="2" style="border: 1px solid #000; padding: 5px; text-align: center; width: 250px"><strong>ROB (in
                             MT)</strong></td>
-                    <td colspan="4" style="border: 1px solid #000; padding: 5px; text-align: center;">
+                    <td colspan="4" style="border: 1px solid #000; padding: 5px; text-align: center; width: 250px">
                         <strong>Consumption</strong>
                     </td>
-                    <td colspan="2" style="border: 1px solid #000; padding: 5px; text-align: center;">
+                    <td colspan="2" style="border: 1px solid #000; padding: 5px; text-align: center; width: 250px">
                         <strong>Cons./24hr</strong>
                     </td>
-                    <td rowspan="2" style="border: 1px solid #000; padding: 5px; text-align: center;"><strong>Total
+                    <td rowspan="2" style="border: 1px solid #000; padding: 5px; text-align: center; width: 250px"><strong>Total
                             Cons.</strong></td>
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>Previous</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>Current</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>M/E Propulsion</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>A/E Cons.</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>Boiler Cons.</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>Incinerators</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>M/E 24hr</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px;"><strong>A/E 24hr</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>Previous</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>Current</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>M/E Propulsion</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>A/E Cons.</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>Boiler Cons.</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>Incinerators</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>M/E 24hr</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; width: 250px"><strong>A/E 24hr</strong></td>
                 </tr>
 
                 @foreach ($report->rob_fuel_reports as $fuel)
