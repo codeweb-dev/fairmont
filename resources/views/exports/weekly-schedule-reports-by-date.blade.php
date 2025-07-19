@@ -2,11 +2,24 @@
     <thead>
         @php
             $headers = [
-                'Vessel Name', 'Voyage No', 'Date',
-                'Port', 'Activity', 'ETA/ETB', 'ETCD',
-                'Cargo', 'Cargo Qty', 'Remarks',
-                'Name', 'Address', 'PIC', 'Phone', 'Mobile', 'Email',
-                'Remarks', 'Master Information',
+                'Vessel Name',
+                'Voyage No',
+                'Date',
+                'Port',
+                'Activity',
+                'ETA/ETB',
+                'ETCD',
+                'Cargo',
+                'Cargo Qty',
+                'Remarks',
+                'Name',
+                'Address',
+                'PIC',
+                'Phone',
+                'Mobile',
+                'Email',
+                'Remarks',
+                'Master Information',
             ];
         @endphp
 
@@ -24,41 +37,36 @@
                 $ports = $report->ports ?? [];
                 $remarks = $report->remarks->remarks ?? '';
                 $master = $report->master_info->master_info ?? '';
-                $reportDate = optional($report->all_fast_datetime) ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '';
+                $reportDate = optional($report->all_fast_datetime)
+                    ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A')
+                    : '';
+                $isFirstRow = true;
             @endphp
-
-            @if (!$loop->first)
-                <tr>
-                    <td colspan="18" style="height: 15px;"></td> {{-- Spacer row --}}
-                </tr>
-            @endif
 
             @foreach ($ports as $port)
                 @php
                     $agents = $port->agents ?? [];
                     $agentCount = count($agents) ?: 1;
-                    $firstAgent = true;
+                    $firstAgentRow = true;
                 @endphp
 
                 @for ($i = 0; $i < $agentCount; $i++)
-                    @php
-                        $agent = $agents[$i] ?? null;
-                    @endphp
+                    @php $agent = $agents[$i] ?? null; @endphp
 
                     <tr>
-                        {{-- Report-level (show only on first agent row per port) --}}
-                        <td style="text-align: left;">{{ $firstAgent ? ($vessel->name ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($report->voyage_no ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? $reportDate : '' }}</td>
+                        {{-- Report-level: only on first row --}}
+                        <td style="text-align: left;">{{ $isFirstRow ? $vessel->name ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $isFirstRow ? $report->voyage_no ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $isFirstRow ? $reportDate : '' }}</td>
 
-                        {{-- Port-level --}}
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->port ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->activity ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->eta_etb ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->etcd ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->cargo ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->cargo_qty ?? '') : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? ($port->remarks ?? '') : '' }}</td>
+                        {{-- Port-level: only on first agent row of the port --}}
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->port ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->activity ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->eta_etb ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->etcd ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->cargo ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->cargo_qty ?? '' : '' }}</td>
+                        <td style="text-align: left;">{{ $firstAgentRow ? $port->remarks ?? '' : '' }}</td>
 
                         {{-- Agent-level --}}
                         <td style="text-align: left;">{{ $agent?->name ?? '' }}</td>
@@ -68,12 +76,15 @@
                         <td style="text-align: left;">{{ $agent?->mobile ?? '' }}</td>
                         <td style="text-align: left;">{{ $agent?->email ?? '' }}</td>
 
-                        {{-- Footer --}}
-                        <td style="text-align: left;">{{ $firstAgent ? $remarks : '' }}</td>
-                        <td style="text-align: left;">{{ $firstAgent ? $master : '' }}</td>
+                        {{-- Footer: only on first overall row --}}
+                        <td style="text-align: left;">{{ $isFirstRow ? $remarks : '' }}</td>
+                        <td style="text-align: left;">{{ $isFirstRow ? $master : '' }}</td>
                     </tr>
 
-                    @php $firstAgent = false; @endphp
+                    @php
+                        $isFirstRow = false;
+                        $firstAgentRow = false;
+                    @endphp
                 @endfor
             @endforeach
         @endforeach
