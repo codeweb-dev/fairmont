@@ -2,31 +2,31 @@
     <thead>
         <tr>
             @if ($viewing === 'on-board')
-                <th style="width: 250px;"><strong>No</strong></th>
-                <th style="width: 250px;"><strong>Crew Surname</strong></th>
-                <th style="width: 250px;"><strong>Crew First Name</strong></th>
-                <th style="width: 250px;"><strong>Rank</strong></th>
-                <th style="width: 250px;"><strong>Crew Nationality</strong></th>
-                <th style="width: 250px;"><strong>Joining Date</strong></th>
-                <th style="width: 250px;"><strong>Days to Contract Completion</strong></th>
-                <th style="width: 250px;"><strong>Current Date</strong></th>
-                <th style="width: 250px;"><strong>Date to Contract Completion</strong></th>
-                <th style="width: 250px;"><strong>No of Months On Board</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>No</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Crew Surname</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Crew First Name</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Rank</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Crew Nationality</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Joining Date</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Days to Contract Completion</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Current Date</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Date to Contract Completion</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>No of Months On Board</strong></th>
             @elseif ($viewing === 'crew-change')
-                <th style="width: 250px;"><strong>Port</strong></th>
-                <th style="width: 250px;"><strong>Country</strong></th>
-                <th style="width: 250px;"><strong>Date of Joiners Boarding</strong></th>
-                <th style="width: 250px;"><strong>Date of Off-signers Sign Off</strong></th>
-                <th style="width: 250px;"><strong>Joiners Ranks</strong></th>
-                <th style="width: 250px;"><strong>Off-signers Ranks</strong></th>
-                <th style="width: 250px;"><strong>Total Crew Change</strong></th>
-                <th style="width: 250px;"><strong>Reason for Change</strong></th>
-                <th style="width: 250px;"><strong>Remarks</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Port</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Country</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Date of Joiners Boarding</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Date of Off-signers Sign Off</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Joiners Ranks</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Off-signers Ranks</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Total Crew Change</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Reason for Change</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Remarks</strong></th>
             @endif
 
             {{-- General columns always visible --}}
-            <th><strong>Remarks</strong></th>
-            <th><strong>Master Information</strong></th>
+            <th style="width: 250px; text-align: left;"><strong>Remarks</strong></th>
+            <th style="width: 250px; text-align: left;"><strong>Master Information</strong></th>
         </tr>
     </thead>
 
