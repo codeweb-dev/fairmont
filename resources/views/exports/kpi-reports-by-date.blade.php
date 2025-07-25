@@ -6,13 +6,13 @@
                     'Vessel', 'Report Type', 'Reporting Period',
 
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Disposed at Sea (m3)', 'Total Landed Ashore (m3)',
+                    'Total Disposed at Sea (m3)', 'Total Landed Ashore (m3)', 'Total Incinerated (In m3)',
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Landed Ashore (m3)', 'Total Landed Ashore (m3)',
-                    'Total Disposed at Sea (m3)', 'Total Garbage Landed Ashore (m3)',
+                    'Total Landed Ashore (m3)', 'Total Landed Ashore (m3)', 'Total Incinerated (In m3)',
+                    'Total Disposed at Sea (m3)', 'Total Garbage Landed Ashore (m3)', 'Total Garbage Disposed at Sea (In m3)',
 
                     'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
                     'Total Quantity of Sludge Generated (m3)', 'Total Fuel Consumed (MT)', 'Ratio of Sludge Generated to Bunkers Consumed',
@@ -67,6 +67,7 @@
 
                 <td style="width: 250px; text-align: left;">{{ $report->waste->food_disposed_sea ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->food_landed_ashore ?? '' }}</td>
+                <td style="width: 250px; text-align: left;">{{ $report->waste->food_total_incinerated ?? '' }}</td>
 
                 <td style="width: 250px; text-align: left;">{{ $report->waste->domestic_landed_ashore ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->domestic_incinerated ?? '' }}</td>
@@ -80,7 +81,9 @@
                 <td style="width: 250px; text-align: left;">{{ $report->waste->operational_landed_ashore ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->operational_incinerated ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->ewaste_landed_ashore ?? '' }}</td>
+                <td style="width: 250px; text-align: left;">{{ $report->waste->ewaste_landed_total_incinerated ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->cargo_residues_landed_ashore ?? '' }}</td>
+                <td style="width: 250px; text-align: left;">{{ $report->waste->cargo_residues_disposed_at_sea ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->total_garbage_disposed_sea ?? '' }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->waste->total_garbage_landed_ashore ?? '' }}</td>
 

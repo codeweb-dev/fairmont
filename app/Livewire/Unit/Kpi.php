@@ -44,12 +44,12 @@ class Kpi extends Component
     public $vesselName = null;
 
     public $plastics_landed_ashore, $plastics_incinerated;
-    public $food_disposed_sea, $food_landed_ashore;
+    public $food_disposed_sea, $food_landed_ashore, $food_total_incinerated;
     public $domestic_landed_ashore, $domestic_incinerated;
     public $cooking_oil_landed_ashore, $cooking_oil_incinerated;
     public $incinerator_ash_landed_ashore, $incinerator_ash_incinerated;
     public $operational_landed_ashore, $operational_incinerated;
-    public $ewaste_landed_ashore, $cargo_residues_landed_ashore;
+    public $ewaste_landed_ashore, $ewaste_landed_total_incinerated, $cargo_residues_landed_ashore, $cargo_residues_disposed_at_sea;
     public $total_garbage_disposed_sea, $total_garbage_landed_ashore;
     public $sludge_landed_ashore, $sludge_incinerated, $sludge_generated, $fuel_consumed;
     public $sludge_bunker_ratio, $sludge_remarks;
@@ -147,6 +147,7 @@ class Kpi extends Component
             'plastics_incinerated' => $this->plastics_incinerated,
             'food_disposed_sea' => $this->food_disposed_sea,
             'food_landed_ashore' => $this->food_landed_ashore,
+            'food_total_incinerated' => $this->food_total_incinerated,
             'domestic_landed_ashore' => $this->domestic_landed_ashore,
             'domestic_incinerated' => $this->domestic_incinerated,
             'cooking_oil_landed_ashore' => $this->cooking_oil_landed_ashore,
@@ -156,7 +157,9 @@ class Kpi extends Component
             'operational_landed_ashore' => $this->operational_landed_ashore,
             'operational_incinerated' => $this->operational_incinerated,
             'ewaste_landed_ashore' => $this->ewaste_landed_ashore,
+            'ewaste_landed_total_incinerated' => $this->ewaste_landed_total_incinerated,
             'cargo_residues_landed_ashore' => $this->cargo_residues_landed_ashore,
+            'cargo_residues_disposed_at_sea' => $this->cargo_residues_disposed_at_sea,
             'total_garbage_disposed_sea' => $this->total_garbage_disposed_sea,
             'total_garbage_landed_ashore' => $this->total_garbage_landed_ashore,
             'sludge_landed_ashore' => $this->sludge_landed_ashore,
@@ -207,12 +210,14 @@ class Kpi extends Component
         // Waste Management
         $this->plastics_landed_ashore = $this->plastics_incinerated = null;
         $this->food_disposed_sea = $this->food_landed_ashore = null;
+        $this->food_total_incinerated = null; // Added for total incinerated food
         $this->domestic_landed_ashore = $this->domestic_incinerated = null;
         $this->cooking_oil_landed_ashore = $this->cooking_oil_incinerated = null;
         $this->incinerator_ash_landed_ashore = $this->incinerator_ash_incinerated = null;
         $this->operational_landed_ashore = $this->operational_incinerated = null;
         $this->ewaste_landed_ashore = $this->cargo_residues_landed_ashore = null;
         $this->total_garbage_disposed_sea = $this->total_garbage_landed_ashore = null;
+        $this->ewaste_landed_total_incinerated = $this->cargo_residues_disposed_at_sea = null; // Added for total incinerated ewaste and cargo residues
         $this->sludge_landed_ashore = $this->sludge_incinerated = $this->sludge_generated = $this->fuel_consumed = null;
         $this->sludge_bunker_ratio = $this->sludge_remarks = null;
         $this->bilge_discharged_ows = $this->bilge_landed_ashore = $this->bilge_generated = null;

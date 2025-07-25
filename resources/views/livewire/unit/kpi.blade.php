@@ -58,6 +58,7 @@
                 </div>
                 <flux:input label="Total Disposed at Sea (m3)" wire:model.defer="food_disposed_sea" />
                 <flux:input label="Total Landed Ashore (m3)" wire:model.defer="food_landed_ashore" />
+                <flux:input label="Total Incinerated (In m3)" wire:model.defer="food_total_incinerated" />
 
                 <div class="col-span-2">
                     <flux:separator class="my-3" />
@@ -105,19 +106,21 @@
 
                 <div class="col-span-2">
                     <flux:heading class="mb-3">E-Waste</flux:heading>
-
-                    <flux:input label="Total Landed Ashore (m3)" wire:model.defer="ewaste_landed_ashore" />
                 </div>
+
+                <flux:input label="Total Landed Ashore (m3)" wire:model.defer="ewaste_landed_ashore" />
+                <flux:input label="Total Incinerated (In m3)" wire:model.defer="ewaste_landed_total_incinerated" />
 
                 <div class="col-span-2">
                     <flux:separator class="my-3" />
                 </div>
 
                 <div class="col-span-2">
-                    <flux:heading class="mb-3">Cargo Residues J/K</flux:heading>
-
-                    <flux:input label="Total Landed Ashore (m3)" wire:model.defer="cargo_residues_landed_ashore" />
+                    <flux:heading class="mb-3">Cargo Residues</flux:heading>
                 </div>
+
+                <flux:input label="Total Landed Ashore (m3)" wire:model.defer="cargo_residues_landed_ashore" />
+                <flux:input label="Total Disposed at Sea (In m3)" wire:model.defer="cargo_residues_disposed_at_sea" />
 
                 <div class="col-span-2">
                     <flux:separator class="my-3" />
@@ -141,7 +144,8 @@
                 <flux:input label="Total Quantity of Sludge Generated (m3)" wire:model.defer="sludge_generated" />
                 <flux:input label="Total Fuel Consumed (MT)" wire:model.defer="fuel_consumed" />
 
-                <flux:input label="Ratio of Sludge Generated to Bunkers Consumed" wire:model.defer="sludge_bunker_ratio" />
+                <flux:input label="Ratio of Sludge Generated to Bunkers Consumed"
+                    wire:model.defer="sludge_bunker_ratio" />
                 <flux:input label="Remarks (if target exceeded)" wire:model.defer="sludge_remarks" />
 
                 <div class="col-span-2">
@@ -151,7 +155,8 @@
                 <div class="col-span-2">
                     <flux:heading>Bilge Water</flux:heading>
                 </div>
-                <flux:input label="Total Bilge Water Discharged Through OWS (m3)" wire:model.defer="bilge_discharged_ows" />
+                <flux:input label="Total Bilge Water Discharged Through OWS (m3)"
+                    wire:model.defer="bilge_discharged_ows" />
                 <flux:input label="Total Bilge Water Landed to Shore (m3)" wire:model.defer="bilge_landed_ashore" />
                 <flux:input label="Total Bilge Water Generated (m3)" wire:model.defer="bilge_generated" />
 
@@ -183,12 +188,14 @@
                 <div class="col-span-2">
                     <flux:heading>Ballast Water</flux:heading>
                 </div>
-                <flux:input label="Number of Ballast Water Exchanges Performed" wire:model.defer="ballast_exchanges" />
+                <flux:input label="Number of Ballast Water Exchanges Performed"
+                    wire:model.defer="ballast_exchanges" />
                 <flux:input label="Number of Ballast Operations" wire:model.defer="ballast_operations" />
                 <flux:input label="Number of De-Ballast Operations" wire:model.defer="deballast_operations" />
                 <flux:input label="Total Water Intake During Ballasting (m3)" wire:model.defer="ballast_intake" />
                 <flux:input label="Total Water Out During De-Ballasting (m3)" wire:model.defer="ballast_out" />
-                <flux:input label="Total Ballast Water Exchange Amount (m3)" wire:model.defer="ballast_exchange_amount" />
+                <flux:input label="Total Ballast Water Exchange Amount (m3)"
+                    wire:model.defer="ballast_exchange_amount" />
 
                 <div class="col-span-2">
                     <flux:separator class="my-3" />

@@ -130,6 +130,10 @@
                                         <flux:label>Total Landed Ashore (m3)</flux:label>
                                         <p class="text-sm">{{ $report->waste->food_landed_ashore ?? '' }}</p>
                                     </div>
+                                    <div>
+                                        <flux:label>Total Incinerated (In m3)</flux:label>
+                                        <p class="text-sm">{{ $report->waste->food_total_incinerated ?? '' }}</p>
+                                    </div>
 
                                     <div class="col-span-2">
                                         <flux:separator class="my-3" />
@@ -203,20 +207,32 @@
                                     <div class="col-span-2">
                                         <flux:heading>E-Waste</flux:heading>
                                     </div>
-                                    <div class="col-span-2">
+                                    <div>
                                         <flux:label>Total Landed Ashore (m3)</flux:label>
                                         <p class="text-sm">{{ $report->waste->ewaste_landed_ashore ?? '' }}</p>
-                                        <div class="col-span-2">
-                                            <flux:separator class="my-3" />
-                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <flux:label>Total Incinerated In (m3)</flux:label>
+                                        <p class="text-sm">{{ $report->waste->ewaste_landed_total_incinerated ?? '' }}
+                                        </p>
                                     </div>
 
                                     <div class="col-span-2">
-                                        <flux:heading>Cargo Residues J/K</flux:heading>
+                                        <flux:separator class="my-3" />
                                     </div>
+
                                     <div class="col-span-2">
+                                        <flux:heading>Cargo Residues</flux:heading>
+                                    </div>
+                                    <div>
                                         <flux:label>Total Landed Ashore (m3)</flux:label>
                                         <p class="text-sm">{{ $report->waste->cargo_residues_landed_ashore ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Total Disposed at Sea (In m3)</flux:label>
+                                        <p class="text-sm">{{ $report->waste->cargo_residues_disposed_at_sea ?? '' }}
                                         </p>
                                     </div>
                                     <div class="col-span-2">

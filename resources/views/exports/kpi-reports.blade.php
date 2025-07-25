@@ -58,6 +58,10 @@
             <td style="width: 250px;">Total Landed Ashore (m3)</td>
             <td style="width: 250px; text-align: left;">{{ $report->waste->food_landed_ashore ?? '' }}</td>
         </tr>
+        <tr>
+            <td style="width: 250px;">Total Incinerated (In m3)</td>
+            <td style="width: 250px; text-align: left;">{{ $report->waste->food_total_incinerated ?? '' }}</td>
+        </tr>
 
         <tr>
             <td colspan="2"><strong></strong></td>
@@ -134,17 +138,25 @@
             <td style="width: 250px;">Total Landed Ashore (m3)</td>
             <td style="width: 250px; text-align: left;">{{ $report->waste->ewaste_landed_ashore ?? '' }}</td>
         </tr>
+        <tr>
+            <td style="width: 250px;">Total Incinerated In (m3)</td>
+            <td style="width: 250px; text-align: left;">{{ $report->waste->ewaste_landed_total_incinerated ?? '' }}</td>
+        </tr>
 
         <tr>
             <td colspan="2"><strong></strong></td>
         </tr>
 
         <tr>
-            <td colspan="2"><strong>Cargo Residues J/K</strong></td>
+            <td colspan="2"><strong>Cargo Residues</strong></td>
         </tr>
         <tr>
             <td style="width: 250px;">Total Landed Ashore (m3)</td>
             <td style="width: 250px; text-align: left;">{{ $report->waste->cargo_residues_landed_ashore ?? '' }}</td>
+        </tr>
+        <tr>
+            <td style="width: 250px;">Total Disposed at Sea (In m3)</td>
+            <td style="width: 250px; text-align: left;">{{ $report->waste->cargo_residues_disposed_at_sea ?? '' }}</td>
         </tr>
 
         <tr>

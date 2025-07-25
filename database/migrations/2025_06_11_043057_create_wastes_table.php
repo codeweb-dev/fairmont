@@ -18,8 +18,11 @@ return new class extends Migration
             // Waste Management
             $table->string('plastics_landed_ashore')->nullable();
             $table->string('plastics_incinerated')->nullable();
+
             $table->string('food_disposed_sea')->nullable();
             $table->string('food_landed_ashore')->nullable();
+            $table->string('food_total_incinerated')->nullable();
+
             $table->string('domestic_landed_ashore')->nullable();
             $table->string('domestic_incinerated')->nullable();
             $table->string('cooking_oil_landed_ashore')->nullable();
@@ -28,10 +31,14 @@ return new class extends Migration
             $table->string('incinerator_ash_incinerated')->nullable();
             $table->string('operational_landed_ashore')->nullable();
             $table->string('operational_incinerated')->nullable();
+
             $table->string('ewaste_landed_ashore')->nullable();
+            $table->string('ewaste_landed_total_incinerated')->nullable();
 
             // Cargo & Garbage
             $table->string('cargo_residues_landed_ashore')->nullable();
+            $table->string('cargo_residues_disposed_at_sea')->nullable();
+
             $table->string('total_garbage_disposed_sea')->nullable();
             $table->string('total_garbage_landed_ashore')->nullable();
 
