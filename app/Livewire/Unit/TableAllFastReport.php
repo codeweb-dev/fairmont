@@ -126,10 +126,8 @@ class TableAllFastReport extends Component
             return;
         }
 
-        // Temporarily apply filters here to check for matching reports
         $reportQuery = $this->getReportsQuery();
 
-        // Filter the query again with new dynamic range
         if ($startDate && $endDate) {
             $reportQuery->whereBetween('created_at', [$startDate, $endDate]);
         } elseif ($startDate) {
@@ -144,7 +142,19 @@ class TableAllFastReport extends Component
             return;
         }
 
-        $filename = 'all_fast_reports_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        $firstReport = $reportQuery->with('vessel')->first();
+
+        $reportType = 'all_fast_report';
+        $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
+
+        if ($startDate && $endDate && $startDate->isSameDay($endDate)) {
+            $date = $startDate->format('Y-m-d');
+            $filename = "{$reportType}_{$vesselName}_{$date}.xlsx";
+        } else {
+            $from = $startDate ? $startDate->format('Y-m-d') : 'Start';
+            $to = $endDate ? $endDate->format('Y-m-d') : 'End';
+            $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
+        }
 
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
