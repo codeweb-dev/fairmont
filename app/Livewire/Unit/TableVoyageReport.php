@@ -190,7 +190,8 @@ class TableVoyageReport extends Component
                 return;
             }
 
-            $filename = 'voyage_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            // $filename = 'voyage_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'voyage_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') . '_' . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];

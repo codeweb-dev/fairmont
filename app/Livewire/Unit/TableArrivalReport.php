@@ -174,7 +174,9 @@ class TableArrivalReport extends Component
                 return;
             }
 
-            $filename = 'arrival_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            // $filename = 'arrival_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+            $filename = 'arrival_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') . '_' . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
