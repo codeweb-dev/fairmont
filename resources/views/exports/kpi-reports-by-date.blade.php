@@ -5,39 +5,40 @@
                 $headers = [
                     'Vessel', 'Report Type', 'Reporting Period',
 
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Disposed at Sea (m3)', 'Total Landed Ashore (m3)', 'Total Incinerated (In m3)',
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Landed Ashore (m3)', 'Total Landed Ashore (m3)', 'Total Incinerated (In m3)',
-                    'Total Disposed at Sea (m3)', 'Total Garbage Landed Ashore (m3)', 'Total Garbage Disposed at Sea (In m3)',
+                    'Plastics - Total Landed Ashore (m3)', 'Plastics - Total Incinerated (m3)',
+                    'Food Waste - Total Disposed at Sea (m3)', 'Food Waste - Total Landed Ashore (m3)', 'Food Waste - Total Incinerated (In m3)',
+                    'Domestic Waste - Total Landed Ashore (m3)', 'Domestic Waste - Total Incinerated (In m3)',
+                    'Cooking Oil - Total Landed Ashore (m3)', 'Cooking Oil - Total Incinerated (In m3)',
+                    'Incinerator Ash - Total Landed Ashore (m3)', 'Incinerator Ash - Total Incinerated (m3)',
+                    'Operational Waste - Total Landed Ashore (m3)', 'Operational Waste - Total Incinerated (m3)',
+                    'E-Waste - Total Landed Ashore (m3)', 'E-Waste - Total Incinerated (m3)',
+                    'Cargo Residues - Total Landed Ashore (m3)', 'Cargo Residues - Total Disposed at Sea (In m3)',
+                    'Total Garbage - Total Garbage Landed Ashore (m3)', 'Total Garbage - Total Garbage Disposed at Sea (In m3)',
 
-                    'Total Landed Ashore (m3)', 'Total Incinerated (m3)',
-                    'Total Quantity of Sludge Generated (m3)', 'Total Fuel Consumed (MT)', 'Ratio of Sludge Generated to Bunkers Consumed',
-                    'Remarks (if target exceeded)',
+                    'Sludge & Bunker - Total Landed Ashore (m3)', 'Sludge & Bunker - Total Incinerated (m3)',
+                    'Sludge & Bunker - Total Quantity of Sludge Generated (m3)', 'Sludge & Bunker - Total Fuel Consumed (MT)', 'Sludge & Bunker - Ratio of Sludge Generated to Bunkers Consumed',
+                    'Sludge & Bunker - Remarks (if target exceeded)',
 
-                    'Total Bilge Water Discharged Through OWS (m3)', 'Total Bilge Water Landed to Shore (m3)', 'Total Bilge Water Generated (m3)',
+                    'Bilge Water - Total Bilge Water Discharged Through OWS (m3)', 'Bilge Water - Total Bilge Water Landed to Shore (m3)', 'Bilge Water - Total Bilge Water Generated (m3)',
 
-                    'Paper Consumption (reams)', 'Printer Cartridges (units)', 'Remarks (if target exceeded)',
+                    'Consumption - Paper Consumption (reams)', 'Consumption - Printer Cartridges (units)', 'Consumption - Remarks (if target exceeded)',
 
-                    'Fresh Water Generated (m3)', 'Fresh Water Consumed (m3)',
+                    'Fresh Water - Fresh Water Generated (m3)', 'Fresh Water - Fresh Water Consumed (m3)',
 
-                    'Number of Ballast Water Exchanges Performed', 'Number of Ballast Operations', 'Number of De-Ballast Operations',
-                    'Total Water Intake During Ballasting (m3)', 'Total Water Out During De-Ballasting (m3)', 'Total Ballast Water Exchange Amount (m3)',
+                    'Ballast Water - Number of Ballast Water Exchanges Performed', 'Ballast Water - Number of Ballast Operations', 'Ballast Water - Number of De-Ballast Operations',
+                    'Ballast Water - Total Water Intake During Ballasting (m3)', 'Ballast Water - Total Water Out During De-Ballasting (m3)', 'Ballast Water - Total Ballast Water Exchange Amount (m3)',
 
-                    'Total Number of Propeller Cleanings', 'Total Number of Hull Cleanings',
+                    'Hull Management - Total Number of Propeller Cleanings', 'Hull Management - Total Number of Hull Cleanings',
 
-                    'Total Sailing Days', 'Eco Speed Sailing Days', 'Full Speed Sailing Days',
+                    'Sailing Days - Total Sailing Days', 'Sailing Days - Eco Speed Sailing Days', 'Sailing Days - Full Speed Sailing Days',
 
-                    'No. of Fatalities', 'LTI (Lost Time Injuries)', 'No. of Recordable Injuries',
+                    'Crew Matter - No. of Fatalities', 'Crew Matter - LTI (Lost Time Injuries)', 'Crew Matter - No. of Recordable Injuries',
 
-                    'No. of Corruption/Bribery/Entertainment for Port Officials',
+                    'Corruption - No. of Corruption/Bribery/Entertainment for Port Officials',
 
-                    'Number of PSC Inspections', 'PSC No. of Deficiencies', 'PSC Detentions (if any)',
-                    'Number of Flag State Inspections', 'Flag No. of Deficiencies',
-                    'Third Party Inspections (Charterers, Owners, RISQ, Others)', 'Third Party No. of Deficiencies',
+                    'Inspection - Number of PSC Inspections', 'Inspection - PSC No. of Deficiencies', 'PSC Detentions (if any)',
+                    'Inspection - Number of Flag State Inspections', 'Inspection - Flag No. of Deficiencies',
+                    'Inspection - Third Party Inspections (Charterers, Owners, RISQ, Others)', 'Inspection - Third Party No. of Deficiencies',
 
                     'Overall Remarks', 'Master Information'
                 ];
