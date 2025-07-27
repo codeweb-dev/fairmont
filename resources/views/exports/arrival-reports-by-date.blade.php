@@ -13,9 +13,11 @@
                     'Ballast Weight (MT)', 'Fresh Water (MT)', 'Fwd Draft (m)', 'Aft Draft (m)', 'GM',
                     'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Consumption', 'Boiler Consumption',
                     'Incinerators', 'M/E 24', 'A/E 24', 'Total Consumption',
-                    'ME CYL Grade', 'ME CYL Quantity', 'ME CYL Hours', 'ME CYL Consumption',
-                    'ME CC Quantity', 'ME CC Hours', 'ME CC Consumption',
-                    'AE CC Quantity', 'AE CC Hours', 'AE CC Consumption',
+
+                    'ME CYL - Oil Grade', 'ME CYL - Total Run Hours', 'ME CYL - Oil Cons', 'ME CYL - Oil Quantity',
+                    'ME CC - Total Run Hrs', 'ME CC - Oil Cons', 'ME CC - Oil Quantity',
+                    'AE CC - Total Run Hrs', 'AE CC - Oil Cons', 'AE CC - Oil Quantity',
+
                     'Remarks', 'Master Information'
                 ];
             @endphp
@@ -100,12 +102,15 @@
                     <td style="text-align: left;">{{ $fuel->total_cons ?? '' }}</td>
 
                     <td style="text-align: left;">{{ $fuel->me_cyl_grade ?? '' }}</td>
-                    <td style="text-align: left;">{{ $fuel->me_cyl_qty ?? '' }}</td>
+
                     <td style="text-align: left;">{{ $fuel->me_cyl_hrs ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cyl_cons ?? '' }}</td>
+                    <td style="text-align: left;">{{ $fuel->me_cyl_qty ?? '' }}</td>
+
                     <td style="text-align: left;">{{ $fuel->me_cc_qty ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cc_hrs ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cc_cons ?? '' }}</td>
+
                     <td style="text-align: left;">{{ $fuel->ae_cc_qty ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->ae_cc_hrs ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->ae_cc_cons ?? '' }}</td>
