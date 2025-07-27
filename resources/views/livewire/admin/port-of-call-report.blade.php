@@ -193,16 +193,10 @@
                                                         <p><strong>Country:</strong> {{ $agent->country }}</p>
                                                         <p><strong>Purpose:</strong> {{ $agent->purpose }}</p>
                                                         <p><strong>ATA/ETA Date:</strong>
-                                                            {{ $agent->ata_eta_date ? \Carbon\Carbon::parse($agent->ata_eta_date)->format('d M Y') : '' }}
-                                                        </p>
-                                                        <p><strong>ATA/ETA Time:</strong>
-                                                            {{ $agent->ata_eta_time ? \Carbon\Carbon::parse($agent->ata_eta_time)->format('h:i A') : '' }}
+                                                            {{ $agent->ata_eta_date ? \Carbon\Carbon::parse($agent->ata_eta_date)->format('M d, Y h:i A') : '' }}
                                                         </p>
                                                         <p><strong>Ship Info Date:</strong>
-                                                            {{ $agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('d M Y') : '' }}
-                                                        </p>
-                                                        <p><strong>Ship Info Time:</strong>
-                                                            {{ $agent->ship_info_time ? \Carbon\Carbon::parse($agent->ship_info_time)->format('h:i A') : '' }}
+                                                            {{ $agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('M d, Y h:i A') : '' }}
                                                         </p>
                                                         <p><strong>GMT:</strong> {{ $agent->gmt }}</p>
                                                         <p><strong>Duration (Days):</strong>
@@ -246,7 +240,8 @@
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Port Of Call Report? <br> This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Port Of Call Report? <br> This report will not
+                                    be permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 

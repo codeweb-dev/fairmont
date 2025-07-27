@@ -75,21 +75,17 @@
 
                     @foreach ($port['agents'] as $aIndex => $agent)
                         <div>
-                            <div class="grid grid-cols-6 gap-3 items-end mt-2">
+                            <div class="grid grid-cols-4 gap-3 items-end mt-2">
                                 <flux:input label="Port of Calling"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.port_of_calling" />
                                 <flux:input label="Country"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.country" />
                                 <flux:input label="Purpose"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.purpose" />
-                                <flux:input label="ATA/ETA Date" type="date"
+                                <flux:input label="ATA/ETA Date" type="datetime-local"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ata_eta_date" />
-                                <flux:input label="ATA/ETA Time" type="time"
-                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ata_eta_time" />
-                                <flux:input label="Ship Info Date" type="date"
+                                <flux:input label="Ship Info Date" type="datetime-local"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_date" />
-                                <flux:input label="Ship Info Time" type="time"
-                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.ship_info_time" />
                                 <flux:select label="GMT Offset"
                                     wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.gmt">
                                     <flux:select.option value="">Select GMT Offset</flux:select.option>

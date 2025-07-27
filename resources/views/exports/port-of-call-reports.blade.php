@@ -81,15 +81,18 @@
         </tr>
         <tr>
             <td>Keel Laid:</td>
-            <td style="text-align: left;">{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">
+                {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Launched:</td>
-            <td style="text-align: left;">{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">
+                {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Delivered:</td>
-            <td style="text-align: left;">{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}</td>
+            <td style="text-align: left;">
+                {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}</td>
         </tr>
         <tr>
             <td>Shipyard:</td>
@@ -122,34 +125,32 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Port of Calling</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Port of Calling</strong>
+                    </th>
                     <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Country</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Purpose</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: left;" colspan="2"><strong>ATA / ETA</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: left;" colspan="2"><strong>Ship's Info</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>ATA/ETA Date</strong>
+                    </th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Ship Info Date</strong>
+                    </th>
                     <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>GMT</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Duration</strong></th>
                     <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Total</strong></th>
-                </tr>
-                <tr>
-                    <th colspan="3"></th>
-                    <th style="border: 1px solid #000; text-align: left;"><strong>Date</strong></th>
-                    <th style="border: 1px solid #000; text-align: left;"><strong>Time</strong></th>
-                    <th style="border: 1px solid #000; text-align: left;"><strong>Date</strong></th>
-                    <th style="border: 1px solid #000; text-align: left;"><strong>Time</strong></th>
-                    <th colspan="3"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($port->agents as $agent)
                     <tr>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->port_of_calling ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->port_of_calling ?? '') }}
+                        </td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->country ?? '') }}</td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->purpose ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ata_eta_date ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ata_eta_time ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ship_info_date ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->ship_info_time ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">
+                            {{ e($agent->ata_eta_date ? \Carbon\Carbon::parse($agent->ata_eta_date)->format('M d, Y h:i A') : '') }}
+                        </td>
+                        <td style="border: 1px solid #000; text-align: left;">
+                            {{ e($agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('M d, Y h:i A') : '') }}
+                        </td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->gmt ?? '') }}</td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->duration_days ?? '') }}</td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->total_days ?? '') }}</td>
