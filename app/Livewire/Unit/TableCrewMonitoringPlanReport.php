@@ -246,7 +246,9 @@ class TableCrewMonitoringPlanReport extends Component
 
             $vesselName = $report->vessel?->name ?? 'Vessel';
             $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-            $filename = "crew_monitoring_plan_report_{$vesselName}_{$reportDate}.xlsx";
+            $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
+
+            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.xlsx";
 
             Toaster::success('Report exported successfully.');
             $this->resetSelections();
@@ -266,10 +268,12 @@ class TableCrewMonitoringPlanReport extends Component
 
         $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
 
+        $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
         $vesselNameRaw = $firstReport->vessel->name ?? 'Vessel';
         $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
         $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-        $zipFileName = "crew-monitoring-plan_reports_export_{$vesselName}_{$reportDate}.zip";
+
+        $zipFileName = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.zip";
         $zipPath = "{$tempDir}/{$zipFileName}";
 
         $zip = new ZipArchive();
@@ -290,7 +294,9 @@ class TableCrewMonitoringPlanReport extends Component
             $vesselNameRaw = $report->vessel->name ?? 'Vessel';
             $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
             $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-            $baseFilename = "crew_monitoring_plan_report_{$vesselName}_{$reportDate}";
+            $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
+
+            $baseFilename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}";
 
             $filenameCounts[$baseFilename] = ($filenameCounts[$baseFilename] ?? 0) + 1;
             $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
