@@ -15,6 +15,10 @@
             <td style="width: 250px; text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
         <tr>
+            <td style="width: 250px;">Fleet</td>
+            <td style="width: 250px; text-align: left;">{{ $report->port ?? '' }}</td>
+        </tr>
+        <tr>
             <td style="width: 250px;">Report Type</td>
             <td style="width: 250px; text-align: left;">{{ $report->report_type ?? '' }}</td>
         </tr>

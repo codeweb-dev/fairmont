@@ -3,7 +3,7 @@
         <tr>
             @php
                 $headers = [
-                    'Vessel', 'Report Type', 'Reporting Period',
+                    'Vessel', 'Fleet', 'Report Type', 'Reporting Period',
 
                     'Plastics - Total Landed Ashore (m3)', 'Plastics - Total Incinerated (m3)',
                     'Food Waste - Total Disposed at Sea (m3)', 'Food Waste - Total Landed Ashore (m3)', 'Food Waste - Total Incinerated (In m3)',
@@ -59,6 +59,7 @@
 
             <tr>
                 <td style="width: 250px; text-align: left;">{{ $report->vessel->name ?? '' }}</td>
+                <td style="width: 250px; text-align: left;">{{ $report->port }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->report_type }}</td>
                 <td style="width: 250px; text-align: left;">{{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}</td>
 
