@@ -140,9 +140,15 @@
                                 </div>
 
                                 <div>
+                                    <flux:label>Fleet</flux:label>
+                                    <p class="text-sm">{{ $report->port ?? '' }}</p>
+                                </div>
+
+                                <div>
                                     <flux:label>Report Type</flux:label>
                                     <p class="text-sm">{{ $report->report_type ?? '' }}</p>
                                 </div>
+
                                 <div>
                                     <flux:label>Reporting Period</flux:label>
                                     <p class="text-sm">

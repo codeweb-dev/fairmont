@@ -80,6 +80,7 @@
                 </th>
                 <th class="px-3 py-3">Report Type</th>
                 <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Voyage No</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
@@ -108,6 +109,7 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
+                <td class="px-3 py-4">{{ $report->voyage_no }}</td>
                 <td class="px-3 py-4">
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>
@@ -176,7 +178,7 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <flux:label>Off Hire Hours (Hrs)</flux:label>
-                                    <p class="text-sm">{{ $report->off_hire->hire_hours }}</p>
+                                    <p class="text-sm">{{ ltrim($report->off_hire->hire_hours ?? '', '0') }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Off Hire Reason</flux:label>
