@@ -32,6 +32,12 @@
 
     <tbody>
         @foreach ($reports as $report)
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="60" style="height: 20px;"></td>
+                </tr> {{-- Spacer --}}
+            @endif
+
             @php
                 $rows = $viewing === 'on-board' ? $report->board_crew : $report->crew_change;
             @endphp
@@ -44,20 +50,25 @@
                         <td style="width: 250px; text-align: left;">{{ $item->crew_first_name }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->rank }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->crew_nationality }}</td>
-                        <td style="width: 250px; text-align: left;">{{ $item->joining_date ? \Carbon\Carbon::parse($item->joining_date)->format('M d, Y h:i A') : '' }}
+                        <td style="width: 250px; text-align: left;">
+                            {{ $item->joining_date ? \Carbon\Carbon::parse($item->joining_date)->format('M d, Y h:i A') : '' }}
                         </td>
                         <td style="width: 250px; text-align: left;">{{ $item->days_contract_completion }}</td>
-                        <td style="width: 250px; text-align: left;">{{ $item->current_date ? \Carbon\Carbon::parse($item->current_date)->format('M d, Y h:i A') : '' }}
+                        <td style="width: 250px; text-align: left;">
+                            {{ $item->current_date ? \Carbon\Carbon::parse($item->current_date)->format('M d, Y h:i A') : '' }}
                         </td>
-                        <td style="width: 250px; text-align: left;">{{ $item->contract_completion ? \Carbon\Carbon::parse($item->contract_completion)->format('M d, Y h:i A') : '' }}
+                        <td style="width: 250px; text-align: left;">
+                            {{ $item->contract_completion ? \Carbon\Carbon::parse($item->contract_completion)->format('M d, Y h:i A') : '' }}
                         </td>
                         <td style="width: 250px; text-align: left;">{{ $item->months_on_board }}</td>
                     @elseif ($viewing === 'crew-change')
                         <td style="width: 250px; text-align: left;">{{ $item->port }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->country }}</td>
-                        <td style="width: 250px; text-align: left;">{{ $item->joiners_boarding ? \Carbon\Carbon::parse($item->joiners_boarding)->format('M d, Y h:i A') : '' }}
+                        <td style="width: 250px; text-align: left;">
+                            {{ $item->joiners_boarding ? \Carbon\Carbon::parse($item->joiners_boarding)->format('M d, Y h:i A') : '' }}
                         </td>
-                        <td style="width: 250px; text-align: left;">{{ $item->off_signers ? \Carbon\Carbon::parse($item->off_signers)->format('M d, Y h:i A') : '' }}
+                        <td style="width: 250px; text-align: left;">
+                            {{ $item->off_signers ? \Carbon\Carbon::parse($item->off_signers)->format('M d, Y h:i A') : '' }}
                         </td>
                         <td style="width: 250px; text-align: left;">{{ $item->joiner_ranks }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->off_signers_ranks }}</td>
@@ -67,8 +78,10 @@
                     @endif
 
                     {{-- General columns --}}
-                    <td style="width: 250px; text-align: left;">{{ $i === 0 ? $report->remarks->remarks ?? '' : '' }}</td>
-                    <td style="width: 250px; text-align: left;">{{ $i === 0 ? $report->master_info->master_info ?? '' : '' }}</td>
+                    <td style="width: 250px; text-align: left;">{{ $i === 0 ? $report->remarks->remarks ?? '' : '' }}
+                    </td>
+                    <td style="width: 250px; text-align: left;">
+                        {{ $i === 0 ? $report->master_info->master_info ?? '' : '' }}</td>
                 </tr>
             @endforeach
         @endforeach

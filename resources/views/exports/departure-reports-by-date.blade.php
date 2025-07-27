@@ -95,7 +95,7 @@
 
             @if (!$loop->first)
                 <tr>
-                    <td colspan="60" style="height: 15px;"></td>
+                    <td colspan="60" style="height: 20px;"></td>
                 </tr> {{-- Spacer --}}
             @endif
 
