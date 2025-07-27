@@ -184,7 +184,7 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <flux:label>Off Hire Hours (Hrs)</flux:label>
-                                    <p class="text-sm">{{ $report->off_hire->hire_hours }}</p>
+                                    <p class="text-sm">{{ ltrim($report->off_hire->hire_hours ?? '', '0') }}</p>
                                 </div>
                                 <div>
                                     <flux:label>Off Hire Reason</flux:label>
