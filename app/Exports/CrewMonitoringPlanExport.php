@@ -10,26 +10,33 @@ use Illuminate\Support\Facades\Auth;
 class CrewMonitoringPlanExport implements FromView
 {
     protected $reportIds;
+    protected $viewType;
 
-    public function __construct($reportIds = null)
+    public function __construct($reportIds = null, string $viewType = 'on-board')
     {
         $this->reportIds = $reportIds;
+        $this->viewType  = $viewType;
     }
 
     public function view(): View
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
 
-        $query = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
+        $query = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds);
 
-        if ($this->reportIds) {
-            $query->whereIn('id', $this->reportIds);
+        if (! empty($this->reportIds)) {
+            $query->whereKey($this->reportIds);
         }
+
+        // fix here
 
         $reports = $query->get();
 
-        return view('exports.crew-monitoring-plan', compact('reports'));
+        return view('exports.crew-monitoring-plan', [
+            'reports'  => $reports,
+            'viewType' => $this->viewType,
+        ]);
     }
 }

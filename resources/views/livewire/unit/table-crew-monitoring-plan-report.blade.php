@@ -37,10 +37,14 @@
                 </flux:button>
             </div>
 
-            @if (count($selectedReports) > 0 && !$dateRange)
+            @php
+                $activeSelectedReports = $viewing === 'on-board' ? $selectedOnBoard ?? [] : $selectedCrewChange ?? [];
+            @endphp
+
+            @if (count($activeSelectedReports) > 0 && !$dateRange)
                 <div>
                     <flux:button wire:click="exportSelected" icon:trailing="inbox-arrow-down" variant="filled">
-                        Export Selected ({{ count($selectedReports) }})
+                        Export Selected ({{ count($activeSelectedReports) }})
                     </flux:button>
                 </div>
             @endif
@@ -89,6 +93,15 @@
         </div>
     </div>
 
+    @php
+        $activeSelectedReports = $viewing === 'on-board' ? $selectedOnBoard ?? [] : $selectedCrewChange ?? [];
+    @endphp
+
+    <div class="text-xs text-gray-500">
+        <strong>Selected:</strong> {{ json_encode($activeSelectedReports) }}<br>
+        <strong>Viewing:</strong> {{ $viewing }}
+    </div>
+
     <x-admin-components.table>
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
@@ -122,7 +135,11 @@
         @foreach ($reports as $report)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
                 <td class="px-3 py-4">
-                    <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
+                    @if ($viewing === 'on-board')
+                        <flux:checkbox wire:model.live="selectedOnBoard" value="{{ $report->id }}" />
+                    @elseif ($viewing === 'crew-change')
+                        <flux:checkbox wire:model.live="selectedCrewChange" value="{{ $report->id }}" />
+                    @endif
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
@@ -261,7 +278,8 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     @foreach ($report->crew_change as $i => $crew)
                                         <div class="col-span-2">
-                                            <flux:heading size="lg">Crew Change {{ $i + 1 }}</flux:heading>
+                                            <flux:heading size="lg">Crew Change {{ $i + 1 }}
+                                            </flux:heading>
                                         </div>
                                         <div>
                                             <flux:label>Port</flux:label>

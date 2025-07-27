@@ -24,7 +24,8 @@ class TableCrewMonitoringPlanReport extends Component
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
-    public $selectedReports = [];
+    public $selectedOnBoard = [];
+    public $selectedCrewChange = [];
     public $selectAll = false;
 
     public string $viewing = 'on-board';
@@ -38,26 +39,66 @@ class TableCrewMonitoringPlanReport extends Component
         $this->resetPage();
     }
 
+    public function updatedViewing($value)
+    {
+        $this->resetPage();
+
+        $this->selectAll = false;
+        $this->search = '';
+        $this->selectedOnBoard = [];
+        $this->selectedCrewChange = [];
+    }
+
+    public function getSelectedReportsProperty()
+    {
+        return $this->viewing === 'on-board'
+            ? $this->selectedOnBoard
+            : $this->selectedCrewChange;
+    }
+
+
     public function updatingSearch()
     {
         $this->resetPage();
-        $this->selectedReports = [];
+        $this->selectedOnBoard = [];
+        $this->selectedCrewChange = [];
         $this->selectAll = false;
     }
 
     public function updatedSelectAll($value)
     {
+        $ids = $this->getReportsQuery()->pluck('id')->toArray();
+
         if ($value) {
-            $this->selectedReports = $this->getReportsQuery()->pluck('id')->toArray();
+            if ($this->viewing === 'on-board') {
+                $this->selectedOnBoard = $ids;
+            } else {
+                $this->selectedCrewChange = $ids;
+            }
         } else {
-            $this->selectedReports = [];
+            if ($this->viewing === 'on-board') {
+                $this->selectedOnBoard = [];
+            } else {
+                $this->selectedCrewChange = [];
+            }
         }
     }
 
-    public function updatedSelectedReports()
+    public function updatedSelectedOnBoard()
     {
-        $totalReports = $this->getReportsQuery()->count();
-        $this->selectAll = count($this->selectedReports) === $totalReports;
+        $this->syncSelectAllState();
+    }
+
+    public function updatedSelectedCrewChange()
+    {
+        $this->syncSelectAllState();
+    }
+
+    private function syncSelectAllState()
+    {
+        $visible = $this->getReportsQuery()->pluck('id')->toArray();
+        $selected = $this->selectedReports;
+        $this->selectAll = count($selected) === count($visible);
     }
 
     private function getReportsQuery()
@@ -98,17 +139,25 @@ class TableCrewMonitoringPlanReport extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset selection and page
-            $this->selectedReports = [];
+            // When cleared, reset both selections and pagination
+            $this->selectedOnBoard = [];
+            $this->selectedCrewChange = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // When set, auto-select filtered reports
+            // Auto-select filtered reports for the current view
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
-            $this->selectedReports = $reportIds;
+
+            if ($this->viewing === 'on-board') {
+                $this->selectedOnBoard = $reportIds;
+            } else {
+                $this->selectedCrewChange = $reportIds;
+            }
+
             $this->selectAll = count($reportIds) > 0;
         }
     }
+
 
     public function exportByDateRange()
     {
@@ -160,14 +209,23 @@ class TableCrewMonitoringPlanReport extends Component
         }
 
         Toaster::success('Reports exported by date range.');
-        $this->selectedReports = [];
+        $this->selectedOnBoard = [];
+        $this->selectedCrewChange = [];
         $this->selectAll = false;
         $this->dateRange = null;
 
         return Excel::download(
-            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate),
+            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, $this->viewing),
             $filename
         );
+    }
+
+    private function resetSelections(): void
+    {
+        $this->selectedOnBoard = [];
+        $this->selectedCrewChange = [];
+        $this->selectAll = false;
+        $this->dateRange = null;
     }
 
     public function exportSelected()
@@ -186,18 +244,17 @@ class TableCrewMonitoringPlanReport extends Component
                 return;
             }
 
-            // $filename = 'crew_monitoring_plan_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
-            $filename = 'crew_monitoring_plan_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
+            $vesselName = $report->vessel?->name ?? 'Vessel';
+            $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+            $filename = "crew_monitoring_plan_report_{$vesselName}_{$reportDate}.xlsx";
 
             Toaster::success('Report exported successfully.');
-            $this->selectedReports = [];
-            $this->selectAll = false;
-            $this->dateRange = null;
+            $this->resetSelections();
 
-            return Excel::download(new CrewMonitoringPlanExport([$reportId]), $filename);
-        } else {
-            return $this->exportMultipleReports();
+            return Excel::download(new CrewMonitoringPlanExport([$reportId], $this->viewing), $filename);
         }
+
+        return $this->exportMultipleReports();
     }
 
     private function exportMultipleReports()
@@ -209,10 +266,11 @@ class TableCrewMonitoringPlanReport extends Component
 
         $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
 
-        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
+        $vesselNameRaw = $firstReport->vessel->name ?? 'Vessel';
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
         $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-        $zipFileName = 'crew-monitoring-plan_reports_export_' . $vesselName . '_' . $reportDate . '.zip';
-        $zipPath = $tempDir . '/' . $zipFileName;
+        $zipFileName = "crew-monitoring-plan_reports_export_{$vesselName}_{$reportDate}.zip";
+        $zipPath = "{$tempDir}/{$zipFileName}";
 
         $zip = new ZipArchive();
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
@@ -221,37 +279,39 @@ class TableCrewMonitoringPlanReport extends Component
         }
 
         $filenameCounts = [];
-        foreach ($this->selectedReports as $index => $reportId) {
+        foreach ($this->selectedReports as $reportId) {
             $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
 
-            if ($report) {
-                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
-                $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-                $baseFilename = 'crew_monitoring_plan_report_' . $vesselName . '_' . $reportDate;
+            if (!$report) {
+                Log::warning("Skipping missing report ID: $reportId");
+                continue;
+            }
 
-                // Check if filename already used, then increment
-                if (!isset($filenameCounts[$baseFilename])) {
-                    $filenameCounts[$baseFilename] = 1;
-                } else {
-                    $filenameCounts[$baseFilename]++;
-                }
+            $vesselNameRaw = $report->vessel->name ?? 'Vessel';
+            $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
+            $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+            $baseFilename = "crew_monitoring_plan_report_{$vesselName}_{$reportDate}";
 
-                $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
-                $filename = $baseFilename . $suffix . '.xlsx';
+            $filenameCounts[$baseFilename] = ($filenameCounts[$baseFilename] ?? 0) + 1;
+            $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
+            $filename = "{$baseFilename}{$suffix}.xlsx";
 
-                $excelContent = Excel::raw(new CrewMonitoringPlanExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
+            $excelContent = Excel::raw(
+                new CrewMonitoringPlanExport([$reportId], $this->viewing),
+                \Maatwebsite\Excel\Excel::XLSX
+            );
+
+            if ($excelContent) {
                 $zip->addFromString($filename, $excelContent);
             } else {
-                Log::warning("Report {$reportId} not found");
+                Log::error("Failed to generate Excel content for report ID: $reportId");
             }
         }
 
         $zip->close();
 
         Toaster::success("Reports exported successfully.");
-        $this->selectedReports = [];
-        $this->selectAll = false;
-        $this->dateRange = null;
+        $this->resetSelections();
 
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
