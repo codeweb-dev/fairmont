@@ -207,7 +207,11 @@ class TableCrewMonitoringPlanReport extends Component
             mkdir($tempDir, 0755, true);
         }
 
-        $zipFileName = 'crew-monitoring-plan_reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
+        $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
+
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
+        $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+        $zipFileName = 'crew-monitoring-plan_reports_export_' . $vesselName . '_' . $reportDate . '.zip';
         $zipPath = $tempDir . '/' . $zipFileName;
 
         $zip = new ZipArchive();
@@ -216,29 +220,27 @@ class TableCrewMonitoringPlanReport extends Component
             return;
         }
 
-        $filenameCount = [];
+        $filenameCounts = [];
         foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
 
             if ($report) {
-                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'Unknown_Vessel');
-                $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no ?? 'no_voyage');
-                $baseFilename = 'crew_monitoring_plan_report_' . $vesselName . '_' . $voyageNo;
+                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
+                $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+                $baseFilename = 'crew_monitoring_plan_report_' . $vesselName . '_' . $reportDate;
 
-                $filename = $baseFilename . '.xlsx';
-                if (isset($filenameCount[$filename])) {
-                    $filenameCount[$filename]++;
-                    $filename = $baseFilename . '_' . $filenameCount[$filename] . '.xlsx';
+                // Check if filename already used, then increment
+                if (!isset($filenameCounts[$baseFilename])) {
+                    $filenameCounts[$baseFilename] = 1;
                 } else {
-                    $filenameCount[$filename] = 1;
+                    $filenameCounts[$baseFilename]++;
                 }
 
-                try {
-                    $excelContent = Excel::raw(new CrewMonitoringPlanExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
-                    $zip->addFromString($filename, $excelContent);
-                } catch (\Exception $e) {
-                    Log::error("Error processing report {$reportId}: " . $e->getMessage());
-                }
+                $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
+                $filename = $baseFilename . $suffix . '.xlsx';
+
+                $excelContent = Excel::raw(new CrewMonitoringPlanExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
+                $zip->addFromString($filename, $excelContent);
             } else {
                 Log::warning("Report {$reportId} not found");
             }

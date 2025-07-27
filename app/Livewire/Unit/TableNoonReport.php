@@ -205,7 +205,11 @@ class TableNoonReport extends Component
             mkdir($tempDir, 0755, true);
         }
 
-        $zipFileName = 'noon-report_reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
+        $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
+
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
+        $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+        $zipFileName = 'noon-report_reports_export_' . $vesselName . '_' . $reportDate . '.zip';
         $zipPath = $tempDir . '/' . $zipFileName;
 
         $zip = new ZipArchive();
@@ -214,13 +218,24 @@ class TableNoonReport extends Component
             return;
         }
 
+        $filenameCounts = [];
         foreach ($this->selectedReports as $reportId) {
             $report = Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])->find($reportId);
 
             if ($report) {
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
-                $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no);
-                $filename = 'noon_report_' . $vesselName . '_' . $voyageNo . '.xlsx';
+                $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+                $baseFilename = 'noon_report_' . $vesselName . '_' . $reportDate;
+
+                // Check if filename already used, then increment
+                if (!isset($filenameCounts[$baseFilename])) {
+                    $filenameCounts[$baseFilename] = 1;
+                } else {
+                    $filenameCounts[$baseFilename]++;
+                }
+
+                $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
+                $filename = $baseFilename . $suffix . '.xlsx';
 
                 $excelContent = Excel::raw(new NoonReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
                 $zip->addFromString($filename, $excelContent);

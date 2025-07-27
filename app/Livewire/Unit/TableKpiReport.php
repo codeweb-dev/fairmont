@@ -212,7 +212,11 @@ class TableKpiReport extends Component
             mkdir($tempDir, 0755, true);
         }
 
-        $zipFileName = 'kpi_reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
+        $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
+
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
+        $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+        $zipFileName = 'kpi_reports_export_' . $vesselName . '_' . $reportDate . '.zip';
         $zipPath = $tempDir . '/' . $zipFileName;
 
         $zip = new ZipArchive();
@@ -221,8 +225,7 @@ class TableKpiReport extends Component
             return;
         }
 
-        $filenameCount = [];
-
+        $filenameCounts = [];
         foreach ($this->selectedReports as $index => $reportId) {
             $report = Voyage::with([
                 'vessel',
@@ -233,17 +236,19 @@ class TableKpiReport extends Component
             ])->find($reportId);
 
             if ($report) {
-                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'unknown');
+                $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
+                $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+                $baseFilename = 'kpi_report_' . $vesselName . '_' . $reportDate;
 
-                $baseFilename = 'kpi_report_' . $vesselName;
-
-                $filename = $baseFilename . '.xlsx';
-                if (isset($filenameCount[$filename])) {
-                    $filenameCount[$filename]++;
-                    $filename = $baseFilename . '_' . $filenameCount[$filename] . '.xlsx';
+                // Check if filename already used, then increment
+                if (!isset($filenameCounts[$baseFilename])) {
+                    $filenameCounts[$baseFilename] = 1;
                 } else {
-                    $filenameCount[$filename] = 1;
+                    $filenameCounts[$baseFilename]++;
                 }
+
+                $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
+                $filename = $baseFilename . $suffix . '.xlsx';
 
                 $excelContent = Excel::raw(new KpiReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
                 $zip->addFromString($filename, $excelContent);
