@@ -93,15 +93,6 @@
         </div>
     </div>
 
-    @php
-        $activeSelectedReports = $viewing === 'on-board' ? $selectedOnBoard ?? [] : $selectedCrewChange ?? [];
-    @endphp
-
-    <div class="text-xs text-gray-500">
-        <strong>Selected:</strong> {{ json_encode($activeSelectedReports) }}<br>
-        <strong>Viewing:</strong> {{ $viewing }}
-    </div>
-
     <x-admin-components.table>
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
