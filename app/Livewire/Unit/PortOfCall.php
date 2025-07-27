@@ -222,27 +222,6 @@ class PortOfCall extends Component
         $this->validate([
             'vessel_id' => 'required|exists:vessels,id',
             'master_info' => 'nullable|string|max:5000',
-
-            'call_sign' => 'required|string|max:255',
-            'flag' => 'required|string|max:255',
-            'port_of_registry' => 'required|string|max:255',
-            'official_number' => 'required|string|max:255',
-            'imo_number' => 'required|string|max:255',
-            'class_society' => 'required|string|max:255',
-            'class_no' => 'required|string|max:255',
-            'pi_club' => 'required|string|max:255',
-            'loa' => 'required|string|max:255',
-            'lbp' => 'required|string|max:255',
-            'breadth_extreme' => 'required|string|max:255',
-            'depth_moulded' => 'required|string|max:255',
-            'height_maximum' => 'required|string|max:255',
-            'bridge_front_bow' => 'required|string|max:255',
-            'bridge_front_stern' => 'required|string|max:255',
-            'light_ship_displacement' => 'required|string|max:255',
-            'keel_laid' => 'required|date',
-            'launched' => 'required|date',
-            'delivered' => 'required|date',
-            'shipyard' => 'required|string|max:255',
         ]);
 
         $voyage = Voyage::create([
