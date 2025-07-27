@@ -98,10 +98,8 @@
                                         </flux:select.option>
                                     @endforeach
                                 </flux:select>
-                                <flux:input label="Duration (Days)" type="number"
-                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.duration_days" />
-                                <flux:input label="Total (Days)" type="number"
-                                    wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.total_days" />
+                                <flux:input label="Duration (Days)" type="number" max="9999999.999" wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.duration_days" />
+                                <flux:input label="Total (Days)" type="number" max="9999999.999" wire:model="ports.{{ $pIndex }}.agents.{{ $aIndex }}.total_days" />
                                 <flux:button icon="plus" variant="filled"
                                     wire:click="addAgent({{ $pIndex }})">
                                     Add Agent
