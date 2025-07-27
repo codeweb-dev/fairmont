@@ -292,7 +292,7 @@
                     <tbody>
                         @foreach ($weather_blocks as $idx => $block)
                             <tr>
-                                <td class="px-4 py-2 font-semibold">{{ $block['time_block'] }}</td>
+                                <td class="px-4 py-2 font-semibold text-sm w-36">{{ $block['time_block'] }}</td>
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.wind_force"

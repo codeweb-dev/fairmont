@@ -166,7 +166,7 @@
                     <td style="text-align: left;">{{ $firstRow ? $report->vessel->name ?? '' : '' }}</td>
                     <td style="text-align: left;">{{ $firstRow ? $report->unit->name ?? '' : '' }}</td>
                     <td style="text-align: left;">{{ $firstRow ? $report->voyage_no ?? '' : '' }}</td>
-                    <td style="text-align: left;">{{ $firstRow ? $report->report_type ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRow ? $report->port_gmt_offset ?? '' : '' }}</td>
                     <td style="text-align: left;">{{ $firstRow ? $report->all_fast_datetime ?? '' : '' }}</td>
                     <td style="text-align: left;">{{ $firstRow ? $report->gmt_offset ?? '' : '' }}</td>
                     <td style="text-align: left;">{{ $firstRow ? $report->port ?? '' : '' }}</td>
