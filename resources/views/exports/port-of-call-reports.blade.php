@@ -122,24 +122,21 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="10" style="font-weight: bold;">Agents for Deliverable #{{ $index + 1 }}</th>
-                </tr>
-                <tr>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Port of Calling</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Country</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Purpose</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;" colspan="2"><strong>ATA / ETA</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;" colspan="2"><strong>Ship's Info</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>GMT</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Duration</strong></th>
-                    <th style="width: 250px; border: 1px solid #000; text-align: center;"><strong>Total</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Port of Calling</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Country</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Purpose</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;" colspan="2"><strong>ATA / ETA</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;" colspan="2"><strong>Ship's Info</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>GMT</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Duration</strong></th>
+                    <th style="width: 250px; border: 1px solid #000; text-align: left;"><strong>Total</strong></th>
                 </tr>
                 <tr>
                     <th colspan="3"></th>
-                    <th style="border: 1px solid #000; text-align: center;"><strong>Date</strong></th>
-                    <th style="border: 1px solid #000; text-align: center;"><strong>Time</strong></th>
-                    <th style="border: 1px solid #000; text-align: center;"><strong>Date</strong></th>
-                    <th style="border: 1px solid #000; text-align: center;"><strong>Time</strong></th>
+                    <th style="border: 1px solid #000; text-align: left;"><strong>Date</strong></th>
+                    <th style="border: 1px solid #000; text-align: left;"><strong>Time</strong></th>
+                    <th style="border: 1px solid #000; text-align: left;"><strong>Date</strong></th>
+                    <th style="border: 1px solid #000; text-align: left;"><strong>Time</strong></th>
                     <th colspan="3"></th>
                 </tr>
             </thead>
