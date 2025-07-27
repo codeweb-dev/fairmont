@@ -168,21 +168,36 @@
 
                             <div>
                                 <flux:label>ROB Entries</flux:label>
-                                <div class="flex flex-col gap-4 mt-3">
-                                    @foreach ($report->robs as $rob)
-                                        <p>HSFO :
-                                            {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                        <p>BIO :
-                                            {{ $rob->biofuel !== null ? rtrim(rtrim(number_format((float) $rob->biofuel, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                        <p>VLSFO :
-                                            {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                        <p>LSMGO :
-                                            {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                    @endforeach
+                                <div class="overflow-x-auto mt-3">
+                                    <table
+                                        class="min-w-full text-sm border-collapse border border-zinc-200 dark:border-zinc-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">HSFO</th>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">BIO</th>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">VLSFO</th>
+                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">LSMGO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-zinc-100 dark:divide-white/5">
+                                            @foreach ($report->robs as $rob)
+                                                <tr>
+                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                                        {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}
+                                                    </td>
+                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                                        {{ $rob->biofuel !== null ? rtrim(rtrim(number_format((float) $rob->biofuel, 3, '.', ''), '0'), '.') : '' }}
+                                                    </td>
+                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                                        {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
+                                                    </td>
+                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                                        {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 
