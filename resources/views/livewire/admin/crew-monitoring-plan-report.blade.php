@@ -178,7 +178,7 @@
                                 </div>
                             </div>
                         </flux:modal>
-                        
+
                         <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
                             <div class="space-y-6">
                                 <div>
@@ -313,7 +313,6 @@
             </tr>
         @endforeach
     </x-admin-components.table>
-
 
     <div class="mt-6">
         {{ $reports->links() }}

@@ -61,12 +61,6 @@
                                         View Details
                                     </flux:menu.item>
                                 </flux:modal.trigger>
-
-                                <flux:modal.trigger name="delete-report-{{ $report->id }}">
-                                    <flux:menu.item icon="trash" variant="danger">
-                                        Delete
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
@@ -147,19 +141,19 @@
                                 <div>
                                     <flux:label>Keel Laid</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('d M Y') : 'N/A' }}
+                                        {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Launched</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('d M Y') : 'N/A' }}
+                                        {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}
                                     </p>
                                 </div>
                                 <div>
                                     <flux:label>Delivered</flux:label>
                                     <p class="text-sm">
-                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('d M Y') : 'N/A' }}
+                                        {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}
                                     </p>
                                 </div>
                                 <div>
