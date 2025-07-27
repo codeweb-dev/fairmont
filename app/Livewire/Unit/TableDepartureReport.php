@@ -186,7 +186,7 @@ class TableDepartureReport extends Component
 
             // $filename = 'departure_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
-            $filename = 'departure_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '_' . '.xlsx';
+            $filename = 'departure_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
