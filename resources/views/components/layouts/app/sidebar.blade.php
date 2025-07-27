@@ -62,7 +62,29 @@
                 <flux:navlist.item icon="newspaper" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="newspaper" :href="route('table-noon-report')" :current="request()->routeIs('table-noon-report', 'noon-report')" wire:navigate>{{ __('Noon Report') }}
+                <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('table-noon-report') }}" :current="request()->routeIs('table-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-departure-report') }}" :current="request()->routeIs('table-departure-report')" wire:navigate>Departure Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-arrival-report') }}" :current="request()->routeIs('table-arrival-report')" wire:navigate>Arrival Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-bunkering-report') }}" :current="request()->routeIs('table-bunkering-report')" wire:navigate>Bunkering Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-all-fast-report') }}" :current="request()->routeIs('table-all-fast-report')" wire:navigate>All Fast Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-weekly-schedule-report') }}" :current="request()->routeIs('table-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-crew-monitoring-plan-report') }}" :current="request()->routeIs('table-crew-monitoring-plan-report')" wire:navigate>Crew Monitoring Plan</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-voyage-report') }}" :current="request()->routeIs('table-voyage-report')" wire:navigate>Voyage Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-kpi-report') }}" :current="request()->routeIs('table-kpi-report')" wire:navigate>KPI Report</flux:navlist.item>
+
+                    <flux:navlist.item href="{{ route('table-port-of-call-report') }}" :current="request()->routeIs('table-port-of-call-report')" wire:navigate>Port of Call</flux:navlist.item>
+                </flux:navlist.group>
+
+                {{-- <flux:navlist.item icon="newspaper" :href="route('table-noon-report')" :current="request()->routeIs('table-noon-report', 'noon-report')" wire:navigate>{{ __('Noon Report') }}
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="newspaper" :href="route('table-departure-report')" :current="request()->routeIs('table-departure-report', 'departure-report')"
@@ -99,7 +121,7 @@
 
                 <flux:navlist.item icon="newspaper" :href="route('table-port-of-call-report')" :current="request()->routeIs('table-port-of-call-report', 'port-of-call')"
                     wire:navigate>{{ __('Port Of Call') }}
-                </flux:navlist.item>
+                </flux:navlist.item> --}}
 
                 @elseif (auth()->user()->hasRole('officer'))
                 <flux:navlist.item icon="newspaper" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
