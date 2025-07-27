@@ -93,11 +93,14 @@
                             <td style="text-align: left;">{{ $report->bridge_front_bow ?? '' }}</td>
                             <td style="text-align: left;">{{ $report->bridge_front_stern ?? '' }}</td>
                             <td style="text-align: left;">{{ $report->light_ship_displacement ?? '' }}</td>
-                            <td style="text-align: left;">{{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">
+                                {{ $report->keel_laid ? \Carbon\Carbon::parse($report->keel_laid)->format('M d, Y h:i A') : '' }}
                             </td>
-                            <td style="text-align: left;">{{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">
+                                {{ $report->launched ? \Carbon\Carbon::parse($report->launched)->format('M d, Y h:i A') : '' }}
                             </td>
-                            <td style="text-align: left;">{{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}
+                            <td style="text-align: left;">
+                                {{ $report->delivered ? \Carbon\Carbon::parse($report->delivered)->format('M d, Y h:i A') : '' }}
                             </td>
                             <td style="text-align: left;">{{ $report->shipyard ?? '' }}</td>
                         @else
@@ -107,10 +110,16 @@
                             @endfor
                         @endif
 
-                        {{-- Port / Deliverable --}}
-                        <td style="text-align: left;">{{ $port->voyage_no ?? '' }}</td>
-                        <td style="text-align: left;">{{ $port->charterers ?? '' }}</td>
-                        <td style="text-align: left;">{{ $port->cargo ?? '' }}</td>
+                        @if ($i === 0)
+                            {{-- Port / Deliverable --}}
+                            <td>{{ $port->voyage_no ?? '' }}</td>
+                            <td>{{ $port->charterers ?? '' }}</td>
+                            <td>{{ $port->cargo ?? '' }}</td>
+                        @else
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        @endif
 
                         {{-- Agent Info --}}
                         <td style="text-align: left;">{{ $agent?->port_of_calling ?? '' }}</td>
