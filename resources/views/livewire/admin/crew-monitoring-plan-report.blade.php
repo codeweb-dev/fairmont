@@ -96,15 +96,6 @@
                                 <flux:heading size="lg">On Board Crew</flux:heading>
 
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <flux:label>Vessel</flux:label>
-                                        <p class="text-sm">{{ $report->vessel->name }}</p>
-                                    </div>
-                                </div>
-
-                                <flux:separator />
-
-                                <div class="grid grid-cols-2 gap-4">
                                     @foreach ($report->board_crew as $i => $crew)
                                         <div class="col-span-2">
                                             <flux:heading size="lg">Board Crew {{ $i + 1 }}</flux:heading>
@@ -112,6 +103,10 @@
                                         <div>
                                             <flux:label>No</flux:label>
                                             <p class="text-sm">{{ $crew->no }}</p>
+                                        </div>
+                                        <div>
+                                            <flux:label>Vessel Name</flux:label>
+                                            <p class="text-sm">{{ $crew->vessel_name }}</p>
                                         </div>
                                         <div>
                                             <flux:label>Crew Surname</flux:label>
@@ -209,18 +204,13 @@
                                 <flux:heading size="lg">Crew Change</flux:heading>
 
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <flux:label>Vessel</flux:label>
-                                        <p class="text-sm">{{ $report->vessel->name }}</p>
-                                    </div>
-                                </div>
-
-                                <flux:separator />
-
-                                <div class="grid grid-cols-2 gap-4">
                                     @foreach ($report->crew_change as $i => $crew)
                                         <div class="col-span-2">
                                             <flux:heading size="lg">Crew Change {{ $i + 1 }}</flux:heading>
+                                        </div>
+                                        <div>
+                                            <flux:label>Vessel Name</flux:label>
+                                            <p class="text-sm">{{ $crew->vessel_name }}</p>
                                         </div>
                                         <div>
                                             <flux:label>Port</flux:label>

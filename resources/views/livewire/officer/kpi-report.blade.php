@@ -145,8 +145,8 @@
                                 </div>
 
                                 <div>
-                                    <flux:label>Report Type</flux:label>
-                                    <p class="text-sm">{{ $report->report_type ?? '' }}</p>
+                                    <flux:label>Vessel Type</flux:label>
+                                    <p class="text-sm">{{ $report->gmt_offset ?? '' }}</p>
                                 </div>
 
                                 <div>
@@ -342,8 +342,7 @@
                                     </div>
                                     <div>
                                         <flux:label>Remarks (if target exceeded)</flux:label>
-                                        <p class="text-sm whitespace-pre-line">{{ $report->waste->sludge_remarks }}
-                                        </p>
+                                        <p class="text-sm">{{ $report->waste->sludge_remarks }}</p>
                                     </div>
 
                                     <div class="col-span-2">
@@ -382,7 +381,7 @@
                                     </div>
                                     <div>
                                         <flux:label>Remarks (if target exceeded)</flux:label>
-                                        <p class="text-sm whitespace-pre-line">
+                                        <p class="text-sm">
                                             {{ $report->waste->consumption_remarks }}</p>
                                     </div>
 
@@ -536,16 +535,16 @@
 
                             <!-- Remarks -->
                             @if ($report->remarks)
-                                <flux:heading>Overall Remarks</flux:heading>
-                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                                <flux:heading size="sm">Overall Remarks</flux:heading>
+                                <p class="text-sm">{{ $report->remarks->remarks }}</p>
                             @endif
 
                             <flux:separator />
 
                             <!-- Master Information -->
                             @if ($report->master_info)
-                                <flux:heading>Master Information</flux:heading>
-                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
+                                <flux:heading size="sm">Master Information</flux:heading>
+                                <p class="text-sm">{{ $report->master_info->master_info }}</p>
                             @endif
 
                             <div class="flex justify-end pt-4">

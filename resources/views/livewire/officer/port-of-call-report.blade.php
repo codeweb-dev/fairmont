@@ -262,8 +262,11 @@
                                                         </p>
                                                         <p><strong>GMT:</strong> {{ $agent->gmt }}</p>
                                                         <p><strong>Duration (Days):</strong>
-                                                            {{ $agent->duration_days }}</p>
-                                                        <p><strong>Total (Days):</strong> {{ $agent->total_days }}</p>
+                                                            {{ $agent->duration_days ?: '' }}
+                                                        </p>
+                                                        <p><strong>Total (Days):</strong>
+                                                            {{ $agent->total_days ?: '' }}
+                                                        </p>
                                                     </div>
                                                 @endforeach
                                             </div>
