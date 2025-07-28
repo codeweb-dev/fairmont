@@ -16,8 +16,8 @@ use Illuminate\Support\Carbon;
 use ZipArchive;
 use Illuminate\Support\Facades\Log;
 
-#[Title('Crew Monitoring Plan Report')]
-class TableCrewMonitoringPlanReport extends Component
+#[Title('Crew Monitoring Plan Report Crew Change')]
+class TableCrewChange extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
@@ -28,7 +28,7 @@ class TableCrewMonitoringPlanReport extends Component
     public $selectedCrewChange = [];
     public $selectAll = false;
 
-    public string $viewing = 'on-board';
+    public string $viewing = 'crew-change';
 
     public $dateRange;
 
@@ -45,8 +45,18 @@ class TableCrewMonitoringPlanReport extends Component
 
         $this->selectAll = false;
         $this->search = '';
-        $this->selectedOnBoard = [];
-        $this->selectedCrewChange = [];
+
+        if ($value === 'on-board') {
+            $this->selectedOnBoard = array_filter($this->selectedOnBoard, function ($id) {
+                return Voyage::whereHas('board_crew')->where('id', $id)->exists();
+            });
+            $this->selectedCrewChange = [];
+        } else {
+            $this->selectedCrewChange = array_filter($this->selectedCrewChange, function ($id) {
+                return Voyage::whereHas('crew_change')->where('id', $id)->exists();
+            });
+            $this->selectedOnBoard = [];
+        }
     }
 
     public function getSelectedReportsProperty()
@@ -55,7 +65,6 @@ class TableCrewMonitoringPlanReport extends Component
             ? $this->selectedOnBoard
             : $this->selectedCrewChange;
     }
-
 
     public function updatingSearch()
     {
@@ -105,11 +114,11 @@ class TableCrewMonitoringPlanReport extends Component
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
 
-        return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
+        return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds)
-            ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
             ->when($this->viewing === 'crew-change', fn($q) => $q->whereHas('crew_change'))
+            ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->whereHas('unit', function ($q) {
@@ -237,10 +246,15 @@ class TableCrewMonitoringPlanReport extends Component
 
         if (count($this->selectedReports) === 1) {
             $reportId = $this->selectedReports[0];
-            $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
+            $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])->find($reportId);
 
-            if (!$report) {
-                Toaster::error('Report not found.');
+            if ($this->viewing === 'on-board' && $report->board_crew->isEmpty()) {
+                Toaster::error('Selected report has no on-board crew data.');
+                return;
+            }
+
+            if ($this->viewing === 'crew-change' && $report->crew_change->isEmpty()) {
+                Toaster::error('Selected report has no crew change data.');
                 return;
             }
 
@@ -249,11 +263,15 @@ class TableCrewMonitoringPlanReport extends Component
             $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
 
             $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.xlsx";
-
-            Toaster::success('Report exported successfully.');
             $this->resetSelections();
 
-            return Excel::download(new CrewMonitoringPlanExport([$reportId], $this->viewing), $filename);
+            try {
+                Toaster::success('Report exported successfully.');
+                return Excel::download(new CrewMonitoringPlanExport([$reportId], $this->viewing), $filename);
+            } catch (\Exception $e) {
+                Toaster::error($e->getMessage());
+                return;
+            }
         }
 
         return $this->exportMultipleReports();
@@ -326,7 +344,7 @@ class TableCrewMonitoringPlanReport extends Component
     {
         $reports = $this->getReportsQuery()->paginate($this->perPage);
 
-        return view('livewire.unit.table-crew-monitoring-plan-report', [
+        return view('livewire.unit.table-crew-change', [
             'reports' => $reports,
             'pages' => $this->pages,
             'viewing' => $this->viewing,

@@ -42,10 +42,11 @@ use App\Livewire\Unit\TableArrivalReport;
 use App\Livewire\Unit\TableBunkeringReport;
 use App\Livewire\Unit\TableAllFastReport;
 use App\Livewire\Unit\TableWeeklyScheduleReport;
-use App\Livewire\Unit\TableCrewMonitoringPlanReport;
 use App\Livewire\Unit\TableVoyageReport;
 use App\Livewire\Unit\TableKpiReport;
 use App\Livewire\Unit\TablePortOfCallReport;
+use App\Livewire\Unit\TableCrewChange;
+use App\Livewire\Unit\TableOnBoardCrew;
 
 // Officer
 use App\Livewire\Officer\NoonReport as OfficerNoonReport;
@@ -119,7 +120,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/table-bunkering-report', TableBunkeringReport::class)->name('table-bunkering-report');
         Route::get('/table-all-fast-report', TableAllFastReport::class)->name('table-all-fast-report');
         Route::get('/table-weekly-schedule-report', TableWeeklyScheduleReport::class)->name('table-weekly-schedule-report');
-        Route::get('/table-crew-monitoring-plan-report', TableCrewMonitoringPlanReport::class)->name('table-crew-monitoring-plan-report');
+        Route::get('/table-crew-monitoring-plan-report-on-board-crew', TableOnBoardCrew::class)->name('table-crew-monitoring-plan-report-on-board-crew');
+        Route::get('/table-crew-monitoring-plan-report-crew-change', TableCrewChange::class)->name('table-crew-monitoring-plan-report-crew-change');
         Route::get('/table-voyage-report', TableVoyageReport::class)->name('table-voyage-report');
         Route::get('/table-kpi-report', TableKpiReport::class)->name('table-kpi-report');
         Route::get('/table-port-of-call-report', TablePortOfCallReport::class)->name('table-port-of-call-report');

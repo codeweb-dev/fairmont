@@ -33,7 +33,7 @@ class CrewMonitoringPlan extends Component
 
     public function updated($property)
     {
-        $this->saveDraft(); // Auto-save on update
+        $this->saveDraft();
     }
 
     public function saveDraft()
@@ -178,7 +178,13 @@ class CrewMonitoringPlan extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-crew-monitoring-plan-report');
+        $this->redirect(
+            route(
+                $this->onBoardMode
+                    ? 'table-crew-monitoring-plan-report-on-board-crew'
+                    : 'table-crew-monitoring-plan-report-crew-change'
+            )
+        );
     }
 
     public function clearForm()
@@ -194,6 +200,13 @@ class CrewMonitoringPlan extends Component
         ]);
         $this->addCrewRow();
         $this->addBoardRow();
+    }
+
+    public function goBack()
+    {
+        return redirect()->route($this->onBoardMode
+            ? 'table-crew-monitoring-plan-report-on-board-crew'
+            : 'table-crew-monitoring-plan-report-crew-change');
     }
 
     public function render()

@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-6 mb-6">
         <div class="flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between w-full">
             <h1 class="text-3xl font-bold">
-                Crew Monitoring Plan Reports
+                On Board Crew Reports
             </h1>
 
             <div class="flex items-center gap-3">
@@ -26,17 +26,6 @@
         </div>
 
         <div class="flex gap-3 justify-end items-center w-full">
-            <div class="flex gap-2">
-                <flux:button :variant="$viewing === 'on-board' ? 'primary' : 'filled'"
-                    wire:click="$set('viewing', 'on-board')">
-                    On Board Crew
-                </flux:button>
-                <flux:button :variant="$viewing === 'crew-change' ? 'primary' : 'filled'"
-                    wire:click="$set('viewing', 'crew-change')">
-                    Crew Change
-                </flux:button>
-            </div>
-
             @php
                 $activeSelectedReports = $viewing === 'on-board' ? $selectedOnBoard ?? [] : $selectedCrewChange ?? [];
             @endphp
@@ -134,7 +123,15 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
-                <td class="px-3 py-4">{{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}</td>
+                <td class="px-3 py-4">
+                    @if ($report->board_crew->isNotEmpty())
+                        On Board Crew
+                    @elseif ($report->crew_change->isNotEmpty())
+                        Crew Change
+                    @else
+                        <span class="text-red-500 text-xs">⚠ No Data</span>
+                    @endif
+                </td>
                 <td class="px-3 py-4">
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>

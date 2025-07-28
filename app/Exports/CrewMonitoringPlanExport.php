@@ -26,13 +26,22 @@ class CrewMonitoringPlanExport implements FromView
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds);
 
-        if (! empty($this->reportIds)) {
+        if (!empty($this->reportIds)) {
             $query->whereKey($this->reportIds);
         }
 
-        // fix here
+        if ($this->viewType === 'on-board') {
+            $query->whereHas('board_crew');
+        } elseif ($this->viewType === 'crew-change') {
+            $query->whereHas('crew_change');
+        }
 
         $reports = $query->get();
+
+        if ($reports->isEmpty()) {
+            // Instead of returning an invalid view, we throw an exception
+            abort(422, 'No valid report data found for export.');
+        }
 
         return view('exports.crew-monitoring-plan', [
             'reports'  => $reports,
