@@ -3,6 +3,7 @@
         <tr>
             @if ($viewing === 'on-board')
                 <th style="width: 250px; text-align: left;"><strong>No</strong></th>
+                <th style="width: 250px; text-align: left;"><strong>Vessel Name</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Crew Surname</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Crew First Name</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Rank</strong></th>
@@ -13,6 +14,7 @@
                 <th style="width: 250px; text-align: left;"><strong>Date to Contract Completion</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>No of Months On Board</strong></th>
             @elseif ($viewing === 'crew-change')
+                <th style="width: 250px; text-align: left;"><strong>Vessel Name</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Port</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Country</strong></th>
                 <th style="width: 250px; text-align: left;"><strong>Date of Joiners Boarding</strong></th>
@@ -46,6 +48,7 @@
                 <tr>
                     @if ($viewing === 'on-board')
                         <td style="width: 250px; text-align: left;">{{ $item->no }}</td>
+                        <td style="width: 250px; text-align: left;">{{ $item->vessel_name }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->crew_surname }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->crew_first_name }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->rank }}</td>
@@ -62,6 +65,7 @@
                         </td>
                         <td style="width: 250px; text-align: left;">{{ $item->months_on_board }}</td>
                     @elseif ($viewing === 'crew-change')
+                        <td style="width: 250px; text-align: left;">{{ $item->vessel_name }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->port }}</td>
                         <td style="width: 250px; text-align: left;">{{ $item->country }}</td>
                         <td style="width: 250px; text-align: left;">
