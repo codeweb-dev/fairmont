@@ -15,7 +15,7 @@
             <td style="width: 250px;">Vessel Name:</td>
             <td style="text-align: left;">{{ e($report->vessel->name ?? '') }}</td>
         </tr>
-        <tr>s
+        <tr>
             <td>Call Sign:</td>
             <td style="text-align: left;">{{ e($report->call_sign ?? '') }}</td>
         </tr>

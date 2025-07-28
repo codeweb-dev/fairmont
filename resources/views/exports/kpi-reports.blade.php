@@ -19,8 +19,8 @@
             <td style="width: 250px; text-align: left;">{{ $report->port ?? '' }}</td>
         </tr>
         <tr>
-            <td style="width: 250px;">Report Type</td>
-            <td style="width: 250px; text-align: left;">{{ $report->report_type ?? '' }}</td>
+            <td style="width: 250px;">Vessel Type</td>
+            <td style="width: 250px; text-align: left;">{{ $report->gmt_offset ?? '' }}</td>
         </tr>
         <tr>
             <td style="width: 250px;">Reporting Period</td>

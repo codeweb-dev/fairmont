@@ -117,6 +117,7 @@ class Kpi extends Component
             'unit_id' => Auth::id(),
             'report_type' => 'KPI',
             'port' => $this->port,
+            'gmt_offset' => $this->gmt_offset,
             'all_fast_datetime' => $this->all_fast_datetime,
 
             // Voyage
