@@ -3,7 +3,7 @@
         <tr>
             @php
                 $headers = [
-                    'Report Type', 'Vessel', 'Voyage No', 'Date',
+                    'Vessel', 'Voyage No', 'Date',
 
                     // Location
                     'Port Departure (COSP)', 'Port Arrival (EOSP)',
@@ -55,7 +55,6 @@
 
             <tr>
                 {{-- Voyage --}}
-                <td style="text-align: left;">{{ $report->report_type }}</td>
                 <td style="text-align: left;">{{ $report->vessel->name ?? '' }}</td>
                 <td style="text-align: left;">{{ $report->voyage_no ?? '' }}</td>
                 <td style="text-align: left;">{{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}</td>
@@ -91,7 +90,7 @@
                 <td style="text-align: left;">{{ $recv->vlsfo ?? '' }}</td>
                 <td style="text-align: left;">{{ $recv->biofuel ?? '' }}</td>
                 <td style="text-align: left;">{{ $recv->lsmgo ?? '' }}</td>
-                <td style="text-align: left;"> style="text-align: left;"{{ $recv->me_cc_oil ?? '' }}</td>
+                <td style="text-align: left;">{{ $recv->me_cc_oil ?? '' }}</td>
                 <td style="text-align: left;">{{ $recv->mc_cyl_oil ?? '' }}</td>
                 <td style="text-align: left;">{{ $recv->ge_cc_oil ?? '' }}</td>
                 <td style="text-align: left;">{{ $recv->fw ?? '' }}</td>

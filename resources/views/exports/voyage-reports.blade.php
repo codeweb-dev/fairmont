@@ -17,10 +17,6 @@
             <td colspan="2" style="font-weight: bold; width: 250px;">Voyage Details</td>
         </tr>
         <tr>
-            <td style="width: 250px;">Report Type:</td>
-            <td style="width: 250px;">{{ $report->report_type }}</td>
-        </tr>
-        <tr>
             <td>Vessel:</td>
             <td style="text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
