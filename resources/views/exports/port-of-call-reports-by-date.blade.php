@@ -134,8 +134,8 @@
                         <td style="text-align: left;">{{ $agent?->ship_info_date ?? '' }}</td>
                         <td style="text-align: left;">{{ $agent?->ship_info_time ?? '' }}</td>
                         <td style="text-align: left;">{{ $agent?->gmt ?? '' }}</td>
-                        <td style="text-align: left;">{{ $agent?->duration_days ?? '' }}</td>
-                        <td style="text-align: left;">{{ $agent?->total_days ?? '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->duration_days ?: '' }}</td>
+                        <td style="text-align: left;">{{ $agent?->total_days ?: '' }}</td>
 
                         {{-- Remarks & Master Info (only first row across the entire report) --}}
                         @if (!$firstRowRendered)

@@ -152,8 +152,8 @@
                             {{ e($agent->ship_info_date ? \Carbon\Carbon::parse($agent->ship_info_date)->format('M d, Y h:i A') : '') }}
                         </td>
                         <td style="border: 1px solid #000; text-align: left;">{{ e($agent->gmt ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->duration_days ?? '') }}</td>
-                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->total_days ?? '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->duration_days ?: '') }}</td>
+                        <td style="border: 1px solid #000; text-align: left;">{{ e($agent->total_days ?: '') }}</td>
                     </tr>
                 @empty
                     <tr>
