@@ -14,9 +14,10 @@
                     'Fuel Type', 'Previous', 'Current', 'M/E Propulsion', 'A/E Consumption', 'Boiler Consumption',
                     'Incinerators', 'M/E 24', 'A/E 24', 'Total Consumption',
 
-                    'ME CYL - Oil Grade', 'ME CYL - Total Run Hours', 'ME CYL - Oil Cons', 'ME CYL - Oil Quantity',
-                    'ME CC - Total Run Hrs', 'ME CC - Oil Cons', 'ME CC - Oil Quantity',
-                    'AE CC - Total Run Hrs', 'AE CC - Oil Cons', 'AE CC - Oil Quantity',
+                    'ME CYL - Oil Grade',
+                    'ME CYL - Oil Quantity', 'ME CYL - Total Run Hours', 'ME CYL - Oil Cons',
+                    'ME CC - Oil Quantity', 'ME CC - Total Run Hours', 'ME CC - Oil Cons',
+                    'AE CC - Oil Quantity', 'AE CC - Total Run Hours', 'AE CC - Oil Cons',
 
                     'Remarks', 'Master Information'
                 ];
@@ -103,17 +104,17 @@
 
                     <td style="text-align: left;">{{ $fuel->me_cyl_grade ?? '' }}</td>
 
+                    <td style="text-align: left;">{{ $fuel->me_cyl_qty ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cyl_hrs ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cyl_cons ?? '' }}</td>
-                    <td style="text-align: left;">{{ $fuel->me_cyl_qty ?? '' }}</td>
 
+                    <td style="text-align: left;">{{ $fuel->me_cc_cons ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cc_qty ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->me_cc_hrs ?? '' }}</td>
-                    <td style="text-align: left;">{{ $fuel->me_cc_cons ?? '' }}</td>
 
+                    <td style="text-align: left;">{{ $fuel->ae_cc_cons ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->ae_cc_qty ?? '' }}</td>
                     <td style="text-align: left;">{{ $fuel->ae_cc_hrs ?? '' }}</td>
-                    <td style="text-align: left;">{{ $fuel->ae_cc_cons ?? '' }}</td>
 
                     {{-- Final --}}
                     <td style="text-align: left;">{{ $firstFuel ? ($report->remarks->remarks ?? '') : '' }}</td>

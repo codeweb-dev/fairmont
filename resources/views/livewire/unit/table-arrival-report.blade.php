@@ -383,24 +383,25 @@
                                         <tr class="border border-zinc-200 dark:border-zinc-700">
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
                                             </th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
                                                 Run Hrs.</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
 
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
                                                 Hrs.</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
                                             </th>
+
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
                                                 Quantity</th>
-
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
                                                 Hrs.</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
                                             </th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                                Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -408,26 +409,27 @@
                                             <tr class="border border-zinc-200 dark:border-zinc-700">
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cyl_grade }}</td>
+
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_qty }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cyl_hrs }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cyl_cons }}</td>
-                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->me_cyl_qty }}</td>
 
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_cons }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cc_qty }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->me_cc_hrs }}</td>
-                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->me_cc_cons }}</td>
 
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_cons }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->ae_cc_qty }}</td>
                                                 <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
                                                     {{ $summary->ae_cc_hrs }}</td>
-                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                                    {{ $summary->ae_cc_cons }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

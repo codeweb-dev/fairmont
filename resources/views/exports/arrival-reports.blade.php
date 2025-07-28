@@ -235,15 +235,16 @@
                 </tr>
                 <tr>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Grade</strong></td>
-                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Qty</strong></td>
+
+                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Quantity</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Cons.</strong></td>
 
-                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Qty</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Quantity</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Cons.</strong></td>
 
-                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Total Run Hrs.</strong></td>
+                    <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Quantity</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Total Run Hrs.</strong></td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: left;"><strong>Oil Cons.</strong></td>
                 </tr>
