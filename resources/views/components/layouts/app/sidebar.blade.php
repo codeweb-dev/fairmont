@@ -75,7 +75,6 @@
 
                     <flux:navlist.item href="{{ route('table-weekly-schedule-report') }}" :current="request()->routeIs('table-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
 
-
                     <flux:navlist.group expandable heading="Crew Monitoring Plan">
                         <flux:navlist.item href="{{ route('table-crew-monitoring-plan-report-on-board-crew') }}" :current="request()->routeIs('table-crew-monitoring-plan-report-on-board-crew')" wire:navigate>On Board Crew</flux:navlist.item>
 
@@ -145,7 +144,10 @@
 
                     <flux:navlist.item href="{{ route('officer-weekly-schedule-report') }}" :current="request()->routeIs('officer-weekly-schedule-report')" wire:navigate>Weekly Schedule</flux:navlist.item>
 
-                    <flux:navlist.item href="{{ route('officer-crew-monitoring-plan-report') }}" :current="request()->routeIs('officer-crew-monitoring-plan-report')" wire:navigate>Crew Monitoring Plan</flux:navlist.item>
+                    <flux:navlist.group expandable heading="Crew Monitoring Plan">
+                        <flux:navlist.item href="{{ route('officer-crew-monitoring-plan-report-on-board-crew') }}" :current="request()->routeIs('officer-crew-monitoring-plan-report-on-board-crew')" wire:navigate>On Board Crew</flux:navlist.item>
+                        <flux:navlist.item href="{{ route('officer-crew-monitoring-plan-report-crew-change') }}" :current="request()->routeIs('officer-crew-monitoring-plan-report-crew-change')" wire:navigate>Crew Change</flux:navlist.item>
+                    </flux:navlist.group>
 
                     <flux:navlist.item href="{{ route('officer-voyage-report') }}" :current="request()->routeIs('officer-voyage-report')" wire:navigate>Voyage Report</flux:navlist.item>
 

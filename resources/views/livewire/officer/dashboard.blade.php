@@ -65,7 +65,7 @@
                 <flux:text>Crew Monitoring Plan Reports</flux:text>
                 <flux:heading size="xl">{{ $reportCounts['Crew Monitoring Plan'] ?? 0 }}</flux:heading>
             </div>
-            <flux:button href="{{ route('officer-crew-monitoring-plan-report') }}" icon="arrow-up-right" variant="filled" wire:navigate />
+            <flux:button href="{{ route('officer-crew-monitoring-plan-report-on-board-crew') }}" icon="arrow-up-right" variant="filled" wire:navigate />
         </div>
     </div>
 
