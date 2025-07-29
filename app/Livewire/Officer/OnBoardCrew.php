@@ -168,7 +168,6 @@ class OnBoardCrew extends Component
         }
     }
 
-
     public function exportByDateRange()
     {
         if (!$this->dateRange) {
@@ -206,16 +205,16 @@ class OnBoardCrew extends Component
 
         $firstReport = $reportQuery->with('vessel')->first();
 
-        $reportType = 'crew_monitoring_plan_report';
+        $reportType = 'on_board_crew';
         $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
 
         if ($startDate && $endDate && $startDate->isSameDay($endDate)) {
             $date = $startDate->format('Y-m-d');
-            $filename = "{$reportType}_{$vesselName}_{$date}.xlsx";
+            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$date}.xlsx";
         } else {
             $from = $startDate ? $startDate->format('Y-m-d') : 'Start';
             $to = $endDate ? $endDate->format('Y-m-d') : 'End';
-            $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
+            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$from}_{$to}.xlsx";
         }
 
         Toaster::success('Reports exported by date range.');

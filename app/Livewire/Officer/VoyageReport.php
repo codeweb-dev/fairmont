@@ -134,10 +134,8 @@ class VoyageReport extends Component
             return;
         }
 
-        // Temporarily apply filters here to check for matching reports
         $reportQuery = $this->getReportsQuery();
 
-        // Filter the query again with new dynamic range
         if ($startDate && $endDate) {
             $reportQuery->whereBetween('created_at', [$startDate, $endDate]);
         } elseif ($startDate) {
@@ -152,7 +150,19 @@ class VoyageReport extends Component
             return;
         }
 
-        $filename = 'voyage_reports_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        $firstReport = $reportQuery->with('vessel')->first();
+
+        $reportType = 'voyage_report';
+        $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
+
+        if ($startDate && $endDate && $startDate->isSameDay($endDate)) {
+            $date = $startDate->format('Y-m-d');
+            $filename = "{$reportType}_{$vesselName}_{$date}.xlsx";
+        } else {
+            $from = $startDate ? $startDate->format('Y-m-d') : 'Start';
+            $to = $endDate ? $endDate->format('Y-m-d') : 'End';
+            $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
+        }
 
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
@@ -190,7 +200,8 @@ class VoyageReport extends Component
                 return;
             }
 
-            $filename = 'voyage_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            // $filename = 'voyage_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'voyage_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
             $this->selectedReports = [];
@@ -210,7 +221,11 @@ class VoyageReport extends Component
             mkdir($tempDir, 0755, true);
         }
 
-        $zipFileName = 'voyage_reports_export_' . now()->format('Y-m-d_H-i-s') . '.zip';
+        $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
+
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
+        $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+        $zipFileName = 'voyage_reports_export_' . $vesselName . '_' . $reportDate . '.zip';
         $zipPath = $tempDir . '/' . $zipFileName;
 
         $zip = new ZipArchive();
@@ -219,6 +234,7 @@ class VoyageReport extends Component
             return;
         }
 
+        $filenameCounts = [];
         foreach ($this->selectedReports as $reportId) {
             $report = Voyage::with([
                 'vessel',
@@ -233,8 +249,18 @@ class VoyageReport extends Component
 
             if ($report) {
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
-                $voyageNo = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->voyage_no);
-                $filename = 'voyage_report_' . $vesselName . '_' . $voyageNo . '.xlsx';
+                $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
+                $baseFilename = 'voyage_report_' . $vesselName . '_' . $reportDate;
+
+                // Check if filename already used, then increment
+                if (!isset($filenameCounts[$baseFilename])) {
+                    $filenameCounts[$baseFilename] = 1;
+                } else {
+                    $filenameCounts[$baseFilename]++;
+                }
+
+                $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
+                $filename = $baseFilename . $suffix . '.xlsx';
 
                 $excelContent = Excel::raw(new VoyageReportsExport([$reportId]), \Maatwebsite\Excel\Excel::XLSX);
                 $zip->addFromString($filename, $excelContent);

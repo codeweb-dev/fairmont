@@ -168,7 +168,6 @@ class TableOnBoardCrew extends Component
         }
     }
 
-
     public function exportByDateRange()
     {
         if (!$this->dateRange) {
