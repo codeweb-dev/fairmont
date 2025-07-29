@@ -30,7 +30,7 @@
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
                 <th class="px-3 py-3">Report Type</th>
-                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Vessel Name</th>
                 <th class="px-3 py-3">Crew Report Type</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>

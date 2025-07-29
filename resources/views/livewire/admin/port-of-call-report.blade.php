@@ -20,7 +20,7 @@
         <thead class="border-b dark:border-white/10 border-black/10 hover:bg-white/5 bg-black/5 transition-all">
             <tr>
                 <th class="px-3 py-3">Report Type</th>
-                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Vessel Name</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>
                 <th class="px-3 py-3"></th>
@@ -71,7 +71,7 @@
 
                             <div class="grid grid-cols-4 gap-4">
                                 <div>
-                                    <flux:label>Vessel</flux:label>
+                                    <flux:label>Vessel Name</flux:label>
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>

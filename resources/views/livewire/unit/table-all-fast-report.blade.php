@@ -85,7 +85,7 @@
                     <flux:checkbox wire:model.live="selectAll" />
                 </th>
                 <th class="px-3 py-3">Report Type</th>
-                <th class="px-3 py-3">Vessel</th>
+                <th class="px-3 py-3">Vessel Name</th>
                 <th class="px-3 py-3">Voyage No</th>
                 <th class="px-3 py-3">Created Date</th>
                 <th class="px-3 py-3">Vessel User</th>
@@ -141,7 +141,7 @@
                             <flux:heading size="lg">Report Details</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <flux:label>Vessel</flux:label>
+                                    <flux:label>Vessel Name</flux:label>
                                     <p class="text-sm">{{ $report->vessel->name }}</p>
                                 </div>
                                 <div>
