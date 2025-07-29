@@ -11,7 +11,7 @@
             <td colspan="2"><strong>Bunkering Details</strong></td>
         </tr>
         <tr>
-            <td style="width: 250px;">Vessel</td>
+            <td style="width: 250px;">Vessel Name</td>
             <td style="width: 250px; text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
         <tr>

@@ -3,7 +3,7 @@
         <tr>
             @php
                 $headers = [
-                    'Vessel',
+                    'Vessel Name',
                     'Voyage No',
                     'All Fast Date/Time (LT)',
                     'GMT Offset',

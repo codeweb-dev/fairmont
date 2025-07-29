@@ -4,7 +4,7 @@
             @php
                 $headers = [
                     // Voyage Info
-                    'Vessel',
+                    'Vessel Name',
                     'Vessel User',
                     'Voyage No',
                     'Report Type',

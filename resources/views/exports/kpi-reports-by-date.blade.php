@@ -3,7 +3,7 @@
         <tr>
             @php
                 $headers = [
-                    'Vessel', 'Fleet', 'Vessel Type', 'Reporting Period',
+                    'Vessel Name', 'Fleet', 'Vessel Type', 'Reporting Period',
 
                     'Plastics - Total Landed Ashore (m3)', 'Plastics - Total Incinerated (m3)',
                     'Food Waste - Total Disposed at Sea (m3)', 'Food Waste - Total Landed Ashore (m3)', 'Food Waste - Total Incinerated (In m3)',

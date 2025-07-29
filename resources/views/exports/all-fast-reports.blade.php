@@ -14,7 +14,7 @@
         <td colspan="5" style="font-weight: bold; width: 250px;">Voyage Details</td>
     </tr>
     <tr>
-        <td style="width: 250px;"><strong>Vessel:</strong></td>
+        <td style="width: 250px;"><strong>Vessel Name:</strong></td>
         <td colspan="4" style="width: 250px; text-align: left;">{{ $reports->first()->vessel->name ?? '' }}</td>
     </tr>
     <tr>

@@ -13,7 +13,7 @@
             <td colspan="2" style="font-weight: bold;">General Info</td>
         </tr>
         <tr>
-            <td style="width: 250px; text-align: left;">Vessel</td>
+            <td style="width: 250px; text-align: left;">Vessel Name</td>
             <td style="width: 250px; text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
 

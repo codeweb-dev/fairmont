@@ -17,7 +17,7 @@
             <td colspan="2" style="font-weight: bold; width: 250px;">Voyage Details</td>
         </tr>
         <tr>
-            <td>Vessel:</td>
+            <td>Vessel Name:</td>
             <td style="text-align: left;">{{ $report->vessel->name ?? '' }}</td>
         </tr>
         <tr>

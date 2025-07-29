@@ -3,7 +3,7 @@
         <tr>
             @php
                 $headers = [
-                    'Vessel', 'Voyage No', 'Date',
+                    'Vessel Name', 'Voyage No', 'Date',
 
                     // Location
                     'Port Departure (COSP)', 'Port Arrival (EOSP)',

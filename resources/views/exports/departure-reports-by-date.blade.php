@@ -4,7 +4,7 @@
             @php
                 $headers = [
                     // Voyage Info
-                    'Vessel',
+                    'Vessel Name',
                     'Voyage No',
                     'Date/Time (LT)',
                     'GMT Offset',
