@@ -43,18 +43,18 @@
                 $isFirstRow = true;
             @endphp
 
+            @if (!$loop->first)
+                <tr>
+                    <td colspan="60" style="height: 20px;"></td>
+                </tr> {{-- Spacer --}}
+            @endif
+
             @foreach ($ports as $port)
                 @php
                     $agents = $port->agents ?? [];
                     $agentCount = count($agents) ?: 1;
                     $firstAgentRow = true;
                 @endphp
-
-                @if (!$loop->first)
-                    <tr>
-                        <td colspan="60" style="height: 20px;"></td>
-                    </tr> {{-- Spacer --}}
-                @endif
 
                 @for ($i = 0; $i < $agentCount; $i++)
                     @php $agent = $agents[$i] ?? null; @endphp
