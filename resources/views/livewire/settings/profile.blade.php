@@ -38,6 +38,8 @@
             </div>
         </form>
 
+        <livewire:settings.role-vessel />
+
         <livewire:settings.delete-user-form />
     </x-settings.layout>
 </section>

@@ -9,6 +9,7 @@
                 type="password"
                 required
                 autocomplete="current-password"
+                viewable
             />
             <flux:input
                 wire:model="password"
@@ -16,6 +17,7 @@
                 type="password"
                 required
                 autocomplete="new-password"
+                viewable
             />
             <flux:input
                 wire:model="password_confirmation"
@@ -23,6 +25,7 @@
                 type="password"
                 required
                 autocomplete="new-password"
+                viewable
             />
 
             <div class="flex items-center gap-4">
