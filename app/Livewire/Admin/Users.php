@@ -26,6 +26,8 @@ class Users extends Component
 
     public string $password = '';
 
+    public string $password_confirmation = '';
+
     public string $role = '';
 
     public $search = '';
@@ -53,7 +55,7 @@ class Users extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', Rules\Password::defaults()],
+            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);

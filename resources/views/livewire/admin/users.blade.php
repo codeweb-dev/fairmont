@@ -39,6 +39,9 @@
                         <flux:input label="Password" type="password" placeholder="Enter user password" viewable
                             wire:model.blur="password" required />
 
+                        <flux:input wire:model="password_confirmation" label="Confirm password" type="password"
+                            required placeholder="Confirm password" viewable />
+
                         <div class="flex">
                             <flux:spacer />
 
