@@ -20,25 +20,36 @@ class WeeklySchedule extends Component
     public $master_info;
 
     public $vesselName = null;
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
-    public function updated($propertyName)
+    // public function updated($propertyName)
+    // {
+    //     $this->saveDraft(); // Auto-save on update
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on update
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
-    {
-        $draftData = [
-            'voyage_no' => $this->voyage_no,
-            'all_fast_datetime' => $this->all_fast_datetime,
-            'master_info' => $this->master_info,
-            'remarks' => $this->remarks,
-            'ports' => $this->ports,
-            'saved_at' => now()->toDateTimeString(),
-        ];
+    // public function saveDraft()
+    // {
+    //     $draftData = [
+    //         'voyage_no' => $this->voyage_no,
+    //         'all_fast_datetime' => $this->all_fast_datetime,
+    //         'master_info' => $this->master_info,
+    //         'remarks' => $this->remarks,
+    //         'ports' => $this->ports,
+    //         'saved_at' => now()->toDateTimeString(),
+    //     ];
 
-        Session::put('weekly_schedule_draft_' . Auth::id(), $draftData);
+    //     Session::put('weekly_schedule_draft_' . Auth::id(), $draftData);
+    // }
+
+    private function saveDraftToSession()
+    {
+        Session::put('weekly_schedule_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
 
     public function loadDraft()
@@ -128,27 +139,27 @@ class WeeklySchedule extends Component
             ]
         ];
 
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function removePort($index)
     {
         unset($this->ports[$index]);
         $this->ports = array_values($this->ports);
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function removeAgent($portIndex, $agentIndex)
     {
         unset($this->ports[$portIndex]['agents'][$agentIndex]);
         $this->ports[$portIndex]['agents'] = array_values($this->ports[$portIndex]['agents']);
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function addAgent($portIndex)
     {
         $this->ports[$portIndex]['agents'][] = ['name' => '', 'address' => '', 'pic_name' => '', 'telephone' => '', 'mobile' => '', 'email' => ''];
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function clearDraft()

@@ -68,7 +68,7 @@ class AllFast extends Component
         "GMT+14:00",
     ];
 
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public function mount()
     {
@@ -91,10 +91,21 @@ class AllFast extends Component
         }
     }
 
-    public function updated($propertyName)
+    // public function updated($propertyName)
+    // {
+    //     // Auto-save draft whenever any property is updated
+    //     $this->saveDraft();
+    // }
+
+    public function autoSave()
     {
-        // Auto-save draft whenever any property is updated
-        $this->saveDraft();
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
+    }
+
+    private function saveDraftToSession()
+    {
+        Session::put('all_fast_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
 
     public function addRow()
@@ -105,31 +116,31 @@ class AllFast extends Component
             'vlsfo' => null,
             'lsmgo' => null,
         ];
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function removeRow($index)
     {
         unset($this->robs[$index]);
         $this->robs = array_values($this->robs);
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
-    public function saveDraft()
-    {
-        $draftData = [
-            'voyage_no' => $this->voyage_no,
-            'all_fast_datetime' => $this->all_fast_datetime,
-            'master_info' => $this->master_info,
-            'remarks' => $this->remarks,
-            'port' => $this->port,
-            'gmt_offset' => $this->gmt_offset,
-            'robs' => $this->robs,
-            'saved_at' => now()->toDateTimeString(),
-        ];
+    // public function saveDraft()
+    // {
+    //     $draftData = [
+    //         'voyage_no' => $this->voyage_no,
+    //         'all_fast_datetime' => $this->all_fast_datetime,
+    //         'master_info' => $this->master_info,
+    //         'remarks' => $this->remarks,
+    //         'port' => $this->port,
+    //         'gmt_offset' => $this->gmt_offset,
+    //         'robs' => $this->robs,
+    //         'saved_at' => now()->toDateTimeString(),
+    //     ];
 
-        Session::put('all_fast_draft_' . Auth::id(), $draftData);
-    }
+    //     Session::put('all_fast_draft_' . Auth::id(), $draftData);
+    // }
 
     public function loadDraft()
     {

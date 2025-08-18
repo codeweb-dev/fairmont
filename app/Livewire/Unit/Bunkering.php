@@ -92,7 +92,7 @@ class Bunkering extends Component
         "GMT+14:00",
     ];
 
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public $vesselName = null;
 
@@ -111,15 +111,26 @@ class Bunkering extends Component
         $this->loadDraft();
     }
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft(); // Auto-save on field change
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on field change
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    private function saveDraftToSession()
     {
         Session::put('bunkering_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
+
+    // public function saveDraft()
+    // {
+    //     Session::put('bunkering_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    // }
 
     public function loadDraft()
     {

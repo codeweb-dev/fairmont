@@ -1,4 +1,4 @@
-<form wire:submit.prevent="save">
+<form wire:submit.prevent="save" x-data="autoSaveHandler()">
     <div class="mb-6 flex items-center justify-between w-full">
         <h1 class="text-3xl font-bold">Noon Report</h1>
 
@@ -6,9 +6,9 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
+            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
-            </flux:button>
+            </flux:button> --}}
             <flux:button href="{{ route('table-noon-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
@@ -22,8 +22,8 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
-                    <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" />
-                    <flux:select label="Report Type" badge="Required" required wire:model.live="port_gmt_offset">
+                    <flux:input label="Voyage No" badge="Required" required wire:model.defer="voyage_no" x-on:input="scheduleAutoSave" />
+                    <flux:select label="Report Type" badge="Required" required wire:model.live="port_gmt_offset" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select Report Type</flux:select.option>
                         <flux:select.option value="At Sea">At Sea</flux:select.option>
                         <flux:select.option value="In Port">In Port</flux:select.option>
@@ -31,18 +31,18 @@
                         <flux:select.option value="At Drifting">At Drifting</flux:select.option>
                     </flux:select>
                     <flux:input label="Date/Time (LT)" type="datetime-local" max="2999-12-31" badge="Required" required
-                        wire:model.defer="all_fast_datetime" />
-                    <flux:select label="GMT Offset" required badge="Required" wire:model.defer="gmt_offset" required>
+                        wire:model.defer="all_fast_datetime" x-on:input="scheduleAutoSave" />
+                    <flux:select label="GMT Offset" required badge="Required" wire:model.defer="gmt_offset" required x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select GMT Offset</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
-                    <flux:input label="Latitude" badge="Required" required wire:model.defer="port" />
-                    <flux:input label="Longitude" badge="Required" required wire:model.defer="bunkering_port" />
+                    <flux:input label="Latitude" badge="Required" required wire:model.defer="port" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Longitude" badge="Required" required wire:model.defer="bunkering_port" x-on:input="scheduleAutoSave" />
 
                     @if ($port_gmt_offset === 'In Port')
-                        <flux:input label="Port of Departure" badge="Required" required wire:model.defer="supplier" />
+                        <flux:input label="Port of Departure" badge="Required" required wire:model.defer="supplier" x-on:input="scheduleAutoSave" />
                     @endif
                 </div>
             </div>
@@ -56,65 +56,65 @@
                 @if ($port_gmt_offset === 'At Sea')
                     <div class="grid grid-cols-4 gap-x-4 gap-y-6" wire:key="at-sea-fields">
                         <!-- Row 1 -->
-                        <flux:input label="CP/Ordered Speed (Kts)" wire:model.defer="cp_ordered_speed" />
-                        <flux:input label="Allowed M/E Cons. at C/P Speed" wire:model.defer="me_cons_cp_speed" />
-                        <flux:input label="Obs. Distance (NM)" wire:model.defer="obs_distance" />
-                        <flux:input label="Steaming Time (Hrs)" wire:model.defer="steaming_time" />
+                        <flux:input label="CP/Ordered Speed (Kts)" wire:model.defer="cp_ordered_speed" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Allowed M/E Cons. at C/P Speed" wire:model.defer="me_cons_cp_speed" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Obs. Distance (NM)" wire:model.defer="obs_distance" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Steaming Time (Hrs)" wire:model.defer="steaming_time" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 2 -->
-                        <flux:input label="Avg Speed (Kts)" wire:model.defer="avg_speed" />
-                        <flux:input label="Distance to go (NM)" wire:model.defer="distance_to_go" />
-                        <flux:input label="Course (Deg)" wire:model.defer="course" />
-                        <flux:input label="Breakdown (Hrs)" wire:model.defer="breakdown" />
+                        <flux:input label="Avg Speed (Kts)" wire:model.defer="avg_speed" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Distance to go (NM)" wire:model.defer="distance_to_go" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Course (Deg)" wire:model.defer="course" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Breakdown (Hrs)" wire:model.defer="breakdown" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 3 -->
-                        <flux:input label="Avg RPM" wire:model.defer="avg_rpm" />
-                        <flux:input label="Engine Distance (NM)" wire:model.defer="engine_distance" />
-                        <flux:input label="Slip (%)" wire:model.defer="slip" />
-                        <flux:input label="M/E Output (% MCR)" wire:model.defer="me_output_mcr" />
+                        <flux:input label="Avg RPM" wire:model.defer="avg_rpm" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Engine Distance (NM)" wire:model.defer="engine_distance" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Slip (%)" wire:model.defer="slip" x-on:input="scheduleAutoSave" />
+                        <flux:input label="M/E Output (% MCR)" wire:model.defer="me_output_mcr" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 4 -->
-                        <flux:input label="Avg Power (KW)" wire:model.defer="avg_power" />
-                        <flux:input label="Logged Distance (NM)" wire:model.defer="logged_distance" />
-                        <flux:input label="Speed Through Water (Kts)" wire:model.defer="speed_through_water" />
-                        <flux:input label="Next Port" wire:model.defer="next_port" />
+                        <flux:input label="Avg Power (KW)" wire:model.defer="avg_power" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Logged Distance (NM)" wire:model.defer="logged_distance" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Speed Through Water (Kts)" wire:model.defer="speed_through_water" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Next Port" wire:model.defer="next_port" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 5 -->
-                        <flux:input label="ETA Next Port (LT)" type="datetime-local" wire:model.defer="eta_next_port" />
+                        <flux:input label="ETA Next Port (LT)" type="datetime-local" wire:model.defer="eta_next_port" x-on:input="scheduleAutoSave" />
 
-                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset">
+                        <flux:select label="ETA GMT Offset" wire:model.defer="eta_gmt_offset" x-on:input="scheduleAutoSave">
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                             @endforeach
                         </flux:select>
 
-                        <flux:input label="Anchored Hours" wire:model.defer="anchored_hours" />
-                        <flux:input label="Drifting Hours" wire:model.defer="drifting_hours" />
+                        <flux:input label="Anchored Hours" wire:model.defer="anchored_hours" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Drifting Hours" wire:model.defer="drifting_hours" x-on:input="scheduleAutoSave" />
                     </div>
                 @else
                     <div class="grid grid-cols-4 gap-x-4 gap-y-6" wire:key="not-at-sea-fields">
                         <!-- Row 1 -->
-                        <flux:input label="CP/Ordered Speed (Kts)" wire:model.defer="cp_ordered_speed" />
-                        <flux:input label="Allowed M/E Cons. at C/P Speed" wire:model.defer="me_cons_cp_speed" />
-                        <flux:input label="Steaming Time (Hrs)" wire:model.defer="steaming_time" />
-                        <flux:input label="Avg Speed (Kts)" wire:model.defer="avg_speed" />
+                        <flux:input label="CP/Ordered Speed (Kts)" wire:model.defer="cp_ordered_speed" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Allowed M/E Cons. at C/P Speed" wire:model.defer="me_cons_cp_speed" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Steaming Time (Hrs)" wire:model.defer="steaming_time" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Avg Speed (Kts)" wire:model.defer="avg_speed" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 2 -->
-                        <flux:input label="Course (DEG)" wire:model.defer="course" />
-                        <flux:input label="Breakdown (Hrs)" wire:model.defer="breakdown" />
-                        <flux:input label="Avg RPM" wire:model.defer="avg_rpm" />
-                        <flux:input label="Engine Distance (NM)" wire:model.defer="engine_distance" />
+                        <flux:input label="Course (DEG)" wire:model.defer="course" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Breakdown (Hrs)" wire:model.defer="breakdown" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Avg RPM" wire:model.defer="avg_rpm" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Engine Distance (NM)" wire:model.defer="engine_distance" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 3 -->
-                        <flux:input label="Slip (%)" wire:model.defer="slip" />
-                        <flux:input label="M/E Output (% MCR)" wire:model.defer="me_output_mcr" />
-                        <flux:input label="Anchored Hours" wire:model.defer="anchored_hours" />
-                        <flux:input label="Drifting Hours" wire:model.defer="drifting_hours" />
+                        <flux:input label="Slip (%)" wire:model.defer="slip" x-on:input="scheduleAutoSave" />
+                        <flux:input label="M/E Output (% MCR)" wire:model.defer="me_output_mcr" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Anchored Hours" wire:model.defer="anchored_hours" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Drifting Hours" wire:model.defer="drifting_hours" x-on:input="scheduleAutoSave" />
 
                         <!-- Row 4 -->
                         @if ($port_gmt_offset === 'In Port')
-                            <flux:input label="Maneuvering Hours" wire:model.defer="maneuvering_hours" />
+                            <flux:input label="Maneuvering Hours" wire:model.defer="maneuvering_hours" x-on:input="scheduleAutoSave" />
                         @endif
                     </div>
                 @endif
@@ -128,9 +128,9 @@
                 <flux:legend>Voyage Itinerary</flux:legend>
                 <div class="space-y-6">
                     <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                        <flux:input label="Next Port" wire:model.defer="next_port_voyage" />
+                        <flux:input label="Next Port" wire:model.defer="next_port_voyage" x-on:input="scheduleAutoSave" />
 
-                        <flux:select label="Via" wire:model.defer="via">
+                        <flux:select label="Via" wire:model.defer="via" x-on:input="scheduleAutoSave">
                             <flux:select.option>Select</flux:select.option>
                             <flux:select.option>Direct</flux:select.option>
                             <flux:select.option>Cape Horn</flux:select.option>
@@ -141,9 +141,9 @@
                             <flux:select.option>Suez Canal</flux:select.option>
                         </flux:select>
 
-                        <flux:input label="ETA (LT)" type="datetime-local" wire:model.defer="eta_lt" />
+                        <flux:input label="ETA (LT)" type="datetime-local" wire:model.defer="eta_lt" x-on:input="scheduleAutoSave" />
 
-                        <flux:select label="GMT Offset" wire:model.defer="gmt_offset_voyage">
+                        <flux:select label="GMT Offset" wire:model.defer="gmt_offset_voyage" x-on:input="scheduleAutoSave">
                             <flux:select.option value="">Select</flux:select.option>
                             @foreach ($gmtOffsets as $offset)
                                 <flux:select.option value="{{ $offset }}">{{ $offset }}
@@ -151,8 +151,8 @@
                             @endforeach
                         </flux:select>
 
-                        <flux:input label="Distance to go" wire:model.defer="distance_to_go_voyage" />
-                        <flux:input label="Projected Speed (kts)" wire:model.defer="projected_speed" />
+                        <flux:input label="Distance to go" wire:model.defer="distance_to_go_voyage" x-on:input="scheduleAutoSave" />
+                        <flux:input label="Projected Speed (kts)" wire:model.defer="projected_speed" x-on:input="scheduleAutoSave" />
                     </div>
                 </div>
             </flux:fieldset>
@@ -164,22 +164,22 @@
             <flux:legend>Noon Conditions</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:select label="Condition" wire:model.defer="condition">
+                    <flux:select label="Condition" wire:model.defer="condition" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Ballast">Ballast</flux:select.option>
                         <flux:select.option value="Laden">Laden</flux:select.option>
                     </flux:select>
 
-                    <flux:input label="Displacement (MT)" wire:model.defer="displacement" />
-                    <flux:input label="Cargo Name" wire:model.defer="cargo_name" />
-                    <flux:input label="Cargo Weight (MT)" wire:model.defer="cargo_weight" />
+                    <flux:input label="Displacement (MT)" wire:model.defer="displacement" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Cargo Name" wire:model.defer="cargo_name" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Cargo Weight (MT)" wire:model.defer="cargo_weight" x-on:input="scheduleAutoSave" />
 
-                    <flux:input label="Ballast Weight (MT)" wire:model.defer="ballast_weight" />
-                    <flux:input label="Fresh Water (MT)" wire:model.defer="fresh_water" />
-                    <flux:input label="Fwd Draft (m)" wire:model.defer="fwd_draft" />
-                    <flux:input label="Aft Draft (m)" wire:model.defer="aft_draft" />
+                    <flux:input label="Ballast Weight (MT)" wire:model.defer="ballast_weight" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Fresh Water (MT)" wire:model.defer="fresh_water" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Fwd Draft (m)" wire:model.defer="fwd_draft" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Aft Draft (m)" wire:model.defer="aft_draft" x-on:input="scheduleAutoSave" />
 
-                    <flux:input label="GM" wire:model.defer="gm" />
+                    <flux:input label="GM" wire:model.defer="gm" x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -190,9 +190,9 @@
             <flux:legend>Average Weather</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <flux:input label="Wind Force (Bft.) (T)" wire:model.defer="wind_force_average_weather" />
+                    <flux:input label="Wind Force (Bft.) (T)" wire:model.defer="wind_force_average_weather" x-on:input="scheduleAutoSave" />
 
-                    <flux:select label="Swell" wire:model.defer="swell">
+                    <flux:select label="Swell" wire:model.defer="swell" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="00 NO SWELL">00 NO SWELL</flux:select.option>
                         <flux:select.option value="01 LOW SWELL, SHORT OR AVERAGE LENGTH">01 LOW SWELL, SHORT OR
@@ -212,45 +212,45 @@
                         <flux:select.option value="10 NOT APPLICABLE">10 NOT APPLICABLE</flux:select.option>
                     </flux:select>
 
-                    <flux:input label="Sea Currents (Kts) (Rel.)" wire:model.defer="sea_current" />
-                    <flux:input label="Sea Temp (Deg. C)" wire:model.defer="sea_temp" />
+                    <flux:input label="Sea Currents (Kts) (Rel.)" wire:model.defer="sea_current" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Sea Temp (Deg. C)" wire:model.defer="sea_temp" x-on:input="scheduleAutoSave" />
 
-                    <flux:select label="Observed Wind Dir. (T)" wire:model.defer="observed_wind">
+                    <flux:select label="Observed Wind Dir. (T)" wire:model.defer="observed_wind" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Wind Sea Height (m)" wire:model.defer="wind_sea_height" />
+                    <flux:input label="Wind Sea Height (m)" wire:model.defer="wind_sea_height" x-on:input="scheduleAutoSave" />
 
                     <flux:select label="Sea Current Direction (Rel.)"
-                        wire:model.defer="sea_current_direction">
+                        wire:model.defer="sea_current_direction" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         <flux:select.option value="Favorable">Favorable</flux:select.option>
                         <flux:select.option value="Againts">Againts</flux:select.option>
                     </flux:select>
 
-                    <flux:input label="Swell Height (m)" wire:model.defer="swell_height" />
+                    <flux:input label="Swell Height (m)" wire:model.defer="swell_height" x-on:input="scheduleAutoSave" />
 
-                    <flux:select label="Observed Sea Dir. (T)" wire:model.defer="observed_sea">
+                    <flux:select label="Observed Sea Dir. (T)" wire:model.defer="observed_sea" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Air Temp (Deg. C)" wire:model.defer="air_temp" />
+                    <flux:input label="Air Temp (Deg. C)" wire:model.defer="air_temp" x-on:input="scheduleAutoSave" />
 
-                    <flux:select label="Observed Swell Dir. (T)" wire:model.defer="observed_swell">
+                    <flux:select label="Observed Swell Dir. (T)" wire:model.defer="observed_swell" x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select</flux:select.option>
                         @foreach ($this->directions as $direction)
                             <flux:select.option value="{{ $direction }}">{{ $direction }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Sea DS" wire:model.defer="sea_ds" />
-                    <flux:input label="Atm. Pressure (millibar)" wire:model.defer="atm_pressure" class="w-full" />
+                    <flux:input label="Sea DS" wire:model.defer="sea_ds" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Atm. Pressure (millibar)" wire:model.defer="atm_pressure" class="w-full" x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -262,11 +262,11 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
                     <flux:input label="Wind force (Bft.) >0 hrs (since last report)"
-                        wire:model.defer="wind_force_previous" />
-                    <flux:input label="Wind Force (Bft.) (continuous)" wire:model.defer="wind_force_current" />
+                        wire:model.defer="wind_force_previous" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Wind Force (Bft.) (continuous)" wire:model.defer="wind_force_current" x-on:input="scheduleAutoSave" />
                     <flux:input label="Sea State (DS) >0 hrs (since last report)"
-                        wire:model.defer="sea_state_previous" />
-                    <flux:input label="Sea State (continuous)" wire:model.defer="sea_state_current" />
+                        wire:model.defer="sea_state_previous" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Sea State (continuous)" wire:model.defer="sea_state_current" x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -296,7 +296,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.wind_force"
-                                        label="">
+                                        label="" x-on:input="scheduleAutoSave">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->winds as $wind)
@@ -308,7 +308,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.wind_direction"
-                                        label="">
+                                        label="" x-on:input="scheduleAutoSave">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -320,12 +320,12 @@
 
                                 <td class="px-4 py-2">
                                     <flux:input wire:model.defer="weather_blocks.{{ $idx }}.swell_height"
-                                        label="" />
+                                        label="" x-on:input="scheduleAutoSave" />
                                 </td>
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.swell_direction"
-                                        label="">
+                                        label="" x-on:input="scheduleAutoSave">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -337,12 +337,12 @@
 
                                 <td class="px-4 py-2">
                                     <flux:input wire:model.defer="weather_blocks.{{ $idx }}.wind_sea_height"
-                                        label="" />
+                                        label="" x-on:input="scheduleAutoSave" />
                                 </td>
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.sea_direction"
-                                        label="">
+                                        label="" x-on:input="scheduleAutoSave">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->directions as $direction)
@@ -354,7 +354,7 @@
 
                                 <td class="px-4 py-2">
                                     <flux:select wire:model.defer="weather_blocks.{{ $idx }}.sea_ds"
-                                        label="">
+                                        label="" x-on:input="scheduleAutoSave">
                                         <flux:select.option value="" disabled selected>Select
                                         </flux:select.option>
                                         @foreach ($this->seas as $sea)
@@ -413,15 +413,15 @@
                                     <td class="px-4 py-2 w-10 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input disabled placeholder="Tank No."
                                             wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.tank_no"
-                                            class="w-10" />
+                                            class="w-10" x-on:input="scheduleAutoSave" />
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.description" />
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.description" x-on:input="scheduleAutoSave" />
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:select
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade">
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.grade" class="cursor-not-allowed" disabled x-on:input="scheduleAutoSave">
                                             <flux:select.option>{{ $type }}</flux:select.option>
                                             @foreach (array_keys($rob_data) as $other)
                                                 @if ($other !== $type)
@@ -432,11 +432,11 @@
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.capacity" />
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.capacity" x-on:input="scheduleAutoSave" />
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:radio.group
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit">
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.unit" x-on:input="scheduleAutoSave">
                                             <flux:radio value="MT" label="MT" checked />
                                             <flux:radio value="L" label="L" />
                                             <flux:radio value="GAL" label="GAL" />
@@ -444,11 +444,11 @@
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.rob" />
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.rob" x-on:input="scheduleAutoSave" />
                                     </td>
                                     <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                         <flux:input type="datetime-local"
-                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.supply_date" />
+                                            wire:model="rob_data.{{ $type }}.tanks.{{ $index }}.supply_date" x-on:input="scheduleAutoSave" />
                                     </td>
                                     <td class="px-4 py-2">
                                         <flux:button icon="trash" variant="danger"
@@ -492,31 +492,31 @@
                             <tr class="border border-zinc-200 dark:border-zinc-700">
                                 <td class="px-4 py-2 font-semibold border-r border-zinc-200 dark:border-zinc-700">{{ $type }} (MT)</td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.previous" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.previous" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.current" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.current" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_propulsion" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_propulsion" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.boiler_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.boiler_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.incinerators" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.incinerators" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_24" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_24" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_24" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_24" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.total_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.total_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                             </tr>
                         </tbody>
@@ -549,40 +549,40 @@
                             <tr class="border border-zinc-200 dark:border-zinc-700">
                                 <!-- ME CYL -->
                                 <td class="px-4 py-2  border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" placeholder="Select">
+                                    <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade" placeholder="Select" x-on:input="scheduleAutoSave">
                                         <flux:select.option>TBN 100</flux:select.option>
                                         <flux:select.option>TBN 70</flux:select.option>
                                         <flux:select.option>TBN 40</flux:select.option>
                                     </flux:select>
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_qty" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_hrs" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_hrs" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <!-- ME CC -->
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_qty" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_qty" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_hrs" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_hrs" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <!-- AE CC -->
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_cons" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_cons" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_qty" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_qty" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="px-4 py-2">
-                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_hrs" />
+                                    <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_hrs" x-on:input="scheduleAutoSave" />
                                 </td>
                             </tr>
                         </tbody>
@@ -597,9 +597,9 @@
             <flux:legend>Diesel Engine</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
-                    <flux:input label="DG1 Run Hours" wire:model.defer='dg1_run_hours' />
-                    <flux:input label="DG2 Run Hours" wire:model.defer='dg2_run_hours' />
-                    <flux:input label="DG3 Run Hours" wire:model.defer='dg3_run_hours' />
+                    <flux:input label="DG1 Run Hours" wire:model.defer='dg1_run_hours' x-on:input="scheduleAutoSave" />
+                    <flux:input label="DG2 Run Hours" wire:model.defer='dg2_run_hours' x-on:input="scheduleAutoSave" />
+                    <flux:input label="DG3 Run Hours" wire:model.defer='dg3_run_hours' x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -610,7 +610,7 @@
             <flux:legend>Remarks</flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="remarks" />
+                    <flux:textarea rows="8" wire:model.defer="remarks" x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -622,7 +622,7 @@
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" required />
+                    <flux:textarea rows="8" wire:model.defer="master_info" required x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -634,3 +634,45 @@
         </flux:button>
     </div>
 </form>
+
+<script>
+function autoSaveHandler() {
+    return {
+        autoSaveTimeout: null,
+
+        scheduleAutoSave() {
+            // Clear existing timeout
+            if (this.autoSaveTimeout) {
+                clearTimeout(this.autoSaveTimeout);
+            }
+
+            // Set new timeout for 2 seconds after user stops typing
+            this.autoSaveTimeout = setTimeout(() => {
+                this.triggerAutoSave();
+            }, 2000);
+        },
+
+        async triggerAutoSave() {
+            try {
+                // Call the Livewire autoSave method
+                await this.$wire.call('autoSave');
+            } catch (error) {
+                console.error('Auto-save failed:', error);
+                // You could show an error toaster here if needed
+            }
+        }
+    };
+}
+</script>
+
+@push('scripts')
+<script>
+    // Listen for the draftSaved event from Livewire
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('draftSaved', () => {
+            // Optional: Show additional feedback when manual save is triggered
+            console.log('Draft saved successfully');
+        });
+    });
+</script>
+@endpush

@@ -59,14 +59,25 @@ class Kpi extends Component
     public $ballast_exchanges, $ballast_operations, $deballast_operations;
     public $ballast_intake, $ballast_out, $ballast_exchange_amount;
     public $propeller_cleanings, $hull_cleanings;
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft(); // Autosave draft on property change
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Autosave draft on property change
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    // public function saveDraft()
+    // {
+    //     Session::put('kpi_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    // }
+
+    private function saveDraftToSession()
     {
         Session::put('kpi_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }

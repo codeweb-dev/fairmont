@@ -1,4 +1,4 @@
-<form wire:submit.prevent="save">
+<form wire:submit.prevent="save" x-data="autoSaveHandler()">
     <div class="mb-6 flex items-center justify-between w-full">
         <h1 class="text-3xl font-bold">Crew Monitoring Plan Report</h1>
 
@@ -7,10 +7,10 @@
                 @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
+            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
                 @click="Toaster.success('Draft saved successfully.')">
                 Save Draft
-            </flux:button>
+            </flux:button> --}}
             <flux:button wire:click="goBack" icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
@@ -38,26 +38,26 @@
 
                     <div class="space-y-6">
                         <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                            <flux:input label="No" wire:model="board_crew.{{ $index }}.no" />
+                            <flux:input label="No" wire:model="board_crew.{{ $index }}.no" x-on:input="scheduleAutoSave" />
                             <flux:input label="Vessel Name" wire:model="board_crew.{{ $index }}.vessel_name"
                                 disabled />
 
-                            <flux:input label="Crew Surname" wire:model="board_crew.{{ $index }}.crew_surname" />
+                            <flux:input label="Crew Surname" wire:model="board_crew.{{ $index }}.crew_surname" x-on:input="scheduleAutoSave" />
                             <flux:input label="Crew First Name"
-                                wire:model="board_crew.{{ $index }}.crew_first_name" />
-                            <flux:input label="Rank" wire:model="board_crew.{{ $index }}.rank" />
+                                wire:model="board_crew.{{ $index }}.crew_first_name" x-on:input="scheduleAutoSave" />
+                            <flux:input label="Rank" wire:model="board_crew.{{ $index }}.rank" x-on:input="scheduleAutoSave" />
                             <flux:input label="Crew Nationality"
-                                wire:model="board_crew.{{ $index }}.crew_nationality" />
+                                wire:model="board_crew.{{ $index }}.crew_nationality" x-on:input="scheduleAutoSave" />
                             <flux:input type="datetime-local" label="Joining Date"
-                                wire:model="board_crew.{{ $index }}.joining_date" />
+                                wire:model="board_crew.{{ $index }}.joining_date" x-on:input="scheduleAutoSave" />
                             <flux:input type="datetime-local" label="Contract Complete Date"
-                                wire:model="board_crew.{{ $index }}.contract_completion" />
+                                wire:model="board_crew.{{ $index }}.contract_completion" x-on:input="scheduleAutoSave" />
                             <flux:input type="datetime-local" label="Current Date"
-                                wire:model="board_crew.{{ $index }}.current_date" />
+                                wire:model="board_crew.{{ $index }}.current_date" x-on:input="scheduleAutoSave" />
                             <flux:input label="Days to Contract Completion"
-                                wire:model="board_crew.{{ $index }}.days_contract_completion" />
+                                wire:model="board_crew.{{ $index }}.days_contract_completion" x-on:input="scheduleAutoSave" />
                             <flux:input label="No of Months On Board"
-                                wire:model="board_crew.{{ $index }}.months_on_board" />
+                                wire:model="board_crew.{{ $index }}.months_on_board" x-on:input="scheduleAutoSave" />
                         </div>
                     </div>
 
@@ -85,21 +85,21 @@
                             <flux:input label="Vessel Name" disabled
                                 wire:model="crew_change.{{ $index }}.vessel_name" />
 
-                            <flux:input label="Port" wire:model="crew_change.{{ $index }}.port" />
-                            <flux:input label="Country" wire:model="crew_change.{{ $index }}.country" />
+                            <flux:input label="Port" wire:model="crew_change.{{ $index }}.port" x-on:input="scheduleAutoSave" />
+                            <flux:input label="Country" wire:model="crew_change.{{ $index }}.country" x-on:input="scheduleAutoSave" />
                             <flux:input type="datetime-local" label="Date of Joiners Boarding"
-                                wire:model="crew_change.{{ $index }}.joiners_boarding" />
+                                wire:model="crew_change.{{ $index }}.joiners_boarding" x-on:input="scheduleAutoSave" />
                             <flux:input type="datetime-local" label="Date of Off-signers Sign Off"
-                                wire:model="crew_change.{{ $index }}.off_signers" />
+                                wire:model="crew_change.{{ $index }}.off_signers" x-on:input="scheduleAutoSave" />
                             <flux:input label="Joiners Ranks"
-                                wire:model="crew_change.{{ $index }}.joiner_ranks" />
+                                wire:model="crew_change.{{ $index }}.joiner_ranks" x-on:input="scheduleAutoSave" />
                             <flux:input label="Off-Signers Ranks"
-                                wire:model="crew_change.{{ $index }}.off_signers_ranks" />
+                                wire:model="crew_change.{{ $index }}.off_signers_ranks" x-on:input="scheduleAutoSave" />
                             <flux:input label="Total Crew Change"
-                                wire:model="crew_change.{{ $index }}.total_crew_change" />
+                                wire:model="crew_change.{{ $index }}.total_crew_change" x-on:input="scheduleAutoSave" />
                             <flux:input label="Reason for Change"
-                                wire:model="crew_change.{{ $index }}.reason_change" />
-                            <flux:input label="Remarks" wire:model="crew_change.{{ $index }}.remarks" />
+                                wire:model="crew_change.{{ $index }}.reason_change" x-on:input="scheduleAutoSave" />
+                            <flux:input label="Remarks" wire:model="crew_change.{{ $index }}.remarks" x-on:input="scheduleAutoSave" />
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@
             <flux:legend>Remarks</flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="remarks" />
+                    <flux:textarea rows="8" wire:model.defer="remarks" x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -133,7 +133,7 @@
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" required />
+                    <flux:textarea rows="8" wire:model.defer="master_info" required x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -145,3 +145,45 @@
         </flux:button>
     </div>
 </form>
+
+<script>
+function autoSaveHandler() {
+    return {
+        autoSaveTimeout: null,
+
+        scheduleAutoSave() {
+            // Clear existing timeout
+            if (this.autoSaveTimeout) {
+                clearTimeout(this.autoSaveTimeout);
+            }
+
+            // Set new timeout for 2 seconds after user stops typing
+            this.autoSaveTimeout = setTimeout(() => {
+                this.triggerAutoSave();
+            }, 2000);
+        },
+
+        async triggerAutoSave() {
+            try {
+                // Call the Livewire autoSave method
+                await this.$wire.call('autoSave');
+            } catch (error) {
+                console.error('Auto-save failed:', error);
+                // You could show an error toaster here if needed
+            }
+        }
+    };
+}
+</script>
+
+@push('scripts')
+<script>
+    // Listen for the draftSaved event from Livewire
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('draftSaved', () => {
+            // Optional: Show additional feedback when manual save is triggered
+            console.log('Draft saved successfully');
+        });
+    });
+</script>
+@endpush

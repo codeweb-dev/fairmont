@@ -6,11 +6,11 @@
 
     <div class="space-y-6">
         {{-- Role --}}
-        <flux:input :label="__('Role')" type="text" :value="$role ? : __('No role assigned')" readonly />
+        <flux:input :label="__('Role')" type="text" :value="$role ? : __('No role assigned')" readonly disabled class="cursor-not-allowed" />
 
         {{-- Vessel (only show if not admin) --}}
         @if (strtolower($role) !== 'admin')
-            <flux:input :label="__('Vessel(s)')" type="text" :value="$vessel ? : __('No vessel assigned')" readonly />
+            <flux:input :label="__('Vessel(s)')" type="text" :value="$vessel ? : __('No vessel assigned')" readonly disabled class="cursor-not-allowed" />
         @endif
     </div>
 </section>

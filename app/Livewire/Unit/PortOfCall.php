@@ -14,11 +14,9 @@ class PortOfCall extends Component
     public $vessel_id;
     public $voyage_no;
     public $ports = [];
-
     public $master_info;
     public $remarks;
     public $vesselName = null;
-
     public $call_sign;
     public $flag;
     public $port_of_registry;
@@ -41,49 +39,18 @@ class PortOfCall extends Component
     public $shipyard;
 
     public array $gmtOffsets = [
-        "GMT-12:00",
-        "GMT-11:00",
-        "GMT-10:00",
-        "GMT-09:30",
-        "GMT-09:00",
-        "GMT-08:00",
-        "GMT-07:00",
-        "GMT-06:00",
-        "GMT-05:00",
-        "GMT-04:30",
-        "GMT-04:00",
-        "GMT-03:30",
-        "GMT-03:00",
-        "GMT-02:30",
-        "GMT-02:00",
-        "GMT-01:00",
-        "GMT",
-        "GMT+01:00",
-        "GMT+02:00",
-        "GMT+02:30",
-        "GMT+03:00",
-        "GMT+03:30",
-        "GMT+04:00",
-        "GMT+04:30",
-        "GMT+05:00",
-        "GMT+05:30",
-        "GMT+06:00",
-        "GMT+06:30",
-        "GMT+07:00",
-        "GMT+08:00",
-        "GMT+09:00",
-        "GMT+09:30",
-        "GMT+10:00",
-        "GMT+10:30",
-        "GMT+11:00",
-        "GMT+11:30",
-        "GMT+12:00",
-        "GMT+12:45",
-        "GMT+13:00",
-        "GMT+13:45",
+        "GMT-12:00", "GMT-11:00", "GMT-10:00", "GMT-09:30", "GMT-09:00",
+        "GMT-08:00", "GMT-07:00", "GMT-06:00", "GMT-05:00", "GMT-04:30",
+        "GMT-04:00", "GMT-03:30", "GMT-03:00", "GMT-02:30", "GMT-02:00",
+        "GMT-01:00", "GMT", "GMT+01:00", "GMT+02:00", "GMT+02:30",
+        "GMT+03:00", "GMT+03:30", "GMT+04:00", "GMT+04:30", "GMT+05:00",
+        "GMT+05:30", "GMT+06:00", "GMT+06:30", "GMT+07:00", "GMT+08:00",
+        "GMT+09:00", "GMT+09:30", "GMT+10:00", "GMT+10:30", "GMT+11:00",
+        "GMT+11:30", "GMT+12:00", "GMT+12:45", "GMT+13:00", "GMT+13:45",
         "GMT+14:00",
     ];
-    protected $listeners = ['saveDraft'];
+
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public function mount()
     {
@@ -104,12 +71,20 @@ class PortOfCall extends Component
         }
     }
 
-    public function updated($property)
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on change
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    // public function saveDraft()
+    // {
+    //     $this->saveDraftToSession();
+    //     Toaster::success('Draft saved successfully!');
+    //     $this->dispatch('draftSaved');
+    // }
+
+    private function saveDraftToSession()
     {
         Session::put('port_of_call_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
@@ -117,7 +92,6 @@ class PortOfCall extends Component
     public function loadDraft()
     {
         $draft = Session::get('port_of_call_draft_' . Auth::id());
-
         if ($draft) {
             foreach ($draft as $key => $value) {
                 if (property_exists($this, $key)) {
@@ -175,33 +149,14 @@ class PortOfCall extends Component
     public function clearForm()
     {
         $this->clearDraft();
-
         $this->reset([
-            'remarks',
-            'master_info',
-            'ports',
-            'call_sign',
-            'flag',
-            'port_of_registry',
-            'official_number',
-            'imo_number',
-            'class_society',
-            'class_no',
-            'pi_club',
-            'loa',
-            'lbp',
-            'breadth_extreme',
-            'depth_moulded',
-            'height_maximum',
-            'bridge_front_bow',
-            'bridge_front_stern',
-            'light_ship_displacement',
-            'keel_laid',
-            'launched',
-            'delivered',
-            'shipyard',
+            'remarks', 'master_info', 'ports', 'call_sign', 'flag',
+            'port_of_registry', 'official_number', 'imo_number', 'class_society',
+            'class_no', 'pi_club', 'loa', 'lbp', 'breadth_extreme',
+            'depth_moulded', 'height_maximum', 'bridge_front_bow',
+            'bridge_front_stern', 'light_ship_displacement', 'keel_laid',
+            'launched', 'delivered', 'shipyard',
         ]);
-
         $this->addPort();
     }
 
@@ -228,7 +183,6 @@ class PortOfCall extends Component
             'vessel_id' => $this->vessel_id,
             'unit_id' => Auth::id(),
             'report_type' => 'Port Of Call',
-
             'call_sign' => $this->call_sign,
             'flag' => $this->flag,
             'port_of_registry' => $this->port_of_registry,
@@ -257,11 +211,9 @@ class PortOfCall extends Component
 
         foreach ($this->ports as $portData) {
             $port = $voyage->ports()->create($portData);
-
             foreach ($portData['agents'] as $agentData) {
                 $agentData['duration_days'] = $agentData['duration_days'] !== '' ? (int) $agentData['duration_days'] : null;
                 $agentData['total_days'] = $agentData['total_days'] !== '' ? (int) $agentData['total_days'] : null;
-
                 $port->agents()->create($agentData);
             }
         }
@@ -269,9 +221,9 @@ class PortOfCall extends Component
         Toaster::success('Port Of Call Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
         $voyage->remarks()->create(['remarks' => $this->remarks]);
+
         $this->clearDraft();
         $this->clearForm();
-
         $this->redirect('/table-port-of-call-report');
     }
 

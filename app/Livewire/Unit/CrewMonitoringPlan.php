@@ -19,7 +19,7 @@ class CrewMonitoringPlan extends Component
     public bool $onBoardMode = true;
     public array $board_crew = [];
     public array $crew_change = [];
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public function switchToOnBoard()
     {
@@ -31,24 +31,35 @@ class CrewMonitoringPlan extends Component
         $this->onBoardMode = false;
     }
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft();
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft();
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    private function saveDraftToSession()
     {
-        $draft = [
-            'master_info' => $this->master_info,
-            'remarks' => $this->remarks,
-            'crew_change' => $this->crew_change,
-            'board_crew' => $this->board_crew,
-            'onBoardMode' => $this->onBoardMode,
-            'saved_at' => now()->toDateTimeString(),
-        ];
-
-        Session::put('crew_monitoring_draft_' . Auth::id(), $draft);
+        Session::put('crew_monitoring_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
+
+    // public function saveDraft()
+    // {
+    //     $draft = [
+    //         'master_info' => $this->master_info,
+    //         'remarks' => $this->remarks,
+    //         'crew_change' => $this->crew_change,
+    //         'board_crew' => $this->board_crew,
+    //         'onBoardMode' => $this->onBoardMode,
+    //         'saved_at' => now()->toDateTimeString(),
+    //     ];
+
+    //     Session::put('crew_monitoring_draft_' . Auth::id(), $draft);
+    // }
 
     public function loadDraft()
     {
@@ -107,7 +118,7 @@ class CrewMonitoringPlan extends Component
             'remarks' => null,
         ];
 
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function addBoardRow()
@@ -126,21 +137,21 @@ class CrewMonitoringPlan extends Component
             'months_on_board' => null,
         ];
 
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function removeCrewRow($index)
     {
         unset($this->crew_change[$index]);
         $this->crew_change = array_values($this->crew_change);
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function removeBoardRow($index)
     {
         unset($this->board_crew[$index]);
         $this->board_crew = array_values($this->board_crew);
-        $this->saveDraft();
+        $this->saveDraftToSession();
     }
 
     public function save()

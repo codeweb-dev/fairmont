@@ -188,6 +188,18 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
+                    <flux:menu.item icon="ship" class="capitalize">
+                        {{ auth()->user()->vessels()->first()?->name ?? 'No vessel assigned' }}
+                    </flux:menu.item>
+
+                    <flux:menu.item icon="check-badge" class="capitalize">
+                        {{ auth()->user()->getRoleNames()->first() ?? 'No role assigned' }}
+                    </flux:menu.item>
+                </flux:menu.radio.group>
+
+                <flux:menu.separator />
+
+                <flux:menu.radio.group>
                     <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>

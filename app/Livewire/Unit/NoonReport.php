@@ -330,7 +330,7 @@ class NoonReport extends Component
         ],
     ];
 
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public function mount()
     {
@@ -351,15 +351,26 @@ class NoonReport extends Component
         $this->loadDraft();
     }
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft(); // Auto-save on any property update
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on any property update
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    private function saveDraftToSession()
     {
         Session::put('noon_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
+
+    // public function saveDraft()
+    // {
+    //     Session::put('noon_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    // }
 
     public function loadDraft()
     {

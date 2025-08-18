@@ -72,7 +72,7 @@ class VoyageReport extends Component
 
     public $vesselName = null;
 
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public function mount()
     {
@@ -89,35 +89,46 @@ class VoyageReport extends Component
         $this->loadDraft();
     }
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft(); // Auto-save on property update
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on property update
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    private function saveDraftToSession()
     {
-        $draft = [
-            'voyage_no' => $this->voyage_no,
-            'all_fast_datetime' => $this->all_fast_datetime,
-            'remarks' => $this->remarks,
-            'master_info' => $this->master_info,
-            'port_departure' => $this->port_departure,
-            'port_arrival' => $this->port_arrival,
-            'hire_hours' => $this->hire_hours,
-            'hire_reason' => $this->hire_reason,
-            'avg_me_rpm' => $this->avg_me_rpm,
-            'avg_me_kw' => $this->avg_me_kw,
-            'tdr' => $this->tdr,
-            'tst' => $this->tst,
-            'slip' => $this->slip,
-            'received' => $this->received,
-            'robs' => $this->robs,
-            'consumption' => $this->consumption,
-            'saved_at' => now()->toDateTimeString(),
-        ];
-
-        Session::put('voyage_draft_' . Auth::id(), $draft);
+        Session::put('voyage_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
+
+    // public function saveDraft()
+    // {
+    //     $draft = [
+    //         'voyage_no' => $this->voyage_no,
+    //         'all_fast_datetime' => $this->all_fast_datetime,
+    //         'remarks' => $this->remarks,
+    //         'master_info' => $this->master_info,
+    //         'port_departure' => $this->port_departure,
+    //         'port_arrival' => $this->port_arrival,
+    //         'hire_hours' => $this->hire_hours,
+    //         'hire_reason' => $this->hire_reason,
+    //         'avg_me_rpm' => $this->avg_me_rpm,
+    //         'avg_me_kw' => $this->avg_me_kw,
+    //         'tdr' => $this->tdr,
+    //         'tst' => $this->tst,
+    //         'slip' => $this->slip,
+    //         'received' => $this->received,
+    //         'robs' => $this->robs,
+    //         'consumption' => $this->consumption,
+    //         'saved_at' => now()->toDateTimeString(),
+    //     ];
+
+    //     Session::put('voyage_draft_' . Auth::id(), $draft);
+    // }
 
     public function loadDraft()
     {

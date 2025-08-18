@@ -111,7 +111,7 @@ class DepartureReport extends Component
     public $distance_to_go_voyage;
     public $projected_speed;
 
-    protected $listeners = ['saveDraft'];
+    protected $listeners = ['saveDraft', 'autoSave'];
 
     public array $rob_data = [
         'HSFO' => [
@@ -227,15 +227,26 @@ class DepartureReport extends Component
         $this->loadDraft();
     }
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     $this->saveDraft(); // Auto-save on change
+    // }
+
+    public function autoSave()
     {
-        $this->saveDraft(); // Auto-save on change
+        $this->saveDraftToSession();
+        // Toaster::success('Draft saved successfully!');
     }
 
-    public function saveDraft()
+    private function saveDraftToSession()
     {
         Session::put('departure_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
     }
+
+    // public function saveDraft()
+    // {
+    //     Session::put('departure_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+    // }
 
     public function loadDraft()
     {
