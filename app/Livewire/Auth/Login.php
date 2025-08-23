@@ -35,23 +35,19 @@ class Login extends Component
     public function login(): void
     {
         $this->validate();
-
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
+            throw ValidationException::withMessages(['email' => __('auth.failed')]);
         }
 
-        // Check if the user account is active
         $user = Auth::user();
+
         if (!$user->is_active) {
-            Auth::logout(); // Log the user out
+            Auth::logout();
             throw ValidationException::withMessages([
-                'email' => 'Your account is deactivated. Please contact the administrator for further assistance.'
+                'email' => 'Your account is deactivated. Please contact the administrator.'
             ]);
         }
 
@@ -65,38 +61,31 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
+        // ✅ Check if user already verified OTP today
+        if ($user->last_otp_verified_at && $user->last_otp_verified_at->isToday()) {
+            // Direct login, no OTP required
+            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+            return;
+        }
+
+        // Otherwise, generate new OTP
         $otp = rand(100000, 999999);
         UserOtp::create([
             'user_id' => $user->id,
             'code' => $otp,
-            'expires_at' => Carbon::now()->addMinutes(5),
+            'expires_at' => now()->addMinutes(5),
         ]);
 
-        Mail::to($user->email)->send(new OtpCode($otp));
+        Mail::to($user->email)->send(new \App\Mail\OtpCode($otp));
 
-        // Temporarily logout to wait for OTP verification
         Auth::logout();
 
-        // Redirect to OTP verification screen
         session([
             'otp_user_id' => $user->id,
-            'otp_remember_me' => $this->remember, // Save the remember flag
+            'otp_remember_me' => $this->remember,
         ]);
 
         $this->redirect(route('otp.verify'), navigate: true);
-
-        // Audit::create([
-        //     'auditable_id' => Auth::id(),
-        //     'auditable_type' => User::class,
-        //     'user_id' => Auth::id(),
-        //     'event' => 'login',
-        //     'old_values' => [],
-        //     'new_values' => ['email' => $this->email],
-        //     'ip_address' => request()->ip(),
-        //     'user_agent' => request()->userAgent(),
-        // ]);
-
-        // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 
     /**

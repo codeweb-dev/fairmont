@@ -30,18 +30,20 @@ class OtpVerify extends Component
         $remember = session('otp_remember_me', false);
         Auth::loginUsingId($userId, $remember);
 
-        // Clean up
         session()->forget(['otp_user_id', 'otp_remember_me']);
-
         $otp->delete();
 
+        $user = Auth::user();
+        $user->last_otp_verified_at = now();
+        $user->save();
+
         Audit::create([
-            'auditable_id' => Auth::id(),
+            'auditable_id' => $user->id,
             'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'event' => 'login',
             'old_values' => [],
-            'new_values' => ['email' => Auth::user()->email],
+            'new_values' => ['email' => $user->email],
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
