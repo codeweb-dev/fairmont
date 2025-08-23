@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Settings;
 
+use App\Models\Audit;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
@@ -32,8 +34,22 @@ class Password extends Component
             throw $e;
         }
 
-        Auth::user()->update([
+        $user = Auth::user();
+
+        $user->update([
             'password' => Hash::make($validated['password']),
+        ]);
+
+        // 🔐 Audit trail for password change
+        Audit::create([
+            'auditable_id' => $user->id,
+            'auditable_type' => User::class,
+            'user_id' => $user->id,
+            'event' => 'password_changed',
+            'old_values' => [], // never log old password
+            'new_values' => ['password' => 'updated'], // just a marker
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');

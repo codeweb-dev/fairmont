@@ -3,6 +3,8 @@
 namespace App\Livewire\Settings;
 
 use App\Livewire\Actions\Logout;
+use App\Models\Audit;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -19,7 +21,24 @@ class DeleteUserForm extends Component
             'password' => ['required', 'string', 'current_password'],
         ]);
 
-        tap(Auth::user(), $logout(...))->delete();
+        $user = Auth::user();
+
+        // Audit log BEFORE deleting
+        Audit::create([
+            'auditable_id' => $user->id,
+            'auditable_type' => User::class,
+            'user_id' => $user->id,
+            'event' => 'delete_account',
+            'old_values' => [
+                'email' => $user->email,
+                'name' => $user->name,
+            ],
+            'new_values' => [],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
+        tap($user, $logout(...))->delete();
 
         $this->redirect('/', navigate: true);
     }

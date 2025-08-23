@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Audit;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
@@ -21,13 +22,9 @@ class Users extends Component
     protected $paginationTheme = 'tailwind';
 
     public string $name = '';
-
     public string $email = '';
-
     public string $password = '';
-
     public string $password_confirmation = '';
-
     public string $role = '';
 
     public $search = '';
@@ -59,7 +56,19 @@ class Users extends Component
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-        User::create($validated);
+        $user = User::create($validated);
+
+        Audit::create([
+            'auditable_id' => $user->id,
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'user_created',
+            'old_values' => [],
+            'new_values' => ['name' => $user->name, 'email' => $user->email],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         $this->reset();
         Flux::modal('add-user')->close();
         Toaster::success('User created successfully.');
@@ -85,12 +94,27 @@ class Users extends Component
         ]);
 
         $user = User::findOrFail($this->editId);
+
+        $oldValues = ['name' => $user->name, 'email' => $user->email];
+
         $user->name = $validated['editData']['name'];
         $user->email = $validated['editData']['email'];
         if (!empty($validated['editData']['password'])) {
             $user->password = Hash::make($validated['editData']['password']);
         }
         $user->save();
+
+        // Audit log - Edit user
+        Audit::create([
+            'auditable_id' => $user->id,
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'user_updated',
+            'old_values' => $oldValues,
+            'new_values' => ['name' => $user->name, 'email' => $user->email],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         Flux::modal('edit-user-' . $this->editId)->close();
         Toaster::success('User updated successfully.');
@@ -99,7 +123,24 @@ class Users extends Component
 
     public function delete($id)
     {
-        User::findOrFail($id)->delete();
+        $user = User::findOrFail($id);
+
+        $oldValues = ['name' => $user->name, 'email' => $user->email];
+
+        $user->delete();
+
+        // Audit log - Delete user
+        Audit::create([
+            'auditable_id' => $id,
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'user_deleted',
+            'old_values' => $oldValues,
+            'new_values' => [],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         Flux::modal('delete-user-' . $id)->close();
         Toaster::success('User soft deleted successfully.');
     }
@@ -116,6 +157,18 @@ class Users extends Component
         $user->is_active = false;
         $user->save();
 
+        // Audit log - Deactivate user
+        Audit::create([
+            'auditable_id' => $id,
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'user_deactivated',
+            'old_values' => ['is_active' => true],
+            'new_values' => ['is_active' => false],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         Flux::modal('deactivate-user-' . $id)->close();
         Toaster::success('User deactivated successfully.');
     }
@@ -125,6 +178,18 @@ class Users extends Component
         $user = User::findOrFail($id);
         $user->is_active = true;
         $user->save();
+
+        // Audit log - Activate user
+        Audit::create([
+            'auditable_id' => $id,
+            'auditable_type' => User::class,
+            'user_id' => Auth::id(),
+            'event' => 'user_activated',
+            'old_values' => ['is_active' => false],
+            'new_values' => ['is_active' => true],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         Flux::modal('deactivate-user-' . $id)->close();
         Toaster::success('User activated successfully.');

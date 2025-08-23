@@ -17,6 +17,7 @@ class Notification extends Component
     {
         return view('livewire.notification', [
             'notifications' => NotificationModel::orderBy('created_at', 'desc')->simplePaginate(10),
+            'notificationCount' => NotificationModel::count(),
         ]);
     }
 }

@@ -282,26 +282,8 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal.trigger name="notification">
-                        <flux:tooltip content="Notification" position="bottom">
-                            <flux:button icon="bell" variant="subtle" />
-                        </flux:tooltip>
-                    </flux:modal.trigger>
+                    <livewire:notification />
 
-                    <flux:modal name="notification" variant="flyout">
-                        <div class="space-y-6">
-                            <div>
-                                <flux:heading size="lg">Notification</flux:heading>
-                                <flux:text class="mt-2">
-                                    All notifications are shown below.
-                                </flux:text>
-                            </div>
-
-                            <flux:separator />
-
-                            <livewire:notification />
-                        </div>
-                    </flux:modal>
                     <flux:tooltip content="Settings" position="bottom">
                         <flux:button href="{{ route('settings.profile') }}" wire:navigate icon="cog-6-tooth"
                             variant="subtle" />
@@ -323,23 +305,23 @@
                                 <template x-for="(item, idx) in [
                                             {
                                                 title: 'About Fairmont Ship Reporting Tool',
-                                                content: `<p class='mt-2 text-sm text-primary-600 max-w-xl'>Fairmont Ship Reporting Tool is a secure web application designed to simplify the creation, management, and tracking of voyage reports for vessels.<br>
-                                            It is intended for use by both vessel crew and office staff to ensure accurate and timely reporting.</p>`
+                                                content: `<p class='mt-2 text-sm text-primary-600 max-w-xl'>The Fairmont Ship Reporting Tool is a secure, web-based application designed to simplify the creation, management, and tracking of voyage reports for vessels.
+                                                It supports both vessel crew and office staff, ensuring accurate, timely, and standardized reporting across all operations.</p>`
                                             },
                                             {
                                                 title: 'Navigation Guide',
                                                 content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
-                                                <li><strong>Dashboard:</strong> Overview of reports and quick access features</li>
-                                                <li><strong>Create Report:</strong> Start a new report</li>
-                                                <li><strong>Manage Reports:</strong> View, edit, and manage reports</li>
-                                                <li><strong>Settings:</strong> Configure user settings, profile, password, and appearance</li>
+                                                <li><strong>Dashboard:</strong> Provides a quick overview of reports and easy access to essential features.</li>
+                                                <li><strong>Create Report:</strong> Start a new voyage, operational, or compliance report.</li>
+                                                <li><strong>Manage Reports:</strong> View, edit, search, or manage all reports (based on your role and permissions).</li>
+                                                <li><strong>Settings:</strong> Customize and view your profile, update passwords, and adjust appearance preferences.</li>
                                                 </ul>`
                                             },
                                             {
                                                 title: 'Creating Reports',
                                                 content: `<ol class='list-decimal pl-6 space-y-1 text-sm text-primary-600'>
                                                 <li>Navigate to Create Report</li>
-                                                <li>Select the type of report you want to create:
+                                                <li>Select the report type you want to create:
                                                     <ul class='list-disc pl-6'>
                                                     <li>Noon Report</li>
                                                     <li>Departure Report</li>
@@ -353,79 +335,74 @@
                                                     <li>Port of Call Report</li>
                                                     </ul>
                                                 </li>
-                                                <li>Fill out the required fields</li>
-                                                <li>Review and submit your report</li>
+                                                <li>Complete all required fields (clearly marked).</li>
+                                                <li>Review your entries carefully.</li>
+                                                <li>Click Submit to finalize your report.</li>
                                                 </ol>
-                                                <p class='mt-2 text-sm text-primary-600'><span class='font-semibold'>Tip:</span> Required fields are marked clearly; please double-check all entries before submitting.</p>`
+                                                <p class='mt-2 text-sm text-primary-600'><span class='font-semibold'>Tip:</span> Always double-check your entries before submitting to avoid errors and corrections later.</p>`
                                             },
                                             {
                                                 title: 'Managing Reports',
                                                 content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
-                                                <li>Use Manage Reports to:</li>
+                                                <li>From the Manage Reports section, you can:</li>
                                                 <ul class='list-disc pl-6'>
-                                                    <li>View all submitted reports</li>
-                                                    <li>Edit reports (based on permissions and report type)</li>
-                                                    <li>Delete or archive reports (Admin/Office User only)</li>
-                                                    <li>Search reports by type, date, reportee, or vessel</li>
+                                                    <li>View all submitted reports.</li>
+                                                    <li>Delete or archive reports (Admin only).</li>
+                                                    <li>Search reports by type, date, reportee, or vessel.</li>
                                                 </ul>
                                                 </ul>`
                                             },
                                             {
                                                 title: 'Exporting Reports',
                                                 content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
-                                                <li>You can export reports to:
+                                                <li>Reports can be exported in multiple formats:
                                                     <ul class='list-disc pl-6'>
-                                                    <li>Excel (XLSX) for editing or record-keeping</li>
-                                                    <li>PDF (if implemented) for official submission</li>
+                                                    <li>Excel (XLSX): For record-keeping or further editing</li>
                                                     </ul>
                                                 </li>
-                                                <li>Exports include:
-                                                    <ul class='list-disc pl-6'>
-                                                    <li>All visible fields and tables</li>
-                                                    <li>Properly formatted layout for printing or sharing</li>
-                                                    </ul>
+                                                <li>Exports include all visible fields, tables, and properly formatted layouts for professional use.
                                                 </li>
                                                 </ul>`
                                             },
                                             {
                                                 title: 'Security & Account Tips',
                                                 content: `<ul class='list-disc pl-6 space-y-1 text-sm text-primary-600'>
-                                                <li>Your session will auto-logout after 30 minutes of inactivity to protect your data.</li>
-                                                <li>Make sure to choose a strong password with:
+                                                <li>Sessions automatically log out after 30 minutes of inactivity to keep your data secure.</li>
+                                                <li>Choose a strong password containing:
                                                     <ul class='list-disc pl-6'>
-                                                    <li>Minimum length</li>
+                                                    <li>Minimum length requirement</li>
                                                     <li>Uppercase letters</li>
                                                     <li>Symbols</li>
                                                     </ul>
                                                 </li>
-                                                <li>If you forget your password, use Forgot Password on the login page to reset it.</li>
-                                                <li>Admins can review login and activity logs for security auditing.</li>
-                                                <li>Any other relevant quick-access icons depending on the role</li>
+                                                <li>If you forget your password, use the Forgot Password option on the login page.</li>
+                                                <li>Admin users can review login history and activity logs for security audits.</li>
+                                                <li>Additional quick-access icons or features may appear depending on your user role.</li>
                                                 </ul>`
                                             },
                                             {
                                                 title: 'Frequently Asked Questions (FAQs)',
                                                 content: `<ol class='list-decimal pl-6 space-y-1 text-sm text-primary-600'>
                                                 <li><strong>Can I edit a report after submitting it?</strong><br>
-                                                Office Users can edit certain reports after submission. Unit Users generally cannot edit a report once submitted, to preserve report integrity.</li>
+                                                Once a report has been submitted, it is considered final and cannot be freely edited by regular users. This is to ensure the accuracy and integrity of voyage data.</li>
                                                 <li><strong>How long are submitted reports stored in the system?</strong><br>
-                                                Reports are securely stored indefinitely unless deleted by an Admin.</li>
+                                                Reports are stored securely in the system indefinitely, unless deleted by an Admin.</li>
                                                 <li><strong>Can I delete a report?</strong><br>
-                                                Only Admin Users can delete reports. Office Users can manage (view/edit) reports but cannot delete them unless granted permission.</li>
+                                                Only Admin Users can delete reports. Office Users can manage (view/edit) reports but cannot delete them unless given explicit permission.</li>
                                                 <li><strong>How do I export a report?</strong><br>
-                                                Reports can be exported in Excel format using the Export button on the Manage Reports or individual Report view pages.</li>
+                                                Go to the Manage Reports or individual Report View page, then click the Export button. You can export reports in Excel format (XLSX), and in PDF if that feature is enabled.</li>
                                                 <li><strong>How does the session timeout work?</strong><br>
-                                                Your session will automatically log out after 10 minutes of inactivity. You will need to log in again to continue.</li>
+                                                If your account is inactive for 30 minutes, the system will automatically log you out. You will need to log in again to continue working.</li>
                                                 <li><strong>I forgot my password. How can I reset it?</strong><br>
-                                                Go to the Login Page and click on Forgot Password. You will receive a reset link via your registered email.</li>
+                                                Click Forgot Password on the login page. A reset link will be sent to your registered email address.</li>
                                                 <li><strong>Who can create new user accounts?</strong><br>
-                                                Only Admin Users can create new user accounts and manage user roles.</li>
+                                                Only Admin Users can create and manage user accounts, including assigning roles and vessel.</li>
                                                 <li><strong>What reports can I create?</strong><br>
                                                 You can create Noon, Departure, Arrival, Bunkering, All Fast, Weekly Schedule, Crew Monitoring, Voyage, KPI, and Port of Call reports.</li>
                                                 <li><strong>Can I access the system from any device?</strong><br>
-                                                Yes, the application is web-based and works on desktop, laptop, tablet, and mobile devices. For best experience, use a desktop or laptop.</li>
+                                                Yes. The application is fully web-based and works on desktops, laptops, tablets, and smartphones. For the best experience, we recommend using a desktop or laptop.</li>
                                                 <li><strong>What happens if I lose internet connection while working on a report?</strong><br>
-                                                If your connection is lost before submitting, your work may not be saved unless you save it as a draft. It is recommended to save your work frequently.</li>
+                                                If your connection is interrupted before submission, your progress will be automatically saved and can be continue on your next login or session.</li>
                                                 </ol>`
                                             }
                                             ]
