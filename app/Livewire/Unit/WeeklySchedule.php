@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Audit;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +119,20 @@ class WeeklySchedule extends Component
         Toaster::success('Weekly Schedule Created Successfully.');
         $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
+
+        Audit::create([
+            'auditable_id'   => $voyage->id,
+            'auditable_type' => Voyage::class,
+            'user_id'        => Auth::id(),
+            'event'          => 'created_weekly_schedule_report',
+            'old_values'     => [],
+            'new_values'     => [
+                'report_type' => $voyage->report_type,
+            ],
+            'ip_address'     => request()->ip(),
+            'user_agent'     => request()->userAgent(),
+        ]);
+
         $this->clearDraft();
         $this->clearForm();
 

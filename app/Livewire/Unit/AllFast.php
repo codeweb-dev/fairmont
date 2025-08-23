@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Audit;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Voyage;
@@ -196,6 +197,19 @@ class AllFast extends Component
 
         $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
+
+        Audit::create([
+            'auditable_id'   => $voyage->id,
+            'auditable_type' => Voyage::class,
+            'user_id'        => Auth::id(),
+            'event'          => 'created_all_fast_report',
+            'old_values'     => [],
+            'new_values'     => [
+                'report_type' => $voyage->report_type,
+            ],
+            'ip_address'     => request()->ip(),
+            'user_agent'     => request()->userAgent(),
+        ]);
 
         // Clear draft after successful save
         $this->clearDraft();

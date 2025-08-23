@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Audit;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -221,6 +222,19 @@ class PortOfCall extends Component
         Toaster::success('Port Of Call Created Successfully.');
         $voyage->master_info()->create(['master_info' => $this->master_info]);
         $voyage->remarks()->create(['remarks' => $this->remarks]);
+
+        Audit::create([
+            'auditable_id'   => $voyage->id,
+            'auditable_type' => Voyage::class,
+            'user_id'        => Auth::id(),
+            'event'          => 'created_port_of_call_report',
+            'old_values'     => [],
+            'new_values'     => [
+                'report_type' => $voyage->report_type,
+            ],
+            'ip_address'     => request()->ip(),
+            'user_agent'     => request()->userAgent(),
+        ]);
 
         $this->clearDraft();
         $this->clearForm();
