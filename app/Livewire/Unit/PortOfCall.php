@@ -316,7 +316,8 @@ class PortOfCall extends Component
         ]);
 
         Notification::create([
-            'text' => "{$voyage->report_type} report has been created.",
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been created.",
         ]);
 
         foreach ($this->ports as $portData) {

@@ -15,9 +15,22 @@ class Notification extends Component
 
     public function render()
     {
+        $user = Auth::user();
+        $query = NotificationModel::query()->orderBy('created_at', 'desc');
+
+        if ($user->hasRole('officer')) {
+            $vesselId = $user->vessels()->first()?->id;
+
+            if ($vesselId) {
+                $query->where('vessel_id', $vesselId);
+            } else {
+                $query->whereRaw('1=0');
+            }
+        }
+
         return view('livewire.notification', [
-            'notifications' => NotificationModel::orderBy('created_at', 'desc')->simplePaginate(10),
-            'notificationCount' => NotificationModel::count(),
+            'notifications' => $query->simplePaginate(10),
+            'notificationCount' => $query->count(),
         ]);
     }
 }

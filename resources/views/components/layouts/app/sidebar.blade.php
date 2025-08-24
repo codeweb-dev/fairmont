@@ -282,7 +282,9 @@
                         </div>
                     </flux:modal>
 
-                    <livewire:notification />
+                    @unlessrole('admin')
+                        <livewire:notification />
+                    @endunlessrole
 
                     <flux:tooltip content="Settings" position="bottom">
                         <flux:button href="{{ route('settings.profile') }}" wire:navigate icon="cog-6-tooth"

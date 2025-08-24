@@ -568,7 +568,8 @@ class NoonReport extends Component
         ]);
 
         Notification::create([
-            'text' => "{$voyage->report_type} report has been created.",
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been created.",
         ]);
 
         foreach ($this->rob_data as $fuelType => $data) {
