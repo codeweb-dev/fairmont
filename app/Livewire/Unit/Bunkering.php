@@ -3,6 +3,7 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +94,7 @@ class Bunkering extends Component
         "GMT+14:00",
     ];
 
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public $vesselName = null;
 
@@ -112,43 +113,106 @@ class Bunkering extends Component
         $this->loadDraft();
     }
 
-    // public function updated($property)
-    // {
-    //     $this->saveDraft(); // Auto-save on field change
-    // }
-
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('bunkering_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    }
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type' => 'bunkering',
+            ],
+            [
+                'data' => json_encode($this->only([
+                    'voyage_no',
+                    'bunkering_port',
+                    'supplier',
+                    'port_etd',
+                    'port_gmt_offset',
+                    'bunker_completed',
+                    'bunker_gmt_offset',
 
-    // public function saveDraft()
-    // {
-    //     Session::put('bunkering_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    // }
+                    'hsfo_quantity',
+                    'hsfo_viscosity',
+                    'biofuel_quantity',
+                    'biofuel_viscosity',
+                    'vlsfo_quantity',
+                    'vlsfo_viscosity',
+                    'lsmgo_quantity',
+                    'lsmgo_viscosity',
+
+                    'port_delivery',
+                    'eosp',
+                    'eosp_gmt',
+                    'barge',
+                    'barge_gmt',
+                    'cosp',
+                    'cosp_gmt',
+                    'anchor',
+                    'anchor_gmt',
+                    'pumping',
+                    'pumping_gmt',
+
+                    'remarks',
+                    'master_info',
+                ])),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
+    }
 
     public function loadDraft()
     {
-        $draft = Session::get('bunkering_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'bunkering')
+            ->first();
 
         if ($draft) {
-            foreach ($draft as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
-                }
-            }
+            $data = json_decode($draft->data, true);
+
+            $this->voyage_no = $data['voyage_no'] ?? null;
+            $this->bunkering_port = $data['bunkering_port'] ?? null;
+            $this->supplier = $data['supplier'] ?? null;
+            $this->port_etd = $data['port_etd'] ?? null;
+            $this->port_gmt_offset = $data['port_gmt_offset'] ?? null;
+            $this->bunker_completed = $data['bunker_completed'] ?? null;
+            $this->bunker_gmt_offset = $data['bunker_gmt_offset'] ?? null;
+
+            $this->hsfo_quantity = $data['hsfo_quantity'] ?? null;
+            $this->hsfo_viscosity = $data['hsfo_viscosity'] ?? null;
+            $this->biofuel_quantity = $data['biofuel_quantity'] ?? null;
+            $this->biofuel_viscosity = $data['biofuel_viscosity'] ?? null;
+            $this->vlsfo_quantity = $data['vlsfo_quantity'] ?? null;
+            $this->vlsfo_viscosity = $data['vlsfo_viscosity'] ?? null;
+            $this->lsmgo_quantity = $data['lsmgo_quantity'] ?? null;
+            $this->lsmgo_viscosity = $data['lsmgo_viscosity'] ?? null;
+
+            $this->port_delivery = $data['port_delivery'] ?? null;
+            $this->eosp = $data['eosp'] ?? null;
+            $this->eosp_gmt = $data['eosp_gmt'] ?? null;
+            $this->barge = $data['barge'] ?? null;
+            $this->barge_gmt = $data['barge_gmt'] ?? null;
+            $this->cosp = $data['cosp'] ?? null;
+            $this->cosp_gmt = $data['cosp_gmt'] ?? null;
+            $this->anchor = $data['anchor'] ?? null;
+            $this->anchor_gmt = $data['anchor_gmt'] ?? null;
+            $this->pumping = $data['pumping'] ?? null;
+            $this->pumping_gmt = $data['pumping_gmt'] ?? null;
+
+            $this->remarks = $data['remarks'] ?? null;
+            $this->master_info = $data['master_info'] ?? null;
         }
     }
 
     public function clearDraft()
     {
-        Session::forget('bunkering_draft_' . Auth::id());
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'bunkering')
+            ->delete();
     }
 
     public function save()
@@ -272,8 +336,6 @@ class Bunkering extends Component
             'port_gmt_offset',
             'bunker_completed',
             'bunker_gmt_offset',
-            'remarks',
-            'master_info',
 
             'hsfo_quantity',
             'hsfo_viscosity',
@@ -295,6 +357,9 @@ class Bunkering extends Component
             'anchor_gmt',
             'pumping',
             'pumping_gmt',
+
+            'remarks',
+            'master_info',
         ]);
     }
 

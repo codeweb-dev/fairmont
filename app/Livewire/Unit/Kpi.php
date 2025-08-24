@@ -3,6 +3,7 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -60,46 +61,188 @@ class Kpi extends Component
     public $ballast_exchanges, $ballast_operations, $deballast_operations;
     public $ballast_intake, $ballast_out, $ballast_exchange_amount;
     public $propeller_cleanings, $hull_cleanings;
-    protected $listeners = ['saveDraft', 'autoSave'];
-
-    // public function updated($property)
-    // {
-    //     $this->saveDraft(); // Autosave draft on property change
-    // }
+    protected $listeners = ['saveDraft'];
 
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    // public function saveDraft()
-    // {
-    //     Session::put('kpi_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    // }
-
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('kpi_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type'    => 'kpi',
+            ],
+            [
+                'data' => json_encode($this->only([
+                    'all_fast_datetime',
+                    'port',
+                    'gmt_offset',
+
+                    // Voyage
+                    'call_sign',
+                    'flag',
+                    'port_of_registry',
+
+                    // Crew
+                    'official_number',
+                    'imo_number',
+                    'class_society',
+
+                    // MACN
+                    'class_no',
+
+                    // Inspection
+                    'pi_club',
+                    'loa',
+                    'lbp',
+                    'breadth_extreme',
+                    'depth_moulded',
+                    'height_maximum',
+                    'bridge_front_bow',
+
+                    // Waste
+                    'plastics_landed_ashore',
+                    'plastics_incinerated',
+                    'food_disposed_sea',
+                    'food_landed_ashore',
+                    'food_total_incinerated',
+                    'domestic_landed_ashore',
+                    'domestic_incinerated',
+                    'cooking_oil_landed_ashore',
+                    'cooking_oil_incinerated',
+                    'incinerator_ash_landed_ashore',
+                    'incinerator_ash_incinerated',
+                    'operational_landed_ashore',
+                    'operational_incinerated',
+                    'ewaste_landed_ashore',
+                    'ewaste_landed_total_incinerated',
+                    'cargo_residues_landed_ashore',
+                    'cargo_residues_disposed_at_sea',
+                    'total_garbage_disposed_sea',
+                    'total_garbage_landed_ashore',
+                    'sludge_landed_ashore',
+                    'sludge_incinerated',
+                    'sludge_generated',
+                    'fuel_consumed',
+                    'sludge_bunker_ratio',
+                    'sludge_remarks',
+                    'bilge_discharged_ows',
+                    'bilge_landed_ashore',
+                    'bilge_generated',
+                    'paper_consumption',
+                    'printer_cartridges',
+                    'consumption_remarks',
+                    'fresh_water_generated',
+                    'fresh_water_consumed',
+                    'ballast_exchanges',
+                    'ballast_operations',
+                    'deballast_operations',
+                    'ballast_intake',
+                    'ballast_out',
+                    'ballast_exchange_amount',
+                    'propeller_cleanings',
+                    'hull_cleanings',
+
+                    'remarks',
+                    'master_info',
+                ])),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
     }
 
     public function loadDraft()
     {
-        $draft = Session::get('kpi_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'kpi')
+            ->first();
 
         if ($draft) {
-            foreach ($draft as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
-                }
-            }
+            $data = json_decode($draft->data, true);
+
+            $this->all_fast_datetime = $data['all_fast_datetime'] ?? null;
+            $this->port = $data['port'] ?? null;
+            $this->gmt_offset = $data['gmt_offset'] ?? null;
+
+            // Voyage
+            $this->call_sign = $data['call_sign'] ?? null;
+            $this->flag = $data['flag'] ?? null;
+            $this->port_of_registry = $data['port_of_registry'] ?? null;
+
+            // Crew
+            $this->official_number = $data['official_number'] ?? null;
+            $this->imo_number = $data['imo_number'] ?? null;
+            $this->class_society = $data['class_society'] ?? null;
+
+            // MACN
+            $this->class_no = $data['class_no'] ?? null;
+
+            // Inspection
+            $this->pi_club = $data['pi_club'] ?? null;
+            $this->loa = $data['loa'] ?? null;
+            $this->lbp = $data['lbp'] ?? null;
+            $this->breadth_extreme = $data['breadth_extreme'] ?? null;
+            $this->depth_moulded = $data['depth_moulded'] ?? null;
+            $this->height_maximum = $data['height_maximum'] ?? null;
+            $this->bridge_front_bow = $data['bridge_front_bow'] ?? null;
+
+            // Waste
+            $this->plastics_landed_ashore = $data['plastics_landed_ashore'] ?? null;
+            $this->plastics_incinerated = $data['plastics_incinerated'] ?? null;
+            $this->food_disposed_sea = $data['food_disposed_sea'] ?? null;
+            $this->food_landed_ashore = $data['food_landed_ashore'] ?? null;
+            $this->food_total_incinerated = $data['food_total_incinerated'] ?? null;
+            $this->domestic_landed_ashore = $data['domestic_landed_ashore'] ?? null;
+            $this->domestic_incinerated = $data['domestic_incinerated'] ?? null;
+            $this->cooking_oil_landed_ashore = $data['cooking_oil_landed_ashore'] ?? null;
+            $this->cooking_oil_incinerated = $data['cooking_oil_incinerated'] ?? null;
+            $this->incinerator_ash_landed_ashore = $data['incinerator_ash_landed_ashore'] ?? null;
+            $this->incinerator_ash_incinerated = $data['incinerator_ash_incinerated'] ?? null;
+            $this->operational_landed_ashore = $data['operational_landed_ashore'] ?? null;
+            $this->operational_incinerated = $data['operational_incinerated'] ?? null;
+            $this->ewaste_landed_ashore = $data['ewaste_landed_ashore'] ?? null;
+            $this->ewaste_landed_total_incinerated = $data['ewaste_landed_total_incinerated'] ?? null;
+            $this->cargo_residues_landed_ashore = $data['cargo_residues_landed_ashore'] ?? null;
+            $this->cargo_residues_disposed_at_sea = $data['cargo_residues_disposed_at_sea'] ?? null;
+            $this->total_garbage_disposed_sea = $data['total_garbage_disposed_sea'] ?? null;
+            $this->total_garbage_landed_ashore = $data['total_garbage_landed_ashore'] ?? null;
+            $this->sludge_landed_ashore = $data['sludge_landed_ashore'] ?? null;
+            $this->sludge_incinerated = $data['sludge_incinerated'] ?? null;
+            $this->sludge_generated = $data['sludge_generated'] ?? null;
+            $this->fuel_consumed = $data['fuel_consumed'] ?? null;
+            $this->sludge_bunker_ratio = $data['sludge_bunker_ratio'] ?? null;
+            $this->sludge_remarks = $data['sludge_remarks'] ?? null;
+            $this->bilge_discharged_ows = $data['bilge_discharged_ows'] ?? null;
+            $this->bilge_landed_ashore = $data['bilge_landed_ashore'] ?? null;
+            $this->bilge_generated = $data['bilge_generated'] ?? null;
+            $this->paper_consumption = $data['paper_consumption'] ?? null;
+            $this->printer_cartridges = $data['printer_cartridges'] ?? null;
+            $this->consumption_remarks = $data['consumption_remarks'] ?? null;
+            $this->fresh_water_generated = $data['fresh_water_generated'] ?? null;
+            $this->fresh_water_consumed = $data['fresh_water_consumed'] ?? null;
+            $this->ballast_exchanges = $data['ballast_exchanges'] ?? null;
+            $this->ballast_operations = $data['ballast_operations'] ?? null;
+            $this->deballast_operations = $data['deballast_operations'] ?? null;
+            $this->ballast_intake = $data['ballast_intake'] ?? null;
+            $this->ballast_out = $data['ballast_out'] ?? null;
+            $this->ballast_exchange_amount = $data['ballast_exchange_amount'] ?? null;
+            $this->propeller_cleanings = $data['propeller_cleanings'] ?? null;
+            $this->hull_cleanings = $data['hull_cleanings'] ?? null;
+
+            $this->remarks = $data['remarks'] ?? null;
+            $this->master_info = $data['master_info'] ?? null;
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'kpi_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'kpi_report')
+            ->delete();
     }
 
     public function mount()

@@ -3,12 +3,12 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
 
 class DepartureReport extends Component
 {
@@ -16,7 +16,7 @@ class DepartureReport extends Component
 
     public $master_info;
     public $remarks;
-    public $vesselName = null;
+    public $vesselName;
     public array $gmtOffsets = [
         "GMT-12:00",
         "GMT-11:00",
@@ -112,7 +112,7 @@ class DepartureReport extends Component
     public $distance_to_go_voyage;
     public $projected_speed;
 
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public array $rob_data = [
         'HSFO' => [
@@ -228,44 +228,144 @@ class DepartureReport extends Component
         $this->loadDraft();
     }
 
-    // public function updated($property)
-    // {
-    //     $this->saveDraft(); // Auto-save on change
-    // }
-
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('departure_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    }
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type' => 'departure',
+            ],
+            [
+                'data' => json_encode($this->only([
+                    'remarks',
+                    'master_info',
 
-    // public function saveDraft()
-    // {
-    //     Session::put('departure_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    // }
+                    'voyage_no',
+                    'port_gmt_offset',
+                    'all_fast_datetime',
+                    'gmt_offset',
+                    'port',
+                    'bunkering_port',
+                    'supplier',
+
+                    'cp_ordered_speed',
+                    'me_cons_cp_speed',
+                    'obs_distance',
+                    'steaming_time',
+
+                    'avg_speed',
+                    'distance_to_go',
+                    'breakdown',
+
+                    'eta_next_port',
+                    'next_port',
+
+                    'avg_rpm',
+                    'engine_distance',
+                    'maneuvering_hours',
+                    'avg_power',
+
+                    'logged_distance',
+                    'speed_through_water',
+                    'course',
+
+                    'next_port_voyage',
+                    'via',
+                    'eta_lt',
+                    'gmt_offset_voyage',
+                    'distance_to_go_voyage',
+                    'projected_speed',
+
+                    'condition',
+                    'displacement',
+                    'cargo_name',
+                    'cargo_weight',
+                    'ballast_weight',
+                    'fresh_water',
+                    'fwd_draft',
+                    'aft_draft',
+                    'gm',
+
+                    'rob_data',
+                ])),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
+    }
 
     public function loadDraft()
     {
-        $draft = Session::get('departure_report_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'departure')
+            ->first();
 
         if ($draft) {
-            foreach ($draft as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
-                }
-            }
+            $data = json_decode($draft->data, true);
+
+            $this->remarks = $data['remarks'] ?? null;
+            $this->master_info = $data['master_info'] ?? null;
+
+            $this->voyage_no = $data['voyage_no'] ?? null;
+            $this->port_gmt_offset = $data['port_gmt_offset'] ?? null;
+            $this->all_fast_datetime = $data['all_fast_datetime'] ?? null;
+            $this->gmt_offset = $data['gmt_offset'] ?? null;
+            $this->port = $data['port'] ?? null;
+            $this->bunkering_port = $data['bunkering_port'] ?? null;
+            $this->supplier = $data['supplier'] ?? null;
+
+            $this->cp_ordered_speed = $data['cp_ordered_speed'] ?? null;
+            $this->me_cons_cp_speed = $data['me_cons_cp_speed'] ?? null;
+            $this->obs_distance = $data['obs_distance'] ?? null;
+            $this->steaming_time = $data['steaming_time'] ?? null;
+
+            $this->avg_speed = $data['avg_speed'] ?? null;
+            $this->distance_to_go = $data['distance_to_go'] ?? null;
+            $this->breakdown = $data['breakdown'] ?? null;
+
+            $this->eta_next_port = $data['eta_next_port'] ?? null;
+            $this->next_port = $data['next_port'] ?? null;
+
+            $this->avg_rpm = $data['avg_rpm'] ?? null;
+            $this->engine_distance = $data['engine_distance'] ?? null;
+            $this->maneuvering_hours = $data['maneuvering_hours'] ?? null;
+            $this->avg_power = $data['avg_power'] ?? null;
+
+            $this->logged_distance = $data['logged_distance'] ?? null;
+            $this->speed_through_water = $data['speed_through_water'] ?? null;
+            $this->course = $data['course'] ?? null;
+
+            $this->next_port_voyage = $data['next_port_voyage'] ?? null;
+            $this->via = $data['via'] ?? null;
+            $this->eta_lt = $data['eta_lt'] ?? null;
+            $this->gmt_offset_voyage = $data['gmt_offset_voyage'] ?? null;
+            $this->distance_to_go_voyage = $data['distance_to_go_voyage'] ?? null;
+            $this->projected_speed = $data['projected_speed'] ?? null;
+
+            $this->condition = $data['condition'] ?? null;
+            $this->displacement = $data['displacement'] ?? null;
+            $this->cargo_name = $data['cargo_name'] ?? null;
+            $this->cargo_weight = $data['cargo_weight'] ?? null;
+            $this->ballast_weight = $data['ballast_weight'] ?? null;
+            $this->fresh_water = $data['fresh_water'] ?? null;
+            $this->fwd_draft = $data['fwd_draft'] ?? null;
+            $this->aft_draft = $data['aft_draft'] ?? null;
+            $this->gm = $data['gm'] ?? null;
+
+            $this->rob_data = $data['rob_data'] ?? [];
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'departure_report_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'departure')
+            ->delete();
     }
 
     public function save()

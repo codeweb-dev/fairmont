@@ -3,12 +3,12 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
 
 class WeeklySchedule extends Component
 {
@@ -21,49 +21,51 @@ class WeeklySchedule extends Component
     public $master_info;
 
     public $vesselName = null;
-    protected $listeners = ['saveDraft', 'autoSave'];
-
-    // public function updated($propertyName)
-    // {
-    //     $this->saveDraft(); // Auto-save on update
-    // }
+    protected $listeners = ['saveDraft'];
 
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    // public function saveDraft()
-    // {
-    //     $draftData = [
-    //         'voyage_no' => $this->voyage_no,
-    //         'all_fast_datetime' => $this->all_fast_datetime,
-    //         'master_info' => $this->master_info,
-    //         'remarks' => $this->remarks,
-    //         'ports' => $this->ports,
-    //         'saved_at' => now()->toDateTimeString(),
-    //     ];
-
-    //     Session::put('weekly_schedule_draft_' . Auth::id(), $draftData);
-    // }
-
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('weekly_schedule_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+        $data = [
+            'vessel_id'         => $this->vessel_id,
+            'voyage_no'         => $this->voyage_no,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'ports'             => $this->ports,
+            'remarks'           => $this->remarks,
+            'master_info'       => $this->master_info,
+        ];
+
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type'    => 'weekly_schedule',
+            ],
+            [
+                'data' => json_encode($data),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
     }
 
     public function loadDraft()
     {
-        $draftKey = 'weekly_schedule_draft_' . Auth::id();
-        $draft = Session::get($draftKey);
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'weekly_schedule')
+            ->first();
 
         if ($draft) {
-            $this->voyage_no = $draft['voyage_no'] ?? null;
-            $this->remarks = $draft['remarks'] ?? null;
-            $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
-            $this->master_info = $draft['master_info'] ?? null;
-            $this->ports = $draft['ports'] ?? [];
+            $data = json_decode($draft->data, true);
+
+            $this->voyage_no         = $data['voyage_no'] ?? null;
+            $this->all_fast_datetime = $data['all_fast_datetime'] ?? null;
+            $this->remarks           = $data['remarks'] ?? null;
+            $this->master_info       = $data['master_info'] ?? null;
+            $this->ports             = $data['ports'] ?? [];
         }
     }
 
@@ -154,33 +156,34 @@ class WeeklySchedule extends Component
             ]
         ];
 
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function removePort($index)
     {
         unset($this->ports[$index]);
         $this->ports = array_values($this->ports);
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function removeAgent($portIndex, $agentIndex)
     {
         unset($this->ports[$portIndex]['agents'][$agentIndex]);
         $this->ports[$portIndex]['agents'] = array_values($this->ports[$portIndex]['agents']);
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function addAgent($portIndex)
     {
         $this->ports[$portIndex]['agents'][] = ['name' => '', 'address' => '', 'pic_name' => '', 'telephone' => '', 'mobile' => '', 'email' => ''];
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function clearDraft()
     {
-        $draftKey = 'weekly_schedule_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'weekly_schedule')
+            ->delete();
     }
 
     public function clearForm()

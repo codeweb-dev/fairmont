@@ -3,12 +3,12 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
 
 class VoyageReport extends Component
 {
@@ -73,7 +73,7 @@ class VoyageReport extends Component
 
     public $vesselName = null;
 
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public function mount()
     {
@@ -90,75 +90,79 @@ class VoyageReport extends Component
         $this->loadDraft();
     }
 
-    // public function updated($property)
-    // {
-    //     $this->saveDraft(); // Auto-save on property update
-    // }
-
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('voyage_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+        $data = [
+            'vessel_id'        => $this->vessel_id,
+            'voyage_no'        => $this->voyage_no,
+            'all_fast_datetime' => $this->all_fast_datetime,
+            'remarks'          => $this->remarks,
+            'master_info'      => $this->master_info,
+            'port_departure'   => $this->port_departure,
+            'port_arrival'     => $this->port_arrival,
+            'hire_hours'       => $this->hire_hours,
+            'hire_reason'      => $this->hire_reason,
+            'avg_me_rpm'       => $this->avg_me_rpm,
+            'avg_me_kw'        => $this->avg_me_kw,
+            'tdr'              => $this->tdr,
+            'tst'              => $this->tst,
+            'slip'             => $this->slip,
+            'received'         => $this->received,
+            'robs'             => $this->robs,
+            'consumption'      => $this->consumption,
+        ];
+
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type'    => 'voyage',
+            ],
+            [
+                'data' => json_encode($data),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
     }
-
-    // public function saveDraft()
-    // {
-    //     $draft = [
-    //         'voyage_no' => $this->voyage_no,
-    //         'all_fast_datetime' => $this->all_fast_datetime,
-    //         'remarks' => $this->remarks,
-    //         'master_info' => $this->master_info,
-    //         'port_departure' => $this->port_departure,
-    //         'port_arrival' => $this->port_arrival,
-    //         'hire_hours' => $this->hire_hours,
-    //         'hire_reason' => $this->hire_reason,
-    //         'avg_me_rpm' => $this->avg_me_rpm,
-    //         'avg_me_kw' => $this->avg_me_kw,
-    //         'tdr' => $this->tdr,
-    //         'tst' => $this->tst,
-    //         'slip' => $this->slip,
-    //         'received' => $this->received,
-    //         'robs' => $this->robs,
-    //         'consumption' => $this->consumption,
-    //         'saved_at' => now()->toDateTimeString(),
-    //     ];
-
-    //     Session::put('voyage_draft_' . Auth::id(), $draft);
-    // }
 
     public function loadDraft()
     {
-        $draft = Session::get('voyage_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'voyage')
+            ->first();
 
         if ($draft) {
-            $this->voyage_no = $draft['voyage_no'] ?? null;
-            $this->all_fast_datetime = $draft['all_fast_datetime'] ?? null;
-            $this->remarks = $draft['remarks'] ?? null;
-            $this->master_info = $draft['master_info'] ?? null;
-            $this->port_departure = $draft['port_departure'] ?? null;
-            $this->port_arrival = $draft['port_arrival'] ?? null;
-            $this->hire_hours = $draft['hire_hours'] ?? null;
-            $this->hire_reason = $draft['hire_reason'] ?? null;
-            $this->avg_me_rpm = $draft['avg_me_rpm'] ?? null;
-            $this->avg_me_kw = $draft['avg_me_kw'] ?? null;
-            $this->tdr = $draft['tdr'] ?? null;
-            $this->tst = $draft['tst'] ?? null;
-            $this->slip = $draft['slip'] ?? null;
-            $this->received = $draft['received'] ?? $this->received;
-            $this->robs = $draft['robs'] ?? $this->robs;
-            $this->consumption = $draft['consumption'] ?? $this->consumption;
+            $data = json_decode($draft->data, true);
+
+            $this->voyage_no        = $data['voyage_no'] ?? null;
+            $this->all_fast_datetime = $data['all_fast_datetime'] ?? null;
+            $this->remarks          = $data['remarks'] ?? null;
+            $this->master_info      = $data['master_info'] ?? null;
+            $this->port_departure   = $data['port_departure'] ?? null;
+            $this->port_arrival     = $data['port_arrival'] ?? null;
+            $this->hire_hours       = $data['hire_hours'] ?? null;
+            $this->hire_reason      = $data['hire_reason'] ?? null;
+            $this->avg_me_rpm       = $data['avg_me_rpm'] ?? null;
+            $this->avg_me_kw        = $data['avg_me_kw'] ?? null;
+            $this->tdr              = $data['tdr'] ?? null;
+            $this->tst              = $data['tst'] ?? null;
+            $this->slip             = $data['slip'] ?? null;
+            $this->received         = $data['received'] ?? $this->received;
+            $this->robs             = $data['robs'] ?? $this->robs;
+            $this->consumption      = $data['consumption'] ?? $this->consumption;
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'voyage_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'voyage_report')
+            ->delete();
     }
 
     public function save()

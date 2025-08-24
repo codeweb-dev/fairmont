@@ -3,12 +3,12 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
 
 class NoonReport extends Component
 {
@@ -16,7 +16,7 @@ class NoonReport extends Component
 
     public $master_info;
     public $remarks;
-    public $vesselName = null;
+    public $vesselName;
 
     // Voyage Details
     public $voyage_no;
@@ -331,7 +331,7 @@ class NoonReport extends Component
         ],
     ];
 
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public function mount()
     {
@@ -352,44 +352,178 @@ class NoonReport extends Component
         $this->loadDraft();
     }
 
-    // public function updated($property)
-    // {
-    //     $this->saveDraft(); // Auto-save on any property update
-    // }
-
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('noon_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    }
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type' => 'noon',
+            ],
+            [
+                'data' => json_encode($this->only([
+                    'remarks',
+                    'master_info',
+                    'voyage_no',
+                    'port_gmt_offset',
+                    'all_fast_datetime',
+                    'gmt_offset',
+                    'port',
+                    'bunkering_port',
+                    'supplier',
+                    'cp_ordered_speed',
+                    'me_cons_cp_speed',
+                    'obs_distance',
+                    'steaming_time',
+                    'avg_speed',
+                    'distance_to_go',
+                    'course',
+                    'breakdown',
+                    'avg_rpm',
+                    'engine_distance',
+                    'slip',
+                    'me_output_mcr',
+                    'avg_power',
+                    'logged_distance',
+                    'speed_through_water',
+                    'next_port',
+                    'eta_next_port',
+                    'eta_gmt_offset',
+                    'anchored_hours',
+                    'drifting_hours',
+                    'maneuvering_hours',
+                    'condition',
+                    'displacement',
+                    'cargo_name',
+                    'cargo_weight',
+                    'ballast_weight',
+                    'fresh_water',
+                    'fwd_draft',
+                    'aft_draft',
+                    'gm',
+                    'next_port_voyage',
+                    'via',
+                    'eta_lt',
+                    'gmt_offset_voyage',
+                    'distance_to_go_voyage',
+                    'projected_speed',
+                    'wind_force_average_weather',
+                    'swell',
+                    'sea_current',
+                    'sea_temp',
+                    'observed_wind',
+                    'wind_sea_height',
+                    'sea_current_direction',
+                    'swell_height',
+                    'observed_sea',
+                    'air_temp',
+                    'observed_swell',
+                    'sea_ds',
+                    'atm_pressure',
+                    'wind_force_previous',
+                    'wind_force_current',
+                    'sea_state_previous',
+                    'sea_state_current',
+                    'dg1_run_hours',
+                    'dg2_run_hours',
+                    'dg3_run_hours',
+                    'weather_blocks',
+                    'rob_data',
+                ])),
+            ]
+        );
 
-    // public function saveDraft()
-    // {
-    //     Session::put('noon_report_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
-    // }
+        $this->dispatch('draftSaved');
+    }
 
     public function loadDraft()
     {
-        $draft = Session::get('noon_report_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'noon')
+            ->first();
 
         if ($draft) {
-            foreach ($draft as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
-                }
-            }
+            $data = json_decode($draft->data, true);
+
+            $this->remarks = $data['remarks'] ?? null;
+            $this->master_info = $data['master_info'] ?? null;
+            $this->voyage_no = $data['voyage_no'] ?? null;
+            $this->port_gmt_offset = $data['port_gmt_offset'] ?? null;
+            $this->all_fast_datetime = $data['all_fast_datetime'] ?? null;
+            $this->gmt_offset = $data['gmt_offset'] ?? null;
+            $this->port = $data['port'] ?? null;
+            $this->bunkering_port = $data['bunkering_port'] ?? null;
+            $this->supplier = $data['supplier'] ?? null;
+            $this->cp_ordered_speed = $data['cp_ordered_speed'] ?? null;
+            $this->me_cons_cp_speed = $data['me_cons_cp_speed'] ?? null;
+            $this->obs_distance = $data['obs_distance'] ?? null;
+            $this->steaming_time = $data['steaming_time'] ?? null;
+            $this->avg_speed = $data['avg_speed'] ?? null;
+            $this->distance_to_go = $data['distance_to_go'] ?? null;
+            $this->course = $data['course'] ?? null;
+            $this->breakdown = $data['breakdown'] ?? null;
+            $this->avg_rpm = $data['avg_rpm'] ?? null;
+            $this->engine_distance = $data['engine_distance'] ?? null;
+            $this->slip = $data['slip'] ?? null;
+            $this->me_output_mcr = $data['me_output_mcr'] ?? null;
+            $this->avg_power = $data['avg_power'] ?? null;
+            $this->logged_distance = $data['logged_distance'] ?? null;
+            $this->speed_through_water = $data['speed_through_water'] ?? null;
+            $this->next_port = $data['next_port'] ?? null;
+            $this->eta_next_port = $data['eta_next_port'] ?? null;
+            $this->eta_gmt_offset = $data['eta_gmt_offset'] ?? null;
+            $this->anchored_hours = $data['anchored_hours'] ?? null;
+            $this->drifting_hours = $data['drifting_hours'] ?? null;
+            $this->maneuvering_hours = $data['maneuvering_hours'] ?? null;
+            $this->condition = $data['condition'] ?? null;
+            $this->displacement = $data['displacement'] ?? null;
+            $this->cargo_name = $data['cargo_name'] ?? null;
+            $this->cargo_weight = $data['cargo_weight'] ?? null;
+            $this->ballast_weight = $data['ballast_weight'] ?? null;
+            $this->fresh_water = $data['fresh_water'] ?? null;
+            $this->fwd_draft = $data['fwd_draft'] ?? null;
+            $this->aft_draft = $data['aft_draft'] ?? null;
+            $this->gm = $data['gm'] ?? null;
+            $this->next_port_voyage = $data['next_port_voyage'] ?? null;
+            $this->via = $data['via'] ?? null;
+            $this->eta_lt = $data['eta_lt'] ?? null;
+            $this->gmt_offset_voyage = $data['gmt_offset_voyage'] ?? null;
+            $this->distance_to_go_voyage = $data['distance_to_go_voyage'] ?? null;
+            $this->projected_speed = $data['projected_speed'] ?? null;
+            $this->wind_force_average_weather = $data['wind_force_average_weather'] ?? null;
+            $this->swell = $data['swell'] ?? null;
+            $this->sea_current = $data['sea_current'] ?? null;
+            $this->sea_temp = $data['sea_temp'] ?? null;
+            $this->observed_wind = $data['observed_wind'] ?? null;
+            $this->wind_sea_height = $data['wind_sea_height'] ?? null;
+            $this->sea_current_direction = $data['sea_current_direction'] ?? null;
+            $this->swell_height = $data['swell_height'] ?? null;
+            $this->observed_sea = $data['observed_sea'] ?? null;
+            $this->air_temp = $data['air_temp'] ?? null;
+            $this->observed_swell = $data['observed_swell'] ?? null;
+            $this->sea_ds = $data['sea_ds'] ?? null;
+            $this->atm_pressure = $data['atm_pressure'] ?? null;
+            $this->wind_force_previous = $data['wind_force_previous'] ?? null;
+            $this->wind_force_current = $data['wind_force_current'] ?? null;
+            $this->sea_state_previous = $data['sea_state_previous'] ?? null;
+            $this->sea_state_current = $data['sea_state_current'] ?? null;
+            $this->dg1_run_hours = $data['dg1_run_hours'] ?? null;
+            $this->dg2_run_hours = $data['dg2_run_hours'] ?? null;
+            $this->dg3_run_hours = $data['dg3_run_hours'] ?? null;
+            $this->weather_blocks = $data['weather_blocks'] ?? [];
+            $this->rob_data = $data['rob_data'] ?? [];
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'noon_report_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'noon')
+            ->delete();
     }
 
     public function addRobRow($type)
@@ -552,6 +686,7 @@ class NoonReport extends Component
             'dg2_run_hours' => $this->dg2_run_hours,
             'dg3_run_hours' => $this->dg3_run_hours,
         ]);
+
         $voyage->remarks()->create(['remarks' => $this->remarks]);
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
@@ -573,11 +708,6 @@ class NoonReport extends Component
         $this->clearForm();
 
         $this->redirect('/table-noon-report');
-    }
-
-    public function export()
-    {
-        Toaster::info('Export feature not implemented yet.');
     }
 
     public function clearForm()

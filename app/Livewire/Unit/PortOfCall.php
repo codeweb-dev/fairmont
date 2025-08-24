@@ -3,6 +3,7 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class PortOfCall extends Component
     public $ports = [];
     public $master_info;
     public $remarks;
-    public $vesselName = null;
+    public $vesselName;
     public $call_sign;
     public $flag;
     public $port_of_registry;
@@ -40,18 +41,50 @@ class PortOfCall extends Component
     public $shipyard;
 
     public array $gmtOffsets = [
-        "GMT-12:00", "GMT-11:00", "GMT-10:00", "GMT-09:30", "GMT-09:00",
-        "GMT-08:00", "GMT-07:00", "GMT-06:00", "GMT-05:00", "GMT-04:30",
-        "GMT-04:00", "GMT-03:30", "GMT-03:00", "GMT-02:30", "GMT-02:00",
-        "GMT-01:00", "GMT", "GMT+01:00", "GMT+02:00", "GMT+02:30",
-        "GMT+03:00", "GMT+03:30", "GMT+04:00", "GMT+04:30", "GMT+05:00",
-        "GMT+05:30", "GMT+06:00", "GMT+06:30", "GMT+07:00", "GMT+08:00",
-        "GMT+09:00", "GMT+09:30", "GMT+10:00", "GMT+10:30", "GMT+11:00",
-        "GMT+11:30", "GMT+12:00", "GMT+12:45", "GMT+13:00", "GMT+13:45",
+        "GMT-12:00",
+        "GMT-11:00",
+        "GMT-10:00",
+        "GMT-09:30",
+        "GMT-09:00",
+        "GMT-08:00",
+        "GMT-07:00",
+        "GMT-06:00",
+        "GMT-05:00",
+        "GMT-04:30",
+        "GMT-04:00",
+        "GMT-03:30",
+        "GMT-03:00",
+        "GMT-02:30",
+        "GMT-02:00",
+        "GMT-01:00",
+        "GMT",
+        "GMT+01:00",
+        "GMT+02:00",
+        "GMT+02:30",
+        "GMT+03:00",
+        "GMT+03:30",
+        "GMT+04:00",
+        "GMT+04:30",
+        "GMT+05:00",
+        "GMT+05:30",
+        "GMT+06:00",
+        "GMT+06:30",
+        "GMT+07:00",
+        "GMT+08:00",
+        "GMT+09:00",
+        "GMT+09:30",
+        "GMT+10:00",
+        "GMT+10:30",
+        "GMT+11:00",
+        "GMT+11:30",
+        "GMT+12:00",
+        "GMT+12:45",
+        "GMT+13:00",
+        "GMT+13:45",
         "GMT+14:00",
     ];
 
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public function mount()
     {
@@ -74,38 +107,93 @@ class PortOfCall extends Component
 
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    // public function saveDraft()
-    // {
-    //     $this->saveDraftToSession();
-    //     Toaster::success('Draft saved successfully!');
-    //     $this->dispatch('draftSaved');
-    // }
-
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('port_of_call_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+        $data = [
+            'vessel_id'            => $this->vessel_id,
+            'voyage_no'            => $this->voyage_no,
+            'remarks'              => $this->remarks,
+            'master_info'          => $this->master_info,
+            'ports'                => $this->ports,
+            'call_sign'            => $this->call_sign,
+            'flag'                 => $this->flag,
+            'port_of_registry'     => $this->port_of_registry,
+            'official_number'      => $this->official_number,
+            'imo_number'           => $this->imo_number,
+            'class_society'        => $this->class_society,
+            'class_no'             => $this->class_no,
+            'pi_club'              => $this->pi_club,
+            'loa'                  => $this->loa,
+            'lbp'                  => $this->lbp,
+            'breadth_extreme'      => $this->breadth_extreme,
+            'depth_moulded'        => $this->depth_moulded,
+            'height_maximum'       => $this->height_maximum,
+            'bridge_front_bow'     => $this->bridge_front_bow,
+            'bridge_front_stern'   => $this->bridge_front_stern,
+            'light_ship_displacement' => $this->light_ship_displacement,
+            'keel_laid'            => $this->keel_laid,
+            'launched'             => $this->launched,
+            'delivered'            => $this->delivered,
+            'shipyard'             => $this->shipyard,
+        ];
+
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type'    => 'port_of_call',
+            ],
+            [
+                'data' => json_encode($data),
+            ]
+        );
+
+        $this->dispatch('draftSaved');
     }
 
     public function loadDraft()
     {
-        $draft = Session::get('port_of_call_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'port_of_call')
+            ->first();
+
         if ($draft) {
-            foreach ($draft as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
-                }
-            }
+            $data = json_decode($draft->data, true);
+
+            $this->voyage_no            = $data['voyage_no'] ?? null;
+            $this->remarks              = $data['remarks'] ?? null;
+            $this->master_info          = $data['master_info'] ?? null;
+            $this->ports                = $data['ports'] ?? $this->ports;
+            $this->call_sign            = $data['call_sign'] ?? null;
+            $this->flag                 = $data['flag'] ?? null;
+            $this->port_of_registry     = $data['port_of_registry'] ?? null;
+            $this->official_number      = $data['official_number'] ?? null;
+            $this->imo_number           = $data['imo_number'] ?? null;
+            $this->class_society        = $data['class_society'] ?? null;
+            $this->class_no             = $data['class_no'] ?? null;
+            $this->pi_club              = $data['pi_club'] ?? null;
+            $this->loa                  = $data['loa'] ?? null;
+            $this->lbp                  = $data['lbp'] ?? null;
+            $this->breadth_extreme      = $data['breadth_extreme'] ?? null;
+            $this->depth_moulded        = $data['depth_moulded'] ?? null;
+            $this->height_maximum       = $data['height_maximum'] ?? null;
+            $this->bridge_front_bow     = $data['bridge_front_bow'] ?? null;
+            $this->bridge_front_stern   = $data['bridge_front_stern'] ?? null;
+            $this->light_ship_displacement = $data['light_ship_displacement'] ?? null;
+            $this->keel_laid            = $data['keel_laid'] ?? null;
+            $this->launched             = $data['launched'] ?? null;
+            $this->delivered            = $data['delivered'] ?? null;
+            $this->shipyard             = $data['shipyard'] ?? null;
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'port_of_call_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'port_of_call')
+            ->delete();
     }
 
     public function addPort()
@@ -129,6 +217,7 @@ class PortOfCall extends Component
                 ]
             ]
         ];
+        $this->saveDraftToDatabase();
     }
 
     public function addAgent($portIndex)
@@ -145,18 +234,36 @@ class PortOfCall extends Component
             'duration_days' => null,
             'total_days' => null,
         ];
+        $this->saveDraftToDatabase();
     }
 
     public function clearForm()
     {
         $this->clearDraft();
         $this->reset([
-            'remarks', 'master_info', 'ports', 'call_sign', 'flag',
-            'port_of_registry', 'official_number', 'imo_number', 'class_society',
-            'class_no', 'pi_club', 'loa', 'lbp', 'breadth_extreme',
-            'depth_moulded', 'height_maximum', 'bridge_front_bow',
-            'bridge_front_stern', 'light_ship_displacement', 'keel_laid',
-            'launched', 'delivered', 'shipyard',
+            'remarks',
+            'master_info',
+            'ports',
+            'call_sign',
+            'flag',
+            'port_of_registry',
+            'official_number',
+            'imo_number',
+            'class_society',
+            'class_no',
+            'pi_club',
+            'loa',
+            'lbp',
+            'breadth_extreme',
+            'depth_moulded',
+            'height_maximum',
+            'bridge_front_bow',
+            'bridge_front_stern',
+            'light_ship_displacement',
+            'keel_laid',
+            'launched',
+            'delivered',
+            'shipyard',
         ]);
         $this->addPort();
     }
@@ -165,12 +272,14 @@ class PortOfCall extends Component
     {
         unset($this->ports[$portIndex]['agents'][$agentIndex]);
         $this->ports[$portIndex]['agents'] = array_values($this->ports[$portIndex]['agents']);
+        $this->saveDraftToDatabase();
     }
 
     public function removePort($index)
     {
         unset($this->ports[$index]);
         $this->ports = array_values($this->ports);
+        $this->saveDraftToDatabase();
     }
 
     public function save()

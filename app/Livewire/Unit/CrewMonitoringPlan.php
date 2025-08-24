@@ -3,82 +3,83 @@
 namespace App\Livewire\Unit;
 
 use App\Models\Audit;
+use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
 
 class CrewMonitoringPlan extends Component
 {
     public $vessel_id;
     public $remarks;
     public $master_info;
-    public $vesselName = null;
+    public $vesselName;
 
     public bool $onBoardMode = true;
     public array $board_crew = [];
     public array $crew_change = [];
-    protected $listeners = ['saveDraft', 'autoSave'];
+    protected $listeners = ['saveDraft'];
 
     public function switchToOnBoard()
     {
         $this->onBoardMode = true;
+        $this->saveDraftToDatabase();
     }
 
     public function switchToCrewChange()
     {
         $this->onBoardMode = false;
+        $this->saveDraftToDatabase();
     }
-
-    // public function updated($property)
-    // {
-    //     $this->saveDraft();
-    // }
 
     public function autoSave()
     {
-        $this->saveDraftToSession();
-        // Toaster::success('Draft saved successfully!');
+        $this->saveDraftToDatabase();
     }
 
-    private function saveDraftToSession()
+    private function saveDraftToDatabase()
     {
-        Session::put('crew_monitoring_draft_' . Auth::id(), $this->only(array_keys(get_object_vars($this))));
+        Draft::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'type'    => 'crew_monitoring_plan',
+            ],
+            [
+                'data' => json_encode($this->only([
+                    'remarks',
+                    'master_info',
+                    'crew_change',
+                    'board_crew',
+                    'onBoardMode',
+                ])),
+            ]
+        );
     }
-
-    // public function saveDraft()
-    // {
-    //     $draft = [
-    //         'master_info' => $this->master_info,
-    //         'remarks' => $this->remarks,
-    //         'crew_change' => $this->crew_change,
-    //         'board_crew' => $this->board_crew,
-    //         'onBoardMode' => $this->onBoardMode,
-    //         'saved_at' => now()->toDateTimeString(),
-    //     ];
-
-    //     Session::put('crew_monitoring_draft_' . Auth::id(), $draft);
-    // }
 
     public function loadDraft()
     {
-        $draft = Session::get('crew_monitoring_draft_' . Auth::id());
+        $draft = Draft::where('user_id', Auth::id())
+            ->where('type', 'crew_monitoring_plan')
+            ->first();
 
         if ($draft) {
-            $this->master_info = $draft['master_info'] ?? null;
-            $this->remarks = $draft['remarks'] ?? null;
-            $this->crew_change = $draft['crew_change'] ?? [];
-            $this->board_crew = $draft['board_crew'] ?? [];
-            $this->onBoardMode = $draft['onBoardMode'] ?? true;
+            $data = json_decode($draft->data, true);
+
+            $this->onBoardMode  = $data['onBoardMode']  ?? true;
+            $this->crew_change  = $data['crew_change']  ?? [];
+            $this->board_crew   = $data['board_crew']   ?? [];
+            $this->remarks      = $data['remarks']      ?? '';
+            $this->master_info  = $data['master_info']  ?? '';
         }
     }
 
     public function clearDraft()
     {
-        $draftKey = 'crew_monitoring_draft_' . Auth::id();
-        Session::forget($draftKey);
+        Draft::where('user_id', Auth::id())
+            ->where('type', 'crew_monitoring_plan')
+            ->delete();
     }
 
     public function mount()
@@ -119,7 +120,7 @@ class CrewMonitoringPlan extends Component
             'remarks' => null,
         ];
 
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function addBoardRow()
@@ -138,21 +139,21 @@ class CrewMonitoringPlan extends Component
             'months_on_board' => null,
         ];
 
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function removeCrewRow($index)
     {
         unset($this->crew_change[$index]);
         $this->crew_change = array_values($this->crew_change);
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function removeBoardRow($index)
     {
         unset($this->board_crew[$index]);
         $this->board_crew = array_values($this->board_crew);
-        $this->saveDraftToSession();
+        $this->saveDraftToDatabase();
     }
 
     public function save()
