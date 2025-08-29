@@ -2,6 +2,15 @@
     <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
         <div class="flex items-center justify-between w-full">
             <div>
+                <flux:text>Total Reports</flux:text>
+                <flux:heading size="xl">{{ $totalReports }}</flux:heading>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+        <div class="flex items-center justify-between w-full">
+            <div>
                 <flux:text>Noon Reports</flux:text>
                 <flux:heading size="xl">{{ $reportCounts['Noon Report'] ?? 0 }}</flux:heading>
             </div>

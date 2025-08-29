@@ -168,7 +168,7 @@ class Vessel extends Component
 
     public function render()
     {
-        $query = ModelsVessel::query();
+        $query = ModelsVessel::query()->withCount('users');
 
         if (!empty($this->search)) {
             $query->where('name', 'like', '%' . $this->search . '%');
@@ -181,7 +181,7 @@ class Vessel extends Component
 
         return view('livewire.admin.vessel', [
             '_vessel' => $_vessel,
-            'users' => $users,
+            'users'   => $users,
         ]);
     }
 }

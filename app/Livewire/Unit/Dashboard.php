@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Dashboard extends Component
 {
     public $reportCounts = [];
+    public $totalReports;
 
     public function mount()
     {
@@ -32,6 +33,8 @@ class Dashboard extends Component
                 ->whereIn('vessel_id', $vesselIds)
                 ->count();
         }
+
+        $this->totalReports = Voyage::whereIn('vessel_id', $vesselIds)->count();
     }
 
     public function render()
