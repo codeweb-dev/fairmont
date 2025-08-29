@@ -10,8 +10,8 @@ use Livewire\Component;
 use App\Models\Voyage;
 use Flux\Flux;
 
-#[Title('All Fast Report')]
-class AllFastReport extends Component
+#[Title('Total Report')]
+class TotalReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
@@ -34,7 +34,7 @@ class AllFastReport extends Component
     {
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
-        Toaster::success('All Fast Report soft deleted successfully.');
+        Toaster::success('Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }
 
@@ -45,6 +45,7 @@ class AllFastReport extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                        ->orWhere('report_type', 'like', '%' . $this->search . '%') // ✅ Search by report type
                         ->orWhereHas('unit', function ($q) {
                             $q->where('name', 'like', '%' . $this->search . '%');
                         })

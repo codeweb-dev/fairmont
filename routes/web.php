@@ -14,6 +14,7 @@ use App\Livewire\Admin\Roles;
 use App\Livewire\Admin\Audit;
 use App\Livewire\Admin\Trash;
 use App\Livewire\Admin\Vessel;
+use App\Livewire\Admin\TotalReport as AdminTotalReport;
 use App\Livewire\Admin\NoonReport as AdminNoonReport;
 use App\Livewire\Admin\DepartureReport as AdminDepartureReport;
 use App\Livewire\Admin\ArrivalReport as AdminArrivalReport;
@@ -91,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/vessel', Vessel::class)->name('vessel');
 
         // Reports Admin
+        Route::get('/admin-total-report', AdminTotalReport::class)->name('admin-total-report');
         Route::get('/admin-noon-report', AdminNoonReport::class)->name('admin-noon-report');
         Route::get('/admin-departure-report', AdminDepartureReport::class)->name('admin-departure-report');
         Route::get('/admin-arrival-report', AdminArrivalReport::class)->name('admin-arrival-report');
