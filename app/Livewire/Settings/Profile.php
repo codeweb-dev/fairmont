@@ -62,9 +62,7 @@ class Profile extends Component
         ];
 
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => $user->id,
+            'user' => $user->name,
             'event' => 'profile_updated',
             'old_values' => $oldValues,
             'new_values' => $newValues,

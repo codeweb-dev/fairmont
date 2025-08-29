@@ -62,9 +62,7 @@ class Roles extends Component
         $user->syncRoles([$validated['editData']['role']]);
 
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'role_updated',
             'old_values' => ['role' => $oldRole],
             'new_values' => ['role' => $validated['editData']['role']],

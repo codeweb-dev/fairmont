@@ -29,7 +29,7 @@
 
         @foreach ($audits as $audit)
             <tr class="hover:bg-white/5 bg-black/5 transition-all">
-                <td class="px-3 py-4">{{ $audit->user?->name ?? 'N/A' }}</td>
+                <td class="px-3 py-4">{{ $audit->user ?? 'N/A' }}</td>
                 <td class="px-3 py-4">{{ $audit->event }}</td>
                 <td class="px-3 py-4">{{ $audit->created_at->diffForHumans() }}</td>
                 <td class="px-3 py-4">
@@ -43,7 +43,7 @@
 
                             <div class="space-y-2">
                                 <flux:text class="font-bold">User:</flux:text>
-                                <flux:text>{{ $audit->user?->name ?? 'N/A' }}</flux:text>
+                                <flux:text>{{ $audit->user ?? 'N/A' }}</flux:text>
                             </div>
 
                             <div class="space-y-2">

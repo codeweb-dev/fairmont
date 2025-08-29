@@ -38,9 +38,7 @@ class OtpVerify extends Component
         $user->save();
 
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => $user->id,
+            'user' => $user->name,
             'event' => 'login',
             'old_values' => [],
             'new_values' => ['email' => $user->email],

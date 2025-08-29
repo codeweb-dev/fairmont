@@ -11,10 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Schema::create('audits', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->morphs('auditable'); // to track the related model (id + type)
+        //     $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // user who performed the action
+        //     $table->string('event'); // e.g. created, updated, deleted
+        //     $table->json('old_values')->nullable(); // before change
+        //     $table->json('new_values')->nullable(); // after change
+        //     $table->string('ip_address')->nullable(); // IP address
+        //     $table->string('user_agent')->nullable(); // browser, etc.
+        //     $table->timestamps();
+        // });
+
         Schema::create('audits', function (Blueprint $table) {
             $table->id();
-            $table->morphs('auditable'); // to track the related model (id + type)
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // user who performed the action
+            $table->string('user'); // e.g. created, updated, deleted
             $table->string('event'); // e.g. created, updated, deleted
             $table->json('old_values')->nullable(); // before change
             $table->json('new_values')->nullable(); // after change

@@ -334,9 +334,7 @@ class PortOfCall extends Component
         $voyage->remarks()->create(['remarks' => $this->remarks]);
 
         Audit::create([
-            'auditable_id'   => $voyage->id,
-            'auditable_type' => Voyage::class,
-            'user_id'        => Auth::id(),
+            'user'          => Auth::user()->name,
             'event'          => 'created_port_of_call_report',
             'old_values'     => [],
             'new_values'     => [

@@ -42,9 +42,7 @@ class Password extends Component
 
         // 🔐 Audit trail for password change
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => $user->id,
+            'user' => $user->name,
             'event' => 'password_changed',
             'old_values' => [], // never log old password
             'new_values' => ['password' => 'updated'], // just a marker

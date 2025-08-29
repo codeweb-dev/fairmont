@@ -59,9 +59,7 @@ class Users extends Component
         $user = User::create($validated);
 
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'user_created',
             'old_values' => [],
             'new_values' => ['name' => $user->name, 'email' => $user->email],
@@ -106,9 +104,7 @@ class Users extends Component
 
         // Audit log - Edit user
         Audit::create([
-            'auditable_id' => $user->id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'user_updated',
             'old_values' => $oldValues,
             'new_values' => ['name' => $user->name, 'email' => $user->email],
@@ -131,9 +127,7 @@ class Users extends Component
 
         // Audit log - Delete user
         Audit::create([
-            'auditable_id' => $id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'user_deleted',
             'old_values' => $oldValues,
             'new_values' => [],
@@ -159,9 +153,7 @@ class Users extends Component
 
         // Audit log - Deactivate user
         Audit::create([
-            'auditable_id' => $id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'user_deactivated',
             'old_values' => ['is_active' => true],
             'new_values' => ['is_active' => false],
@@ -181,9 +173,7 @@ class Users extends Component
 
         // Audit log - Activate user
         Audit::create([
-            'auditable_id' => $id,
-            'auditable_type' => User::class,
-            'user_id' => Auth::id(),
+            'user' => $user->name,
             'event' => 'user_activated',
             'old_values' => ['is_active' => false],
             'new_values' => ['is_active' => true],

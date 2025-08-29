@@ -415,9 +415,7 @@ class ArrivalReport extends Component
         $voyage->master_info()->create(['master_info' => $this->master_info]);
 
         Audit::create([
-            'auditable_id'   => $voyage->id,
-            'auditable_type' => Voyage::class,
-            'user_id'        => Auth::id(),
+            'user'          => Auth::user()->name,
             'event'          => 'created_arrival_report',
             'old_values'     => [],
             'new_values'     => [
