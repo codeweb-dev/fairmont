@@ -13,16 +13,25 @@ class Notification extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    public function markAsRead($id)
+    {
+        $notification = NotificationModel::find($id);
+
+        if ($notification && !$notification->is_read) {
+            $notification->update(['is_read' => true]);
+        }
+    }
+
     public function render()
     {
         $user = Auth::user();
         $query = NotificationModel::query()->orderBy('created_at', 'desc');
 
-        if ($user->hasRole('officer')) {
-            $vesselId = $user->vessels()->first()?->id;
+        if ($user->hasRole(['officer', 'unit'])) {
+            $vesselIds = $user->vessels()->pluck('vessels.id');
 
-            if ($vesselId) {
-                $query->where('vessel_id', $vesselId);
+            if ($vesselIds->isNotEmpty()) {
+                $query->whereIn('vessel_id', $vesselIds);
             } else {
                 $query->whereRaw('1=0');
             }
@@ -30,7 +39,7 @@ class Notification extends Component
 
         return view('livewire.notification', [
             'notifications' => $query->simplePaginate(10),
-            'notificationCount' => $query->count(),
+            'notificationCount' => (clone $query)->where('is_read', false)->count(),
         ]);
     }
 }

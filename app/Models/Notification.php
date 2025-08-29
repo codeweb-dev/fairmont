@@ -10,6 +10,7 @@ class Notification extends Model
         'text',
         'vessel_id',
         'user_id',
+        'is_read',
     ];
 
     public function vessel()

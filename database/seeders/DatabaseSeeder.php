@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         //     ['email' => 'admin@gmail.com'],
         //     [
         //         'name' => 'Admin',
-        //         'password' => Hash::make('labrague123'),
+        //         'password' => Hash::make('admin123'),
         //     ]
         // );
 

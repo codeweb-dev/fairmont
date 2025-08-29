@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('vessel_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('text');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }
