@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Officer;
 
 use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
@@ -57,7 +57,7 @@ class TotalReport extends Component
             ->latest()
             ->paginate($this->perPage);
 
-        return view('livewire.admin.total-report', [
+        return view('livewire.officer.total-report', [
             'reports' => $reports,
             'pages' => $this->pages,
         ]);

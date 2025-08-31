@@ -27,6 +27,7 @@ use App\Livewire\Admin\KpiReport as AdminKpiReport;
 use App\Livewire\Admin\PortOfCallReport as AdminPortOfCallReport;
 
 // Unit
+use App\Livewire\Unit\TotalReport;
 use App\Livewire\Unit\AllFast;
 use App\Livewire\Unit\ArrivalReport;
 use App\Livewire\Unit\Bunkering;
@@ -52,6 +53,7 @@ use App\Livewire\Unit\TableCrewChange;
 use App\Livewire\Unit\TableOnBoardCrew;
 
 // Officer
+use App\Livewire\Officer\TotalReport as OfficerTotalReport;
 use App\Livewire\Officer\NoonReport as OfficerNoonReport;
 use App\Livewire\Officer\DepartureReport as OfficerDepartureReport;
 use App\Livewire\Officer\ArrivalReport as OfficerArrivalReport;
@@ -106,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:unit']], function () {
+        Route::get('/total-report', TotalReport::class)->name('total-report');
         Route::get('/noon-report', NoonReport::class)->name('noon-report');
         Route::get('/departure-report', DepartureReport::class)->name('departure-report');
         Route::get('/arrival-report', ArrivalReport::class)->name('arrival-report');
@@ -132,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => ['role:officer']], function () {
         // Reports Officer
+        Route::get('/officer-total-report', OfficerTotalReport::class)->name('officer-total-report');
         Route::get('/officer-noon-report', OfficerNoonReport::class)->name('officer-noon-report');
         Route::get('/officer-departure-report', OfficerDepartureReport::class)->name('officer-departure-report');
         Route::get('/officer-arrival-report', OfficerArrivalReport::class)->name('officer-arrival-report');

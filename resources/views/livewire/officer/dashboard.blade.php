@@ -5,6 +5,7 @@
                 <flux:text>Total Reports</flux:text>
                 <flux:heading size="xl">{{ $totalReports }}</flux:heading>
             </div>
+            <flux:button href="{{ route('officer-total-report') }}" icon="arrow-up-right" variant="filled" wire:navigate />
         </div>
     </div>
 
@@ -14,7 +15,8 @@
                 <flux:text>Noon Reports</flux:text>
                 <flux:heading size="xl">{{ $reportCounts['Noon Report'] ?? 0 }}</flux:heading>
             </div>
-            <flux:button href="{{ route('officer-noon-report') }}" icon="arrow-up-right" variant="filled" wire:navigate />
+            <flux:button href="{{ route('officer-noon-report') }}" icon="arrow-up-right" variant="filled"
+                wire:navigate />
         </div>
     </div>
 

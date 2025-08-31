@@ -36,6 +36,8 @@
                     wire:navigate>{{ __('Trash Reports & Users') }}</flux:navlist.item>
 
                 <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('admin-total-report') }}" :current="request()->routeIs('admin-total-report')" wire:navigate>Total Report</flux:navlist.item>
+
                     <flux:navlist.item href="{{ route('admin-noon-report') }}" :current="request()->routeIs('admin-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
 
                     <flux:navlist.item href="{{ route('admin-departure-report') }}" :current="request()->routeIs('admin-departure-report')" wire:navigate>Departure Report</flux:navlist.item>
@@ -63,6 +65,8 @@
                 </flux:navlist.item>
 
                 <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('total-report') }}" :current="request()->routeIs('total-report')" wire:navigate>Total Report</flux:navlist.item>
+
                     <flux:navlist.item href="{{ route('table-noon-report') }}" :current="request()->routeIs('table-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
 
                     <flux:navlist.item href="{{ route('table-departure-report') }}" :current="request()->routeIs('table-departure-report')" wire:navigate>Departure Report</flux:navlist.item>
@@ -132,6 +136,8 @@
                 </flux:navlist.item>
 
                 <flux:navlist.group expandable heading="Report Management">
+                    <flux:navlist.item href="{{ route('officer-total-report') }}" :current="request()->routeIs('officer-total-report')" wire:navigate>Total Report</flux:navlist.item>
+
                     <flux:navlist.item href="{{ route('officer-noon-report') }}" :current="request()->routeIs('officer-noon-report')" wire:navigate>Noon Report</flux:navlist.item>
 
                     <flux:navlist.item href="{{ route('officer-departure-report') }}" :current="request()->routeIs('officer-departure-report')" wire:navigate>Departure Report</flux:navlist.item>

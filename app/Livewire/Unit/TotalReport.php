@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Unit;
 
 use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
@@ -12,8 +12,7 @@ use Flux\Flux;
 
 #[Title('Total Report')]
 class TotalReport extends Component
-{
-    use WithPagination, WithoutUrlPagination;
+{    use WithPagination, WithoutUrlPagination;
 
     protected $paginationTheme = 'tailwind';
     public $search = '';
@@ -57,7 +56,7 @@ class TotalReport extends Component
             ->latest()
             ->paginate($this->perPage);
 
-        return view('livewire.admin.total-report', [
+        return view('livewire.unit.total-report', [
             'reports' => $reports,
             'pages' => $this->pages,
         ]);
