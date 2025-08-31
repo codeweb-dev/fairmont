@@ -27,7 +27,7 @@
                     <flux:navlist.item icon="check-badge" :href="route('roles')" :current="request()->routeIs('roles')"
                         wire:navigate>{{ __('Role Management') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('vessel')" :current="request()->routeIs('vessel')"
+                    <flux:navlist.item icon="ship" :href="route('vessel')" :current="request()->routeIs('vessel')"
                         wire:navigate>{{ __('Vessel Management') }}</flux:navlist.item>
 
                     <flux:navlist.item icon="document-magnifying-glass" :href="route('audit')"

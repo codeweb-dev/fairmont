@@ -42,6 +42,7 @@ class AllFastReport extends Component
     {
         $reports = Voyage::query()
             ->with(['vessel', 'unit', 'robs'])
+            ->where('report_type', 'All Fast Report')
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -56,7 +57,7 @@ class AllFastReport extends Component
             ->latest()
             ->paginate($this->perPage);
 
-        return view('livewire.admin.total-report', [
+        return view('livewire.admin.all-fast-report', [
             'reports' => $reports,
             'pages' => $this->pages,
         ]);

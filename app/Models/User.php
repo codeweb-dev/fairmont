@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Vessel::class, 'user_vessel');
     }
+
+    public function voyages()
+    {
+        return $this->hasMany(Voyage::class, 'unit_id');
+    }
 }

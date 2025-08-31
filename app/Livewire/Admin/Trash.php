@@ -35,21 +35,38 @@ class Trash extends Component
 
     public function restore($id)
     {
-        User::onlyTrashed()->findOrFail($id)->restore();
-        Toaster::success('User restored successfully.');
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->restore();
+        $user->voyages()->onlyTrashed()->restore();
+
+        Toaster::success('User and related reports restored successfully.');
         Flux::modal('restore-user-' . $id)->close();
     }
 
     public function forceDelete($id)
     {
-        User::onlyTrashed()->findOrFail($id)->forceDelete();
-        Toaster::success('User permanently deleted.');
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->reports()->withTrashed()->forceDelete();
+        $user->forceDelete();
+
+        Toaster::success('User and related reports permanently deleted.');
         Flux::modal('force-delete-user-' . $id)->close();
     }
 
     public function restoreReport($id)
     {
-        Voyage::onlyTrashed()->findOrFail($id)->restore();
+        $voyage = Voyage::onlyTrashed()
+            ->with(['vessel' => fn($q) => $q->withTrashed(), 'unit' => fn($q) => $q->withTrashed()])
+            ->findOrFail($id);
+
+        if ($voyage->unit && $voyage->unit->trashed()) {
+            Toaster::error('Cannot restore report. Restore the user first.');
+            Flux::modal('restore-report-' . $id)->close();
+            return;
+        }
+
+        $voyage->restore();
+
         Toaster::success('Report restored successfully.');
         Flux::modal('restore-report-' . $id)->close();
     }

@@ -123,6 +123,7 @@ class Users extends Component
 
         $oldValues = ['name' => $user->name, 'email' => $user->email];
 
+        $user->voyages()->delete();
         $user->delete();
 
         // Audit log - Delete user
