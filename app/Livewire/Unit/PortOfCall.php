@@ -9,7 +9,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
+use App\Models\Vessel as ModelsVessel;
 
 class PortOfCall extends Component
 {
@@ -343,6 +343,8 @@ class PortOfCall extends Component
             'ip_address'     => request()->ip(),
             'user_agent'     => request()->userAgent(),
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         $this->clearDraft();
         $this->clearForm();

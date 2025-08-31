@@ -105,11 +105,11 @@
                                     </flux:modal.trigger>
                                 @endif
 
-                                {{-- <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
+                                <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
                                     <flux:menu.item icon="trash" variant="danger">
                                         Delete
                                     </flux:menu.item>
-                                </flux:modal.trigger> --}}
+                                </flux:modal.trigger>
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
@@ -173,7 +173,7 @@
                         </form>
                     </flux:modal>
 
-                    {{-- <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Delete Vessel?</flux:heading>
@@ -189,11 +189,11 @@
                                     <flux:button variant="ghost">Cancel</flux:button>
                                 </flux:modal.close>
                                 <flux:button type="button" variant="danger" wire:click="delete({{ $vessel->id }})">
-                                    Move to Trash
+                                    Delete
                                 </flux:button>
                             </div>
                         </div>
-                    </flux:modal> --}}
+                    </flux:modal>
 
                     <flux:modal name="view-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]">
                         <div class="space-y-6">

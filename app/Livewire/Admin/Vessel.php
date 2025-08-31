@@ -11,6 +11,7 @@ use Masmerise\Toaster\Toaster;
 use App\Models\Vessel as ModelsVessel;
 use App\Models\User;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 
 #[Title('Vessel')]
 class Vessel extends Component
@@ -81,10 +82,19 @@ class Vessel extends Component
 
     public function delete($id)
     {
-        ModelsVessel::findOrFail($id)->delete();
+        $vessel = ModelsVessel::findOrFail($id);
+
+        if ($vessel->has_reports > 0) {
+            Toaster::error('This vessel has associated reports. To preserve historical accuracy, deletion is not allowed. Please deactivate instead.');
+            Flux::modal('delete-vessel-' . $id)->close();
+            return;
+        }
+
+        $vessel->delete();
         Flux::modal('delete-vessel-' . $id)->close();
-        Toaster::success('Vessel soft deleted successfully.');
+        Toaster::success('Vessel deleted successfully.');
     }
+
 
     public function openAssignUserModal($vesselId)
     {
@@ -174,9 +184,11 @@ class Vessel extends Component
         $vessel->is_active = false;
         $vessel->save();
 
+        $user = Auth::user();
+
         // Audit log - Deactive vessel
         Audit::create([
-            'user' => $vessel->name,
+            'user' => $user->name,
             'event' => 'vessel_deactivated',
             'old_values' => ['is_active' => true],
             'new_values' => ['is_active' => false],
@@ -195,9 +207,11 @@ class Vessel extends Component
         $vessel->is_active = true;
         $vessel->save();
 
+        $user = Auth::user();
+
         // Audit log - Activate vessel
         Audit::create([
-            'user' => $vessel->name,
+            'user' => $user->name,
             'event' => 'vessel_activated',
             'old_values' => ['is_active' => false],
             'new_values' => ['is_active' => true],

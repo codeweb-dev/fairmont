@@ -9,7 +9,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
+use App\Models\Vessel as ModelsVessel;
 
 class Kpi extends Component
 {
@@ -360,6 +360,8 @@ class Kpi extends Component
             'vessel_id' => $voyage->vessel_id,
             'text'      => "{$voyage->report_type} report has been created.",
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         Toaster::success('KPI Created Successfully.');
         $this->clearDraft();

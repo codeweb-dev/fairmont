@@ -9,7 +9,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
-use Illuminate\Support\Facades\Session;
+use App\Models\Vessel as ModelsVessel;
 
 class Bunkering extends Component
 {
@@ -315,6 +315,8 @@ class Bunkering extends Component
             'pumping' => $this->pumping,
             'pumping_gmt' => $this->pumping_gmt,
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         Toaster::success('Bunkering Report Created Successfully.');
         $this->clearDraft();

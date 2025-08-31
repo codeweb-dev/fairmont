@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_active')->default(true);
+            $table->integer('has_reports')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

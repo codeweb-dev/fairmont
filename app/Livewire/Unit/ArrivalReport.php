@@ -7,6 +7,7 @@ use App\Models\Draft;
 use App\Models\Notification;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Vessel as ModelsVessel;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
 
@@ -424,6 +425,8 @@ class ArrivalReport extends Component
             'ip_address'     => request()->ip(),
             'user_agent'     => request()->userAgent(),
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         Toaster::success('Arrival Report Created Successfully.');
         $this->clearDraft();

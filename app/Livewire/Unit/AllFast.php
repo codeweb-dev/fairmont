@@ -5,6 +5,7 @@ namespace App\Livewire\Unit;
 use App\Models\Audit;
 use App\Models\Draft;
 use App\Models\Notification;
+use App\Models\Vessel as ModelsVessel;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -205,6 +206,8 @@ class AllFast extends Component
             'ip_address'     => request()->ip(),
             'user_agent'     => request()->userAgent(),
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         $this->clearDraft();
         $this->clearForm();

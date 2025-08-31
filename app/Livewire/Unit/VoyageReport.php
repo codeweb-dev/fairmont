@@ -9,6 +9,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Masmerise\Toaster\Toaster;
 use App\Models\Voyage;
+use App\Models\Vessel as ModelsVessel;
 
 class VoyageReport extends Component
 {
@@ -239,6 +240,8 @@ class VoyageReport extends Component
             'ip_address'     => request()->ip(),
             'user_agent'     => request()->userAgent(),
         ]);
+
+        ModelsVessel::where('id', $voyage->vessel_id)->increment('has_reports');
 
         Toaster::success('Voyage Report Created Successfully.');
         $this->clearDraft();
