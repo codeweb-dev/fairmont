@@ -91,6 +91,20 @@
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 
+                                @if ($vessel->is_active)
+                                    <flux:modal.trigger name="deactivate-vessel-{{ $vessel->id }}">
+                                        <flux:menu.item icon="x-mark" variant="danger">
+                                            Deactivate
+                                        </flux:menu.item>
+                                    </flux:modal.trigger>
+                                @else
+                                    <flux:modal.trigger name="deactivate-vessel-{{ $vessel->id }}">
+                                        <flux:menu.item icon="check">
+                                            Activate
+                                        </flux:menu.item>
+                                    </flux:modal.trigger>
+                                @endif
+
                                 {{-- <flux:modal.trigger name="delete-vessel-{{ $vessel->id }}">
                                     <flux:menu.item icon="trash" variant="danger">
                                         Delete
@@ -99,6 +113,39 @@
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
+
+                    <flux:modal name="deactivate-vessel-{{ $vessel->id }}" class="min-w-[22rem]">
+                        <div class="space-y-6">
+                            <div>
+                                <flux:heading size="lg">
+                                    {{ $vessel->is_active ? 'Deactivate User?' : 'Activate User?' }}
+                                </flux:heading>
+                                <flux:text class="mt-2">
+                                    Are you sure you want to
+                                    <strong>{{ $vessel->is_active ? 'deactivate' : 'activate' }}</strong>
+                                    the vessel <strong>{{ $vessel->name }}</strong>?
+                                </flux:text>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <flux:spacer />
+                                <flux:modal.close>
+                                    <flux:button variant="ghost">Cancel</flux:button>
+                                </flux:modal.close>
+
+                                @if ($vessel->is_active)
+                                    <flux:button type="button" variant="danger"
+                                        wire:click="deactivate({{ $vessel->id }})">
+                                        Deactivate
+                                    </flux:button>
+                                @else
+                                    <flux:button type="button" wire:click="activate({{ $vessel->id }})">
+                                        Activate
+                                    </flux:button>
+                                @endif
+                            </div>
+                        </div>
+                    </flux:modal>
 
                     <flux:modal name="assign-user-{{ $vessel->id }}">
                         <form wire:submit.prevent="assignUserToVessel({{ $vessel->id }})">

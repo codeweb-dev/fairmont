@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Audit;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
@@ -164,6 +165,48 @@ class Vessel extends Component
 
         Flux::modal('reassign-user')->close();
         $this->reset(['reassignUserId', 'reassignToVesselId']);
+    }
+
+    public function deactivate($id)
+    {
+        $vessel = ModelsVessel::findOrFail($id);
+
+        $vessel->is_active = false;
+        $vessel->save();
+
+        // Audit log - Deactive vessel
+        Audit::create([
+            'user' => $vessel->name,
+            'event' => 'vessel_deactivated',
+            'old_values' => ['is_active' => true],
+            'new_values' => ['is_active' => false],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
+        Flux::modal('deactivate-vessel-' . $id)->close();
+        Toaster::success('Vessel deactivated successfully.');
+    }
+
+    public function activate($id)
+    {
+        $vessel = ModelsVessel::findOrFail($id);
+
+        $vessel->is_active = true;
+        $vessel->save();
+
+        // Audit log - Activate vessel
+        Audit::create([
+            'user' => $vessel->name,
+            'event' => 'vessel_activated',
+            'old_values' => ['is_active' => false],
+            'new_values' => ['is_active' => true],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
+        Flux::modal('deactivate-vessel-' . $id)->close();
+        Toaster::success('Vessel activated successfully.');
     }
 
     public function render()
