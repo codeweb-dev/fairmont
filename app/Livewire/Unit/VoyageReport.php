@@ -193,6 +193,13 @@ class VoyageReport extends Component
             'consumption.*' => 'nullable|numeric',
         ]);
 
+        $vessel = ModelsVessel::findOrFail($this->vessel_id);
+
+        if (!$vessel->is_active) {
+            Toaster::error('This vessel has been deactivated. It will no longer be available for new reports.');
+            return;
+        }
+
         $voyage = Voyage::create([
             'vessel_id' => $this->vessel_id,
             'unit_id' => Auth::id(),
