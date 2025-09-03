@@ -46,7 +46,7 @@ class Trash extends Component
     public function forceDelete($id)
     {
         $user = User::onlyTrashed()->findOrFail($id);
-        $user->reports()->withTrashed()->forceDelete();
+        $user->voyages()->withTrashed()->forceDelete();
         $user->forceDelete();
 
         Toaster::success('User and related reports permanently deleted.');
@@ -66,6 +66,10 @@ class Trash extends Component
         }
 
         $voyage->restore();
+
+        if ($voyage->vessel) {
+            $voyage->vessel()->increment('has_reports');
+        }
 
         Toaster::success('Report restored successfully.');
         Flux::modal('restore-report-' . $id)->close();

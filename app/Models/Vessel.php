@@ -12,6 +12,7 @@ class Vessel extends Model
     protected $fillable = [
         'name',
         'is_active',
+        'has_reports',
     ];
 
     public function users()

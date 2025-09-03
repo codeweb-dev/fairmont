@@ -42,7 +42,7 @@ class AllFastReport extends Component
     {
         $reports = Voyage::query()
             ->with(['vessel', 'unit', 'robs'])
-            ->where('report_type', 'All Fast Report')
+            ->where('report_type', 'All Fast')
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')

@@ -36,7 +36,6 @@ class DepartureReport extends Component
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
         Toaster::success('Departure Report soft deleted successfully.');
-
         Flux::modal('delete-report-' . $id)->close();
     }
 

@@ -9,10 +9,12 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Voyage;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 
 #[Title('Total Report')]
 class TotalReport extends Component
-{    use WithPagination, WithoutUrlPagination;
+{
+    use WithPagination, WithoutUrlPagination;
 
     protected $paginationTheme = 'tailwind';
     public $search = '';
@@ -39,8 +41,12 @@ class TotalReport extends Component
 
     public function render()
     {
+        $user = Auth::user();
+        $assignedVesselIds = $user->vessels()->pluck('vessels.id');
+
         $reports = Voyage::query()
             ->with(['vessel', 'unit', 'robs'])
+            ->whereIn('vessel_id', $assignedVesselIds)
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -58,7 +64,7 @@ class TotalReport extends Component
 
         return view('livewire.unit.total-report', [
             'reports' => $reports,
-            'pages' => $this->pages,
+            'pages'   => $this->pages,
         ]);
     }
 }
