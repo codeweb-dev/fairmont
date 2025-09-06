@@ -26,8 +26,21 @@ class BunkeringReport extends Component
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
+    public $selectedVessel = null;
+    public $officerVessels = [];
     public $dateRange;
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -63,6 +76,9 @@ class BunkeringReport extends Component
         return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
             ->where('report_type', 'Bunkering')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -161,7 +177,7 @@ class BunkeringReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new BunkeringReportsByDateExport($startDate, $endDate),
+            new BunkeringReportsByDateExport($startDate, $endDate, $this->selectedVessel),
             $filename
         );
     }

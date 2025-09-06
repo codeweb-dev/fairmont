@@ -25,8 +25,21 @@ class KpiReport extends Component
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
     public $dateRange;
+    public $selectedVessel = null;
+    public $officerVessels = [];
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -68,6 +81,9 @@ class KpiReport extends Component
         ])
             ->where('report_type', 'KPI')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->whereHas('unit', function ($q) {
@@ -164,7 +180,7 @@ class KpiReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new KpiReportsByDateExport($startDate, $endDate),
+            new KpiReportsByDateExport($startDate, $endDate, $this->selectedVessel),
             $filename
         );
     }

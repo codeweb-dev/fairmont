@@ -12,12 +12,14 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
     protected $startDate;
     protected $endDate;
     protected $viewing;
+    protected $selectedVessel;
 
-    public function __construct($startDate, $endDate, $viewing = 'on-board')
+    public function __construct($startDate, $endDate, $viewing = 'on-board', $selectedVessel = null)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->viewing = $viewing;
+        $this->selectedVessel = $selectedVessel;
     }
 
     public function view(): View
@@ -27,6 +29,10 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
         $query = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds);
+
+        if ($this->selectedVessel) {
+            $query->where('vessel_id', $this->selectedVessel);
+        }
 
         // Filter by viewing type
         if ($this->viewing === 'on-board') {

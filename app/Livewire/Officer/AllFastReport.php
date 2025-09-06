@@ -25,10 +25,22 @@ class AllFastReport extends Component
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
+    public $selectedVessel = null;
+    public $officerVessels = [];
     public $dateRange;
-
     protected $paginationTheme = 'tailwind';
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -59,11 +71,16 @@ class AllFastReport extends Component
 
     private function getReportsQuery()
     {
-        $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
+        $assignedVesselIds = Auth::user()
+            ->vessels()
+            ->pluck('vessels.id');
 
         return Voyage::with(['vessel', 'unit', 'remarks', 'master_info', 'noon_report'])
             ->where('report_type', 'All Fast')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -80,7 +97,6 @@ class AllFastReport extends Component
 
                 if (count($dates) === 2) {
                     [$start, $end] = $dates;
-
                     return $query->whereBetween('created_at', [
                         \Carbon\Carbon::parse($start)->startOfDay(),
                         \Carbon\Carbon::parse($end)->endOfDay(),
@@ -162,7 +178,7 @@ class AllFastReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new AllFastReportsByDateExport($startDate, $endDate),
+            new AllFastReportsByDateExport($startDate, $endDate, $this->selectedVessel),
             $filename
         );
     }

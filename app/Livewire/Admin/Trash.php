@@ -7,7 +7,6 @@ use App\Models\Voyage;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
-use Spatie\Permission\Models\Role;
 use Livewire\Attributes\Title;
 use Flux\Flux;
 use Masmerise\Toaster\Toaster;
@@ -77,7 +76,15 @@ class Trash extends Component
 
     public function forceDeleteReport($id)
     {
-        Voyage::onlyTrashed()->findOrFail($id)->forceDelete();
+        $voyage = Voyage::onlyTrashed()
+            ->with(['vessel' => fn($q) => $q->withTrashed()])
+            ->findOrFail($id);
+
+        if ($voyage->vessel) {
+            $voyage->vessel()->decrement('has_reports');
+        }
+
+        $voyage->forceDelete();
         Toaster::success('Report permanently deleted.');
         Flux::modal('force-delete-report-' . $id)->close();
     }

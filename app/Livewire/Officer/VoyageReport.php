@@ -23,14 +23,26 @@ class VoyageReport extends Component
     protected $paginationTheme = 'tailwind';
 
     public string $name = '';
-
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
+    public $selectedVessel = null;
+    public $officerVessels = [];
     public $dateRange;
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -74,6 +86,9 @@ class VoyageReport extends Component
         ])
             ->where('report_type', 'Voyage Report')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->whereHas('unit', function ($q) {
@@ -170,7 +185,7 @@ class VoyageReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new VoyageReportsByDateExport($startDate, $endDate),
+            new VoyageReportsByDateExport($startDate, $endDate, $this->selectedVessel),
             $filename
         );
     }

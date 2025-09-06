@@ -27,12 +27,23 @@ class OnBoardCrew extends Component
     public $selectedOnBoard = [];
     public $selectedCrewChange = [];
     public $selectAll = false;
-
     public string $viewing = 'on-board'; // Default viewing type
-
     public $dateRange;
-
+    public $selectedVessel = null;
+    public $officerVessels = [];
     protected $paginationTheme = 'tailwind';
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -118,6 +129,9 @@ class OnBoardCrew extends Component
         return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->viewing === 'crew-change', fn($q) => $q->whereHas('crew_change'))
             ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
             ->when($this->search, function ($query) {
@@ -224,7 +238,7 @@ class OnBoardCrew extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, $this->viewing),
+            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, $this->viewing, $this->selectedVessel),
             $filename
         );
     }

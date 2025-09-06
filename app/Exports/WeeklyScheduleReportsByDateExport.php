@@ -11,11 +11,13 @@ class WeeklyScheduleReportsByDateExport implements FromView
 {
     protected $startDate;
     protected $endDate;
+    protected $selectedVessel;
 
-    public function __construct($startDate, $endDate)
+    public function __construct($startDate, $endDate, $selectedVessel = null)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->selectedVessel = $selectedVessel;
     }
 
     public function view(): View
@@ -25,6 +27,10 @@ class WeeklyScheduleReportsByDateExport implements FromView
         $query = Voyage::with(['vessel', 'unit', 'ports.agents', 'master_info'])
             ->where('report_type', 'Weekly Schedule')
             ->whereIn('vessel_id', $assignedVesselIds);
+
+        if ($this->selectedVessel) {
+            $query->where('vessel_id', $this->selectedVessel);
+        }
 
         if ($this->startDate && $this->endDate) {
             $query->whereBetween('created_at', [$this->startDate, $this->endDate]);

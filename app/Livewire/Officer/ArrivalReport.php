@@ -27,8 +27,21 @@ class ArrivalReport extends Component
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
+    public $selectedVessel = null;
+    public $officerVessels = [];
     public $dateRange;
+
+    public function mount()
+    {
+        $this->officerVessels = Auth::user()
+            ->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
+
+        if (count($this->officerVessels) === 1) {
+            $this->selectedVessel = array_key_first($this->officerVessels);
+        }
+    }
 
     public function updatingPerPage()
     {
@@ -64,6 +77,9 @@ class ArrivalReport extends Component
         return Voyage::with(['vessel', 'unit', 'remarks', 'master_info', 'noon_report'])
             ->where('report_type', 'Arrival Report')
             ->whereIn('vessel_id', $assignedVesselIds)
+            ->when($this->selectedVessel, function ($query) {
+                $query->where('vessel_id', $this->selectedVessel);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -163,7 +179,7 @@ class ArrivalReport extends Component
         $this->dateRange = null;
 
         return Excel::download(
-            new ArrivalReportsByDateExport($startDate, $endDate),
+            new ArrivalReportsByDateExport($startDate, $endDate, $this->selectedVessel),
             $filename
         );
     }
