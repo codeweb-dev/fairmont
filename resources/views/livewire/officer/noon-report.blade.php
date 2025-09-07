@@ -7,6 +7,16 @@
                 <div class="max-w-64">
                     <flux:input wire:model.live="search" placeholder="Search by keyword" icon="magnifying-glass" />
                 </div>
+                @if (count($officerVessels) > 1)
+                    <div class="max-w-64">
+                        <flux:select wire:model.live="selectedVessel" placeholder="Filter by Vessel">
+                            <flux:select.option value="">All Vessels</flux:select.option>
+                            @foreach ($officerVessels as $id => $name)
+                                <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+                            @endforeach
+                        </flux:select>
+                    </div>
+                @endif
                 <div class="max-w-18">
                     <flux:select wire:model.live="perPage" placeholder="Rows per page">
                         @foreach ($pages as $page)
