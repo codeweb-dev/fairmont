@@ -42,11 +42,14 @@ class TotalReport extends Component
     public function render()
     {
         $user = Auth::user();
-        $assignedVesselIds = $user->vessels()->pluck('vessels.id');
+
+        $officerVessels = $user->vessels()
+            ->pluck('vessels.name', 'vessels.id')
+            ->toArray();
 
         $reports = Voyage::query()
             ->with(['vessel', 'unit', 'robs'])
-            ->whereIn('vessel_id', $assignedVesselIds)
+            ->whereIn('vessel_id', array_keys($officerVessels))
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('voyage_no', 'like', '%' . $this->search . '%')
@@ -63,8 +66,9 @@ class TotalReport extends Component
             ->paginate($this->perPage);
 
         return view('livewire.officer.total-report', [
-            'reports' => $reports,
-            'pages'   => $this->pages,
+            'reports'        => $reports,
+            'pages'          => $this->pages,
+            'officerVessels' => $officerVessels,
         ]);
     }
 }
