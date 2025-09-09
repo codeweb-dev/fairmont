@@ -120,109 +120,9 @@
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                </td>
                 <td class="px-3 py-4">
-                    <flux:dropdown>
-                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
-
-                        <flux:menu>
-                            <flux:menu.radio.group>
-                                <flux:modal.trigger name="view-report-{{ $report->id }}">
-                                    <flux:menu.item icon="eye">
-                                        View Details
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
-                            </flux:menu.radio.group>
-                        </flux:menu>
-                    </flux:dropdown>
-
-                    <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[38rem]">
-                        <div class="space-y-6">
-                            <flux:heading size="lg">Report Details</flux:heading>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <flux:label>Vessel Name</flux:label>
-                                    <p class="text-sm">{{ $report->vessel->name }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Voyage No</flux:label>
-                                    <p class="text-sm">{{ $report->voyage_no }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>All Fast Date/Time (LT)</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>GMT Offset</flux:label>
-                                    <p class="text-sm">{{ $report->gmt_offset }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Port</flux:label>
-                                    <p class="text-sm">{{ $report->port }}</p>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <div>
-                                <flux:label>ROB Entries</flux:label>
-                                <div class="overflow-x-auto mt-3">
-                                    <table
-                                        class="min-w-full text-sm border-collapse border border-zinc-200 dark:border-zinc-700">
-                                        <thead>
-                                            <tr>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">HSFO</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">BIO</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">VLSFO</th>
-                                                <th class="p-2 border border-zinc-200 dark:border-zinc-700">LSMGO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-zinc-100 dark:divide-white/5">
-                                            @foreach ($report->robs as $rob)
-                                                <tr>
-                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
-                                                        {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}
-                                                    </td>
-                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
-                                                        {{ $rob->biofuel !== null ? rtrim(rtrim(number_format((float) $rob->biofuel, 3, '.', ''), '0'), '.') : '' }}
-                                                    </td>
-                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
-                                                        {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
-                                                    </td>
-                                                    <td class="p-2 border border-zinc-200 dark:border-zinc-700">
-                                                        {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <div>
-                                <flux:label size="sm">Remarks</flux:label>
-                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
-                            </div>
-
-                            <flux:separator />
-
-                            <div>
-                                <flux:label>Master Information</flux:label>
-                                <p class="text-sm whitespace-pre-line">
-                                    {{ $report->master_info ? $report->master_info->master_info : '' }}</p>
-                            </div>
-
-                            <div class="flex justify-end">
-                                <flux:modal.close>
-                                    <flux:button variant="primary">Close</flux:button>
-                                </flux:modal.close>
-                            </div>
-                        </div>
-                    </flux:modal>
+                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
+                        Details</flux:button>
                 </td>
             </tr>
         @endforeach
@@ -231,4 +131,92 @@
     <div class="mt-6">
         {{ $reports->links() }}
     </div>
+
+    <!-- Single Modal Outside the Loop -->
+    @if ($showModal && $selectedReport)
+        <flux:modal name="report-details-modal" class="min-w-[28rem] md:w-[38rem]" wire:model="showModal">
+            <div class="space-y-6">
+                <flux:heading size="lg">Report Details</flux:heading>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <flux:label>Vessel Name</flux:label>
+                        <p class="text-sm">{{ $selectedReport->vessel->name }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Voyage No</flux:label>
+                        <p class="text-sm">{{ $selectedReport->voyage_no }}</p>
+                    </div>
+                    <div>
+                        <flux:label>All Fast Date/Time (LT)</flux:label>
+                        <p class="text-sm">
+                            {{ \Carbon\Carbon::parse($selectedReport->all_fast_datetime)->format('M d, Y h:i A') }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>GMT Offset</flux:label>
+                        <p class="text-sm">{{ $selectedReport->gmt_offset }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Port</flux:label>
+                        <p class="text-sm">{{ $selectedReport->port }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <div>
+                    <flux:label>ROB Entries</flux:label>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="min-w-full text-sm border-collapse border border-zinc-200 dark:border-zinc-700">
+                            <thead>
+                                <tr>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">HSFO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">BIO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">VLSFO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">LSMGO</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-100 dark:divide-white/5">
+                                @foreach ($selectedReport->robs as $rob)
+                                    <tr>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->hsfo !== null ? rtrim(rtrim(number_format((float) $rob->hsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->biofuel !== null ? rtrim(rtrim(number_format((float) $rob->biofuel, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <div>
+                    <flux:label size="sm">Remarks</flux:label>
+                    <p class="text-sm">{{ $selectedReport->remarks ? $selectedReport->remarks->remarks : '' }}</p>
+                </div>
+
+                <flux:separator />
+
+                <div>
+                    <flux:label>Master Information</flux:label>
+                    <p class="text-sm whitespace-pre-line">
+                        {{ $selectedReport->master_info ? $selectedReport->master_info->master_info : '' }}</p>
+                </div>
+
+                <div class="flex justify-end">
+                    <flux:button variant="primary" wire:click="closeReportModal">Close</flux:button>
+                </div>
+            </div>
+        </flux:modal>
+    @endif
 </div>

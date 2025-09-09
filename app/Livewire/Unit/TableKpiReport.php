@@ -3,7 +3,6 @@
 namespace App\Livewire\Unit;
 
 use App\Exports\KpiReportsByDateExport;
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -18,7 +17,7 @@ use ZipArchive;
 #[Title('KPI Report')]
 class TableKpiReport extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
     protected $paginationTheme = 'tailwind';
     public $search = '';
     public $perPage = 10;
@@ -27,6 +26,46 @@ class TableKpiReport extends Component
     public $selectAll = false;
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with([
+            'vessel',
+            'unit',
+            'waste',
+            'remarks',
+            'master_info',
+        ])
+            ->find($this->selectedReportId);
+    }
 
     public function updatingPerPage()
     {
@@ -271,6 +310,7 @@ class TableKpiReport extends Component
         return view('livewire.unit.table-kpi-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

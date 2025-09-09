@@ -3,7 +3,6 @@
 namespace App\Livewire\Unit;
 
 use App\Exports\BunkeringReportsByDateExport;
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -18,7 +17,7 @@ use ZipArchive;
 #[Title('Bunkering Report')]
 class TableBunkeringReport extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
     protected $paginationTheme = 'tailwind';
 
     public $search = '';
@@ -28,6 +27,40 @@ class TableBunkeringReport extends Component
     public $selectAll = false;
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
+            ->find($this->selectedReportId);
+    }
 
     public function updatingPerPage()
     {
@@ -256,6 +289,7 @@ class TableBunkeringReport extends Component
         return view('livewire.unit.table-bunkering-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

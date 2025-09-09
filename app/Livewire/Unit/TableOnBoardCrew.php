@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Unit;
 
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 #[Title('Crew Monitoring Plan Report On Board Crew')]
 class TableOnBoardCrew extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     public $search = '';
     public $perPage = 10;
@@ -31,6 +30,40 @@ class TableOnBoardCrew extends Component
     public string $viewing = 'on-board'; // Default viewing type
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
+            ->find($this->selectedReportId);
+    }
 
     protected $paginationTheme = 'tailwind';
 
@@ -348,6 +381,7 @@ class TableOnBoardCrew extends Component
             'reports' => $reports,
             'pages' => $this->pages,
             'viewing' => $this->viewing,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

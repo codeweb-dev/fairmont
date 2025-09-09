@@ -137,196 +137,14 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
-                    <flux:dropdown>
-                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
-
-                        <flux:menu>
-                            <flux:menu.radio.group>
-                                @if ($report->board_crew->isNotEmpty())
-                                    <flux:modal.trigger name="view-onboard-{{ $report->id }}">
-                                        <flux:menu.item icon="eye">
-                                            View Details
-                                        </flux:menu.item>
-                                    </flux:modal.trigger>
-                                @elseif ($report->crew_change->isNotEmpty())
-                                    <flux:modal.trigger name="view-crewchange-{{ $report->id }}">
-                                        <flux:menu.item icon="eye">
-                                            View Details
-                                        </flux:menu.item>
-                                    </flux:modal.trigger>
-                                @endif
-                            </flux:menu.radio.group>
-                        </flux:menu>
-                    </flux:dropdown>
-
                     @if ($report->board_crew->isNotEmpty())
-                        <flux:modal name="view-onboard-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
-                            <div class="space-y-6">
-                                <flux:heading size="lg">On Board Crew</flux:heading>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <flux:label>Vessel Name</flux:label>
-                                        <p class="text-sm">{{ $report->vessel->name }}</p>
-                                    </div>
-                                </div>
-
-                                <flux:separator />
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    @foreach ($report->board_crew as $i => $crew)
-                                        <div class="col-span-2">
-                                            <flux:heading size="lg">Board Crew {{ $i + 1 }}</flux:heading>
-                                        </div>
-                                        <div>
-                                            <flux:label>No</flux:label>
-                                            <p class="text-sm">{{ $crew->no }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Crew Surname</flux:label>
-                                            <p class="text-sm">{{ $crew->crew_surname }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Crew First Name</flux:label>
-                                            <p class="text-sm">{{ $crew->crew_first_name }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Rank</flux:label>
-                                            <p class="text-sm">{{ $crew->rank }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Crew Nationality</flux:label>
-                                            <p class="text-sm">{{ $crew->crew_nationality }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Joining Date</flux:label>
-                                            <p class="text-sm">
-                                                {{ $crew->joining_date ? \Carbon\Carbon::parse($crew->joining_date)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Contract Completion</flux:label>
-                                            <p class="text-sm">
-                                                {{ $crew->contract_completion ? \Carbon\Carbon::parse($crew->contract_completion)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Current Date</flux:label>
-                                            <p class="text-sm">
-                                                {{ $crew->current_date ? \Carbon\Carbon::parse($crew->current_date)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Days to Completion</flux:label>
-                                            <p class="text-sm">{{ $crew->days_contract_completion }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Months On Board</flux:label>
-                                            <p class="text-sm">{{ $crew->months_on_board }}</p>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <flux:separator />
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <div>
-                                    <flux:label size="sm">Remarks</flux:label>
-                                    <p class="text-sm">{{ $report->remarks?->remarks }}</p>
-                                </div>
-                                <flux:separator />
-                                <div>
-                                    <flux:label>Master Information</flux:label>
-                                    <p class="text-sm">{{ $report->master_info?->master_info }}</p>
-                                </div>
-
-                                <div class="flex justify-end pt-4">
-                                    <flux:modal.close>
-                                        <flux:button variant="primary">Close</flux:button>
-                                    </flux:modal.close>
-                                </div>
-                            </div>
-                        </flux:modal>
-                    @endif
-
-                    @if ($report->crew_change->isNotEmpty())
-                        <flux:modal name="view-crewchange-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
-                            <div class="space-y-6">
-                                <flux:heading size="lg">Crew Change</flux:heading>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    @foreach ($report->crew_change as $i => $crew)
-                                        <div class="col-span-2">
-                                            <flux:heading size="lg">Crew Change {{ $i + 1 }}
-                                            </flux:heading>
-                                        </div>
-                                        <div>
-                                            <flux:label>Vessel Name</flux:label>
-                                            <p class="text-sm">{{ $crew->vessel_name }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Port</flux:label>
-                                            <p class="text-sm">{{ $crew->port }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Country</flux:label>
-                                            <p class="text-sm">{{ $crew->country }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Date of Joiners Boarding</flux:label>
-                                            <p class="text-sm">
-                                                {{ $crew->joiners_boarding ? \Carbon\Carbon::parse($crew->joiners_boarding)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Date of Off-signers Sign Off</flux:label>
-                                            <p class="text-sm">
-                                                {{ $crew->off_signers ? \Carbon\Carbon::parse($crew->off_signers)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Joiners Ranks</flux:label>
-                                            <p class="text-sm">{{ $crew->joiner_ranks }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Off-Signers Ranks</flux:label>
-                                            <p class="text-sm">{{ $crew->off_signers_ranks }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Total Crew Change</flux:label>
-                                            <p class="text-sm">{{ $crew->total_crew_change }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Reason for Change</flux:label>
-                                            <p class="text-sm">{{ $crew->reason_change }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Remarks</flux:label>
-                                            <p class="text-sm">{{ $crew->remarks }}</p>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <flux:separator />
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <div>
-                                    <flux:label size="sm">Remarks</flux:label>
-                                    <p class="text-sm">{{ $report->remarks?->remarks }}</p>
-                                </div>
-                                <flux:separator />
-                                <div>
-                                    <flux:label>Master Information</flux:label>
-                                    <p class="text-sm">{{ $report->master_info?->master_info }}</p>
-                                </div>
-
-                                <div class="flex justify-end pt-4">
-                                    <flux:modal.close>
-                                        <flux:button variant="primary">Close</flux:button>
-                                    </flux:modal.close>
-                                </div>
-                            </div>
-                        </flux:modal>
+                        <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
+                            View
+                            Details</flux:button>
+                    @elseif ($report->crew_change->isNotEmpty())
+                        <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
+                            View
+                            Details</flux:button>
                     @endif
                 </td>
             </tr>
@@ -336,4 +154,434 @@
     <div class="mt-6">
         {{ $reports->links() }}
     </div>
+
+    @if ($showModal && $selectedReport)
+        <flux:modal name="report-details-modal" class="max-w-6xl" wire:model="showModal">
+            <div class="space-y-6">
+                <flux:heading>KPI Report Details</flux:heading>
+
+                <!-- Bunkering -->
+                <flux:heading class="font-bold">Vessel Information</flux:heading>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <flux:label>Vessel Name</flux:label>
+                        <p class="text-sm">{{ $selectedReport->vessel->name ?? '' }}</p>
+                    </div>
+
+                    <div>
+                        <flux:label>Fleet</flux:label>
+                        <p class="text-sm">{{ $selectedReport->port ?? '' }}</p>
+                    </div>
+
+                    <div>
+                        <flux:label>Vessel Type</flux:label>
+                        <p class="text-sm">{{ $selectedReport->gmt_offset ?? '' }}</p>
+                    </div>
+
+                    <div>
+                        <flux:label>Reporting Period</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->all_fast_datetime ? \Carbon\Carbon::parse($selectedReport->all_fast_datetime)->format('M d, Y h:i A') : '' }}
+                        </p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- Waste Management -->
+                @if ($selectedReport->waste)
+                    <!-- Waste Management -->
+                    <flux:heading>Waste Management</flux:heading>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            <flux:heading>Plastics</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->plastics_landed_ashore ?? '' }}</p>
+                        </div>
+
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->plastics_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Food Waste</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Disposed at Sea (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->food_disposed_sea ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->food_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (In m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->food_total_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Domestic Waste</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->domestic_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->domestic_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Cooking Oil</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->cooking_oil_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->cooking_oil_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Incinerator Ash</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->incinerator_ash_landed_ashore ?? '' }}
+                            </p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->incinerator_ash_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Operational Waste</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->operational_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->operational_incinerated ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>E-Waste</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ewaste_landed_ashore ?? '' }}</p>
+                        </div>
+
+                        <div>
+                            <flux:label>Total Incinerated In (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ewaste_landed_total_incinerated ?? '' }}
+                            </p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Cargo Residues</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->cargo_residues_landed_ashore ?? '' }}
+                            </p>
+                        </div>
+                        <div>
+                            <flux:label>Total Disposed at Sea (In m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->cargo_residues_disposed_at_sea ?? '' }}
+                            </p>
+                        </div>
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Total Garbage</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Disposed at Sea (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->total_garbage_disposed_sea ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Garbage Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->total_garbage_landed_ashore ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Sludge & Bunker</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Landed Ashore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->sludge_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Incinerated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->sludge_incinerated ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Quantity of Sludge Generated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->sludge_generated ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Fuel Consumed (MT)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->fuel_consumed ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Ratio of Sludge Generated to Bunkers Consumed</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->sludge_bunker_ratio ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Remarks (if target exceeded)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->sludge_remarks }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Bilge Water</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Bilge Water Discharged Through OWS (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->bilge_discharged_ows ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Bilge Water Landed to Shore (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->bilge_landed_ashore ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Bilge Water Generated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->bilge_generated ?? '' }}</p>
+                        </div>
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Consumption</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Paper Consumption (reams)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->paper_consumption ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Printer Cartridges (units)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->printer_cartridges ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Remarks (if target exceeded)</flux:label>
+                            <p class="text-sm">
+                                {{ $selectedReport->waste->consumption_remarks }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Fresh Water</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Fresh Water Generated (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->fresh_water_generated ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Fresh Water Consumed (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->fresh_water_consumed ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Ballast Water</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Number of Ballast Water Exchanges Performed</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ballast_exchanges ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Number of Ballast Operations</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ballast_operations ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Number of De-Ballast Operations</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->deballast_operations ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Water Intake During Ballasting (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ballast_intake ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Water Out During De-Ballasting (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ballast_out ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Ballast Water Exchange Amount (m3)</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->ballast_exchange_amount ?? '' }}</p>
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:separator class="my-3" />
+                        </div>
+
+                        <div class="col-span-2">
+                            <flux:heading>Hull Management</flux:heading>
+                        </div>
+                        <div>
+                            <flux:label>Total Number of Propeller Cleanings</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->propeller_cleanings ?? '' }}</p>
+                        </div>
+                        <div>
+                            <flux:label>Total Number of Hull Cleanings</flux:label>
+                            <p class="text-sm">{{ $selectedReport->waste->hull_cleanings ?? '' }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                <flux:separator />
+
+                <flux:heading>Sailing Days</flux:heading>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <flux:label>Total</flux:label>
+                        <p class="text-sm">{{ $selectedReport->call_sign ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Eco Speed</flux:label>
+                        <p class="text-sm">{{ $selectedReport->flag ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Full Speed</flux:label>
+                        <p class="text-sm">{{ $selectedReport->port_of_registry ?? '' }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <flux:heading>Crew Matter</flux:heading>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <flux:label>No. of Fatalities</flux:label>
+                        <p class="text-sm">{{ $selectedReport->official_number ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>LTI (Lost Time Injuries)</flux:label>
+                        <p class="text-sm">{{ $selectedReport->imo_number ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>No. of Recordable Injuries</flux:label>
+                        <p class="text-sm">{{ $selectedReport->class_society ?? '' }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <flux:heading>Corruption</flux:heading>
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <flux:label>No. of Corruption/Bribery/Entertainment for Port Officials</flux:label>
+                        <p class="text-sm">{{ $selectedReport->class_no ?? '' }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <flux:heading>Inspection</flux:heading>
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <flux:label>Number of PSC Inspections</flux:label>
+                        <p class="text-sm">{{ $selectedReport->pi_club ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>PSC No. of Deficiencies</flux:label>
+                        <p class="text-sm">{{ $selectedReport->loa ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>PSC Detentions (if any)</flux:label>
+                        <p class="text-sm">{{ $selectedReport->lbp ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Number of Flag State Inspections</flux:label>
+                        <p class="text-sm">{{ $selectedReport->breadth_extreme ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Flag No. of Deficiencies</flux:label>
+                        <p class="text-sm">{{ $selectedReport->depth_moulded ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Third Party Inspections (Charterers, Owners, RISQ, Others)</flux:label>
+                        <p class="text-sm">{{ $selectedReport->height_maximum ?? '' }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Third Party No. of Deficiencies</flux:label>
+                        <p class="text-sm">{{ $selectedReport->bridge_front_bow ?? '' }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- Remarks -->
+                @if ($selectedReport->remarks)
+                    <flux:heading size="sm">Overall Remarks</flux:heading>
+                    <p class="text-sm">{{ $selectedReport->remarks->remarks }}</p>
+                @endif
+
+                <flux:separator />
+
+                <!-- Master Information -->
+                @if ($selectedReport->master_info)
+                    <flux:heading size="sm">Master Information</flux:heading>
+                    <p class="text-sm">{{ $selectedReport->master_info->master_info }}</p>
+                @endif
+
+                <div class="flex justify-end pt-4">
+                    <flux:modal.close>
+                        <flux:button variant="primary">Close</flux:button>
+                    </flux:modal.close>
+                </div>
+            </div>
+        </flux:modal>
+    @endif
 </div>

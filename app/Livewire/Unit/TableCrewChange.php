@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Unit;
 
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 #[Title('Crew Monitoring Plan Report Crew Change')]
 class TableCrewChange extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     public $search = '';
     public $perPage = 10;
@@ -31,6 +30,40 @@ class TableCrewChange extends Component
     public string $viewing = 'crew-change';
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])
+            ->find($this->selectedReportId);
+    }
 
     protected $paginationTheme = 'tailwind';
 
@@ -348,6 +381,7 @@ class TableCrewChange extends Component
             'reports' => $reports,
             'pages' => $this->pages,
             'viewing' => $this->viewing,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

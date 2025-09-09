@@ -3,7 +3,6 @@
 namespace App\Livewire\Unit;
 
 use App\Exports\ArrivalReportsByDateExport;
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -18,7 +17,7 @@ use ZipArchive;
 #[Title('Arrival Report')]
 class TableArrivalReport extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     protected $paginationTheme = 'tailwind';
 
@@ -29,6 +28,46 @@ class TableArrivalReport extends Component
     public $selectAll = false;
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data - Fixed to include rob_fuel_reports
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with([
+            'vessel',
+            'unit',
+            'remarks',
+            'master_info',
+            'noon_report',
+            'rob_fuel_reports' // Add this relationship
+        ])->find($this->selectedReportId);
+    }
 
     public function updatingPerPage()
     {
@@ -184,8 +223,6 @@ class TableArrivalReport extends Component
                 return;
             }
 
-            // $filename = 'arrival_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
-
             $filename = 'arrival_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
@@ -259,6 +296,7 @@ class TableArrivalReport extends Component
         return view('livewire.unit.table-arrival-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

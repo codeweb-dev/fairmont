@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Unit;
 
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -18,7 +17,7 @@ use ZipArchive;
 #[Title('Port Of Call Report')]
 class TablePortOfCallReport extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     public $search = '';
     public $perPage = 10;
@@ -27,6 +26,40 @@ class TablePortOfCallReport extends Component
     public $selectAll = false;
 
     public $dateRange;
+
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations', 'waste'])
+            ->find($this->selectedReportId);
+    }
 
     protected $paginationTheme = 'tailwind';
 
@@ -255,6 +288,7 @@ class TablePortOfCallReport extends Component
         return view('livewire.unit.table-port-of-call-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

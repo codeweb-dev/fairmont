@@ -122,126 +122,116 @@
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
                 <td class="px-3 py-4">
-                    <flux:dropdown>
-                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
-
-                        <flux:menu>
-                            <flux:menu.radio.group>
-                                <flux:modal.trigger name="view-schedule-{{ $report->id }}">
-                                    <flux:menu.item icon="eye">
-                                        View Details
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
-                            </flux:menu.radio.group>
-                        </flux:menu>
-                    </flux:dropdown>
-
-                    <flux:modal name="view-schedule-{{ $report->id }}" class="w-full max-w-6xl">
-                        <div class="space-y-6">
-                            <flux:heading size="lg">Weekly Schedule Report Details</flux:heading>
-
-                            <div class="grid grid-cols-3 gap-4">
-                                <div>
-                                    <flux:label>Vessel Name</flux:label>
-                                    <p class="text-sm">{{ $report->vessel->name }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Voyage No</flux:label>
-                                    <p class="text-sm">{{ $report->voyage_no }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Date</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            @foreach ($report->ports as $pIndex => $port)
-                                <div>
-                                    <flux:separator class="my-4" />
-                                    <flux:heading size="sm">Port {{ $pIndex + 1 }} - {{ $port->port }}
-                                    </flux:heading>
-
-                                    <div class="grid grid-cols-3 gap-4 mt-2">
-                                        <div>
-                                            <flux:label>Activity</flux:label>
-                                            <p class="text-sm">{{ $port->activity }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>ETA/ETB</flux:label>
-                                            <p class="text-sm">
-                                                {{ $port->eta_etb ? \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>ETCD</flux:label>
-                                            <p class="text-sm">
-                                                {{ $port->etcd ? \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') : '' }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Cargo</flux:label>
-                                            <p class="text-sm">{{ $port->cargo }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Cargo Qty</flux:label>
-                                            <p class="text-sm">{{ $port->cargo_qty }}</p>
-                                        </div>
-                                        <div>
-                                            <flux:label>Remarks</flux:label>
-                                            <p class="text-sm">{{ $port->remarks }}</p>
-                                        </div>
-                                    </div>
-
-                                    @if ($port->agents->isNotEmpty())
-                                        <div class="pt-4">
-                                            <flux:heading size="xs">Agent(s)</flux:heading>
-                                            <div class="grid grid-cols-3 gap-3">
-                                                @foreach ($port->agents as $agent)
-                                                    <div
-                                                        class="border dark:border-zinc-700 border-zinc-300 p-3 rounded-md">
-                                                        <p><strong>Name:</strong> {{ $agent->name }}</p>
-                                                        <p><strong>Address:</strong> {{ $agent->address }}</p>
-                                                        <p><strong>PIC:</strong> {{ $agent->pic_name }}</p>
-                                                        <p><strong>Phone:</strong> {{ $agent->telephone }}</p>
-                                                        <p><strong>Mobile:</strong> {{ $agent->mobile }}</p>
-                                                        <p><strong>Email:</strong> {{ $agent->email }}</p>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-
-                            <flux:separator />
-
-                            <div>
-                                <flux:label size="sm">Remarks</flux:label>
-                                <p class="text-sm">{{ $report->remarks ? $report->remarks->remarks : '' }}</p>
-                            </div>
-
-                            <flux:separator />
-
-                            @if ($report->master_info)
-                                <div>
-                                    <flux:label>Master Information</flux:label>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
-
-                            <div class="flex justify-end pt-6">
-                                <flux:modal.close>
-                                    <flux:button variant="primary">Close</flux:button>
-                                </flux:modal.close>
-                            </div>
-                        </div>
-                    </flux:modal>
+                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
+                        Details</flux:button>
                 </td>
             </tr>
         @endforeach
     </x-admin-components.table>
 
     <div class="mt-6">{{ $reports->links() }}</div>
+
+    @if ($showModal && $selectedReport)
+        <flux:modal name="report-details-modal" class="w-full max-w-6xl" wire:model="showModal">
+            <div class="space-y-6">
+                <flux:heading size="lg">Weekly Schedule Report Details</flux:heading>
+
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <flux:label>Vessel Name</flux:label>
+                        <p class="text-sm">{{ $selectedReport->vessel->name }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Voyage No</flux:label>
+                        <p class="text-sm">{{ $selectedReport->voyage_no }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Date</flux:label>
+                        <p class="text-sm">
+                            {{ \Carbon\Carbon::parse($selectedReport->all_fast_datetime)->format('M d, Y h:i A') }}
+                        </p>
+                    </div>
+                </div>
+
+                @foreach ($selectedReport->ports as $pIndex => $port)
+                    <div>
+                        <flux:separator class="my-4" />
+                        <flux:heading size="sm">Port {{ $pIndex + 1 }} - {{ $port->port }}
+                        </flux:heading>
+
+                        <div class="grid grid-cols-3 gap-4 mt-2">
+                            <div>
+                                <flux:label>Activity</flux:label>
+                                <p class="text-sm">{{ $port->activity }}</p>
+                            </div>
+                            <div>
+                                <flux:label>ETA/ETB</flux:label>
+                                <p class="text-sm">
+                                    {{ $port->eta_etb ? \Carbon\Carbon::parse($port->eta_etb)->format('M d, Y h:i A') : '' }}
+                                </p>
+                            </div>
+                            <div>
+                                <flux:label>ETCD</flux:label>
+                                <p class="text-sm">
+                                    {{ $port->etcd ? \Carbon\Carbon::parse($port->etcd)->format('M d, Y h:i A') : '' }}
+                                </p>
+                            </div>
+                            <div>
+                                <flux:label>Cargo</flux:label>
+                                <p class="text-sm">{{ $port->cargo }}</p>
+                            </div>
+                            <div>
+                                <flux:label>Cargo Qty</flux:label>
+                                <p class="text-sm">{{ $port->cargo_qty }}</p>
+                            </div>
+                            <div>
+                                <flux:label>Remarks</flux:label>
+                                <p class="text-sm">{{ $port->remarks }}</p>
+                            </div>
+                        </div>
+
+                        @if ($port->agents->isNotEmpty())
+                            <div class="pt-4">
+                                <flux:heading size="xs">Agent(s)</flux:heading>
+                                <div class="grid grid-cols-3 gap-3">
+                                    @foreach ($port->agents as $agent)
+                                        <div class="border dark:border-zinc-700 border-zinc-300 p-3 rounded-md">
+                                            <p><strong>Name:</strong> {{ $agent->name }}</p>
+                                            <p><strong>Address:</strong> {{ $agent->address }}</p>
+                                            <p><strong>PIC:</strong> {{ $agent->pic_name }}</p>
+                                            <p><strong>Phone:</strong> {{ $agent->telephone }}</p>
+                                            <p><strong>Mobile:</strong> {{ $agent->mobile }}</p>
+                                            <p><strong>Email:</strong> {{ $agent->email }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+
+                <flux:separator />
+
+                <div>
+                    <flux:label size="sm">Remarks</flux:label>
+                    <p class="text-sm">{{ $selectedReport->remarks ? $selectedReport->remarks->remarks : '' }}</p>
+                </div>
+
+                <flux:separator />
+
+                @if ($selectedReport->master_info)
+                    <div>
+                        <flux:label>Master Information</flux:label>
+                        <p class="text-sm whitespace-pre-line">{{ $selectedReport->master_info->master_info }}</p>
+                    </div>
+                @endif
+
+                <div class="flex justify-end pt-6">
+                    <flux:modal.close>
+                        <flux:button variant="primary">Close</flux:button>
+                    </flux:modal.close>
+                </div>
+            </div>
+        </flux:modal>
+    @endif
 </div>

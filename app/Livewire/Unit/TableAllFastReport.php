@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Livewire\Unit;
 
 use App\Exports\AllFastReportsByDateExport;
-use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
@@ -18,17 +16,26 @@ use ZipArchive;
 #[Title('All Fast Report')]
 class TableAllFastReport extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
     public $dateRange;
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
     protected $paginationTheme = 'tailwind';
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
 
     public function updatingPerPage()
     {
@@ -57,6 +64,30 @@ class TableAllFastReport extends Component
         $this->selectAll = count($this->selectedReports) === $totalReports;
     }
 
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'robs', 'remarks', 'master_info'])
+            ->find($this->selectedReportId);
+    }
+
     private function getReportsQuery()
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
@@ -77,16 +108,13 @@ class TableAllFastReport extends Component
             })
             ->when($this->dateRange, function ($query) {
                 $dates = explode(' to ', $this->dateRange);
-
                 if (count($dates) === 2) {
                     [$start, $end] = $dates;
-
                     return $query->whereBetween('created_at', [
                         \Carbon\Carbon::parse($start)->startOfDay(),
                         \Carbon\Carbon::parse($end)->endOfDay(),
                     ]);
                 }
-
                 return $query;
             })
             ->latest();
@@ -95,12 +123,10 @@ class TableAllFastReport extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset selection and page
             $this->selectedReports = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // When set, auto-select filtered reports
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
@@ -137,13 +163,13 @@ class TableAllFastReport extends Component
         }
 
         $reportCount = $reportQuery->count();
+
         if ($reportCount === 0) {
             Toaster::error('No reports found for the selected date range.');
             return;
         }
 
         $firstReport = $reportQuery->with('vessel')->first();
-
         $reportType = 'all_fast_report';
         $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
 
@@ -183,7 +209,6 @@ class TableAllFastReport extends Component
                 return;
             }
 
-            // $filename = 'all_fast_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
             $filename = 'all_fast_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
@@ -205,7 +230,6 @@ class TableAllFastReport extends Component
         }
 
         $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
-
         $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name);
         $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
         $zipFileName = 'all_fast_report_' . $vesselName . '_' . $reportDate . '.zip';
@@ -220,13 +244,11 @@ class TableAllFastReport extends Component
         $filenameCounts = [];
         foreach ($this->selectedReports as $reportId) {
             $report = Voyage::with(['vessel', 'unit', 'robs'])->find($reportId);
-
             if ($report) {
                 $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name);
                 $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
                 $baseFilename = 'all_fast_report_' . $vesselName . '_' . $reportDate;
 
-                // Check if filename already used, then increment
                 if (!isset($filenameCounts[$baseFilename])) {
                     $filenameCounts[$baseFilename] = 1;
                 } else {
@@ -242,6 +264,7 @@ class TableAllFastReport extends Component
         }
 
         $zip->close();
+
         Toaster::success('Reports exported successfully.');
         $this->selectedReports = [];
         $this->selectAll = false;
@@ -257,6 +280,7 @@ class TableAllFastReport extends Component
         return view('livewire.unit.table-all-fast-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(), // Pass selected report to view
         ]);
     }
 }
