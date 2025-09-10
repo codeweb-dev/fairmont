@@ -188,7 +188,103 @@ class DepartureReport extends Component
                 'ae_cc_cons' => '',
             ]
         ],
+        'LSFO' => [
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'ULSFO' => [
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'VLSMGO' => [
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
         'LSMGO' => [
+            'summary' => [
+                'previous' => '',
+                'current' => '',
+                'me_propulsion' => '',
+                'ae_cons' => '',
+                'boiler_cons' => '',
+                'incinerators' => '',
+                'me_24' => '',
+                'ae_24' => '',
+                'total_cons' => '',
+                // Lube
+                'me_cyl_grade' => '',
+                'me_cyl_qty' => '',
+                'me_cyl_hrs' => '',
+                'me_cyl_cons' => '',
+                'me_cc_qty' => '',
+                'me_cc_hrs' => '',
+                'me_cc_cons' => '',
+                'ae_cc_qty' => '',
+                'ae_cc_hrs' => '',
+                'ae_cc_cons' => '',
+            ]
+        ],
+        'ULSMGO' => [
             'summary' => [
                 'previous' => '',
                 'current' => '',
