@@ -162,7 +162,7 @@ class VoyageReport extends Component
     public function clearDraft()
     {
         Draft::where('user_id', Auth::id())
-            ->where('type', 'voyage_report')
+            ->where('type', 'voyage')
             ->delete();
     }
 

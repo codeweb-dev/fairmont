@@ -241,7 +241,7 @@ class Kpi extends Component
     public function clearDraft()
     {
         Draft::where('user_id', Auth::id())
-            ->where('type', 'kpi_report')
+            ->where('type', 'kpi')
             ->delete();
     }
 
