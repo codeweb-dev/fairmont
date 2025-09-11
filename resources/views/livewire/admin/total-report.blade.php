@@ -43,7 +43,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="report-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type ?? '' }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '' }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no ?? '' }}</td>
@@ -51,7 +51,6 @@
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') ?? '' }}
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name ?? '' }}</td>
-                </td>
             </tr>
         @endforeach
     </x-admin-components.table>

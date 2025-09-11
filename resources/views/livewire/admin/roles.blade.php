@@ -29,7 +29,7 @@
         </thead>
 
         @foreach ($users as $user)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="user-row-{{ $user->id }}">
                 <td class="px-3 py-4">{{ $user->name }}</td>
                 <td class="px-3 py-4 space-x-1">
                     <flux:badge size="sm" icon="check-badge">
@@ -38,11 +38,11 @@
                 </td>
                 <td class="px-3 py-4">
                     @unless (auth()->id() === $user->id)
-                        <flux:modal.trigger name="edit-user-{{ $user->id }}" wire:click="setEdit({{ $user->id }})">
+                        <flux:modal.trigger name="edit-user-{{ $user->id }}" wire:click="setEdit({{ $user->id }})" wire:key="modal-{{ $user->id }}">
                             <flux:button icon:trailing="plus" size="sm">Add role</flux:button>
                         </flux:modal.trigger>
 
-                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
+                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="edit-modal-{{ $user->id }}">
                             <form wire:submit.prevent="edit">
                                 <div class="space-y-6">
                                     <div>

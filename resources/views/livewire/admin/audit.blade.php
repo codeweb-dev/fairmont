@@ -28,7 +28,7 @@
         </thead>
 
         @foreach ($audits as $audit)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="audit-row-{{ $audit->id }}">
                 <td class="px-3 py-4">{{ $audit->user ?? 'N/A' }}</td>
                 <td class="px-3 py-4">{{ $audit->event }}</td>
                 <td class="px-3 py-4">{{ $audit->created_at->diffForHumans() }}</td>
@@ -37,7 +37,7 @@
                         <flux:button icon="eye" size="sm">View</flux:button>
                     </flux:modal.trigger>
 
-                    <flux:modal name="view-audit-{{ $audit->id }}" class="min-w-[24rem] md:w-[32rem]">
+                    <flux:modal name="view-audit-{{ $audit->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="view-audit-modal-{{ $audit->id }}">
                         <div class="space-y-4">
                             <flux:heading size="lg">Audit Details</flux:heading>
 

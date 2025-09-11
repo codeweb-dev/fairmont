@@ -42,14 +42,14 @@
             </thead>
 
             @foreach ($items as $user)
-                <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="trash-user-row-{{ $user->id }}">
                     <td class="px-3 py-4">{{ $user->name }}</td>
                     <td class="px-3 py-4">{{ $user->email }}</td>
                     <td class="px-3 py-4">{{ $user->deleted_at }}</td>
 
                     <td class="px-3 py-4">
                         @unless (auth()->id() === $user->id)
-                            <flux:dropdown>
+                            <flux:dropdown wire:key="trash-user-dropdown-{{ $user->id }}">
                                 <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
                                 <flux:menu>
@@ -69,7 +69,7 @@
                                 </flux:menu>
                             </flux:dropdown>
 
-                            <flux:modal name="force-delete-user-{{ $user->id }}" class="min-w-[22rem]">
+                            <flux:modal name="force-delete-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="force-delete-user-modal-{{ $user->id }}">
                                 <div class="space-y-6">
                                     <div>
                                         <flux:heading size="lg">Delete User Permanently?</flux:heading>
@@ -93,7 +93,7 @@
                                 </div>
                             </flux:modal>
 
-                            <flux:modal name="restore-user-{{ $user->id }}" class="min-w-[22rem]">
+                            <flux:modal name="restore-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="restore-user-modal-{{ $user->id }}">
                                 <div class="space-y-6">
                                     <div>
                                         <flux:heading size="lg">Restore User?</flux:heading>
@@ -134,13 +134,13 @@
             </thead>
 
             @foreach ($items as $report)
-                <tr class="hover:bg-white/5 bg-black/5 transition-all">
+                <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="trash-report-row-{{ $report->id }}">
                     <td class="px-3 py-4">{{ $report->report_type }}</td>
                     <td class="px-3 py-4">{{ $report->vessel->name ?? '' }}</td>
                     <td class="px-3 py-4">{{ $report->unit->name ?? '' }}</td>
                     <td class="px-3 py-4">{{ $report->deleted_at }}</td>
                     <td class="px-3 py-4">
-                        <flux:dropdown>
+                        <flux:dropdown wire:key="trash-report-dropdown-{{ $report->id }}">
                             <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
                             <flux:menu>
                                 <flux:menu.radio.group>
@@ -156,7 +156,7 @@
                         </flux:dropdown>
 
                         <!-- Modals for Restore and Force Delete -->
-                        <flux:modal name="restore-report-{{ $report->id }}" class="min-w-[22rem]">
+                        <flux:modal name="restore-report-{{ $report->id }}" class="min-w-[22rem]" wire:key="restore-report-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">Restore</flux:heading>
                                 <flux:text class="mt-2">Restore {{ $report->report_type }}?</flux:text>
@@ -171,7 +171,7 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="force-delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                        <flux:modal name="force-delete-report-{{ $report->id }}" class="min-w-[22rem]" wire:key="force-delete-report-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">Permanently Delete?</flux:heading>
                                 <flux:text class="mt-2">This will permanently delete the report and cannot be undone.

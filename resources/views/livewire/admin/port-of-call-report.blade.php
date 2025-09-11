@@ -43,7 +43,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="port-of-call-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">
@@ -51,7 +51,7 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
-                    <flux:dropdown>
+                    <flux:dropdown wire:key="portofcall-dropdown-{{ $report->id }}">
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
                         <flux:menu>
@@ -61,11 +61,18 @@
                                         View Details
                                     </flux:menu.item>
                                 </flux:modal.trigger>
+
+                                <flux:modal.trigger name="delete-report-{{ $report->id }}">
+                                    <flux:menu.item icon="trash" variant="danger">
+                                        Delete
+                                    </flux:menu.item>
+                                </flux:modal.trigger>
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-portofcall-{{ $report->id }}" class="w-full max-w-6xl">
+                    <flux:modal name="view-portofcall-{{ $report->id }}" class="w-full max-w-6xl"
+                        wire:key="portofcall-view-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <flux:heading size="lg">Port Of Call Details</flux:heading>
 
@@ -238,7 +245,8 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                        wire:key="portofcall-delete-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>

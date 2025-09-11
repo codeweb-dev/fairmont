@@ -44,7 +44,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="allfast-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type ?? '' }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name ?? '' }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no ?? '' }}</td>
@@ -74,7 +74,8 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[38rem]">
+                    <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[38rem]"
+                        wire:key="allfast-view-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <flux:heading size="lg">Report Details</flux:heading>
                             <div class="grid grid-cols-2 gap-4">
@@ -162,12 +163,14 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                        wire:key="allfast-delete-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the All Fast Report? <br> This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the All Fast Report? <br> This report will not be
+                                    permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 

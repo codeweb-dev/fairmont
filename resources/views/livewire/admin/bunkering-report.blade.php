@@ -44,7 +44,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="bunkering-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
@@ -73,7 +73,8 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
+                    <flux:modal name="view-report-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]"
+                        wire:key="bunkering-view-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <flux:heading size="lg">Bunkering Report Details</flux:heading>
 
@@ -125,7 +126,9 @@
 
                                     <div>
                                         <flux:label>HSFO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->hsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->hsfo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
+                                        <p class="text-sm">
+                                            {{ $report->bunker->hsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->hsfo_quantity, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>HSFO Viscosity</flux:label>
@@ -134,7 +137,9 @@
 
                                     <div>
                                         <flux:label>BIOFUEL (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->biofuel_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->biofuel_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
+                                        <p class="text-sm">
+                                            {{ $report->bunker->biofuel_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->biofuel_quantity, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>BIOFUEL Viscosity</flux:label>
@@ -143,7 +148,9 @@
 
                                     <div>
                                         <flux:label>VLSFO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->vlsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->vlsfo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
+                                        <p class="text-sm">
+                                            {{ $report->bunker->vlsfo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->vlsfo_quantity, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>VLSFO Viscosity</flux:label>
@@ -152,7 +159,9 @@
 
                                     <div>
                                         <flux:label>LSMGO (MT)</flux:label>
-                                        <p class="text-sm">{{ $report->bunker->lsmgo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->lsmgo_quantity, 3, '.', ''), '0'), '.') : '' }}</p>
+                                        <p class="text-sm">
+                                            {{ $report->bunker->lsmgo_quantity !== null ? rtrim(rtrim(number_format((float) $report->bunker->lsmgo_quantity, 3, '.', ''), '0'), '.') : '' }}
+                                        </p>
                                     </div>
                                     <div>
                                         <flux:label>LSMGO Viscosity</flux:label>
@@ -250,12 +259,14 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                        wire:key="bunkering-delete-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Bunkering Report? <br> This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Bunkering Report? <br> This report will not be
+                                    permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 
@@ -264,8 +275,7 @@
                                 <flux:modal.close>
                                     <flux:button variant="ghost">Cancel</flux:button>
                                 </flux:modal.close>
-                                <flux:button type="button" variant="danger"
-                                    wire:click="delete({{ $report->id }})">
+                                <flux:button type="button" variant="danger" wire:click="delete({{ $report->id }})">
                                     Move to Trash
                                 </flux:button>
                             </div>

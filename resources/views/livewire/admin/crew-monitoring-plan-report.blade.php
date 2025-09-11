@@ -54,7 +54,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="crew-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->board_crew->isNotEmpty() ? 'On Board Crew' : 'Crew Change' }}</td>
@@ -91,7 +91,8 @@
                     </flux:dropdown>
 
                     @if ($report->board_crew->isNotEmpty())
-                        <flux:modal name="view-onboard-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
+                        <flux:modal name="view-onboard-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]"
+                            wire:key="crew-onboard-view-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">On Board Crew</flux:heading>
 
@@ -174,7 +175,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                        <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                            wire:key="crew-onboard-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">Soft Delete Report?</flux:heading>
@@ -199,7 +201,8 @@
                     @endif
 
                     @if ($report->crew_change->isNotEmpty())
-                        <flux:modal name="view-crewchange-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]">
+                        <flux:modal name="view-crewchange-{{ $report->id }}" class="min-w-[28rem] md:w-[48rem]"
+                            wire:key="crew-crewchange-view-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">Crew Change</flux:heading>
 
@@ -276,7 +279,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                        <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                            wire:key="crew-crewchange-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">Soft Delete Report?</flux:heading>

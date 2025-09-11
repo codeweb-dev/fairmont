@@ -43,7 +43,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="kpi-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">
@@ -71,7 +71,8 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
+                    <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl"
+                        wire:key="kpi-view-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <flux:heading>KPI Report Details</flux:heading>
 
@@ -499,12 +500,14 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                        wire:key="kpi-delete-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the KPI Report? <br> This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the KPI Report? <br> This report will not be
+                                    permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 

@@ -45,7 +45,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="arrival-row-{{ $report->id }}">
                 <td class="px-3 py-4">{{ $report->report_type }}</td>
                 <td class="px-3 py-4">{{ $report->vessel->name }}</td>
                 <td class="px-3 py-4">{{ $report->voyage_no }}</td>
@@ -76,7 +76,8 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="view-arrival-{{ $report->id }}" class="max-w-screen">
+                    <flux:modal name="view-arrival-{{ $report->id }}" class="max-w-screen"
+                        wire:key="arrival-view-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <flux:heading size="lg">Arrival Report Details</flux:heading>
 
@@ -322,10 +323,12 @@
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
                                             </th>
 
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
                                                 Run Hrs.</th>
-                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
 
                                             <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
                                                 Quantity</th>
@@ -396,12 +399,14 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]">
+                    <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                        wire:key="arrival-delete-modal-{{ $report->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Soft Delete Report?</flux:heading>
                                 <flux:text class="mt-2">
-                                    Are you sure you want to delete the Arrival Report? <br> This report will not be permanently deleted and can be restored if needed.
+                                    Are you sure you want to delete the Arrival Report? <br> This report will not be
+                                    permanently deleted and can be restored if needed.
                                 </flux:text>
                             </div>
 
@@ -410,7 +415,8 @@
                                 <flux:modal.close>
                                     <flux:button variant="ghost">Cancel</flux:button>
                                 </flux:modal.close>
-                                <flux:button type="button" variant="danger" wire:click="delete({{ $report->id }})">
+                                <flux:button type="button" variant="danger"
+                                    wire:click="delete({{ $report->id }})">
                                     Move to Trash
                                 </flux:button>
                             </div>

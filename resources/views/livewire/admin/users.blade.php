@@ -66,7 +66,7 @@
         </thead>
 
         @foreach ($users as $user)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="user-row-{{ $user->id }}">
                 <td class="px-3 py-4">{{ $user->name }}</td>
                 <td class="px-3 py-4">{{ $user->email }}</td>
                 <td class="px-3 py-4 space-x-1">
@@ -82,7 +82,7 @@
                 <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">
                     @unless (auth()->id() === $user->id)
-                        <flux:dropdown>
+                        <flux:dropdown wire:key="dropdown-{{ $user->id }}">
                             <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
 
                             <flux:menu>
@@ -123,7 +123,7 @@
                             </flux:menu>
                         </flux:dropdown>
 
-                        <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]">
+                        <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="deactivate-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">
@@ -156,7 +156,7 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]">
+                        <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="delete-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">Soft Delete User?</flux:heading>
@@ -179,7 +179,7 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
+                        <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="view-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">User Details</flux:heading>
@@ -220,7 +220,7 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]">
+                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="edit-modal-{{ $user->id }}">
                             <form wire:submit.prevent="edit">
                                 <div class="space-y-6">
                                     <div>
@@ -239,13 +239,6 @@
                                     <flux:input type="password" label="Password (Optional)"
                                         placeholder="Enter new user password" wire:model.defer="editData.password"
                                         viewable />
-
-                                    {{-- <flux:select wire:model.defer="editData.role" placeholder="Choose role..."
-                                label="Role">
-                                @foreach ($roles as $role)
-                                <flux:select.option value="{{ $role->name }}">{{ $role->name }}</flux:select.option>
-                                @endforeach
-                            </flux:select> --}}
 
                                     <div class="flex">
                                         <flux:spacer />

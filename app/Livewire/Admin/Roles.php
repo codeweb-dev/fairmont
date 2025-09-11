@@ -3,18 +3,14 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Audit;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Livewire\Attributes\Validate;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\User;
 use Flux\Flux;
-use Illuminate\Support\Facades\Auth;
 
 #[Title('Roles')]
 class Roles extends Component
