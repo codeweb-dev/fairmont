@@ -816,7 +816,7 @@ class NoonReport extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-noon-report');
+        $this->redirect(TableNoonReport::class);
     }
 
     public function clearForm()

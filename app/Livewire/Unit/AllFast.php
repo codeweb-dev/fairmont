@@ -219,7 +219,7 @@ class AllFast extends Component
         $this->clearDraft();
         $this->clearForm();
         Toaster::success('All Fast Report Created Successfully.');
-        $this->redirect('/table-all-fast-report');
+        $this->redirect(TableAllFastReport::class);
     }
 
     public function clearForm()

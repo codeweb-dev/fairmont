@@ -534,7 +534,7 @@ class ArrivalReport extends Component
         Toaster::success('Arrival Report Created Successfully.');
         $this->clearDraft();
         $this->clearForm();
-        $this->redirect('/table-arrival-report');
+        $this->redirect(TableArrivalReport::class);
     }
 
     public function clearForm()

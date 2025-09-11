@@ -569,7 +569,7 @@ class DepartureReport extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-departure-report');
+        $this->redirect(TableDepartureReport::class);
     }
 
     public function clearForm()

@@ -374,7 +374,7 @@ class Kpi extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-kpi-report');
+        $this->redirect(TableKpiReport::class);
     }
 
     public function clearForm()

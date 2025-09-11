@@ -329,7 +329,7 @@ class Bunkering extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-bunkering-report');
+        $this->redirect(TableBunkeringReport::class);
     }
 
     public function clearForm()

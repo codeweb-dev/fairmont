@@ -254,7 +254,7 @@ class VoyageReport extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-voyage-report');
+        $this->redirect(TableVoyageReport::class);
     }
 
     public function clearForm()

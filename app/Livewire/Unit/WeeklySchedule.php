@@ -147,7 +147,7 @@ class WeeklySchedule extends Component
         $this->clearDraft();
         $this->clearForm();
 
-        $this->redirect('/table-weekly-schedule-report');
+        $this->redirect(TableWeeklyScheduleReport::class);
     }
 
     public function addPort()

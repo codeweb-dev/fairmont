@@ -355,7 +355,7 @@ class PortOfCall extends Component
 
         $this->clearDraft();
         $this->clearForm();
-        $this->redirect('/table-port-of-call-report');
+        $this->redirect(TablePortOfCallReport::class);
     }
 
     public function render()
