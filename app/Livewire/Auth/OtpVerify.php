@@ -46,7 +46,7 @@ class OtpVerify extends Component
             'user_agent' => request()->userAgent(),
         ]);
 
-        return redirect()->route('dashboard');
+        $this->redirect(route('dashboard'), navigate: true);
     }
 
     public function cancelOtp()
