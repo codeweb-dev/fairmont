@@ -29,6 +29,40 @@ class PortOfCallReport extends Component
     public $selectedVessel = null;
     public $officerVessels = [];
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations', 'waste'])
+            ->find($this->selectedReportId);
+    }
+
     protected $paginationTheme = 'tailwind';
 
     public function mount()
@@ -271,6 +305,7 @@ class PortOfCallReport extends Component
         return view('livewire.officer.port-of-call-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

@@ -125,224 +125,8 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
-                    <flux:dropdown>
-                        <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
-
-                        <flux:menu>
-                            <flux:menu.radio.group>
-                                <flux:modal.trigger name="view-voyage-{{ $report->id }}">
-                                    <flux:menu.item icon="eye">
-                                        View Details
-                                    </flux:menu.item>
-                                </flux:modal.trigger>
-                            </flux:menu.radio.group>
-                        </flux:menu>
-                    </flux:dropdown>
-
-                    <flux:modal name="view-voyage-{{ $report->id }}" class="max-w-6xl">
-                        <div class="space-y-6">
-                            <flux:heading size="lg">Voyage Report Details</flux:heading>
-
-                            <!-- Bunkering Details -->
-                            <flux:heading size="sm">Voyage Details</flux:heading>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <flux:label>Vessel Name</flux:label>
-                                    <p class="text-sm">{{ $report->vessel->name }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Voyage No</flux:label>
-                                    <p class="text-sm">{{ $report->voyage_no }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Date</flux:label>
-                                    <p class="text-sm">
-                                        {{ \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <!-- Location -->
-                            <flux:heading size="sm">Location</flux:heading>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <flux:label>Port of Departure COSP</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->location->port_departure ? \Carbon\Carbon::parse($report->location->port_departure)->format('M d, Y h:i A') : '' }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>Port of Arrival EOSP</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->location->port_arrival ? \Carbon\Carbon::parse($report->location->port_arrival)->format('M d, Y h:i A') : '' }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <!-- Off Hire -->
-                            <flux:heading size="sm">Off Hire</flux:heading>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <flux:label>Off Hire Hours (Hrs)</flux:label>
-                                    <p class="text-sm">{{ ltrim($report->off_hire->hire_hours ?? '', '0') }}</p>
-                                </div>
-                                <div>
-                                    <flux:label>Off Hire Reason</flux:label>
-                                    <p class="text-sm">{{ $report->off_hire->hire_reason }}</p>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <!-- Engine -->
-                            <flux:heading size="sm">Engine</flux:heading>
-                            <div class="grid grid-cols-4 gap-4">
-                                <div>
-                                    <flux:label>Avg ME RPM</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->engine->avg_me_rpm !== null ? rtrim(rtrim(number_format((float) $report->engine->avg_me_rpm, 3, '.', ''), '0'), '.') : '' }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>Avg ME kW</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->engine->avg_me_kw !== null ? rtrim(rtrim(number_format((float) $report->engine->avg_me_kw, 3, '.', ''), '0'), '.') : '' }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>TDR (Nm)</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->engine->tdr !== null ? rtrim(rtrim(number_format((float) $report->engine->tdr, 3, '.', ''), '0'), '.') : '' }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>TST (Hrs)</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->engine->tst !== null ? rtrim(rtrim(number_format((float) $report->engine->tst, 3, '.', ''), '0'), '.') : '' }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <flux:label>Slip (%)</flux:label>
-                                    <p class="text-sm">
-                                        {{ $report->engine->slip !== null ? rtrim(rtrim(number_format((float) $report->engine->slip, 3, '.', ''), '0'), '.') : '' }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <flux:separator />
-
-                            <!-- ROB -->
-                            <flux:heading size="sm">ROB</flux:heading>
-                            <div class="grid grid-cols-4 gap-4">
-                                @php
-                                    $robLabels = [
-                                        'hsfo' => 'HSFO (MT)',
-                                        'vlsfo' => 'VLSFO (MT)',
-                                        'biofuel' => 'BIO FUEL (MT)',
-                                        'lsmgo' => 'LSMGO (MT)',
-                                        'me_cc_oil' => 'ME CC OIL (LITRES)',
-                                        'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
-                                        'ge_cc_oil' => 'GE CC OIL (LITRES)',
-                                        'fw' => 'FW (MT)',
-                                        'fw_produced' => 'FW Produced (MT)',
-                                    ];
-                                @endphp
-
-                                @foreach ($robLabels as $key => $label)
-                                    <div>
-                                        <flux:label>{{ $label }}</flux:label>
-                                        <p class="text-sm">
-                                            @php
-                                                $value = optional($report->robs->first())->$key;
-                                            @endphp
-                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <flux:separator />
-
-                            @php
-                                $fuelLabels = [
-                                    'hsfo' => 'HSFO (MT)',
-                                    'vlsfo' => 'VLSFO (MT)',
-                                    'biofuel' => 'BIO FUEL (MT)',
-                                    'lsmgo' => 'LSMGO (MT)',
-                                    'me_cc_oil' => 'ME CC OIL (LITRES)',
-                                    'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
-                                    'ge_cc_oil' => 'GE CC OIL (LITRES)',
-                                    'fw' => 'FW (MT)',
-                                    'fw_produced' => 'FW Produced (MT)',
-                                ];
-                            @endphp
-
-                            {{-- Received --}}
-                            <flux:heading size="sm">Received</flux:heading>
-                            <div class="grid grid-cols-4 gap-4">
-                                @foreach ($fuelLabels as $key => $label)
-                                    <div>
-                                        <flux:label>{{ $label }}</flux:label>
-                                        <p class="text-sm">
-                                            @php
-                                                $value = optional($report->received)->$key;
-                                            @endphp
-                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <flux:separator />
-
-                            {{-- Consumption --}}
-                            <flux:heading size="sm">Consumption</flux:heading>
-                            <div class="grid grid-cols-4 gap-4">
-                                @foreach ($fuelLabels as $key => $label)
-                                    <div>
-                                        <flux:label>{{ $label }}</flux:label>
-                                        <p class="text-sm">
-                                            @php
-                                                $value = optional($report->consumption)->$key;
-                                            @endphp
-                                            {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <flux:separator />
-
-                            <!-- Remarks -->
-                            @if ($report->remarks)
-                                <div class="pt-4">
-                                    <flux:heading size="sm">Remarks</flux:heading>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
-                                </div>
-                            @endif
-
-                            <flux:separator />
-
-                            <!-- Master Information -->
-                            @if ($report->master_info)
-                                <div class="pt-4">
-                                    <flux:heading size="sm">Master Information</flux:heading>
-                                    <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}</p>
-                                </div>
-                            @endif
-
-                            <!-- Close Modal Button -->
-                            <div class="flex justify-end pt-4">
-                                <flux:modal.close>
-                                    <flux:button variant="primary">Close</flux:button>
-                                </flux:modal.close>
-                            </div>
-                        </div>
-                    </flux:modal>
+                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
+                        Details</flux:button>
                 </td>
             </tr>
         @endforeach
@@ -351,4 +135,211 @@
     <div class="mt-6">
         {{ $reports->links() }}
     </div>
+
+    @if ($showModal && $selectedReport)
+        <flux:modal name="report-details-modal" class="max-w-6xl" wire:model="showModal">
+            <div class="space-y-6">
+                <flux:heading size="lg">Voyage Report Details</flux:heading>
+
+                <!-- Bunkering Details -->
+                <flux:heading size="sm">Voyage Details</flux:heading>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <flux:label>Vessel Name</flux:label>
+                        <p class="text-sm">{{ $selectedReport->vessel->name }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Voyage No</flux:label>
+                        <p class="text-sm">{{ $selectedReport->voyage_no }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Date</flux:label>
+                        <p class="text-sm">
+                            {{ \Carbon\Carbon::parse($selectedReport->all_fast_datetime)->format('M d, Y h:i A') }}
+                        </p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- Location -->
+                <flux:heading size="sm">Location</flux:heading>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <flux:label>Port of Departure COSP</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->location->port_departure ? \Carbon\Carbon::parse($selectedReport->location->port_departure)->format('M d, Y h:i A') : '' }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>Port of Arrival EOSP</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->location->port_arrival ? \Carbon\Carbon::parse($selectedReport->location->port_arrival)->format('M d, Y h:i A') : '' }}
+                        </p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- Off Hire -->
+                <flux:heading size="sm">Off Hire</flux:heading>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <flux:label>Off Hire Hours (Hrs)</flux:label>
+                        <p class="text-sm">{{ ltrim($selectedReport->off_hire->hire_hours ?? '', '0') }}</p>
+                    </div>
+                    <div>
+                        <flux:label>Off Hire Reason</flux:label>
+                        <p class="text-sm">{{ $selectedReport->off_hire->hire_reason }}</p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- Engine -->
+                <flux:heading size="sm">Engine</flux:heading>
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <flux:label>Avg ME RPM</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->engine->avg_me_rpm !== null ? rtrim(rtrim(number_format((float) $selectedReport->engine->avg_me_rpm, 3, '.', ''), '0'), '.') : '' }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>Avg ME kW</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->engine->avg_me_kw !== null ? rtrim(rtrim(number_format((float) $selectedReport->engine->avg_me_kw, 3, '.', ''), '0'), '.') : '' }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>TDR (Nm)</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->engine->tdr !== null ? rtrim(rtrim(number_format((float) $selectedReport->engine->tdr, 3, '.', ''), '0'), '.') : '' }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>TST (Hrs)</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->engine->tst !== null ? rtrim(rtrim(number_format((float) $selectedReport->engine->tst, 3, '.', ''), '0'), '.') : '' }}
+                        </p>
+                    </div>
+                    <div>
+                        <flux:label>Slip (%)</flux:label>
+                        <p class="text-sm">
+                            {{ $selectedReport->engine->slip !== null ? rtrim(rtrim(number_format((float) $selectedReport->engine->slip, 3, '.', ''), '0'), '.') : '' }}
+                        </p>
+                    </div>
+                </div>
+
+                <flux:separator />
+
+                <!-- ROB -->
+                <flux:heading size="sm">ROB</flux:heading>
+                <div class="grid grid-cols-4 gap-4">
+                    @php
+                        $robLabels = [
+                            'hsfo' => 'HSFO (MT)',
+                            'vlsfo' => 'VLSFO (MT)',
+                            'biofuel' => 'BIO FUEL (MT)',
+                            'lsmgo' => 'LSMGO (MT)',
+                            'me_cc_oil' => 'ME CC OIL (LITRES)',
+                            'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
+                            'ge_cc_oil' => 'GE CC OIL (LITRES)',
+                            'fw' => 'FW (MT)',
+                            'fw_produced' => 'FW Produced (MT)',
+                        ];
+                    @endphp
+
+                    @foreach ($robLabels as $key => $label)
+                        <div>
+                            <flux:label>{{ $label }}</flux:label>
+                            <p class="text-sm">
+                                @php
+                                    $value = optional($selectedReport->robs->first())->$key;
+                                @endphp
+                                {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
+                            </p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <flux:separator />
+
+                @php
+                    $fuelLabels = [
+                        'hsfo' => 'HSFO (MT)',
+                        'vlsfo' => 'VLSFO (MT)',
+                        'biofuel' => 'BIO FUEL (MT)',
+                        'lsmgo' => 'LSMGO (MT)',
+                        'me_cc_oil' => 'ME CC OIL (LITRES)',
+                        'mc_cyl_oil' => 'ME CYL OIL (LITRES)',
+                        'ge_cc_oil' => 'GE CC OIL (LITRES)',
+                        'fw' => 'FW (MT)',
+                        'fw_produced' => 'FW Produced (MT)',
+                    ];
+                @endphp
+
+                {{-- Received --}}
+                <flux:heading size="sm">Received</flux:heading>
+                <div class="grid grid-cols-4 gap-4">
+                    @foreach ($fuelLabels as $key => $label)
+                        <div>
+                            <flux:label>{{ $label }}</flux:label>
+                            <p class="text-sm">
+                                @php
+                                    $value = optional($selectedReport->received)->$key;
+                                @endphp
+                                {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
+                            </p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <flux:separator />
+
+                {{-- Consumption --}}
+                <flux:heading size="sm">Consumption</flux:heading>
+                <div class="grid grid-cols-4 gap-4">
+                    @foreach ($fuelLabels as $key => $label)
+                        <div>
+                            <flux:label>{{ $label }}</flux:label>
+                            <p class="text-sm">
+                                @php
+                                    $value = optional($selectedReport->consumption)->$key;
+                                @endphp
+                                {{ $value !== null ? rtrim(rtrim(number_format((float) $value, 3, '.', ''), '0'), '.') : '' }}
+                            </p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <flux:separator />
+
+                <!-- Remarks -->
+                @if ($selectedReport->remarks)
+                    <div class="pt-4">
+                        <flux:heading size="sm">Remarks</flux:heading>
+                        <p class="text-sm whitespace-pre-line">{{ $selectedReport->remarks->remarks }}</p>
+                    </div>
+                @endif
+
+                <flux:separator />
+
+                <!-- Master Information -->
+                @if ($selectedReport->master_info)
+                    <div class="pt-4">
+                        <flux:heading size="sm">Master Information</flux:heading>
+                        <p class="text-sm whitespace-pre-line">{{ $selectedReport->master_info->master_info }}</p>
+                    </div>
+                @endif
+
+                <!-- Close Modal Button -->
+                <div class="flex justify-end pt-4">
+                    <flux:modal.close>
+                        <flux:button variant="primary">Close</flux:button>
+                    </flux:modal.close>
+                </div>
+            </div>
+        </flux:modal>
+    @endif
 </div>

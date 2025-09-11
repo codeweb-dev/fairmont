@@ -31,6 +31,46 @@ class ArrivalReport extends Component
     public $officerVessels = [];
     public $dateRange;
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data - Fixed to include rob_fuel_reports
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with([
+            'vessel',
+            'unit',
+            'remarks',
+            'master_info',
+            'noon_report',
+            'rob_fuel_reports' // Add this relationship
+        ])->find($this->selectedReportId);
+    }
+
     public function mount()
     {
         $this->officerVessels = Auth::user()
@@ -275,6 +315,7 @@ class ArrivalReport extends Component
         return view('livewire.officer.arrival-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

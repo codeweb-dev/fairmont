@@ -29,6 +29,46 @@ class KpiReport extends Component
     public $selectedVessel = null;
     public $officerVessels = [];
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with([
+            'vessel',
+            'unit',
+            'waste',
+            'remarks',
+            'master_info',
+        ])
+            ->find($this->selectedReportId);
+    }
+
     public function mount()
     {
         $this->officerVessels = Auth::user()
@@ -287,6 +327,7 @@ class KpiReport extends Component
         return view('livewire.officer.kpi-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

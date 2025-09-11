@@ -32,6 +32,49 @@ class WeeklyScheduleReport extends Component
     public $officerVessels = [];
     public $dateRange;
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with([
+            'vessel',
+            'unit',
+            'location',
+            'off_hire',
+            'engine',
+            'received',
+            'consumption',
+            'robs',
+        ])
+            ->find($this->selectedReportId);
+    }
+
     public function mount()
     {
         $this->officerVessels = Auth::user()

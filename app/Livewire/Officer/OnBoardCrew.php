@@ -33,6 +33,40 @@ class OnBoardCrew extends Component
     public $officerVessels = [];
     protected $paginationTheme = 'tailwind';
 
+    // Add these properties for modal handling
+    public $selectedReportId = null;
+    public $showModal = false;
+
+    // Add listeners for modal events
+    protected $listeners = [
+        'openReportModal' => 'openReportModal',
+        'closeReportModal' => 'closeReportModal'
+    ];
+
+    // Add modal methods
+    public function openReportModal($reportId)
+    {
+        $this->selectedReportId = $reportId;
+        $this->showModal = true;
+    }
+
+    public function closeReportModal()
+    {
+        $this->selectedReportId = null;
+        $this->showModal = false;
+    }
+
+    // Method to get selected report data
+    public function getSelectedReport()
+    {
+        if (!$this->selectedReportId) {
+            return null;
+        }
+
+        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
+            ->find($this->selectedReportId);
+    }
+
     public function mount()
     {
         $this->officerVessels = Auth::user()
@@ -362,6 +396,7 @@ class OnBoardCrew extends Component
             'reports' => $reports,
             'pages' => $this->pages,
             'viewing' => $this->viewing,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }
