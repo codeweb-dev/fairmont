@@ -16,6 +16,7 @@ return new class extends Migration
             // Constact all report must have
             $table->foreignId('vessel_id')->constrained()->onDelete('cascade');
             $table->string('voyage_no')->nullable();
+            $table->foreignId('unit_id')->constrained('users')->onDelete('cascade');
             $table->string('report_type');
 
             // For All Fast
