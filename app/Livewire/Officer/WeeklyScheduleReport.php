@@ -316,6 +316,7 @@ class WeeklyScheduleReport extends Component
         return view('livewire.officer.weekly-schedule-report', [
             'reports' => $reports,
             'pages' => $this->pages,
+            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

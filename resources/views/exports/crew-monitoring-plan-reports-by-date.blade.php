@@ -34,11 +34,9 @@
 
     <tbody>
         @foreach ($reports as $report)
-            @if (!$loop->first)
-                <tr>
-                    <td colspan="60" style="height: 20px;"></td>
-                </tr> {{-- Spacer --}}
-            @endif
+            <tr>
+                <td colspan="60" style="height: 20px;"></td>
+            </tr>
 
             @php
                 $rows = $viewing === 'on-board' ? $report->board_crew : $report->crew_change;
