@@ -24,4 +24,17 @@ class Audit extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+    protected static function booted()
+    {
+        static::created(function () {
+            $count = static::count();
+
+            if ($count > 1000) {
+                static::orderBy('created_at', 'asc')
+                    ->limit($count - 1000)
+                    ->delete();
+            }
+        });
+    }
 }
