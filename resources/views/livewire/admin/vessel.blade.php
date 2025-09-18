@@ -57,6 +57,7 @@
                 <th class="px-3 py-3">Name</th>
                 <th class="px-3 py-3">Date</th>
                 <th class="px-3 py-3">No. Vessel User</th>
+                <th class="px-3 py-3">Status</th>
                 <th class="px-3 py-3"></th>
             </tr>
         </thead>
@@ -66,6 +67,11 @@
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
                 <td class="px-3 py-4">{{ $vessel->created_at->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">{{ $vessel->users_count }}</td>
+                <td class="px-3 py-4">
+                    <flux:badge size="sm" icon="{{ $vessel->is_active ? 'check' : 'x-mark' }}"
+                        color="{{ $vessel->is_active ? 'green' : 'red' }}">
+                        {{ $vessel->is_active ? 'Active' : 'Deactivate' }}</flux:badge>
+                </td>
                 <td class="px-3 py-4">
                     <flux:dropdown wire:key="vessel-dropdown-{{ $vessel->id }}">
                         <flux:button icon:trailing="ellipsis-horizontal" size="xs" variant="ghost" />
@@ -114,7 +120,8 @@
                         </flux:menu>
                     </flux:dropdown>
 
-                    <flux:modal name="deactivate-vessel-{{ $vessel->id }}" class="min-w-[22rem]" wire:key="deactivate-vessel-modal-{{ $vessel->id }}">
+                    <flux:modal name="deactivate-vessel-{{ $vessel->id }}" class="min-w-[22rem]"
+                        wire:key="deactivate-vessel-modal-{{ $vessel->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">
@@ -147,7 +154,8 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="assign-user-{{ $vessel->id }}" wire:key="assign-user-vessel-modal-{{ $vessel->id }}">
+                    <flux:modal name="assign-user-{{ $vessel->id }}"
+                        wire:key="assign-user-vessel-modal-{{ $vessel->id }}">
                         <form wire:submit.prevent="assignUserToVessel({{ $vessel->id }})">
                             <div class="space-y-6">
                                 <div>
@@ -173,7 +181,8 @@
                         </form>
                     </flux:modal>
 
-                    <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]" wire:key="delete-vessel-modal-{{ $vessel->id }}">
+                    <flux:modal name="delete-vessel-{{ $vessel->id }}" class="min-w-[22rem]"
+                        wire:key="delete-vessel-modal-{{ $vessel->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Delete Vessel?</flux:heading>
@@ -195,7 +204,8 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="view-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="view-vessel-modal-{{ $vessel->id }}">
+                    <flux:modal name="view-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]"
+                        wire:key="view-vessel-modal-{{ $vessel->id }}">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">Assigned Users</flux:heading>
@@ -229,7 +239,8 @@
                         </div>
                     </flux:modal>
 
-                    <flux:modal name="edit-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="edit-vessel-modal-{{ $vessel->id }}">
+                    <flux:modal name="edit-vessel-{{ $vessel->id }}" class="min-w-[24rem] md:w-[32rem]"
+                        wire:key="edit-vessel-modal-{{ $vessel->id }}">
                         <form wire:submit.prevent="edit">
                             <div class="space-y-6">
                                 <div>
