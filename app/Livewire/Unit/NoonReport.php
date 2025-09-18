@@ -646,6 +646,9 @@ class NoonReport extends Component
     {
         unset($this->rob_data[$type]['tanks'][$index]);
         $this->rob_data[$type]['tanks'] = array_values($this->rob_data[$type]['tanks']);
+        foreach ($this->rob_data[$type]['tanks'] as $i => &$tank) {
+            $tank['tank_no'] = $i + 1;
+        }
     }
 
     public function save()

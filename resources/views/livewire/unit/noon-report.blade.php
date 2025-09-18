@@ -6,9 +6,6 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline" @click="Toaster.success('Draft saved successfully.')">
-                Save Draft
-            </flux:button> --}}
             <flux:button href="{{ route('table-noon-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
