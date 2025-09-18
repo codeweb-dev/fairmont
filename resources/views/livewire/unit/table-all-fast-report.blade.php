@@ -134,7 +134,7 @@
 
     <!-- Single Modal Outside the Loop -->
     @if ($showModal && $selectedReport)
-        <flux:modal name="report-details-modal" class="min-w-[28rem] md:w-[38rem]" wire:model="showModal">
+        <flux:modal name="report-details-modal" class="min-w-[28rem] md:w-[48rem]" wire:model="showModal">
             <div class="space-y-6">
                 <flux:heading size="lg">Report Details</flux:heading>
                 <div class="grid grid-cols-2 gap-4">
@@ -171,9 +171,13 @@
                             <thead>
                                 <tr>
                                     <th class="p-2 border border-zinc-200 dark:border-zinc-700">HSFO</th>
-                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">BIO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">BIOFUEL</th>
                                     <th class="p-2 border border-zinc-200 dark:border-zinc-700">VLSFO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">LSFO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">ULSFO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">VLSMGO</th>
                                     <th class="p-2 border border-zinc-200 dark:border-zinc-700">LSMGO</th>
+                                    <th class="p-2 border border-zinc-200 dark:border-zinc-700">ULSMGO</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-zinc-100 dark:divide-white/5">
@@ -189,7 +193,19 @@
                                             {{ $rob->vlsfo !== null ? rtrim(rtrim(number_format((float) $rob->vlsfo, 3, '.', ''), '0'), '.') : '' }}
                                         </td>
                                         <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->lsfo !== null ? rtrim(rtrim(number_format((float) $rob->lsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->ulsfo !== null ? rtrim(rtrim(number_format((float) $rob->ulsfo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->vlsmgo !== null ? rtrim(rtrim(number_format((float) $rob->vlsmgo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
                                             {{ $rob->lsmgo !== null ? rtrim(rtrim(number_format((float) $rob->lsmgo, 3, '.', ''), '0'), '.') : '' }}
+                                        </td>
+                                        <td class="p-2 border border-zinc-200 dark:border-zinc-700">
+                                            {{ $rob->ulsmgo !== null ? rtrim(rtrim(number_format((float) $rob->ulsmgo, 3, '.', ''), '0'), '.') : '' }}
                                         </td>
                                     </tr>
                                 @endforeach

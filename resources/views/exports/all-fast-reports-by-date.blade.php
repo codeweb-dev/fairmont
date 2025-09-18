@@ -11,7 +11,11 @@
                     'HSFO (MT)',
                     'BIOFUEL (MT)',
                     'VLSFO (MT)',
+                    'LSFO (MT)',
+                    'ULSFO (MT)',
+                    'VLSMGO (MT)',
                     'LSMGO (MT)',
+                    'ULSMGO (MT)',
                     'Remarks',
                     'Master Information',
                 ];
@@ -26,7 +30,7 @@
         @foreach ($reports as $report)
             @if (!$loop->first)
                 <tr>
-                    <td colspan="11" style="height: 20px;"></td> {{-- Spacer row --}}
+                    <td colspan="15" style="height: 20px;"></td> {{-- Spacer row --}}
                 </tr>
             @endif
 
@@ -35,25 +39,29 @@
             @forelse ($report->robs as $rob)
                 <tr>
                     {{-- Show details only on first ROB row --}}
-                    <td style="text-align: left;">{{ $firstRob ? ($report->vessel->name ?? '') : '' }}</td>
-                    <td style="text-align: left;">{{ $firstRob ? ($report->voyage_no ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->vessel->name ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->voyage_no ?? '' : '' }}</td>
                     <td style="text-align: left;">
                         @if ($firstRob)
                             {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
                         @endif
                     </td>
-                    <td style="text-align: left;">{{ $firstRob ? ($report->gmt_offset ?? '') : '' }}</td>
-                    <td style="text-align: left;">{{ $firstRob ? ($report->port ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->gmt_offset ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->port ?? '' : '' }}</td>
 
                     {{-- ROBs --}}
                     <td style="text-align: left;">{{ $rob->hsfo ?? '' }}</td>
                     <td style="text-align: left;">{{ $rob->biofuel ?? '' }}</td>
                     <td style="text-align: left;">{{ $rob->vlsfo ?? '' }}</td>
+                    <td style="text-align: left;">{{ $rob->lsfo ?? '' }}</td>
+                    <td style="text-align: left;">{{ $rob->ulsfo ?? '' }}</td>
+                    <td style="text-align: left;">{{ $rob->vlsmgo ?? '' }}</td>
                     <td style="text-align: left;">{{ $rob->lsmgo ?? '' }}</td>
+                    <td style="text-align: left;">{{ $rob->ulsmgo ?? '' }}</td>
 
                     {{-- Remarks & Master Info --}}
-                    <td style="text-align: left;">{{ $firstRob ? ($report->remarks->remarks ?? '') : '' }}</td>
-                    <td style="text-align: left;">{{ $firstRob ? ($report->master_info->master_info ?? '') : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->remarks->remarks ?? '' : '' }}</td>
+                    <td style="text-align: left;">{{ $firstRob ? $report->master_info->master_info ?? '' : '' }}</td>
                 </tr>
 
                 @php $firstRob = false; @endphp
@@ -64,11 +72,11 @@
                     <td style="text-align: left;">{{ $report->voyage_no ?? '' }}</td>
                     <td style="text-align: left;">
                         {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
-                    </td style="text-align: left;">
+                    </td>
                     <td style="text-align: left;">{{ $report->gmt_offset ?? '' }}</td>
                     <td style="text-align: left;">{{ $report->port ?? '' }}</td>
 
-                    <td colspan="4" style="text-align: center;">No ROB Data</td>
+                    <td colspan="8" style="text-align: center;">No ROB Data</td>
 
                     <td style="text-align: left;">{{ $report->remarks->remarks ?? '' }}</td>
                     <td style="text-align: left;">{{ $report->master_info->master_info ?? '' }}</td>

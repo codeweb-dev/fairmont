@@ -9,10 +9,6 @@
                 @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
-                @click="Toaster.success('Draft saved successfully.')">
-                Save Draft
-            </flux:button> --}}
             <flux:button href="{{ route('table-all-fast-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
@@ -28,19 +24,22 @@
                 <div class="grid grid-cols-3 gap-x-4 gap-y-6">
                     <flux:input label="Vessel Name" badge="Required" disabled :value="$vesselName" />
 
-                    <flux:input label="Voyage No" badge="Required" required wire:model="voyage_no" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Voyage No" badge="Required" required wire:model="voyage_no"
+                        x-on:input="scheduleAutoSave" />
 
                     <flux:input label="All Fast Date/Time (LT)" type="datetime-local" badge="Required" max="2999-12-31"
                         required wire:model="all_fast_datetime" x-on:input="scheduleAutoSave" />
 
-                    <flux:select label="GMT Offset" badge="Required" wire:model="gmt_offset" required x-on:input="scheduleAutoSave">
+                    <flux:select label="GMT Offset" badge="Required" wire:model="gmt_offset" required
+                        x-on:input="scheduleAutoSave">
                         <flux:select.option value="">Select GMT Offset</flux:select.option>
                         @foreach ($this->gmtOffsets as $offset)
                             <flux:select.option value="{{ $offset }}">{{ $offset }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
-                    <flux:input label="Port" badge="Required" required wire:model="port" x-on:input="scheduleAutoSave" x-on:input="scheduleAutoSave" />
+                    <flux:input label="Port" badge="Required" required wire:model="port" x-on:input="scheduleAutoSave"
+                        x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -64,28 +63,54 @@
                             <th class="p-2">HSFO (MT)</th>
                             <th class="p-2">BIOFUEL (MT)</th>
                             <th class="p-2">VLSFO (MT)</th>
+                            <th class="p-2">LSFO (MT)</th>
+                            <th class="p-2">ULSFO (MT)</th>
+                            <th class="p-2">VLSMGO (MT)</th>
                             <th class="p-2">LSMGO (MT)</th>
+                            <th class="p-2">ULSMGO (MT)</th>
                             <th class="p-2"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($robs as $index => $rob)
-                            <tr>
+                            <tr wire:key="rob-{{ $index }}">
                                 <td class="p-2">
-                                    <flux:input type="number" step="0.01" max="9999999.999" wire:model="robs.{{ $index }}.hsfo"
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.hsfo"
                                         placeholder="HSFO (MT)" x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" step="0.01" max="9999999.999" wire:model="robs.{{ $index }}.biofuel"
-                                        placeholder="BIOFUEL (MT)" x-on:input="scheduleAutoSave" />
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.biofuel" placeholder="BIOFUEL (MT)"
+                                        x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" step="0.01" max="9999999.999" wire:model="robs.{{ $index }}.vlsfo"
-                                        placeholder="VLSFO (MT)" x-on:input="scheduleAutoSave" />
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.vlsfo" placeholder="VLSFO (MT)"
+                                        x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="p-2">
-                                    <flux:input type="number" step="0.01" max="9999999.999" wire:model="robs.{{ $index }}.lsmgo"
-                                        placeholder="LSMGO (MT)" x-on:input="scheduleAutoSave" />
+                                    <flux:input type="number" step="0.01" wire:model="robs.{{ $index }}.lsfo"
+                                        placeholder="LSFO (MT)" x-on:input="scheduleAutoSave" />
+                                </td>
+                                <td class="p-2">
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.ulsfo" placeholder="ULSFO (MT)"
+                                        x-on:input="scheduleAutoSave" />
+                                </td>
+                                <td class="p-2">
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.vlsmgo" placeholder="VLSMGO (MT)"
+                                        x-on:input="scheduleAutoSave" />
+                                </td>
+                                <td class="p-2">
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.lsmgo" placeholder="LSMGO (MT)"
+                                        x-on:input="scheduleAutoSave" />
+                                </td>
+                                <td class="p-2">
+                                    <flux:input type="number" step="0.01"
+                                        wire:model="robs.{{ $index }}.ulsmgo" placeholder="ULSMGO (MT)"
+                                        x-on:input="scheduleAutoSave" />
                                 </td>
                                 <td class="p-2">
                                     <flux:button variant="danger" size="xs" icon="trash" type="button"
@@ -116,7 +141,8 @@
             </flux:legend>
             <div class="space-y-6">
                 <div class="w-full">
-                    <flux:textarea rows="8" wire:model.defer="master_info" required x-on:input="scheduleAutoSave" />
+                    <flux:textarea rows="8" wire:model.defer="master_info" required
+                        x-on:input="scheduleAutoSave" />
                 </div>
             </div>
         </flux:fieldset>
@@ -131,43 +157,43 @@
 </form>
 
 <script>
-function autoSaveHandler() {
-    return {
-        autoSaveTimeout: null,
+    function autoSaveHandler() {
+        return {
+            autoSaveTimeout: null,
 
-        scheduleAutoSave() {
-            // Clear existing timeout
-            if (this.autoSaveTimeout) {
-                clearTimeout(this.autoSaveTimeout);
+            scheduleAutoSave() {
+                // Clear existing timeout
+                if (this.autoSaveTimeout) {
+                    clearTimeout(this.autoSaveTimeout);
+                }
+
+                // Set new timeout for 2 seconds after user stops typing
+                this.autoSaveTimeout = setTimeout(() => {
+                    this.triggerAutoSave();
+                }, 2000);
+            },
+
+            async triggerAutoSave() {
+                try {
+                    // Call the Livewire autoSave method
+                    await this.$wire.call('autoSave');
+                } catch (error) {
+                    console.error('Auto-save failed:', error);
+                    // You could show an error toaster here if needed
+                }
             }
-
-            // Set new timeout for 2 seconds after user stops typing
-            this.autoSaveTimeout = setTimeout(() => {
-                this.triggerAutoSave();
-            }, 2000);
-        },
-
-        async triggerAutoSave() {
-            try {
-                // Call the Livewire autoSave method
-                await this.$wire.call('autoSave');
-            } catch (error) {
-                console.error('Auto-save failed:', error);
-                // You could show an error toaster here if needed
-            }
-        }
-    };
-}
+        };
+    }
 </script>
 
 @push('scripts')
-<script>
-    // Listen for the draftSaved event from Livewire
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('draftSaved', () => {
-            // Optional: Show additional feedback when manual save is triggered
-            console.log('Draft saved successfully');
+    <script>
+        // Listen for the draftSaved event from Livewire
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('draftSaved', () => {
+                // Optional: Show additional feedback when manual save is triggered
+                console.log('Draft saved successfully');
+            });
         });
-    });
-</script>
+    </script>
 @endpush

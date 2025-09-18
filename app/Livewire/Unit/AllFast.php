@@ -121,10 +121,14 @@ class AllFast extends Component
     public function addRow()
     {
         $this->robs[] = [
-            'hsfo' => null,
+            'hsfo'   => null,
             'biofuel' => null,
-            'vlsfo' => null,
-            'lsmgo' => null,
+            'vlsfo'  => null,
+            'lsfo'   => null,
+            'ulsfo'  => null,
+            'vlsmgo' => null,
+            'lsmgo'  => null,
+            'ulsmgo' => null,
         ];
         $this->saveDraftToDatabase();
     }

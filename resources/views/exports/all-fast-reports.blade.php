@@ -42,13 +42,17 @@
 
     {{-- Section: ROBs --}}
     <tr>
-        <td colspan="5" style="font-weight: bold; width: 250px;">All Fast ROBs</td>
+        <td colspan="8" style="font-weight: bold; width: 250px;">All Fast ROBs</td>
     </tr>
     <tr>
         <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>HSFO (MT)</strong></th>
         <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>BIOFUEL (MT)</strong></th>
         <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>VLSFO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>LSFO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>ULSFO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>VLSMGO (MT)</strong></th>
         <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>LSMGO (MT)</strong></th>
+        <th style="border: 1px solid #000; width: 250px; text-align: center;"><strong>ULSMGO (MT)</strong></th>
     </tr>
 
     @foreach ($reports as $report)
@@ -57,7 +61,11 @@
                 <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->hsfo ?? '' }}</td>
                 <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->biofuel ?? '' }}</td>
                 <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->vlsfo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->lsfo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->ulsfo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->vlsmgo ?? '' }}</td>
                 <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->lsmgo ?? '' }}</td>
+                <td style="border: 1px solid #000; width: 250px; text-align: left;">{{ $rob->ulsmgo ?? '' }}</td>
             </tr>
         @endforeach
     @endforeach

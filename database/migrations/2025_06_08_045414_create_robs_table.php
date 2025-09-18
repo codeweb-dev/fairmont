@@ -19,7 +19,11 @@ return new class extends Migration
             $table->decimal('hsfo', 10, 3)->nullable();
             $table->decimal('biofuel', 10, 3)->nullable();
             $table->decimal('vlsfo', 10, 3)->nullable();
+            $table->decimal('lsfo', 10, 3)->nullable();
+            $table->decimal('ulsfo', 10, 3)->nullable();
+            $table->decimal('vlsmgo', 10, 3)->nullable();
             $table->decimal('lsmgo', 10, 3)->nullable();
+            $table->decimal('ulsmgo', 10, 3)->nullable();
 
             // For Voyage Report
             $table->decimal('me_cc_oil', 10, 3)->nullable();
