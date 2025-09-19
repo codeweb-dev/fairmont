@@ -7,10 +7,6 @@
                 @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
-                @click="Toaster.success('Draft saved successfully.')">
-                Save Draft
-            </flux:button> --}}
             <flux:button wire:click="goBack" icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
@@ -152,12 +148,10 @@ function autoSaveHandler() {
         autoSaveTimeout: null,
 
         scheduleAutoSave() {
-            // Clear existing timeout
             if (this.autoSaveTimeout) {
                 clearTimeout(this.autoSaveTimeout);
             }
 
-            // Set new timeout for 2 seconds after user stops typing
             this.autoSaveTimeout = setTimeout(() => {
                 this.triggerAutoSave();
             }, 2000);
@@ -165,11 +159,9 @@ function autoSaveHandler() {
 
         async triggerAutoSave() {
             try {
-                // Call the Livewire autoSave method
                 await this.$wire.call('autoSave');
             } catch (error) {
                 console.error('Auto-save failed:', error);
-                // You could show an error toaster here if needed
             }
         }
     };
@@ -178,10 +170,8 @@ function autoSaveHandler() {
 
 @push('scripts')
 <script>
-    // Listen for the draftSaved event from Livewire
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('draftSaved', () => {
-            // Optional: Show additional feedback when manual save is triggered
             console.log('Draft saved successfully');
         });
     });

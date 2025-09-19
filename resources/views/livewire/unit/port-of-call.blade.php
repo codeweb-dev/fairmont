@@ -5,11 +5,6 @@
             <flux:button icon:trailing="x-mark" variant="danger" wire:click="clearForm" @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-
-            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline">
-                Save Draft
-            </flux:button> --}}
-
             <flux:button href="{{ route('table-port-of-call-report') }}" wire:navigate
                 icon:trailing="arrow-uturn-left">
                 Go Back
@@ -22,31 +17,26 @@
             <flux:legend>Vessel Details</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <!-- Row 1 -->
                     <flux:input label="Vessel Name" disabled :value="$vesselName" />
                     <flux:input label="Call Sign" wire:model="call_sign" x-on:input="scheduleAutoSave" />
                     <flux:input label="Flag" wire:model="flag" x-on:input="scheduleAutoSave" />
                     <flux:input label="Port of Registry" wire:model="port_of_registry" x-on:input="scheduleAutoSave" />
 
-                    <!-- Row 2 -->
                     <flux:input label="Official Number" wire:model="official_number" x-on:input="scheduleAutoSave" />
                     <flux:input label="IMO Number" wire:model="imo_number" x-on:input="scheduleAutoSave" />
                     <flux:input label="Class Society" wire:model="class_society" x-on:input="scheduleAutoSave" />
                     <flux:input label="Class No" wire:model="class_no" x-on:input="scheduleAutoSave" />
 
-                    <!-- Row 3 -->
                     <flux:input label="P&I Club" wire:model="pi_club" x-on:input="scheduleAutoSave" />
                     <flux:input label="LOA (Length Overall)" wire:model="loa" x-on:input="scheduleAutoSave" />
                     <flux:input label="LBP (Length Between Perpendiculars)" wire:model="lbp" x-on:input="scheduleAutoSave" />
                     <flux:input label="Breadth (extreme)" wire:model="breadth_extreme" x-on:input="scheduleAutoSave" />
 
-                    <!-- Row 4 -->
                     <flux:input label="Depth (molded)" wire:model="depth_moulded" x-on:input="scheduleAutoSave" />
                     <flux:input label="Height (maximum)" wire:model="height_maximum" x-on:input="scheduleAutoSave" />
                     <flux:input label="Bridge Front - Bow" wire:model="bridge_front_bow" x-on:input="scheduleAutoSave" />
                     <flux:input label="Bridge Front - Stern" wire:model="bridge_front_stern" x-on:input="scheduleAutoSave" />
 
-                    <!-- Row 5 -->
                     <flux:input label="Light Ship Displacement" wire:model="light_ship_displacement" x-on:input="scheduleAutoSave" />
                     <flux:input label="Keel Laid" type="datetime-local" wire:model="keel_laid" x-on:input="scheduleAutoSave" />
                     <flux:input label="Launched" type="datetime-local" wire:model="launched" x-on:input="scheduleAutoSave" />
@@ -152,12 +142,10 @@ function autoSaveHandler() {
         autoSaveTimeout: null,
 
         scheduleAutoSave() {
-            // Clear existing timeout
             if (this.autoSaveTimeout) {
                 clearTimeout(this.autoSaveTimeout);
             }
 
-            // Set new timeout for 2 seconds after user stops typing
             this.autoSaveTimeout = setTimeout(() => {
                 this.triggerAutoSave();
             }, 2000);
@@ -165,11 +153,9 @@ function autoSaveHandler() {
 
         async triggerAutoSave() {
             try {
-                // Call the Livewire autoSave method
                 await this.$wire.call('autoSave');
             } catch (error) {
                 console.error('Auto-save failed:', error);
-                // You could show an error toaster here if needed
             }
         }
     };
@@ -178,10 +164,8 @@ function autoSaveHandler() {
 
 @push('scripts')
 <script>
-    // Listen for the draftSaved event from Livewire
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('draftSaved', () => {
-            // Optional: Show additional feedback when manual save is triggered
             console.log('Draft saved successfully');
         });
     });

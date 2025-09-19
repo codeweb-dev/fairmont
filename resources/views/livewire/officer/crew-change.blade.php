@@ -140,15 +140,13 @@
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4 flex items-center gap-2">
+                <td class="px-3 py-4">
                     @if ($report->board_crew->isNotEmpty())
                         <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
                             View</flux:button>
-                        <flux:button size="xs" icon="pencil-square">Edit</flux:button>
                     @elseif ($report->crew_change->isNotEmpty())
                         <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
                             View</flux:button>
-                        <flux:button size="xs" icon="pencil-square">Edit</flux:button>
                     @endif
                 </td>
             </tr>

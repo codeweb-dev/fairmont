@@ -52,6 +52,10 @@ use App\Livewire\Unit\TablePortOfCallReport;
 use App\Livewire\Unit\TableCrewChange;
 use App\Livewire\Unit\TableOnBoardCrew;
 
+// Edit Unit
+use App\Livewire\Unit\EditAllFastReport;
+use App\Livewire\Unit\EditVoyageReport;
+
 // Officer
 use App\Livewire\Officer\TotalReport as OfficerTotalReport;
 use App\Livewire\Officer\NoonReport as OfficerNoonReport;
@@ -131,6 +135,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/table-voyage-report', TableVoyageReport::class)->name('table-voyage-report');
         Route::get('/table-kpi-report', TableKpiReport::class)->name('table-kpi-report');
         Route::get('/table-port-of-call-report', TablePortOfCallReport::class)->name('table-port-of-call-report');
+
+        Route::get('/all-fast/{id}/edit', EditAllFastReport::class)->name('all-fast-report.edit');
+        Route::get('/voyage/{id}/edit', EditVoyageReport::class)->name('voyage-report.edit');
     });
 
     Route::group(['middleware' => ['role:officer']], function () {

@@ -7,10 +7,6 @@
                 @click="Toaster.success('Fields cleared successfully.')">
                 Clear Fields
             </flux:button>
-            {{-- <flux:button icon="folder-arrow-down" wire:click="saveDraft" variant="outline"
-                @click="Toaster.success('Draft saved successfully.')">
-                Save Draft
-            </flux:button> --}}
             <flux:button href="{{ route('table-arrival-report') }}" wire:navigate icon:trailing="arrow-uturn-left">
                 Go Back
             </flux:button>
@@ -61,22 +57,18 @@
             <flux:legend>Details Since Last Report</flux:legend>
             <div class="space-y-6">
                 <div class="grid grid-cols-4 gap-x-4 gap-y-6">
-                    <!-- Row 1 -->
                     <flux:input label="CP/Ordered Speed (Kts)" wire:model.defer='cp_ordered_speed' x-on:input="scheduleAutoSave" />
                     <flux:input label="Allowed M/E Cons. at C/P Speed" wire:model.defer='me_cons_cp_speed' x-on:input="scheduleAutoSave" />
                     <flux:input label="Obs. Distance (NM)" wire:model.defer='obs_distance' x-on:input="scheduleAutoSave" />
                     <flux:input label="Steaming Time (Hrs)" wire:model.defer='steaming_time' x-on:input="scheduleAutoSave" />
-                    <!-- Row 2 -->
                     <flux:input label="Avg Speed (Kts)" wire:model.defer='avg_speed' x-on:input="scheduleAutoSave" />
                     <flux:input label="Distance sailed from last port (NM)" wire:model.defer='distance_to_go' x-on:input="scheduleAutoSave" />
                     <flux:input label="Breakdown (Hrs)" wire:model.defer='breakdown' x-on:input="scheduleAutoSave" />
                     <flux:input label="M/E Revs Counter (Noon to Noon)" wire:model.defer='maneuvering_hours' x-on:input="scheduleAutoSave" />
-                    <!-- Row 3 -->
                     <flux:input label="Avg RPM" wire:model.defer='avg_rpm' x-on:input="scheduleAutoSave" />
                     <flux:input label="Engine Distance (NM)" wire:model.defer='engine_distance' x-on:input="scheduleAutoSave" />
                     <flux:input label="Slip (%)" wire:model.defer='next_port' x-on:input="scheduleAutoSave" />
                     <flux:input label="Avg Power (KW)" wire:model.defer='avg_power' x-on:input="scheduleAutoSave" />
-                    <!-- Row 4 -->
                     <flux:input label="Logged Distance (NM)" wire:model.defer='logged_distance' x-on:input="scheduleAutoSave" />
                     <flux:input label="Speed Through Water (Kts)" wire:model.defer='speed_through_water' x-on:input="scheduleAutoSave" />
                     <flux:input label="Course (Deg)" wire:model.defer='course' x-on:input="scheduleAutoSave" />
@@ -114,8 +106,6 @@
     <div class="border dark:border-zinc-700 mb-6 border-zinc-200 p-6 rounded-md">
         <flux:fieldset>
             <flux:legend>ROB Details</flux:legend>
-
-            <!-- Grade Buttons trigger modals -->
             <div class="flex space-x-6 mb-6 gap-3 items-center justify-center">
                 @foreach (array_keys($rob_data) as $type)
                     <flux:modal.trigger name="rob-modal-{{ strtolower($type) }}">
@@ -128,7 +118,6 @@
 
     @foreach (array_keys($rob_data) as $type)
         <flux:modal name="rob-modal-{{ strtolower($type) }}" class="max-w-full">
-            <!-- ROB/Consumption Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full mb-8">
                     <thead>
@@ -190,7 +179,6 @@
                 </table>
             </div>
 
-            <!-- Oil Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead>
@@ -216,7 +204,6 @@
                     </thead>
                     <tbody>
                         <tr class="border border-zinc-200 dark:border-zinc-700">
-                            <!-- ME CYL -->
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:select wire:model="rob_data.{{ $type }}.summary.me_cyl_grade"
                                     placeholder="Select" x-on:input="scheduleAutoSave">
@@ -234,7 +221,7 @@
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cyl_cons" x-on:input="scheduleAutoSave" />
                             </td>
-                            <!-- ME CC -->
+
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_cons" x-on:input="scheduleAutoSave" />
                             </td>
@@ -244,7 +231,7 @@
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.me_cc_hrs" x-on:input="scheduleAutoSave" />
                             </td>
-                            <!-- AE CC -->
+
                             <td class="px-4 py-2 border-r border-zinc-200 dark:border-zinc-700">
                                 <flux:input wire:model="rob_data.{{ $type }}.summary.ae_cc_cons" x-on:input="scheduleAutoSave" />
                             </td>
@@ -297,12 +284,10 @@ function autoSaveHandler() {
         autoSaveTimeout: null,
 
         scheduleAutoSave() {
-            // Clear existing timeout
             if (this.autoSaveTimeout) {
                 clearTimeout(this.autoSaveTimeout);
             }
 
-            // Set new timeout for 2 seconds after user stops typing
             this.autoSaveTimeout = setTimeout(() => {
                 this.triggerAutoSave();
             }, 2000);
@@ -310,11 +295,9 @@ function autoSaveHandler() {
 
         async triggerAutoSave() {
             try {
-                // Call the Livewire autoSave method
                 await this.$wire.call('autoSave');
             } catch (error) {
                 console.error('Auto-save failed:', error);
-                // You could show an error toaster here if needed
             }
         }
     };
@@ -323,10 +306,8 @@ function autoSaveHandler() {
 
 @push('scripts')
 <script>
-    // Listen for the draftSaved event from Livewire
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('draftSaved', () => {
-            // Optional: Show additional feedback when manual save is triggered
             console.log('Draft saved successfully');
         });
     });

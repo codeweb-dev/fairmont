@@ -120,9 +120,10 @@
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">
-                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
-                        Details</flux:button>
+                <td class="px-3 py-4 flex items-center gap-2">
+                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View</flux:button>
+                    <flux:button size="xs" href="{{ route('all-fast-report.edit', $report->id) }}"
+                        icon="pencil-square" wire:navigate>Edit</flux:button>
                 </td>
             </tr>
         @endforeach
@@ -132,7 +133,6 @@
         {{ $reports->links() }}
     </div>
 
-    <!-- Single Modal Outside the Loop -->
     @if ($showModal && $selectedReport)
         <flux:modal name="report-details-modal" class="min-w-[28rem] md:w-[48rem]" wire:model="showModal">
             <div class="space-y-6">

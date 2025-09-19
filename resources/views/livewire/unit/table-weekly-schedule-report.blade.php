@@ -121,9 +121,9 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 </td>
-                <td class="px-3 py-4">
-                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
-                        Details</flux:button>
+                <td class="px-3 py-4 flex items-center gap-2">
+                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View</flux:button>
+                    <flux:button size="xs" icon="pencil-square">Edit</flux:button>
                 </td>
             </tr>
         @endforeach

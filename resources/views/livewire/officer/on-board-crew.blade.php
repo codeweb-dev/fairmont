@@ -144,11 +144,9 @@
                     @if ($report->board_crew->isNotEmpty())
                         <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
                             View</flux:button>
-                        <flux:button size="xs" icon="pencil-square">Edit</flux:button>
                     @elseif ($report->crew_change->isNotEmpty())
                         <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">
                             View</flux:button>
-                        <flux:button size="xs" icon="pencil-square">Edit</flux:button>
                     @endif
                 </td>
             </tr>

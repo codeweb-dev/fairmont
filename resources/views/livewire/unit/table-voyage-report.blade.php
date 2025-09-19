@@ -120,9 +120,11 @@
                     {{ \Carbon\Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('M d, Y h:i A') }}
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
-                <td class="px-3 py-4">
+                <td class="px-3 py-4 flex items-center gap-2">
                     <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View
-                        Details</flux:button>
+                    </flux:button>
+                    <flux:button size="xs" icon="pencil-square"
+                        href="{{ route('voyage-report.edit', $report->id) }}" wire:navigate>Edit</flux:button>
                 </td>
             </tr>
         @endforeach
