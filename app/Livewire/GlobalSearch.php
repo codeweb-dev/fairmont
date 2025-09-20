@@ -14,7 +14,6 @@ class GlobalSearch extends Component
     {
         $this->results = [];
 
-        // Base pages (available to all)
         $pages = collect([
             ['name' => 'Dashboard', 'url' => route('dashboard')],
             ['name' => 'Profile Settings', 'url' => route('settings.profile')],
@@ -22,7 +21,6 @@ class GlobalSearch extends Component
             ['name' => 'Appearance Settings', 'url' => route('settings.appearance')],
         ]);
 
-        // Role-specific pages
         if (auth()->user()->hasRole('admin')) {
             $pages = $pages->merge([
                 ['name' => 'Users', 'url' => route('users')],
@@ -65,19 +63,18 @@ class GlobalSearch extends Component
                 ['name' => 'Bunkering Report', 'url' => route('officer-bunkering-report')],
                 ['name' => 'All Fast Report', 'url' => route('officer-all-fast-report')],
                 ['name' => 'Weekly Schedule Report', 'url' => route('officer-weekly-schedule-report')],
-                ['name' => 'Crew Monitoring Plan Report', 'url' => route('officer-crew-monitoring-plan-report')],
+                ['name' => 'Crew Monitoring Plan Report (On Board)', 'url' => route('officer-crew-monitoring-plan-report-on-board-crew')],
+                ['name' => 'Crew Monitoring Plan Report (Crew Change)', 'url' => route('officer-crew-monitoring-plan-report-crew-change')],
                 ['name' => 'Voyage Report', 'url' => route('officer-voyage-report')],
                 ['name' => 'KPI Report', 'url' => route('officer-kpi-report')],
                 ['name' => 'Port Of Call Report', 'url' => route('officer-port-of-call-report')],
             ]);
         }
 
-        // Filter by query
         $filteredPages = $pages->filter(function ($page) {
             return str_contains(strtolower($page['name']), strtolower($this->query));
         });
 
-        // Limit results
         $this->results = $filteredPages->take(10)->values()->toArray();
     }
 
