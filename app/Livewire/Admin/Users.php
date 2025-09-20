@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 class Users extends Component
 {
     use WithPagination, WithoutUrlPagination;
-    protected $paginationTheme = 'tailwind';
 
     public string $name = '';
     public string $email = '';
@@ -37,6 +36,7 @@ class Users extends Component
         'password' => '',
     ];
     public $editId = null;
+    public $currentPage = 1;
 
     public function updatingPerPage()
     {
@@ -57,16 +57,15 @@ class Users extends Component
                 'required',
                 'string',
                 'confirmed',
-                Password::min(12)                  // minimum 12
-                    ->letters()                   // must contain letters
-                    ->mixedCase()                 // at least 1 uppercase + 1 lowercase
-                    ->numbers()                   // at least 1 number
-                    ->symbols()                   // at least 1 symbol
-                    ->uncompromised()             // check against known leaked passwords
-                    ->max(128),                   // max length safeguard
+                Password::min(12)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+                    ->max(128),
             ],
         ], [
-            // ✅ Custom error messages
             'password.min' => 'Your password must be at least 12 characters long.',
             'password.max' => 'Your password may not be longer than 128 characters.',
             'password.letters' => 'Your password must contain at least one letter.',
@@ -124,7 +123,6 @@ class Users extends Component
         }
         $user->save();
 
-        // Audit log - Edit user
         Audit::create([
             'user' => $user->name,
             'event' => 'user_updated',
@@ -148,7 +146,6 @@ class Users extends Component
         $user->voyages()->delete();
         $user->delete();
 
-        // Audit log - Delete user
         Audit::create([
             'user' => $user->name,
             'event' => 'user_deleted',
@@ -174,7 +171,6 @@ class Users extends Component
         $user->is_active = false;
         $user->save();
 
-        // Audit log - Deactivate user
         Audit::create([
             'user' => $user->name,
             'event' => 'user_deactivated',
@@ -194,7 +190,6 @@ class Users extends Component
         $user->is_active = true;
         $user->save();
 
-        // Audit log - Activate user
         Audit::create([
             'user' => $user->name,
             'event' => 'user_activated',
@@ -208,6 +203,29 @@ class Users extends Component
         Toaster::success('User activated successfully.');
     }
 
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = User::query();
+
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        return ceil($query->count() / $this->perPage);
+    }
+
     public function render()
     {
         $query = User::query()->with('roles');
@@ -219,7 +237,9 @@ class Users extends Component
             });
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
+        $users = $query->orderBy('created_at', 'desc')
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+
         $roles = Role::all();
 
         return view('livewire.admin.users', [

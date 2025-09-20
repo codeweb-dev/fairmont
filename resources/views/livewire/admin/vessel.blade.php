@@ -298,7 +298,18 @@
         </form>
     </flux:modal>
 
-    <div class="mt-6">
-        {{ $_vessel->links() }}
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $_vessel->firstItem() }} to {{ $_vessel->lastItem() }} of {{ $_vessel->total() }} vessels
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
+                    max="{{ $_vessel->lastPage() }}" />
+            </div>
+            <flux:text>of {{ $_vessel->lastPage() }}</flux:text>
+        </div>
     </div>
 </div>

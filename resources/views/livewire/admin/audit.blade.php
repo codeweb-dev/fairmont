@@ -37,7 +37,8 @@
                         <flux:button icon="eye" size="sm">View</flux:button>
                     </flux:modal.trigger>
 
-                    <flux:modal name="view-audit-{{ $audit->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="view-audit-modal-{{ $audit->id }}">
+                    <flux:modal name="view-audit-{{ $audit->id }}" class="min-w-[24rem] md:w-[32rem]"
+                        wire:key="view-audit-modal-{{ $audit->id }}">
                         <div class="space-y-4">
                             <flux:heading size="lg">Audit Details</flux:heading>
 
@@ -82,7 +83,18 @@
         @endforeach
     </x-admin-components.table>
 
-    <div class="mt-6">
-        {{ $audits->links() }}
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $audits->firstItem() }} to {{ $audits->lastItem() }} of {{ $audits->total() }} results
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
+                    max="{{ $audits->lastPage() }}" />
+            </div>
+            <flux:text>of {{ $audits->lastPage() }}</flux:text>
+        </div>
     </div>
 </div>

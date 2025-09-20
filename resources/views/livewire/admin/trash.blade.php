@@ -69,7 +69,8 @@
                                 </flux:menu>
                             </flux:dropdown>
 
-                            <flux:modal name="force-delete-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="force-delete-user-modal-{{ $user->id }}">
+                            <flux:modal name="force-delete-user-{{ $user->id }}" class="min-w-[22rem]"
+                                wire:key="force-delete-user-modal-{{ $user->id }}">
                                 <div class="space-y-6">
                                     <div>
                                         <flux:heading size="lg">Delete User Permanently?</flux:heading>
@@ -93,7 +94,8 @@
                                 </div>
                             </flux:modal>
 
-                            <flux:modal name="restore-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="restore-user-modal-{{ $user->id }}">
+                            <flux:modal name="restore-user-{{ $user->id }}" class="min-w-[22rem]"
+                                wire:key="restore-user-modal-{{ $user->id }}">
                                 <div class="space-y-6">
                                     <div>
                                         <flux:heading size="lg">Restore User?</flux:heading>
@@ -155,8 +157,8 @@
                             </flux:menu>
                         </flux:dropdown>
 
-                        <!-- Modals for Restore and Force Delete -->
-                        <flux:modal name="restore-report-{{ $report->id }}" class="min-w-[22rem]" wire:key="restore-report-modal-{{ $report->id }}">
+                        <flux:modal name="restore-report-{{ $report->id }}" class="min-w-[22rem]"
+                            wire:key="restore-report-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">Restore</flux:heading>
                                 <flux:text class="mt-2">Restore {{ $report->report_type }}?</flux:text>
@@ -171,7 +173,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="force-delete-report-{{ $report->id }}" class="min-w-[22rem]" wire:key="force-delete-report-modal-{{ $report->id }}">
+                        <flux:modal name="force-delete-report-{{ $report->id }}" class="min-w-[22rem]"
+                            wire:key="force-delete-report-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <flux:heading size="lg">Permanently Delete?</flux:heading>
                                 <flux:text class="mt-2">This will permanently delete the report and cannot be undone.
@@ -192,7 +195,18 @@
         </x-admin-components.table>
     @endif
 
-    <div class="mt-6">
-        {{ $items->links() }}
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $items->firstItem() }} to {{ $items->lastItem() }} of {{ $items->total() }} results
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input wire:model.lazy="currentPage" min="1"
+                    max="{{ $items->lastPage() }}" size="sm" />
+            </div>
+            <flux:text>of {{ $items->lastPage() }}</flux:text>
+        </div>
     </div>
 </div>

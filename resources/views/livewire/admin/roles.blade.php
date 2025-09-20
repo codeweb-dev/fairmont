@@ -38,11 +38,13 @@
                 </td>
                 <td class="px-3 py-4">
                     @unless (auth()->id() === $user->id)
-                        <flux:modal.trigger name="edit-user-{{ $user->id }}" wire:click="setEdit({{ $user->id }})" wire:key="modal-{{ $user->id }}">
+                        <flux:modal.trigger name="edit-user-{{ $user->id }}" wire:click="setEdit({{ $user->id }})"
+                            wire:key="modal-{{ $user->id }}">
                             <flux:button icon:trailing="plus" size="sm">Add role</flux:button>
                         </flux:modal.trigger>
 
-                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="edit-modal-{{ $user->id }}">
+                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]"
+                            wire:key="edit-modal-{{ $user->id }}">
                             <form wire:submit.prevent="edit">
                                 <div class="space-y-6">
                                     <div>
@@ -72,7 +74,17 @@
         @endforeach
     </x-admin-components.table>
 
-    <div class="mt-6">
-        {{ $users->links() }}
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input wire:model.lazy="currentPage" min="1" max="{{ $users->lastPage() }}" size="sm" />
+            </div>
+            <flux:text>of {{ $users->lastPage() }}</flux:text>
+        </div>
     </div>
 </div>

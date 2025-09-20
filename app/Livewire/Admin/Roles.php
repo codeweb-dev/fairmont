@@ -16,18 +16,17 @@ use Flux\Flux;
 class Roles extends Component
 {
     use WithPagination, WithoutUrlPagination;
-    protected $paginationTheme = 'tailwind';
 
     public string $role = '';
-
     public $search = '';
-    public bool $showTrashed = false;
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
+    public $currentPage = 1;
     public $editData = [
         'role' => '',
     ];
     public $editId = null;
+    public bool $showTrashed = false;
 
     public function updatingPerPage()
     {
@@ -46,6 +45,33 @@ class Roles extends Component
         $this->editData = [
             'role' => $user->getRoleNames()->first() ?: '',
         ];
+    }
+
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = User::query();
+
+        if ($this->showTrashed) {
+            $query->onlyTrashed();
+        }
+
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        return ceil($query->count() / $this->perPage);
     }
 
     public function edit()
@@ -71,7 +97,6 @@ class Roles extends Component
         $this->reset(['editId', 'editData']);
     }
 
-
     public function render()
     {
         $query = User::query()->with('roles');
@@ -87,7 +112,8 @@ class Roles extends Component
             });
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
+        $users = $query->orderBy('created_at', 'desc')
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
 
         $roles = Role::all();
 

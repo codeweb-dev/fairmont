@@ -2,35 +2,23 @@
 
 namespace App\Livewire\Admin;
 
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
 use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Voyage;
 use Flux\Flux;
-use Illuminate\Support\Facades\Auth;
 
 #[Title('Kpi Report')]
 class KpiReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    protected $paginationTheme = 'tailwind';
-
-    public string $name = '';
-
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
-    public $editData = [
-        'name' => '',
-    ];
-    public $editId = null;
+    public $currentPage = 1;
 
     public function updatingPerPage()
     {
@@ -39,6 +27,30 @@ class KpiReport extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = Voyage::query();
+        if (!empty($this->search)) {
+            $query->where(function ($query) {
+                $query->whereHas('unit', function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%');
+                })->orWhereHas('vessel', function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%');
+                });
+            });
+        }
+        return ceil($query->count() / $this->perPage);
     }
 
     public function delete($id)
@@ -70,7 +82,7 @@ class KpiReport extends Component
                 });
             })
             ->latest()
-            ->paginate($this->perPage);
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
 
         return view('livewire.admin.kpi-report', [
             'reports' => $reports,

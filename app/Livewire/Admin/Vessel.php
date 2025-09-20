@@ -18,10 +18,7 @@ class Vessel extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    protected $paginationTheme = 'tailwind';
-
     public string $name = '';
-
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
@@ -29,12 +26,11 @@ class Vessel extends Component
         'name' => '',
     ];
     public $editId = null;
-
     public $selectedVesselId = null;
     public $selectedUserId = null;
-
     public $reassignUserId = null;
     public $reassignToVesselId = null;
+    public $currentPage = 1;
 
     public function updatingPerPage()
     {
@@ -43,6 +39,26 @@ class Vessel extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = ModelsVessel::query();
+
+        if (!empty($this->search)) {
+            $query->where('name', 'like', '%' . $this->search . '%');
+        }
+
+        return ceil($query->count() / $this->perPage);
     }
 
     public function save()
@@ -231,7 +247,8 @@ class Vessel extends Component
             $query->where('name', 'like', '%' . $this->search . '%');
         }
 
-        $_vessel = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
+        $_vessel = $query->orderBy('created_at', 'desc')
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
 
         $allowedRoles = ['unit', 'officer'];
         $users = User::role($allowedRoles)->get();

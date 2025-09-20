@@ -346,5 +346,18 @@
         @endforeach
     </x-admin-components.table>
 
-    <div class="mt-6">{{ $reports->links() }}</div>
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $reports->firstItem() }} to {{ $reports->lastItem() }} of {{ $reports->total() }} results
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
+                    max="{{ $reports->lastPage() }}" />
+            </div>
+            <flux:text>of {{ $reports->lastPage() }}</flux:text>
+        </div>
+    </div>
 </div>

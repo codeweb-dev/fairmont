@@ -691,7 +691,7 @@
                         </flux:modal>
 
                         <flux:modal name="delete-report-{{ $report->id }}" class="min-w-[22rem]"
-                        wire:key="noon-delete-modal-{{ $report->id }}">
+                            wire:key="noon-delete-modal-{{ $report->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">Soft Delete Report?</flux:heading>
@@ -718,8 +718,20 @@
             @endforeach
         </x-admin-components.table>
 
-        <div class="mt-6">
-            {{ $reports->links() }}
+        <div class="mt-6 flex items-center justify-between">
+            <flux:text>
+                Showing {{ $reports->firstItem() }} to {{ $reports->lastItem() }} of {{ $reports->total() }}
+                results
+            </flux:text>
+
+            <div class="flex items-center gap-2">
+                <flux:text>Page</flux:text>
+                <div class="w-9">
+                    <flux:input size="sm" wire:model.lazy="currentPage" min="1"
+                        max="{{ $reports->lastPage() }}" />
+                </div>
+                <flux:text>of {{ $reports->lastPage() }}</flux:text>
+            </div>
         </div>
     </div>
 </div>

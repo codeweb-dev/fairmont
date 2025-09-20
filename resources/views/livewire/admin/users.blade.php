@@ -39,8 +39,8 @@
                         <flux:input label="Password" type="password" placeholder="Enter user password" viewable
                             wire:model.blur="password" required />
 
-                        <flux:input wire:model="password_confirmation" label="Confirm password" type="password"
-                            required placeholder="Confirm password" viewable />
+                        <flux:input wire:model="password_confirmation" label="Confirm password" type="password" required
+                            placeholder="Confirm password" viewable />
 
                         <div class="flex">
                             <flux:spacer />
@@ -123,7 +123,8 @@
                             </flux:menu>
                         </flux:dropdown>
 
-                        <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="deactivate-modal-{{ $user->id }}">
+                        <flux:modal name="deactivate-user-{{ $user->id }}" class="min-w-[22rem]"
+                            wire:key="deactivate-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">
@@ -156,7 +157,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]" wire:key="delete-modal-{{ $user->id }}">
+                        <flux:modal name="delete-user-{{ $user->id }}" class="min-w-[22rem]"
+                            wire:key="delete-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">Soft Delete User?</flux:heading>
@@ -179,7 +181,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="view-modal-{{ $user->id }}">
+                        <flux:modal name="view-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]"
+                            wire:key="view-modal-{{ $user->id }}">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">User Details</flux:heading>
@@ -220,7 +223,8 @@
                             </div>
                         </flux:modal>
 
-                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]" wire:key="edit-modal-{{ $user->id }}">
+                        <flux:modal name="edit-user-{{ $user->id }}" class="min-w-[24rem] md:w-[32rem]"
+                            wire:key="edit-modal-{{ $user->id }}">
                             <form wire:submit.prevent="edit">
                                 <div class="space-y-6">
                                     <div>
@@ -253,7 +257,18 @@
         @endforeach
     </x-admin-components.table>
 
-    <div class="mt-6">
-        {{ $users->links() }}
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results
+        </flux:text>
+
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input wire:model.lazy="currentPage" min="1"
+                    max="{{ $users->lastPage() }}" size="sm" />
+            </div>
+            <flux:text>of {{ $users->lastPage() }}</flux:text>
+        </div>
     </div>
 </div>

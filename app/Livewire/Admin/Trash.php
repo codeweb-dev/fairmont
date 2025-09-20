@@ -15,12 +15,12 @@ use Masmerise\Toaster\Toaster;
 class Trash extends Component
 {
     use WithPagination, WithoutUrlPagination;
-    protected $paginationTheme = 'tailwind';
-    public string $viewing = 'users';
 
+    public string $viewing = 'users';
     public string $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
+    public $currentPage = 1;
 
     public function updatingSearch()
     {
@@ -89,6 +89,26 @@ class Trash extends Component
         Flux::modal('force-delete-report-' . $id)->close();
     }
 
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = $this->viewing === 'users'
+            ? User::onlyTrashed()->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
+            : Voyage::onlyTrashed()
+            ->with(['vessel', 'unit'])
+            ->when($this->search, fn($q) => $q->where('voyage_no', 'like', "%{$this->search}%"));
+
+        return ceil($query->count() / $this->perPage);
+    }
+
     public function render()
     {
         $query = null;
@@ -103,7 +123,7 @@ class Trash extends Component
         }
 
         return view('livewire.admin.trash', [
-            'items' => $query->paginate($this->perPage),
+            'items' => $query->paginate($this->perPage, ['*'], 'page', $this->currentPage),
             'pages' => $this->pages,
         ]);
     }

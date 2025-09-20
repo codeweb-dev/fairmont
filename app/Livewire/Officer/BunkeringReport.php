@@ -19,7 +19,6 @@ use ZipArchive;
 class BunkeringReport extends Component
 {
     use WithPagination, WithoutUrlPagination;
-    protected $paginationTheme = 'tailwind';
 
     public $search = '';
     public $perPage = 10;
@@ -29,40 +28,7 @@ class BunkeringReport extends Component
     public $selectedVessel = null;
     public $officerVessels = [];
     public $dateRange;
-
-    // Add these properties for modal handling
-    public $selectedReportId = null;
-    public $showModal = false;
-
-    // Add listeners for modal events
-    protected $listeners = [
-        'openReportModal' => 'openReportModal',
-        'closeReportModal' => 'closeReportModal'
-    ];
-
-    // Add modal methods
-    public function openReportModal($reportId)
-    {
-        $this->selectedReportId = $reportId;
-        $this->showModal = true;
-    }
-
-    public function closeReportModal()
-    {
-        $this->selectedReportId = null;
-        $this->showModal = false;
-    }
-
-    // Method to get selected report data
-    public function getSelectedReport()
-    {
-        if (!$this->selectedReportId) {
-            return null;
-        }
-
-        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
-            ->find($this->selectedReportId);
-    }
+    public $currentPage = 1;
 
     public function mount()
     {
@@ -144,12 +110,10 @@ class BunkeringReport extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset selection and page
             $this->selectedReports = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // When set, auto-select filtered reports
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
@@ -232,7 +196,6 @@ class BunkeringReport extends Component
                 return;
             }
 
-            // $filename = 'bunkering_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
             $filename = 'bunkering_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
@@ -299,14 +262,39 @@ class BunkeringReport extends Component
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
+    public function updatedCurrentPage($value)
+    {
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $this->getMaxPage()) {
+            $this->currentPage = $this->getMaxPage();
+        }
+    }
+
+    private function getMaxPage()
+    {
+        $query = Voyage::query();
+        if (!empty($this->search)) {
+            $query->where(function ($query) {
+                $query->where('voyage_no', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('unit', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    })
+                    ->orWhereHas('vessel', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
+            });
+        }
+        return ceil($query->count() / $this->perPage);
+    }
+
     public function render()
     {
-        $reports = $this->getReportsQuery()->paginate($this->perPage);
+        $reports = $this->getReportsQuery()->paginate($this->perPage, ['*'], 'page', $this->currentPage);
 
         return view('livewire.officer.bunkering-report', [
             'reports' => $reports,
             'pages' => $this->pages,
-            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

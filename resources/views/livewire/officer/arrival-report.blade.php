@@ -114,7 +114,7 @@
             </tr>
         @endif
         @foreach ($reports as $report)
-            <tr class="hover:bg-white/5 bg-black/5 transition-all">
+            <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="arrival-row-{{ $report->id }}">
                 <td class="px-3 py-4">
                     <flux:checkbox wire:model.live="selectedReports" value="{{ $report->id }}" />
                 </td>
@@ -127,330 +127,356 @@
                 </td>
                 <td class="px-3 py-4">{{ $report->unit->name }}</td>
                 <td class="px-3 py-4">
-                    <flux:button size="xs" icon="eye" wire:click="openReportModal({{ $report->id }})">View</flux:button>
+                    <flux:modal.trigger name="view-report-{{ $report->id }}">
+                        <flux:button size="xs" icon="eye">View Details</flux:button>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="view-report-{{ $report->id }}" class="max-w-screen"
+                        wire:key="arrival-view-modal-{{ $report->id }}">
+                        <div class="space-y-6">
+                            <flux:heading size="lg">Arrival Report Details</flux:heading>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <flux:label>Vessel Name</flux:label>
+                                    <p class="text-sm">{{ $report->vessel->name }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Voyage No</flux:label>
+                                    <p class="text-sm">{{ $report->voyage_no }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Date/Time (LT)</flux:label>
+                                    <p class="text-sm">
+                                        {{ $report->all_fast_datetime ? \Carbon\Carbon::parse($report->all_fast_datetime)->format('M d, Y h:i A') : '' }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <flux:label>GMT Offset</flux:label>
+                                    <p class="text-sm">{{ $report->gmt_offset ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Latitude</flux:label>
+                                    <p class="text-sm">{{ $report->port ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Longitude</flux:label>
+                                    <p class="text-sm">{{ $report->bunkering_port ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Arrival Type</flux:label>
+                                    <p class="text-sm">{{ $report->port_gmt_offset ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Arrival Port</flux:label>
+                                    <p class="text-sm">{{ $report->supplier ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Anchored Hours</flux:label>
+                                    <p class="text-sm">{{ $report->call_sign ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <flux:label>Drifting Hours</flux:label>
+                                    <p class="text-sm">{{ $report->flag ?? '' }}</p>
+                                </div>
+                            </div>
+
+                            <flux:separator />
+
+                            @if ($report->noon_report)
+                                <flux:heading size="sm">Details Since Last Report</flux:heading>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <flux:label>CP/Ordered Speed (Kts)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->cp_ordered_speed ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->me_cons_cp_speed ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Obs. Distance (NM)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->obs_distance ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Steaming Time (Hrs)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->steaming_time ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Avg Speed (Kts)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->avg_speed ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Distance sailed from last port (NM)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->distance_to_go ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Breakdown (Hrs)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->breakdown ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>M/E Revs Counter (Noon to Noon)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->maneuvering_hours ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Avg RPM</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->avg_rpm ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Engine Distance (NM)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->engine_distance ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Slip (%)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->next_port ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Avg Power (KW)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->avg_power ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Logged Distance (NM)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->logged_distance ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Speed Through Water (Kts)</flux:label>
+                                        <p class="text-sm">
+                                            {{ $report->noon_report->speed_through_water ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Course (Deg)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->course ?? '' }}</p>
+                                    </div>
+                                </div>
+
+                                <flux:separator />
+
+                                <flux:heading size="sm">Arrival Conditions</flux:heading>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <flux:label>Condition</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->condition ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Displacement (MT)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->displacement ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Cargo Name</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->cargo_name ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Cargo Weight (MT)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->cargo_weight ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Ballast Weight (MT)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->ballast_weight ?? '' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Fresh Water (MT)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->fresh_water ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Fwd Draft (m)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->fwd_draft ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>Aft Draft (m)</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->aft_draft ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <flux:label>GM</flux:label>
+                                        <p class="text-sm">{{ $report->noon_report->gm ?? '' }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <flux:separator />
+
+                            <div class="overflow-x-auto mt-6">
+                                <flux:label class="mb-6">ROB Summary</flux:label>
+                                <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                rowspan="2">Bunker Type</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="2">ROB (in MT)</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="4">Consumption</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                colspan="2">Cons./24hr</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
+                                                rowspan="2">Total Cons.</th>
+                                        </tr>
+                                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Previous
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Current
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E
+                                                Propulsion</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E Cons.
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Boiler
+                                                Cons.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                Incinerators</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E 24hr
+                                            </th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E 24hr
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($report->rob_fuel_reports as $summary)
+                                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                                <td
+                                                    class="px-4 py-2 font-semibold border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->fuel_type ?? '' }}
+                                                </td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->previous ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->current ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_propulsion ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cons ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->boiler_cons ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->incinerators ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_24 ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_24 ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->total_cons ?? '' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="overflow-x-auto mt-10">
+                                <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
+                                    <thead>
+                                        <tr class="border-zinc-200 dark:border-zinc-700 text-center font-semibold">
+                                            <td colspan="4"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                ME CYL</td>
+                                            <td colspan="3"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                ME CC</td>
+                                            <td colspan="3"
+                                                class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                AE CC</td>
+                                        </tr>
+                                        <tr class="border border-zinc-200 dark:border-zinc-700">
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
+                                            </th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
+                                                Run Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
+                                                Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
+                                                Quantity</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
+                                                Hrs.</th>
+                                            <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($report->rob_fuel_reports as $summary)
+                                            <tr class="border border-zinc-200 dark:border-zinc-700">
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_grade ?? '' }}</td>
+
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_qty ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_hrs ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cyl_cons ?? '' }}</td>
+
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_cons ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_qty ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->me_cc_hrs ?? '' }}</td>
+
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_cons ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_qty ?? '' }}</td>
+                                                <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
+                                                    {{ $summary->ae_cc_hrs ?? '' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <flux:separator />
+
+                            @if ($report->remarks)
+                                <flux:heading size="sm">Remarks</flux:heading>
+                                <p class="text-sm whitespace-pre-line">{{ $report->remarks->remarks }}</p>
+                            @endif
+
+                            <flux:separator />
+
+                            @if ($report->master_info)
+                                <flux:heading size="sm">Master Information</flux:heading>
+                                <p class="text-sm whitespace-pre-line">{{ $report->master_info->master_info }}
+                                </p>
+                            @endif
+
+                            <div class="flex justify-end">
+                                <flux:modal.close>
+                                    <flux:button variant="primary">Close</flux:button>
+                                </flux:modal.close>
+                            </div>
+                        </div>
+                    </flux:modal>
                 </td>
             </tr>
         @endforeach
     </x-admin-components.table>
 
-    <div class="mt-6">
-        {{ $reports->links() }}
-    </div>
+    <div class="mt-6 flex items-center justify-between">
+        <flux:text>
+            Showing {{ $reports->firstItem() }} to {{ $reports->lastItem() }} of {{ $reports->total() }} results
+        </flux:text>
 
-    @if ($showModal && $selectedReport)
-        <flux:modal name="report-details-modal" class="max-w-screen" wire:model="showModal">
-            <div class="space-y-6">
-                <flux:heading size="lg">Arrival Report Details</flux:heading>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <flux:label>Vessel Name</flux:label>
-                        <p class="text-sm">{{ $selectedReport->vessel->name }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Voyage No</flux:label>
-                        <p class="text-sm">{{ $selectedReport->voyage_no }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Date/Time (LT)</flux:label>
-                        <p class="text-sm">
-                            {{ $selectedReport->all_fast_datetime ? \Carbon\Carbon::parse($selectedReport->all_fast_datetime)->format('M d, Y h:i A') : '' }}
-                        </p>
-                    </div>
-                    <div>
-                        <flux:label>GMT Offset</flux:label>
-                        <p class="text-sm">{{ $selectedReport->gmt_offset ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Latitude</flux:label>
-                        <p class="text-sm">{{ $selectedReport->port ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Longitude</flux:label>
-                        <p class="text-sm">{{ $selectedReport->bunkering_port ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Arrival Type</flux:label>
-                        <p class="text-sm">{{ $selectedReport->port_gmt_offset ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Arrival Port</flux:label>
-                        <p class="text-sm">{{ $selectedReport->supplier ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Anchored Hours</flux:label>
-                        <p class="text-sm">{{ $selectedReport->call_sign ?? '' }}</p>
-                    </div>
-                    <div>
-                        <flux:label>Drifting Hours</flux:label>
-                        <p class="text-sm">{{ $selectedReport->flag ?? '' }}</p>
-                    </div>
-                </div>
-
-                <flux:separator />
-
-                @if ($selectedReport->noon_report)
-                    <flux:heading size="sm">Details Since Last Report</flux:heading>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <flux:label>CP/Ordered Speed (Kts)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->cp_ordered_speed ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Allowed M/E Cons. at C/P Speed</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->me_cons_cp_speed ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Obs. Distance (NM)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->obs_distance ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Steaming Time (Hrs)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->steaming_time ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Avg Speed (Kts)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->avg_speed ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Distance sailed from last port (NM)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->distance_to_go ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Breakdown (Hrs)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->breakdown ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>M/E Revs Counter (Noon to Noon)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->maneuvering_hours ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Avg RPM</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->avg_rpm ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Engine Distance (NM)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->engine_distance ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Slip (%)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->next_port ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Avg Power (KW)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->avg_power ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Logged Distance (NM)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->logged_distance ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Speed Through Water (Kts)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->speed_through_water ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Course (Deg)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->course ?? '' }}</p>
-                        </div>
-                    </div>
-
-                    <flux:separator />
-
-                    <flux:heading size="sm">Arrival Conditions</flux:heading>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <flux:label>Condition</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->condition ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Displacement (MT)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->displacement ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Cargo Name</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->cargo_name ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Cargo Weight (MT)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->cargo_weight ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Ballast Weight (MT)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->ballast_weight ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Fresh Water (MT)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->fresh_water ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Fwd Draft (m)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->fwd_draft ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>Aft Draft (m)</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->aft_draft ?? '' }}</p>
-                        </div>
-                        <div>
-                            <flux:label>GM</flux:label>
-                            <p class="text-sm">{{ $selectedReport->noon_report->gm ?? '' }}</p>
-                        </div>
-                    </div>
-                @endif
-
-                <flux:separator />
-
-                <div class="overflow-x-auto mt-6">
-                    <flux:label class="mb-6">ROB Summary</flux:label>
-                    <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
-                                    rowspan="2">Bunker Type</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
-                                    colspan="2">ROB (in MT)</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
-                                    colspan="4">Consumption</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
-                                    colspan="2">Cons./24hr</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-center"
-                                    rowspan="2">Total Cons.</th>
-                            </tr>
-                            <tr class="border border-zinc-200 dark:border-zinc-700">
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Previous
-                                </th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Current
-                                </th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E
-                                    Propulsion</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E Cons.
-                                </th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Boiler
-                                    Cons.</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                    Incinerators</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">M/E 24hr
-                                </th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">A/E 24hr
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($selectedReport->rob_fuel_reports as $summary)
-                                <tr class="border border-zinc-200 dark:border-zinc-700">
-                                    <td class="px-4 py-2 font-semibold border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->fuel_type ?? '' }}
-                                    </td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->previous ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->current ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_propulsion ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->ae_cons ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->boiler_cons ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->incinerators ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_24 ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->ae_24 ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->total_cons ?? '' }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="overflow-x-auto mt-10">
-                    <table class="min-w-full border border-zinc-200 dark:border-zinc-700">
-                        <thead>
-                            <tr class="border-zinc-200 dark:border-zinc-700 text-center font-semibold">
-                                <td colspan="4" class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                    ME CYL</td>
-                                <td colspan="3" class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                    ME CC</td>
-                                <td colspan="3" class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                    AE CC</td>
-                            </tr>
-                            <tr class="border border-zinc-200 dark:border-zinc-700">
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Grade
-                                </th>
-
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                    Quantity</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total
-                                    Run Hrs.</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
-                                </th>
-
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                    Quantity</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
-                                    Hrs.</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
-                                </th>
-
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil
-                                    Quantity</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Total Run
-                                    Hrs.</th>
-                                <th class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">Oil Cons.
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($selectedReport->rob_fuel_reports as $summary)
-                                <tr class="border border-zinc-200 dark:border-zinc-700">
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cyl_grade ?? '' }}</td>
-
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cyl_qty ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cyl_hrs ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cyl_cons ?? '' }}</td>
-
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cc_cons ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cc_qty ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->me_cc_hrs ?? '' }}</td>
-
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->ae_cc_cons ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->ae_cc_qty ?? '' }}</td>
-                                    <td class="px-4 py-2 border border-zinc-200 dark:border-zinc-700">
-                                        {{ $summary->ae_cc_hrs ?? '' }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <flux:separator />
-
-                @if ($selectedReport->remarks)
-                    <flux:heading size="sm">Remarks</flux:heading>
-                    <p class="text-sm whitespace-pre-line">{{ $selectedReport->remarks->remarks }}</p>
-                @endif
-
-                <flux:separator />
-
-                @if ($selectedReport->master_info)
-                    <flux:heading size="sm">Master Information</flux:heading>
-                    <p class="text-sm whitespace-pre-line">{{ $selectedReport->master_info->master_info }}</p>
-                @endif
-
-                <div class="flex justify-end pt-4">
-                    <flux:button variant="primary" wire:click="closeReportModal">Close</flux:button>
-                </div>
+        <div class="flex items-center gap-2">
+            <flux:text>Page</flux:text>
+            <div class="w-9">
+                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
+                    max="{{ $reports->lastPage() }}" />
             </div>
-        </flux:modal>
-    @endif
+            <flux:text>of {{ $reports->lastPage() }}</flux:text>
+        </div>
+    </div>
 </div>
