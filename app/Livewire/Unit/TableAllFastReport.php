@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Unit;
 
 use App\Exports\AllFastReportsByDateExport;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AllFastReportsExport;
 use Illuminate\Support\Carbon;
+use Flux\Flux;
 use ZipArchive;
 
 #[Title('All Fast Report')]
@@ -25,17 +27,7 @@ class TableAllFastReport extends Component
     public $selectAll = false;
     public $dateRange;
 
-    // Add these properties for modal handling
-    public $selectedReportId = null;
-    public $showModal = false;
-
     protected $paginationTheme = 'tailwind';
-
-    // Add listeners for modal events
-    protected $listeners = [
-        'openReportModal' => 'openReportModal',
-        'closeReportModal' => 'closeReportModal'
-    ];
 
     public function updatingPerPage()
     {
@@ -62,30 +54,6 @@ class TableAllFastReport extends Component
     {
         $totalReports = $this->getReportsQuery()->count();
         $this->selectAll = count($this->selectedReports) === $totalReports;
-    }
-
-    // Add modal methods
-    public function openReportModal($reportId)
-    {
-        $this->selectedReportId = $reportId;
-        $this->showModal = true;
-    }
-
-    public function closeReportModal()
-    {
-        $this->selectedReportId = null;
-        $this->showModal = false;
-    }
-
-    // Method to get selected report data
-    public function getSelectedReport()
-    {
-        if (!$this->selectedReportId) {
-            return null;
-        }
-
-        return Voyage::with(['vessel', 'unit', 'robs', 'remarks', 'master_info'])
-            ->find($this->selectedReportId);
     }
 
     private function getReportsQuery()
@@ -273,6 +241,14 @@ class TableAllFastReport extends Component
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete();
+        Toaster::success('All Fast Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
+    }
+
     public function render()
     {
         $reports = $this->getReportsQuery()->paginate($this->perPage);
@@ -280,7 +256,6 @@ class TableAllFastReport extends Component
         return view('livewire.unit.table-all-fast-report', [
             'reports' => $reports,
             'pages' => $this->pages,
-            'selectedReport' => $this->getSelectedReport(), // Pass selected report to view
         ]);
     }
 }

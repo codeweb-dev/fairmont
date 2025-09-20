@@ -12,6 +12,7 @@ use App\Exports\WeeklyScheduleReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\WeeklyScheduleReportsByDateExport;
 use Illuminate\Support\Carbon;
+use Flux\Flux;
 use ZipArchive;
 
 #[Title('Weekly Schedule Report')]
@@ -20,59 +21,13 @@ class TableWeeklyScheduleReport extends Component
     use WithPagination;
 
     protected $paginationTheme = 'tailwind';
-
     public string $name = '';
-
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
     public $dateRange;
-
-    // Add these properties for modal handling
-    public $selectedReportId = null;
-    public $showModal = false;
-
-    // Add listeners for modal events
-    protected $listeners = [
-        'openReportModal' => 'openReportModal',
-        'closeReportModal' => 'closeReportModal'
-    ];
-
-    // Add modal methods
-    public function openReportModal($reportId)
-    {
-        $this->selectedReportId = $reportId;
-        $this->showModal = true;
-    }
-
-    public function closeReportModal()
-    {
-        $this->selectedReportId = null;
-        $this->showModal = false;
-    }
-
-    // Method to get selected report data
-    public function getSelectedReport()
-    {
-        if (!$this->selectedReportId) {
-            return null;
-        }
-
-        return Voyage::with([
-            'vessel',
-            'unit',
-            'location',
-            'off_hire',
-            'engine',
-            'received',
-            'consumption',
-            'robs',
-        ])
-            ->find($this->selectedReportId);
-    }
 
     public function updatingPerPage()
     {
@@ -138,12 +93,10 @@ class TableWeeklyScheduleReport extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset selection and page
             $this->selectedReports = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // When set, auto-select filtered reports
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
@@ -226,7 +179,6 @@ class TableWeeklyScheduleReport extends Component
                 return;
             }
 
-            // $filename = 'weekly_report_' . $report->vessel->name . '_' . $report->voyage_no . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
             $filename = 'weekly_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
@@ -269,7 +221,6 @@ class TableWeeklyScheduleReport extends Component
                 $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
                 $baseFilename = 'weekly_report_' . $vesselName . '_' . $reportDate;
 
-                // Check if filename already used, then increment
                 if (!isset($filenameCounts[$baseFilename])) {
                     $filenameCounts[$baseFilename] = 1;
                 } else {
@@ -293,6 +244,14 @@ class TableWeeklyScheduleReport extends Component
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete();
+        Toaster::success('Weekly Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
+    }
+
     public function render()
     {
         $reports = $this->getReportsQuery()->paginate($this->perPage);
@@ -300,7 +259,6 @@ class TableWeeklyScheduleReport extends Component
         return view('livewire.unit.table-weekly-schedule-report', [
             'reports' => $reports,
             'pages' => $this->pages,
-            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BunkeringReportsExport;
 use Illuminate\Support\Carbon;
+use Flux\Flux;
 use ZipArchive;
 
 #[Title('Bunkering Report')]
@@ -25,42 +26,7 @@ class TableBunkeringReport extends Component
     public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
-
     public $dateRange;
-
-    // Add these properties for modal handling
-    public $selectedReportId = null;
-    public $showModal = false;
-
-    // Add listeners for modal events
-    protected $listeners = [
-        'openReportModal' => 'openReportModal',
-        'closeReportModal' => 'closeReportModal'
-    ];
-
-    // Add modal methods
-    public function openReportModal($reportId)
-    {
-        $this->selectedReportId = $reportId;
-        $this->showModal = true;
-    }
-
-    public function closeReportModal()
-    {
-        $this->selectedReportId = null;
-        $this->showModal = false;
-    }
-
-    // Method to get selected report data
-    public function getSelectedReport()
-    {
-        if (!$this->selectedReportId) {
-            return null;
-        }
-
-        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
-            ->find($this->selectedReportId);
-    }
 
     public function updatingPerPage()
     {
@@ -127,12 +93,10 @@ class TableBunkeringReport extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset selection and page
             $this->selectedReports = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // When set, auto-select filtered reports
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
             $this->selectedReports = $reportIds;
             $this->selectAll = count($reportIds) > 0;
@@ -215,7 +179,6 @@ class TableBunkeringReport extends Component
                 return;
             }
 
-            // $filename = 'bunkering_report_' . $report->vessel->name . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
             $filename = 'bunkering_report_' . $report->vessel->name . '_' . Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
             Toaster::success('Report exported successfully.');
@@ -258,7 +221,6 @@ class TableBunkeringReport extends Component
                 $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
                 $baseFilename = 'bunkering_report_' . $vesselName . '_' . $reportDate;
 
-                // Check if filename already used, then increment
                 if (!isset($filenameCounts[$baseFilename])) {
                     $filenameCounts[$baseFilename] = 1;
                 } else {
@@ -282,6 +244,14 @@ class TableBunkeringReport extends Component
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete();
+        Toaster::success('Bunkering Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
+    }
+
     public function render()
     {
         $reports = $this->getReportsQuery()->paginate($this->perPage);
@@ -289,7 +259,6 @@ class TableBunkeringReport extends Component
         return view('livewire.unit.table-bunkering-report', [
             'reports' => $reports,
             'pages' => $this->pages,
-            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }

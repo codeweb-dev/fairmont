@@ -13,6 +13,7 @@ use App\Exports\CrewMonitoringPlanExport;
 use App\Exports\CrewMonitoringPlanReportsByDateExport;
 use Illuminate\Support\Carbon;
 use ZipArchive;
+use Flux\Flux;
 use Illuminate\Support\Facades\Log;
 
 #[Title('Crew Monitoring Plan Report On Board Crew')]
@@ -20,51 +21,14 @@ class TableOnBoardCrew extends Component
 {
     use WithPagination;
 
+    public $dateRange;
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
     public $selectedOnBoard = [];
     public $selectedCrewChange = [];
     public $selectAll = false;
-
-    public string $viewing = 'on-board'; // Default viewing type
-
-    public $dateRange;
-
-    // Add these properties for modal handling
-    public $selectedReportId = null;
-    public $showModal = false;
-
-    // Add listeners for modal events
-    protected $listeners = [
-        'openReportModal' => 'openReportModal',
-        'closeReportModal' => 'closeReportModal'
-    ];
-
-    // Add modal methods
-    public function openReportModal($reportId)
-    {
-        $this->selectedReportId = $reportId;
-        $this->showModal = true;
-    }
-
-    public function closeReportModal()
-    {
-        $this->selectedReportId = null;
-        $this->showModal = false;
-    }
-
-    // Method to get selected report data
-    public function getSelectedReport()
-    {
-        if (!$this->selectedReportId) {
-            return null;
-        }
-
-        return Voyage::with(['vessel', 'unit', 'rob_tanks', 'rob_fuel_reports', 'noon_report', 'remarks', 'master_info', 'weather_observations'])
-            ->find($this->selectedReportId);
-    }
-
+    public string $viewing = 'on-board';
     protected $paginationTheme = 'tailwind';
 
     public function updatingPerPage()
@@ -182,13 +146,11 @@ class TableOnBoardCrew extends Component
     public function updatedDateRange()
     {
         if (!$this->dateRange) {
-            // When cleared, reset both selections and pagination
             $this->selectedOnBoard = [];
             $this->selectedCrewChange = [];
             $this->selectAll = false;
             $this->resetPage();
         } else {
-            // Auto-select filtered reports for the current view
             $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
 
             if ($this->viewing === 'on-board') {
@@ -373,6 +335,14 @@ class TableOnBoardCrew extends Component
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
+    public function delete($id)
+    {
+        $voyage = Voyage::findOrFail($id);
+        $voyage->delete();
+        Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
+        Flux::modal('delete-report-' . $id)->close();
+    }
+
     public function render()
     {
         $reports = $this->getReportsQuery()->paginate($this->perPage);
@@ -381,7 +351,6 @@ class TableOnBoardCrew extends Component
             'reports' => $reports,
             'pages' => $this->pages,
             'viewing' => $this->viewing,
-            'selectedReport' => $this->getSelectedReport(),
         ]);
     }
 }
