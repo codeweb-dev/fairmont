@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\ArrivalReportsExport;
+use App\Models\Notification;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Flux\Flux;
@@ -251,6 +252,12 @@ class TableArrivalReport extends Component
     {
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
+
+        Notification::create([
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been soft deleted.",
+        ]);
+
         Toaster::success('Arrival Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }

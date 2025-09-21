@@ -11,6 +11,7 @@ use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\VoyageReportsExport;
+use App\Models\Notification;
 use Illuminate\Support\Carbon;
 use Flux\Flux;
 use ZipArchive;
@@ -274,6 +275,12 @@ class TableVoyageReport extends Component
     {
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
+
+        Notification::create([
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been soft deleted.",
+        ]);
+
         Toaster::success('Voyage Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }

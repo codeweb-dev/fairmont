@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Exports\PortOfCallReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PortOfCallReportsByDateExport;
+use App\Models\Notification;
 use Illuminate\Support\Carbon;
 use Flux\Flux;
 use ZipArchive;
@@ -246,6 +247,12 @@ class TablePortOfCallReport extends Component
     {
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
+
+        Notification::create([
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been soft deleted.",
+        ]);
+
         Toaster::success('Port Of Call Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }

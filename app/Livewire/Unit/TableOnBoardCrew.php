@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CrewMonitoringPlanExport;
 use App\Exports\CrewMonitoringPlanReportsByDateExport;
+use App\Models\Notification;
 use Illuminate\Support\Carbon;
 use ZipArchive;
 use Flux\Flux;
@@ -339,6 +340,12 @@ class TableOnBoardCrew extends Component
     {
         $voyage = Voyage::findOrFail($id);
         $voyage->delete();
+
+        Notification::create([
+            'vessel_id' => $voyage->vessel_id,
+            'text'      => "{$voyage->report_type} report has been soft deleted.",
+        ]);
+
         Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }
