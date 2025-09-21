@@ -13,9 +13,15 @@
 
     <flux:modal name="notification" variant="flyout">
         <div class="space-y-6">
-            <div>
-                <flux:heading size="lg">Notifications</flux:heading>
-                <flux:text class="mt-2">All notifications are shown below.</flux:text>
+            <div class="flex items-center justify-between">
+                <div>
+                    <flux:heading size="lg">Notifications</flux:heading>
+                    <flux:text class="mt-2">All notifications are shown below.</flux:text>
+                </div>
+
+                <flux:button size="xs" icon:trailing="arrow-path" wire:click="refreshNotifications">
+                    Refresh
+                </flux:button>
             </div>
 
             <flux:separator />

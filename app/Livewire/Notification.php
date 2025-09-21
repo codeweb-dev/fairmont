@@ -22,6 +22,11 @@ class Notification extends Component
         }
     }
 
+    public function refreshNotifications()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $user = Auth::user();
