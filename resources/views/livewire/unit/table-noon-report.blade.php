@@ -134,7 +134,8 @@
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 
-                                <flux:navmenu.item icon="pencil-square" wire:navigate>
+                                <flux:navmenu.item href="{{ route('noon-report.edit', $report->id) }}"
+                                    icon="pencil-square" wire:navigate>
                                     Edit
                                 </flux:navmenu.item>
 

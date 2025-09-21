@@ -149,7 +149,8 @@
                                         </flux:menu.item>
                                     </flux:modal.trigger>
 
-                                    <flux:navmenu.item icon="pencil-square" wire:navigate>
+                                    <flux:navmenu.item href="{{ route('on-board-report.edit', $report->id) }}"
+                                        icon="pencil-square" wire:navigate>
                                         Edit
                                     </flux:navmenu.item>
 
@@ -173,7 +174,8 @@
                                         </flux:menu.item>
                                     </flux:modal.trigger>
 
-                                    <flux:navmenu.item icon="pencil-square" wire:navigate>
+                                    <flux:navmenu.item href="{{ route('crew-change-report.edit', $report->id) }}"
+                                        icon="pencil-square" wire:navigate>
                                         Edit
                                     </flux:navmenu.item>
 

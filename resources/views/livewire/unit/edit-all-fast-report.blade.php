@@ -132,7 +132,7 @@
     </div>
 
     <div class="flex items-center justify-center w-full">
-        <flux:button type="submit">
+        <flux:button type="submit" icon="check">
             Update Report
         </flux:button>
     </div>

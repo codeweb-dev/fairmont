@@ -135,7 +135,7 @@
                                     </flux:menu.item>
                                 </flux:modal.trigger>
 
-                                <flux:navmenu.item href="{{ route('all-fast-report.edit', $report->id) }}"
+                                <flux:navmenu.item href="{{ route('departure-report.edit', $report->id) }}"
                                     icon="pencil-square" wire:navigate>
                                     Edit
                                 </flux:navmenu.item>

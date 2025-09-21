@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Unit;
 
+use App\Models\Audit;
+use App\Models\Notification;
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -107,6 +109,20 @@ class EditVoyageReport extends Component
         $this->voyage->consumption()->updateOrCreate([], $this->consumption);
         $this->voyage->remarks()->updateOrCreate([], ['remarks' => $this->remarks]);
         $this->voyage->master_info()->updateOrCreate([], ['master_info' => $this->master_info]);
+
+        Notification::create([
+            'vessel_id' => $this->voyage->vessel_id,
+            'text'      => "{$this->voyage->report_type} report has been updated.",
+        ]);
+
+        Audit::create([
+            'user'       => Auth::user()->name,
+            'event'      => 'updated_voyage_report',
+            'old_values' => [],
+            'new_values' => ['report_type' => $this->voyage->report_type],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         Toaster::success('Voyage Report Updated Successfully.');
         return redirect()->route('table-voyage-report');

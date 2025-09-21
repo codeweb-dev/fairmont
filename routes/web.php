@@ -69,6 +69,15 @@ use App\Livewire\Officer\KpiReport as OfficerKpiReport;
 use App\Livewire\Officer\PortOfCallReport as OfficerPortOfCallReport;
 use App\Livewire\Officer\OnBoardCrew as OfficerOnBoardCrew;
 use App\Livewire\Officer\CrewChange as OfficerCrewChange;
+use App\Livewire\Unit\EditArrivalReport;
+use App\Livewire\Unit\EditBunkeringReport;
+use App\Livewire\Unit\EditCrewChangeReport;
+use App\Livewire\Unit\EditDepartureReport;
+use App\Livewire\Unit\EditKpiReport;
+use App\Livewire\Unit\EditNoonReport;
+use App\Livewire\Unit\EditOnBoardReport;
+use App\Livewire\Unit\EditPortOfCallReport;
+use App\Livewire\Unit\EditWeeklyScheduleReport;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', Login::class)->name('login');
@@ -138,6 +147,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/all-fast/{id}/edit', EditAllFastReport::class)->name('all-fast-report.edit');
         Route::get('/voyage/{id}/edit', EditVoyageReport::class)->name('voyage-report.edit');
+        Route::get('/kpi/{id}/edit', EditKpiReport::class)->name('kpi-report.edit');
+        Route::get('/port-of-call/{id}/edit', EditPortOfCallReport::class)->name('port-of-call-report.edit');
+        Route::get('/weekly-schedule/{id}/edit', EditWeeklyScheduleReport::class)->name('weekly-schedule-report.edit');
+        Route::get('/bunkering/{id}/edit', EditBunkeringReport::class)->name('bunkering-report.edit');
+        Route::get('/arrival/{id}/edit', EditArrivalReport::class)->name('arrival-report.edit');
+        Route::get('/departure/{id}/edit', EditDepartureReport::class)->name('departure-report.edit');
+        Route::get('/noon/{id}/edit', EditNoonReport::class)->name('noon-report.edit');
+        Route::get('/crew-change/{id}/edit', EditCrewChangeReport::class)->name('crew-change-report.edit');
+        Route::get('/on-board/{id}/edit', EditOnBoardReport::class)->name('on-board-report.edit');
     });
 
     Route::group(['middleware' => ['role:officer']], function () {
