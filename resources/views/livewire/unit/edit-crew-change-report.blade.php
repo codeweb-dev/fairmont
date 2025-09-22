@@ -9,14 +9,7 @@
         </div>
     </div>
 
-    <div class="mb-6 flex items-center justify-between w-full">
-        <div class="flex items-center gap-3">
-            <flux:button wire:click="switchToOnBoard" :variant="$onBoardMode ? 'primary' : 'filled'">On Board Crew
-            </flux:button>
-            <flux:button wire:click="switchToCrewChange" :variant="!$onBoardMode ? 'primary' : 'filled'">Crew Change
-            </flux:button>
-        </div>
-
+    <div class="mb-6 flex items-end justify-end w-full">
         <flux:button wire:click="{{ $onBoardMode ? 'addBoardRow' : 'addCrewRow' }}">Add Crew</flux:button>
     </div>
 

@@ -15,7 +15,6 @@ use App\Models\Notification;
 use Illuminate\Support\Carbon;
 use Flux\Flux;
 use ZipArchive;
-use Illuminate\Support\Facades\Log;
 
 #[Title('Crew Monitoring Plan Report Crew Change')]
 class TableCrewChange extends Component
@@ -26,10 +25,8 @@ class TableCrewChange extends Component
     public $search = '';
     public $perPage = 10;
     public $pages = [10, 20, 30, 40, 50];
-    public $selectedOnBoard = [];
     public $selectedCrewChange = [];
     public $selectAll = false;
-    public string $viewing = 'crew-change';
     public $currentPage = 1;
 
     public function updatingPerPage()
@@ -37,107 +34,59 @@ class TableCrewChange extends Component
         $this->resetPage();
     }
 
-    public function updatedViewing($value)
-    {
-        $this->resetPage();
-
-        $this->selectAll = false;
-        $this->search = '';
-
-        if ($value === 'on-board') {
-            $this->selectedOnBoard = array_filter($this->selectedOnBoard, function ($id) {
-                return Voyage::whereHas('board_crew')->where('id', $id)->exists();
-            });
-            $this->selectedCrewChange = [];
-        } else {
-            $this->selectedCrewChange = array_filter($this->selectedCrewChange, function ($id) {
-                return Voyage::whereHas('crew_change')->where('id', $id)->exists();
-            });
-            $this->selectedOnBoard = [];
-        }
-    }
-
-    public function getSelectedReportsProperty()
-    {
-        return $this->viewing === 'on-board'
-            ? $this->selectedOnBoard
-            : $this->selectedCrewChange;
-    }
-
     public function updatingSearch()
     {
         $this->resetPage();
-        $this->selectedOnBoard = [];
         $this->selectedCrewChange = [];
         $this->selectAll = false;
     }
 
     public function updatedSelectAll($value)
     {
-        $ids = $this->getReportsQuery()->pluck('id')->toArray();
+        $currentPageIds = $this->getReportsQuery()
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage)
+            ->pluck('id')
+            ->toArray();
 
-        if ($value) {
-            if ($this->viewing === 'on-board') {
-                $this->selectedOnBoard = $ids;
-            } else {
-                $this->selectedCrewChange = $ids;
-            }
-        } else {
-            if ($this->viewing === 'on-board') {
-                $this->selectedOnBoard = [];
-            } else {
-                $this->selectedCrewChange = [];
-            }
-        }
-    }
-
-    public function updatedSelectedOnBoard()
-    {
-        $this->syncSelectAllState();
+        $this->selectedCrewChange = $value ? $currentPageIds : [];
     }
 
     public function updatedSelectedCrewChange()
     {
-        $this->syncSelectAllState();
-    }
+        $currentPageIds = $this->getReportsQuery()
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage)
+            ->pluck('id')
+            ->toArray();
 
-    private function syncSelectAllState()
-    {
-        $visible = $this->getReportsQuery()->pluck('id')->toArray();
-        $selected = $this->selectedReports;
-        $this->selectAll = count($selected) === count($visible);
+        $this->selectAll = count(array_intersect($currentPageIds, $this->selectedCrewChange)) === count($currentPageIds);
     }
 
     private function getReportsQuery()
     {
         $assignedVesselIds = Auth::user()->vessels()->pluck('vessels.id');
 
-        return Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])
+        return Voyage::with(['unit', 'vessel', 'crew_change', 'remarks', 'master_info'])
             ->where('report_type', 'Crew Monitoring Plan')
             ->whereIn('vessel_id', $assignedVesselIds)
-            ->when($this->viewing === 'crew-change', fn($q) => $q->whereHas('crew_change'))
-            ->when($this->viewing === 'on-board', fn($q) => $q->whereHas('board_crew'))
+            ->whereHas('crew_change')
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->whereHas('unit', function ($q) {
                         $q->where('name', 'like', '%' . $this->search . '%');
-                    })
-                        ->orWhereHas('vessel', function ($q) {
-                            $q->where('name', 'like', '%' . $this->search . '%');
-                        });
+                    })->orWhereHas('vessel', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
                 });
             })
             ->when($this->dateRange, function ($query) {
                 $dates = explode(' to ', $this->dateRange);
-
                 if (count($dates) === 2) {
                     [$start, $end] = $dates;
                     return $query->whereBetween('created_at', [
-                        \Carbon\Carbon::parse($start)->startOfDay(),
-                        \Carbon\Carbon::parse($end)->endOfDay(),
+                        Carbon::parse($start)->startOfDay(),
+                        Carbon::parse($end)->endOfDay(),
                     ]);
                 }
-
                 return $query;
             })
             ->latest();
@@ -145,24 +94,20 @@ class TableCrewChange extends Component
 
     public function updatedDateRange()
     {
-        if (!$this->dateRange) {
-            $this->selectedOnBoard = [];
+        $this->resetPage();
+
+        if ($this->dateRange) {
+            $currentPageReports = $this->getReportsQuery()
+                ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+
+            $this->selectedCrewChange = $currentPageReports->pluck('id')->toArray();
+            $this->selectAll = count($currentPageReports) > 0
+                && count($this->selectedCrewChange) === $currentPageReports->count();
+        } else {
             $this->selectedCrewChange = [];
             $this->selectAll = false;
-            $this->resetPage();
-        } else {
-            $reportIds = $this->getReportsQuery()->pluck('id')->toArray();
-
-            if ($this->viewing === 'on-board') {
-                $this->selectedOnBoard = $reportIds;
-            } else {
-                $this->selectedCrewChange = $reportIds;
-            }
-
-            $this->selectAll = count($reportIds) > 0;
         }
     }
-
 
     public function exportByDateRange()
     {
@@ -172,26 +117,10 @@ class TableCrewChange extends Component
         }
 
         $dates = explode(' to ', $this->dateRange);
-        $start = trim($dates[0] ?? '');
-        $end = trim($dates[1] ?? '');
-
-        $startDate = $start ? Carbon::parse($start)->startOfDay() : null;
-        $endDate = $end ? Carbon::parse($end)->endOfDay() : null;
-
-        if (!$startDate && !$endDate) {
-            Toaster::error('Please select at least a start or end date.');
-            return;
-        }
+        $startDate = isset($dates[0]) ? Carbon::parse($dates[0])->startOfDay() : null;
+        $endDate = isset($dates[1]) ? Carbon::parse($dates[1])->endOfDay() : null;
 
         $reportQuery = $this->getReportsQuery();
-
-        if ($startDate && $endDate) {
-            $reportQuery->whereBetween('created_at', [$startDate, $endDate]);
-        } elseif ($startDate) {
-            $reportQuery->where('created_at', '>=', $startDate);
-        } elseif ($endDate) {
-            $reportQuery->where('created_at', '<=', $endDate);
-        }
 
         $reportCount = $reportQuery->count();
         if ($reportCount === 0) {
@@ -200,74 +129,42 @@ class TableCrewChange extends Component
         }
 
         $firstReport = $reportQuery->with('vessel')->first();
+        $vesselName = $firstReport->vessel?->name ?? 'Vessel';
+        $filename = "crew_change_{$vesselName}_crew_monitoring_plan_report.xlsx";
 
-        $reportType = 'crew_change';
-        $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
-
-        if ($startDate && $endDate && $startDate->isSameDay($endDate)) {
-            $date = $startDate->format('Y-m-d');
-            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$date}.xlsx";
-        } else {
-            $from = $startDate ? $startDate->format('Y-m-d') : 'Start';
-            $to = $endDate ? $endDate->format('Y-m-d') : 'End';
-            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$from}_{$to}.xlsx";
-        }
-
+        $this->resetSelections();
         Toaster::success('Reports exported by date range.');
-        $this->selectedOnBoard = [];
-        $this->selectedCrewChange = [];
-        $this->selectAll = false;
-        $this->dateRange = null;
 
         return Excel::download(
-            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, $this->viewing),
+            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, 'crew-change'),
             $filename
         );
     }
 
-    private function resetSelections(): void
-    {
-        $this->selectedOnBoard = [];
-        $this->selectedCrewChange = [];
-        $this->selectAll = false;
-        $this->dateRange = null;
-    }
-
     public function exportSelected()
     {
-        if (empty($this->selectedReports)) {
+        if (empty($this->selectedCrewChange)) {
             Toaster::error('Please select at least one report to export.');
             return;
         }
 
-        if (count($this->selectedReports) === 1) {
-            $reportId = $this->selectedReports[0];
-            $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change', 'remarks', 'master_info'])->find($reportId);
+        if (count($this->selectedCrewChange) === 1) {
+            $reportId = $this->selectedCrewChange[0];
+            $report = Voyage::with(['unit', 'vessel', 'crew_change', 'remarks', 'master_info'])->find($reportId);
 
-            if ($this->viewing === 'on-board' && $report->board_crew->isEmpty()) {
-                Toaster::error('Selected report has no on-board crew data.');
-                return;
-            }
-
-            if ($this->viewing === 'crew-change' && $report->crew_change->isEmpty()) {
+            if ($report->crew_change->isEmpty()) {
                 Toaster::error('Selected report has no crew change data.');
                 return;
             }
 
             $vesselName = $report->vessel?->name ?? 'Vessel';
-            $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-            $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
+            $reportDate = Carbon::parse($report->created_at)->format('Y-m-d');
+            $filename = "crew_change_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.xlsx";
 
-            $filename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.xlsx";
             $this->resetSelections();
+            Toaster::success('Report exported successfully.');
 
-            try {
-                Toaster::success('Report exported successfully.');
-                return Excel::download(new CrewMonitoringPlanExport([$reportId], $this->viewing), $filename);
-            } catch (\Exception $e) {
-                Toaster::error($e->getMessage());
-                return;
-            }
+            return Excel::download(new CrewMonitoringPlanExport([$reportId], 'crew-change'), $filename);
         }
 
         return $this->exportMultipleReports();
@@ -276,18 +173,12 @@ class TableCrewChange extends Component
     private function exportMultipleReports()
     {
         $tempDir = storage_path('app/temp/exports');
-        if (!file_exists($tempDir)) {
-            mkdir($tempDir, 0755, true);
-        }
+        if (!file_exists($tempDir)) mkdir($tempDir, 0755, true);
 
-        $firstReport = Voyage::with('vessel')->find($this->selectedReports[0]);
-
-        $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
-        $vesselNameRaw = $firstReport->vessel->name ?? 'Vessel';
-        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
-        $reportDate = Carbon::parse($firstReport->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-
-        $zipFileName = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.zip";
+        $firstReport = Voyage::with('vessel')->find($this->selectedCrewChange[0]);
+        $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $firstReport->vessel->name ?? 'Vessel');
+        $reportDate = Carbon::parse($firstReport->created_at)->format('Y-m-d');
+        $zipFileName = "crew_change_{$vesselName}_crew_monitoring_plan_report_{$reportDate}.zip";
         $zipPath = "{$tempDir}/{$zipFileName}";
 
         $zip = new ZipArchive();
@@ -296,42 +187,25 @@ class TableCrewChange extends Component
             return;
         }
 
-        $filenameCounts = [];
-        foreach ($this->selectedReports as $reportId) {
-            $report = Voyage::with(['unit', 'vessel', 'board_crew', 'crew_change'])->find($reportId);
+        foreach ($this->selectedCrewChange as $reportId) {
+            $report = Voyage::with(['unit', 'vessel', 'crew_change'])->find($reportId);
+            if (!$report) continue;
 
-            if (!$report) {
-                Log::warning("Skipping missing report ID: $reportId");
-                continue;
-            }
-
-            $vesselNameRaw = $report->vessel->name ?? 'Vessel';
-            $vesselName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $vesselNameRaw);
-            $reportDate = Carbon::parse($report->created_at)->timezone('Asia/Manila')->format('Y-m-d');
-            $reportType = $this->viewing === 'on-board' ? 'on_board_crew' : 'crew_change';
-
-            $baseFilename = "{$reportType}_{$vesselName}_crew_monitoring_plan_report_{$reportDate}";
-
-            $filenameCounts[$baseFilename] = ($filenameCounts[$baseFilename] ?? 0) + 1;
-            $suffix = $filenameCounts[$baseFilename] > 1 ? '_' . $filenameCounts[$baseFilename] : '';
-            $filename = "{$baseFilename}{$suffix}.xlsx";
+            $vesselNameSafe = preg_replace('/[^A-Za-z0-9_\-]/', '_', $report->vessel->name ?? 'Vessel');
+            $reportDate = Carbon::parse($report->created_at)->format('Y-m-d');
+            $filename = "crew_change_{$vesselNameSafe}_crew_monitoring_plan_report_{$reportDate}.xlsx";
 
             $excelContent = Excel::raw(
-                new CrewMonitoringPlanExport([$reportId], $this->viewing),
+                new CrewMonitoringPlanExport([$reportId], 'crew-change'),
                 \Maatwebsite\Excel\Excel::XLSX
             );
 
-            if ($excelContent) {
-                $zip->addFromString($filename, $excelContent);
-            } else {
-                Log::error("Failed to generate Excel content for report ID: $reportId");
-            }
+            if ($excelContent) $zip->addFromString($filename, $excelContent);
         }
 
         $zip->close();
-
-        Toaster::success("Reports exported successfully.");
         $this->resetSelections();
+        Toaster::success("Reports exported successfully.");
 
         return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
@@ -343,41 +217,29 @@ class TableCrewChange extends Component
 
         Notification::create([
             'vessel_id' => $voyage->vessel_id,
-            'text'      => "{$voyage->report_type} report has been soft deleted.",
+            'text' => "Crew Monitoring Plan report has been soft deleted.",
         ]);
 
         Toaster::success('Crew Monitoring Plan Report soft deleted successfully.');
         Flux::modal('delete-report-' . $id)->close();
     }
 
+    private function resetSelections(): void
+    {
+        $this->selectedCrewChange = [];
+        $this->selectAll = false;
+        $this->dateRange = null;
+    }
+
     public function updatedCurrentPage($value)
     {
-        if ($value < 1) {
-            $this->currentPage = 1;
-        } elseif ($value > $this->getMaxPage()) {
-            $this->currentPage = $this->getMaxPage();
-        }
+        if ($value < 1) $this->currentPage = 1;
+        elseif ($value > $this->getMaxPage()) $this->currentPage = $this->getMaxPage();
     }
 
     private function getMaxPage()
     {
-        $query = Voyage::query();
-        if (!empty($this->search)) {
-            $query->where(function ($query) {
-                if (strtolower($this->search) === 'on board crew') {
-                    $query->whereHas('board_crew');
-                } elseif (strtolower($this->search) === 'crew change') {
-                    $query->whereHas('crew_change');
-                } else {
-                    $query->whereHas('unit', function ($q) {
-                        $q->where('name', 'like', '%' . $this->search . '%');
-                    })
-                        ->orWhereHas('vessel', function ($q) {
-                            $q->where('name', 'like', '%' . $this->search . '%');
-                        });
-                }
-            });
-        }
+        $query = $this->getReportsQuery();
         return ceil($query->count() / $this->perPage);
     }
 
@@ -388,7 +250,6 @@ class TableCrewChange extends Component
         return view('livewire.unit.table-crew-change', [
             'reports' => $reports,
             'pages' => $this->pages,
-            'viewing' => $this->viewing,
         ]);
     }
 }

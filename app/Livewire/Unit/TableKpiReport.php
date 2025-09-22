@@ -43,7 +43,10 @@ class TableKpiReport extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->selectedReports = $this->getReportsQuery()->pluck('id')->toArray();
+            $currentPageReports = $this->getReportsQuery()
+                ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+
+            $this->selectedReports = $currentPageReports->pluck('id')->toArray();
         } else {
             $this->selectedReports = [];
         }
@@ -51,8 +54,10 @@ class TableKpiReport extends Component
 
     public function updatedSelectedReports()
     {
-        $totalReports = $this->getReportsQuery()->count();
-        $this->selectAll = count($this->selectedReports) === $totalReports;
+        $currentPageReports = $this->getReportsQuery()
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+
+        $this->selectAll = count($this->selectedReports) === $currentPageReports->count();
     }
 
     private function getReportsQuery()
