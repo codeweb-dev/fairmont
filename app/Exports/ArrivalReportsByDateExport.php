@@ -12,12 +12,14 @@ class ArrivalReportsByDateExport implements FromView
     protected $startDate;
     protected $endDate;
     protected $selectedVessel;
+    protected $selectedIds;
 
-    public function __construct($startDate, $endDate, $selectedVessel = null)
+    public function __construct($startDate, $endDate, $selectedVessel = null, $selectedIds = null)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->selectedVessel = $selectedVessel;
+        $this->selectedIds = $selectedIds;
     }
 
     public function view(): View
@@ -30,6 +32,11 @@ class ArrivalReportsByDateExport implements FromView
 
         if ($this->selectedVessel) {
             $query->where('vessel_id', $this->selectedVessel);
+        }
+
+        // Filter by selected IDs if provided
+        if ($this->selectedIds && !empty($this->selectedIds)) {
+            $query->whereIn('id', $this->selectedIds);
         }
 
         if ($this->startDate && $this->endDate) {

@@ -117,6 +117,11 @@ class TableNoonReport extends Component
             return;
         }
 
+        if (empty($this->selectedReports)) {
+            Toaster::error('Please select at least one report to export.');
+            return;
+        }
+
         $dates = explode(' to ', $this->dateRange);
         $start = trim($dates[0] ?? '');
         $end = trim($dates[1] ?? '');
@@ -159,13 +164,15 @@ class TableNoonReport extends Component
             $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
         }
 
+        $selectedIds = $this->selectedReports;
+
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
         $this->selectAll = false;
         $this->dateRange = null;
 
         return Excel::download(
-            new NoonReportsByDateExport($startDate, $endDate),
+            new NoonReportsByDateExport($startDate, $endDate, null, $selectedIds),
             $filename
         );
     }

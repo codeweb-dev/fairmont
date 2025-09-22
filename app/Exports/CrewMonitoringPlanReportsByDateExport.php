@@ -13,13 +13,15 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
     protected $endDate;
     protected $viewing;
     protected $selectedVessel;
+    protected $selectedIds;
 
-    public function __construct($startDate, $endDate, $viewing = 'on-board', $selectedVessel = null)
+    public function __construct($startDate, $endDate, $viewing = 'on-board', $selectedVessel = null, $selectedIds = null)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->viewing = $viewing;
         $this->selectedVessel = $selectedVessel;
+        $this->selectedIds = $selectedIds;
     }
 
     public function view(): View
@@ -32,6 +34,11 @@ class CrewMonitoringPlanReportsByDateExport implements FromView
 
         if ($this->selectedVessel) {
             $query->where('vessel_id', $this->selectedVessel);
+        }
+
+        // Filter by selected IDs if provided
+        if ($this->selectedIds && !empty($this->selectedIds)) {
+            $query->whereIn('id', $this->selectedIds);
         }
 
         // Filter by viewing type

@@ -113,6 +113,12 @@ class TableAllFastReport extends Component
             return;
         }
 
+        // Check if there are selected reports
+        if (empty($this->selectedReports)) {
+            Toaster::error('Please select at least one report to export.');
+            return;
+        }
+
         $dates = explode(' to ', $this->dateRange);
         $start = trim($dates[0] ?? '');
         $end = trim($dates[1] ?? '');
@@ -136,13 +142,13 @@ class TableAllFastReport extends Component
         }
 
         $reportCount = $reportQuery->count();
-
         if ($reportCount === 0) {
             Toaster::error('No reports found for the selected date range.');
             return;
         }
 
         $firstReport = $reportQuery->with('vessel')->first();
+
         $reportType = 'all_fast_report';
         $vesselName = $firstReport && $firstReport->vessel ? $firstReport->vessel->name : 'Vessel';
 
@@ -155,13 +161,16 @@ class TableAllFastReport extends Component
             $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
         }
 
+        // Store selected IDs before resetting
+        $selectedIds = $this->selectedReports;
+
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
         $this->selectAll = false;
         $this->dateRange = null;
 
         return Excel::download(
-            new AllFastReportsByDateExport($startDate, $endDate),
+            new AllFastReportsByDateExport($startDate, $endDate, null, $selectedIds),
             $filename
         );
     }

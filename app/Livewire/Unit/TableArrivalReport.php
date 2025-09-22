@@ -119,6 +119,12 @@ class TableArrivalReport extends Component
             return;
         }
 
+        // Check if there are selected reports
+        if (empty($this->selectedReports)) {
+            Toaster::error('Please select at least one report to export.');
+            return;
+        }
+
         $dates = explode(' to ', $this->dateRange);
         $start = trim($dates[0] ?? '');
         $end = trim($dates[1] ?? '');
@@ -161,13 +167,16 @@ class TableArrivalReport extends Component
             $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
         }
 
+        // Store selected IDs before resetting
+        $selectedIds = $this->selectedReports;
+
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
         $this->selectAll = false;
         $this->dateRange = null;
 
         return Excel::download(
-            new ArrivalReportsByDateExport($startDate, $endDate),
+            new ArrivalReportsByDateExport($startDate, $endDate, null, $selectedIds),
             $filename
         );
     }

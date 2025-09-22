@@ -116,13 +116,19 @@ class TableOnBoardCrew extends Component
             return;
         }
 
+        // Check if there are selected reports
+        if (empty($this->selectedOnBoard)) {
+            Toaster::error('Please select at least one report to export.');
+            return;
+        }
+
         $dates = explode(' to ', $this->dateRange);
         $startDate = isset($dates[0]) ? Carbon::parse($dates[0])->startOfDay() : null;
         $endDate = isset($dates[1]) ? Carbon::parse($dates[1])->endOfDay() : null;
 
         $reportQuery = $this->getReportsQuery();
-
         $reportCount = $reportQuery->count();
+
         if ($reportCount === 0) {
             Toaster::error('No reports found for the selected date range.');
             return;
@@ -132,11 +138,14 @@ class TableOnBoardCrew extends Component
         $vesselName = $firstReport->vessel?->name ?? 'Vessel';
         $filename = "on_board_crew_{$vesselName}_crew_monitoring_plan_report.xlsx";
 
+        // Store selected IDs before resetting
+        $selectedIds = $this->selectedOnBoard;
+
         $this->resetSelections();
         Toaster::success('Reports exported by date range.');
 
         return Excel::download(
-            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, 'on-board'),
+            new CrewMonitoringPlanReportsByDateExport($startDate, $endDate, 'on-board', null, $selectedIds),
             $filename
         );
     }
