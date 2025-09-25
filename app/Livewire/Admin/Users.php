@@ -108,8 +108,34 @@ class Users extends Component
     {
         $validated = $this->validate([
             'editData.name' => ['required', 'string', 'max:255'],
-            'editData.email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class . ',email,' . $this->editId],
-            'editData.password' => ['nullable', 'string', Rules\Password::defaults()],
+            'editData.email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                'unique:' . User::class . ',email,' . $this->editId,
+            ],
+            'editData.password' => [
+                'nullable',
+                'string',
+                Password::min(12)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+                    ->max(128),
+            ],
+        ], [
+            'editData.password.min' => 'Password must be at least 12 characters long.',
+            'editData.password.max' => 'Password may not be longer than 128 characters.',
+            'editData.password.letters' => 'Password must contain at least one letter.',
+            'editData.password.mixed' => 'Password must include both uppercase and lowercase letters.',
+            'editData.password.numbers' => 'Password must contain at least one number.',
+            'editData.password.symbols' => 'Password must contain at least one symbol.',
+            'editData.password.uncompromised' => 'This password has appeared in a data breach. Please choose a different one.',
+            'editData.password.confirmed' => 'The password confirmation does not match.',
         ]);
 
         $user = User::findOrFail($this->editId);

@@ -257,14 +257,20 @@ class TableOnBoardCrew extends Component
 
     public function updatedCurrentPage($value)
     {
-        if ($value < 1) $this->currentPage = 1;
-        elseif ($value > $this->getMaxPage()) $this->currentPage = $this->getMaxPage();
+        $maxPage = $this->getMaxPage();
+
+        if ($value < 1) {
+            $this->currentPage = 1;
+        } elseif ($value > $maxPage) {
+            $this->currentPage = $maxPage;
+        }
     }
 
     private function getMaxPage()
     {
-        $query = $this->getReportsQuery();
-        return ceil($query->count() / $this->perPage);
+        $count = $this->getReportsQuery()->count();
+
+        return $count > 0 ? ceil($count / $this->perPage) : 1;
     }
 
     public function render()

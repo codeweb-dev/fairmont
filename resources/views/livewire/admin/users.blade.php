@@ -79,7 +79,7 @@
                         color="{{ $user->is_active ? 'green' : 'red' }}">
                         {{ $user->is_active ? 'Active' : 'Deactivate' }}</flux:badge>
                 </td>
-                <td class="px-3 py-4">{{ $user->created_at->format('M d, h:i A') }}</td>
+                <td class="px-3 py-4">{{ $user->created_at->timezone('Asia/Manila')->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">
                     @unless (auth()->id() === $user->id)
                         <flux:dropdown wire:key="dropdown-{{ $user->id }}">

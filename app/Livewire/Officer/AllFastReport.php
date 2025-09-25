@@ -128,6 +128,12 @@ class AllFastReport extends Component
             return;
         }
 
+        // Check if there are selected reports
+        if (empty($this->selectedReports)) {
+            Toaster::error('Please select at least one report to export.');
+            return;
+        }
+
         $dates = explode(' to ', $this->dateRange);
         $start = trim($dates[0] ?? '');
         $end = trim($dates[1] ?? '');
@@ -170,13 +176,16 @@ class AllFastReport extends Component
             $filename = "{$reportType}_{$vesselName}_{$from}_{$to}.xlsx";
         }
 
+        // Store selected IDs before resetting
+        $selectedIds = $this->selectedReports;
+
         Toaster::success('Reports exported by date range.');
         $this->selectedReports = [];
         $this->selectAll = false;
         $this->dateRange = null;
 
         return Excel::download(
-            new AllFastReportsByDateExport($startDate, $endDate, $this->selectedVessel),
+            new AllFastReportsByDateExport($startDate, $endDate, $this->selectedVessel, $selectedIds),
             $filename
         );
     }
@@ -264,28 +273,20 @@ class AllFastReport extends Component
 
     public function updatedCurrentPage($value)
     {
+        $maxPage = $this->getMaxPage();
+
         if ($value < 1) {
             $this->currentPage = 1;
-        } elseif ($value > $this->getMaxPage()) {
-            $this->currentPage = $this->getMaxPage();
+        } elseif ($value > $maxPage) {
+            $this->currentPage = $maxPage;
         }
     }
 
     private function getMaxPage()
     {
-        $query = Voyage::query();
-        if (!empty($this->search)) {
-            $query->where(function ($query) {
-                $query->where('voyage_no', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('unit', function ($q) {
-                        $q->where('name', 'like', '%' . $this->search . '%');
-                    })
-                    ->orWhereHas('vessel', function ($q) {
-                        $q->where('name', 'like', '%' . $this->search . '%');
-                    });
-            });
-        }
-        return ceil($query->count() / $this->perPage);
+        $count = $this->getReportsQuery()->count();
+
+        return $count > 0 ? ceil($count / $this->perPage) : 1;
     }
 
     public function render()

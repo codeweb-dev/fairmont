@@ -26,7 +26,27 @@ class Password extends Component
         try {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
-                'password' => ['required', 'string', PasswordRule::defaults(), 'confirmed'],
+                'password' => [
+                    'required',
+                    'string',
+                    'confirmed',
+                    PasswordRule::min(12)
+                        ->letters()
+                        ->mixedCase()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised()
+                        ->max(128),
+                ],
+            ], [
+                'password.min' => 'Your password must be at least 12 characters long.',
+                'password.max' => 'Your password may not be longer than 128 characters.',
+                'password.letters' => 'Your password must contain at least one letter.',
+                'password.mixed' => 'Your password must include both uppercase and lowercase letters.',
+                'password.numbers' => 'Your password must contain at least one number.',
+                'password.symbols' => 'Your password must contain at least one symbol.',
+                'password.uncompromised' => 'This password has appeared in a data breach. Please choose a different one.',
+                'password.confirmed' => 'The password confirmation does not match.',
             ]);
         } catch (ValidationException $e) {
             $this->reset('current_password', 'password', 'password_confirmation');

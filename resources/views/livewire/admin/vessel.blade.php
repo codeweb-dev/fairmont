@@ -65,7 +65,7 @@
         @foreach ($_vessel as $vessel)
             <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="vessel-row-{{ $vessel->id }}">
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
-                <td class="px-3 py-4">{{ $vessel->created_at->format('M d, h:i A') }}</td>
+                <td class="px-3 py-4">{{ $vessel->created_at->->timezone('Asia/Manila')format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">{{ $vessel->users_count }}</td>
                 <td class="px-3 py-4">
                     <flux:badge size="sm" icon="{{ $vessel->is_active ? 'check' : 'x-mark' }}"
