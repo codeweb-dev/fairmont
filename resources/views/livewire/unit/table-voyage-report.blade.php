@@ -379,9 +379,9 @@
 
         <div class="flex items-center gap-2">
             <flux:text>Page</flux:text>
-            <div class="w-9">
-                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
-                    max="{{ $reports->lastPage() }}" />
+            <div class="w-12 overflow-hidden">
+                <input type="text" max="{{ $reports->lastPage() }}" wire:model.lazy="currentPage"
+                    class="form-input w-full border rounded-lg block disabled:shadow-none dark:shadow-none text-base sm:text-sm py-1 h-8 leading-[1.375rem] bg-white dark:bg-white/10 dark:disabled:bg-white/[7%] shadow-xs border-zinc-200 border-b-zinc-300/80 disabled:border-b-zinc-200 dark:border-white/10 dark:disabled:border-white/5 text-center" />
             </div>
             <flux:text>of {{ $reports->lastPage() }}</flux:text>
         </div>

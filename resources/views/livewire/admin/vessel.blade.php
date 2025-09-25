@@ -65,7 +65,7 @@
         @foreach ($_vessel as $vessel)
             <tr class="hover:bg-white/5 bg-black/5 transition-all" wire:key="vessel-row-{{ $vessel->id }}">
                 <td class="px-3 py-4">{{ $vessel->name }}</td>
-                <td class="px-3 py-4">{{ $vessel->created_at->->timezone('Asia/Manila')format('M d, h:i A') }}</td>
+                <td class="px-3 py-4">{{ $vessel->created_at->timezone('Asia/Manila')->format('M d, h:i A') }}</td>
                 <td class="px-3 py-4">{{ $vessel->users_count }}</td>
                 <td class="px-3 py-4">
                     <flux:badge size="sm" icon="{{ $vessel->is_active ? 'check' : 'x-mark' }}"
@@ -305,9 +305,9 @@
 
         <div class="flex items-center gap-2">
             <flux:text>Page</flux:text>
-            <div class="w-9">
-                <flux:input size="sm" wire:model.lazy="currentPage" min="1"
-                    max="{{ $_vessel->lastPage() }}" />
+            <div class="w-12 overflow-hidden">
+                <input type="text" max="{{ $users->lastPage() }}" wire:model.lazy="currentPage"
+                    class="form-input w-full border rounded-lg block disabled:shadow-none dark:shadow-none text-base sm:text-sm py-1 h-8 leading-[1.375rem] bg-white dark:bg-white/10 dark:disabled:bg-white/[7%] shadow-xs border-zinc-200 border-b-zinc-300/80 disabled:border-b-zinc-200 dark:border-white/10 dark:disabled:border-white/5 text-center" />
             </div>
             <flux:text>of {{ $_vessel->lastPage() }}</flux:text>
         </div>
