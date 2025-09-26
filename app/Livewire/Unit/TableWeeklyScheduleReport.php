@@ -23,8 +23,8 @@ class TableWeeklyScheduleReport extends Component
 
     public string $name = '';
     public $search = '';
-    public $perPage = 1;
-    public $pages = [1, 20, 30, 40, 50];
+    public $perPage = 10;
+    public $pages = [10, 20, 30, 40, 50];
     public $selectedReports = [];
     public $selectAll = false;
     public $dateRange;
