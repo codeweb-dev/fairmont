@@ -656,8 +656,47 @@ class EditNoonReport extends Component
         return redirect()->route('table-noon-report');
     }
 
+    public function updatedPortGmtOffset($value)
+    {
+        if ($value !== 'At Sea') {
+            $this->obs_distance = null;
+            $this->distance_to_go = null;
+            $this->logged_distance = null;
+            $this->speed_through_water = null;
+            $this->avg_power = null;
+            $this->next_port = null;
+            $this->eta_next_port = null;
+            $this->eta_gmt_offset = null;
+
+            $this->next_port_voyage = null;
+            $this->via = null;
+            $this->eta_lt = null;
+            $this->gmt_offset_voyage = null;
+            $this->distance_to_go_voyage = null;
+            $this->projected_speed = null;
+        }
+
+        if ($value !== 'In Port') {
+            $this->maneuvering_hours = null;
+            $this->supplier = null;
+        }
+    }
+
     public function render()
     {
+        if ($this->port_gmt_offset !== 'At Sea') {
+            $fieldsToHideForNonAtSea = [
+                'obs_distance', 'distance_to_go', 'logged_distance',
+                'speed_through_water', 'avg_power', 'next_port',
+                'eta_next_port', 'eta_gmt_offset', 'next_port_voyage',
+                'via', 'eta_lt', 'gmt_offset_voyage', 'distance_to_go_voyage',
+                'projected_speed'
+            ];
+        }
+
+        if ($this->port_gmt_offset !== 'In Port') {
+            $fieldsToHideForNonInPort = ['maneuvering_hours', 'supplier'];
+        }
         return view('livewire.unit.edit-noon-report');
     }
 }

@@ -458,6 +458,14 @@ class EditArrivalReport extends Component
         return redirect()->route('table-arrival-report');
     }
 
+    public function updatedPortGmtOffset($value)
+    {
+        if ($value !== 'Pilot Station') {
+            $this->call_sign = null; // Anchored Hours field
+            $this->flag = null;      // Drifting Hours field
+        }
+    }
+
     public function render()
     {
         return view('livewire.unit.edit-arrival-report');
